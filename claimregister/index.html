@@ -791,6 +791,14 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
 @media print{main.app > .actieknoppen{display:none!important}}
 
 .topnav .menupaneel{left:0;right:auto}
+
+.lgar-knop{display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;font-family:var(--display);font-size:.92rem}
+.lgar-knop .plus{display:inline-flex;width:20px;height:20px;border-radius:50%;background:color-mix(in srgb,var(--rood) 14%,transparent);align-items:center;justify-content:center;font-size:.9rem;line-height:1}
+.lgar-knop:hover .plus{background:rgba(0,0,0,.2)}
+@media (max-width:420px){
+  .actieknoppen .grote-knop{font-size:.92rem;padding:13px 12px;gap:8px}
+  .actieknoppen .lgar-knop{padding:0 12px;font-size:.84rem;gap:6px}
+}
 </style>
 </head>
 <body>
@@ -843,7 +851,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
   <p class="printkop" id="printkop"></p>
   <div class="actieknoppen" id="actieknoppen">
     <button type="button" class="grote-knop" id="addBtn"><span class="plus" aria-hidden="true">+</span>Claim toevoegen</button>
-    <button type="button" class="lgar-knop" id="lgarBtn" title="LGAR-formulier inlezen (pdf of tekst)">LGAR</button>
+    <button type="button" class="lgar-knop" id="lgarBtn" title="LGAR-formulier inlezen (pdf of tekst)"><span class="plus" aria-hidden="true">+</span>LGAR toevoegen</button>
   </div>
   <div class="zoekveld">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
@@ -2205,7 +2213,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     ["7 november 2026 — nieuwe opzet", [
       "Elke claim is nu een <b>compact blok</b> met leverancier, inkoopnummer, status, bedrag en dagen open. Tik op een blok voor alle details, de tijdlijn en de knoppen.",
       "Bovenaan een <b>teller</b> met Open, Aandacht, Afgehandeld en Alles; tik erop om te filteren. Zoeken en periodes staan direct onder de kop.",
-      "<b>Menu</b>, <b>Claims</b> en <b>Rapportage</b> staan als vaste balk bovenaan, onder het logo. Daaronder de grote knop <b>Claim toevoegen</b> met <b>LGAR</b> ernaast.",
+      "<b>Menu</b>, <b>Claims</b> en <b>Rapportage</b> staan als vaste balk bovenaan, onder het logo. Daaronder de knoppen <b>Claim toevoegen</b> en <b>LGAR toevoegen</b>.",
       "Uitbesteed is nu een filter (Filters → Alleen uitbesteed)."
     ]],
     ["7 november 2026 — opgeruimd", [
