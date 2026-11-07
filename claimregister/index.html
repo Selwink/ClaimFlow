@@ -910,6 +910,72 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
 #gate .gate-voet b{color:#ff5a4c}
 .overlay{z-index:1000}
 .toast{z-index:1001}
+
+/* ===================== computer: zijbalk en tabel ===================== */
+.claimtabel{width:100%;border-collapse:separate;border-spacing:0;font-size:.88rem}
+.tabelkader{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.claimtabel th{position:sticky;top:0;z-index:2;background:var(--surface-2);text-align:left;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-soft);padding:11px 12px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none;white-space:nowrap}
+.claimtabel th i{font-style:normal;margin-left:5px;opacity:.45;font-size:.7rem}
+.claimtabel th.actief{color:var(--ink)}
+.claimtabel th.actief i{opacity:1;color:var(--rood)}
+.claimtabel th:hover{color:var(--ink)}
+.claimtabel th:last-child{cursor:default;width:28px}
+.claimtabel td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle;color:var(--ink)}
+.claimtabel tbody tr:last-child td{border-bottom:0}
+.claimtabel tr[data-card]{cursor:pointer;transition:background .1s ease}
+.claimtabel tr[data-card]:hover td{background:var(--surface-2)}
+.claimtabel tr[data-card]:focus-visible{outline:2px solid var(--rood);outline-offset:-2px}
+.claimtabel tr.k-laat td:first-child{box-shadow:inset 3px 0 0 var(--rood)}
+.claimtabel tr.k-sel td{background:color-mix(in srgb,var(--info) 10%,transparent)}
+.claimtabel .num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.claimtabel th.num{text-align:right}
+.claimtabel .mono{font-family:var(--mono);font-size:.82rem}
+.claimtabel .klein{display:block;font-size:.74rem;color:var(--ink-soft);max-width:340px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.claimtabel .wacht{color:var(--geel);font-family:var(--body);font-size:.8rem}
+.claimtabel .laat{color:var(--rood);font-weight:800}
+.claimtabel .t-titel{display:flex;align-items:center;gap:11px;min-width:240px}
+.claimtabel .t-titel .blok-icoon{width:34px;height:34px;border-radius:9px;font-size:.7rem}
+.claimtabel .t-titel b{display:block;font-weight:700}
+.claimtabel .t-pijl{color:var(--ink-soft);font-size:1.1rem;text-align:right}
+.claimtabel .t-vink{width:36px}
+.claimtabel .vinkje{display:inline-flex;width:20px;height:20px;border-radius:6px;border:2px solid var(--line);align-items:center;justify-content:center;font-size:.75rem;font-weight:800}
+.claimtabel tr.k-sel .vinkje{background:var(--donker);border-color:var(--donker);color:var(--op-donker)}
+.claimtabel .t-groep td{background:var(--bg);padding:9px 12px;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);cursor:default}
+.claimtabel .t-groep td{display:table-cell}
+.claimtabel .t-groep span + span{float:right;letter-spacing:0;text-transform:none;font-weight:600}
+.claimtabel .t-groep .mo{color:var(--bad)}
+
+@media (min-width:1100px){
+  :root{--zij:252px}
+  header.brandbar{position:fixed;top:0;left:0;bottom:0;width:var(--zij);display:flex;flex-direction:column;background:var(--surface);
+    border-right:1px solid var(--line);box-shadow:none;z-index:25;overflow:visible}
+  header.brandbar .strip{order:-1;height:6px;flex:0 0 auto}
+  header.brandbar .brandbar-inner{flex-direction:column;align-items:flex-start;gap:6px;padding:22px 20px 14px;max-width:none;margin:0}
+  header.brandbar .divider{display:none}
+  header.brandbar .wordmark{font-size:1.5rem}
+  header.brandbar .site h1{font-size:1.1rem}
+  header.brandbar .site p{display:block}
+  header .sync{margin:4px 0 0}
+  header .sync .sync-tekst{display:inline}
+  .topnav{max-width:none;margin:0;padding:10px 12px;flex:1 1 auto}
+  .topnav .tabbar{flex-direction:column;background:transparent;border:0;padding:0;gap:4px}
+  .topnav .tabbar > button,.topnav .tabbar .menu{flex:0 0 auto}
+  .topnav .tabbar .menu{order:3;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+  .topnav .tabbar button{justify-content:flex-start;padding:11px 14px;font-size:.95rem;border-radius:10px}
+  .topnav .menupaneel{top:auto;bottom:calc(100% + 8px);left:0;right:auto;min-width:230px}
+  body::before{display:none}
+  main.app{margin-left:var(--zij);max-width:none;padding:26px 40px 60px}
+  main.app > *,#lijstweergave > *,#rapportweergave{max-width:1320px}
+  .actieknoppen{width:auto!important;max-width:none;display:flex;justify-content:flex-end;padding-top:0;margin-bottom:-58px;position:relative;z-index:2}
+  .actieknoppen .grote-knop{flex:0 0 auto;padding:13px 22px;font-size:.95rem}
+  main.app > .zoekveld{max-width:min(620px,calc(100% - 260px))}
+  .teller{max-width:760px}
+  .maandkop{top:0}
+  .bulkbalk{left:calc(var(--zij) + (100% - var(--zij)) / 2)}
+  .toast{left:calc(var(--zij) + (100% - var(--zij)) / 2)}
+}
+@media print{.claimtabel th i,.t-pijl{display:none}}
 </style>
 </head>
 <body>
@@ -1006,6 +1072,9 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
         <option value="leverancier">Leverancier A–Z</option>
         <option value="onderdeel">Onderdeel A–Z</option>
         <option value="bijgewerkt">Laatst bijgewerkt</option>
+        <option value="inkoop">Inkoopnummer</option>
+        <option value="status">Status</option>
+        <option value="periode">Nieuwste periode</option>
       </select>
       <button type="button" class="linkbtn" id="wisFilters">Filters wissen</button>
     </div>
@@ -1456,8 +1525,12 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
       default: return true;
     }
   }
+  const STATUSVOLGORDE = {nieuw:0, ingediend:1, gehonoreerd:2, afgewezen:3};
   function visible(){
-    return baseRows().filter(filterTab).sort((a, b) => {
+    const lijst = baseRows().filter(filterTab).sort((a, b) => {
+      if(state.sort === "inkoop") return String(a.inkoopnummer || "~").localeCompare(String(b.inkoopnummer || "~"), "nl", {numeric:true});
+      if(state.sort === "status") return (STATUSVOLGORDE[statusVan(a)] - STATUSVOLGORDE[statusVan(b)]) || ((ageInfo(b) || {dagen:-1}).dagen - (ageInfo(a) || {dagen:-1}).dagen);
+      if(state.sort === "periode") return String(b.periode || "").localeCompare(String(a.periode || ""));
       if(state.sort === "bedrag") return (Number(b.bedrag) || 0) - (Number(a.bedrag) || 0);
       if(state.sort === "ouderdom") return ((ageInfo(b) || {dagen:-1}).dagen) - ((ageInfo(a) || {dagen:-1}).dagen);
       if(state.sort === "bijgewerkt") return String(b.bijgewerkt || "").localeCompare(String(a.bijgewerkt || ""));
@@ -1470,6 +1543,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
       if(pa !== pb) return oa ? pa.localeCompare(pb) : pb.localeCompare(pa);
       return titelVan(a).localeCompare(titelVan(b), "nl");
     });
+    return state.sortOm ? lijst.reverse() : lijst;
   }
   const alleLeveranciers = () => [...new Set([...INST.leveranciers, ...state.claims.map(c => c.leverancier).filter(Boolean)])]
     .sort((a, b) => a.localeCompare(b, "nl"));
@@ -1591,6 +1665,41 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
       <span class="blok-rechts">${statusPil(c)}<span class="blok-sub">${esc(bedrag)}${dagen ? " · " + dagen : ""}</span></span>
       <span class="chev" aria-hidden="true">›</span>
     </button></div>`;
+  }
+
+  /* ---------- computer: claims als tabel ---------- */
+  const brede = window.matchMedia("(min-width: 1100px)");
+  const isBreed = () => brede.matches;
+  brede.addEventListener("change", () => render());
+  const KOLOMMEN_T = [["onderdeel","Type / onderdeel"],["leverancier","Leverancier"],["inkoop","Inkoopnummer"],["periode","Periode"],["bedrag","Bedrag","num"],["status","Status"],["ouderdom","Dagen open","num"]];
+  function tabelRij(c){
+    const a = ageInfo(c), laat = vereistAandacht(c), sel = state.geselecteerd.has(c.id);
+    const af = afgehandeldOp(c);
+    const dagen = isOpen(c) ? (a ? `<span class="${laat ? "laat" : ""}">${a.dagen}</span>` : "—") : (af ? `<span class="klein">afgehandeld ${esc(fmtDate(af))}</span>` : "—");
+    return `<tr data-card="${esc(c.id)}" class="${laat ? "k-laat" : ""}${sel ? " k-sel" : ""}" tabindex="0">
+      ${state.selecteren ? `<td class="t-vink"><span class="vinkje">${sel ? "✓" : ""}</span></td>` : ""}
+      <td class="t-titel">${icoon(c)}<span><b>${esc(titelVan(c))}</b>${c.storing ? `<span class="klein">${esc(c.storing)}</span>` : ""}</span></td>
+      <td>${esc(c.leverancier || "—")}${c.uitbesteed ? `<span class="klein">uitbesteed</span>` : ""}</td>
+      <td class="mono">${c.inkoopnummer ? esc(c.inkoopnummer) : `<span class="wacht">wacht op nummer</span>`}</td>
+      <td>${esc(periodShort(c.periode))}</td>
+      <td class="num mono">${geenBedrag(c) ? `<span class="wacht">volgt</span>` : esc(euro(c.bedrag))}</td>
+      <td>${statusPil(c)}</td>
+      <td class="num">${dagen}</td>
+      <td class="t-pijl" aria-hidden="true">›</td>
+    </tr>`;
+  }
+  function tabelHtml(groepen){
+    const kop = `<tr>${state.selecteren ? `<th class="t-vink"></th>` : ""}${KOLOMMEN_T.map(([k, label, cls]) => {
+      const actief = state.sort === k;
+      return `<th class="${cls || ""}${actief ? " actief" : ""}" data-sorteer="${k}" aria-sort="${actief ? (state.sortOm ? "ascending" : "descending") : "none"}">${label}<i>${actief ? (state.sortOm ? "▲" : "▼") : "↕"}</i></th>`;
+    }).join("")}<th></th></tr>`;
+    const kol = KOLOMMEN_T.length + 2 + (state.selecteren ? 1 : 0);
+    const body = groepen.map(([titel, lijst]) => {
+      const som = lijst.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
+      const nOpen = lijst.filter(isOpen).length;
+      return (titel ? `<tr class="t-groep"><td colspan="${kol}"><span>${esc(titel)} · ${lijst.length}</span><span>${nOpen ? `<b class="mo">${nOpen} open</b> · ` : ""}${esc(euro(som))}</span></td></tr>` : "") + lijst.map(tabelRij).join("");
+    }).join("");
+    return `<div class="tabelkader"><table class="claimtabel"><thead>${kop}</thead><tbody>${body}</tbody></table></div>`;
   }
 
   function groepBlok(lijst, titel){
@@ -1778,6 +1887,17 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
           ? `Pas de periode, de teller bovenaan of de filters aan. <button type="button" class="linkbtn" data-act="allesTonen">Alles tonen</button>`
           : "Leg een nieuwe garantieclaim vast met <b>Claim toevoegen</b>, of sleep een LGAR-pdf op de pagina.")
           : "Even geduld, de opgeslagen claims worden opgehaald."}</div>`;
+    } else if(isBreed()){
+      let groepen;
+      if(state.groep === "geen" || ["onderdeel","leverancier","inkoop","bedrag","status","ouderdom"].includes(state.sort)) groepen = [["", rows]];
+      else {
+        const perLev = state.groep === "leverancier", m = new Map();
+        rows.forEach(c => { const k = perLev ? ((c.leverancier || "").trim() || "Zonder leverancier") : (c.periode || ""); if(!m.has(k)) m.set(k, []); m.get(k).push(c); });
+        let keys = [...m.keys()];
+        if(perLev) keys.sort((a, b) => m.get(b).length - m.get(a).length || a.localeCompare(b, "nl")); else keys.sort().reverse();
+        groepen = keys.map(k => [perLev ? k : periodLabel(k), m.get(k)]);
+      }
+      list.innerHTML = tabelHtml(groepen);
     } else if(state.groep === "geen"){
       list.innerHTML = groepBlok(rows, TABNAAM[state.status] || "Claims");
     } else {
@@ -2368,6 +2488,11 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
 
   /* ---------- uitleg en updates ---------- */
   const UPDATES = [
+    ["7 november 2026 — website op de computer", [
+      "Op de computer staat het menu nu links in een <b>zijbalk</b> en zie je de claims in een <b>brede tabel</b> met kolommen voor type, leverancier, inkoopnummer, periode, bedrag, status en dagen open.",
+      "Klik op een kolomkop om te sorteren; nog een keer klikken draait de volgorde om. Klik op een regel voor alle details.",
+      "Op de telefoon blijft alles zoals het was."
+    ]],
     ["7 november 2026 — herinneringen, app, vegen en namen", [
       "<b>Herinneringen in je agenda</b> (Menu, of per claim met de knop Herinnering): een afspraak met alarm op de dag dat de termijn verloopt. Je telefoon waarschuwt je ook als de app dicht is.",
       "Bij de eerste keer openen op een dag zie je bovenaan hoeveel claims <b>over de termijn</b> zijn en hoeveel daarvan nieuw zijn.",
@@ -2894,8 +3019,18 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
   window.addEventListener("pointercancel", veegKlaar);
   document.addEventListener("click", e => { if(openVeeg && !e.target.closest(".blok-wrap")) sluitVeeg(); });
 
+  el("list").addEventListener("keydown", e => {
+    const tr = e.target.closest("tr[data-card]");
+    if(tr && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); tr.click(); }
+  });
   el("list").addEventListener("click", async e => {
     if(Date.now() < geenKlikTot){ e.preventDefault(); return; }
+    const th = e.target.closest("th[data-sorteer]");
+    if(th){
+      const k = th.dataset.sorteer;
+      if(state.sort === k) state.sortOm = !state.sortOm; else { state.sort = k; state.sortOm = false; }
+      el("fSort").value = state.sort; bewaarWeergave(); render(); return;
+    }
     const blok = e.target.closest("[data-card]");
     if(blok && blok === openVeeg){ sluitVeeg(); return; }
     if(blok){
@@ -2933,7 +3068,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
   el("fLoc").addEventListener("change", e => { state.loc = e.target.value; bewaarWeergave(); render(); });
   el("fLev").addEventListener("change", e => { state.lev = e.target.value; bewaarWeergave(); render(); });
   el("fUit").addEventListener("change", e => { state.uit = e.target.value; bewaarWeergave(); render(); });
-  el("fSort").addEventListener("change", e => { state.sort = e.target.value; bewaarWeergave(); render(); });
+  el("fSort").addEventListener("change", e => { state.sortOm = false; state.sort = e.target.value; bewaarWeergave(); render(); });
   el("fGroep").addEventListener("change", e => { state.groep = e.target.value; bewaarWeergave(); render(); });
   el("wisFilters").addEventListener("click", () => {
     Object.assign(state, {q:"", loc:"", lev:"", uit:"", sort:"standaard", groep:"maand"});
