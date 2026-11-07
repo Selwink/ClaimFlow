@@ -1118,6 +1118,29 @@ body.alleen-kijken [data-menu="terugzetten"],body.alleen-kijken [data-menu="inst
 .rol-label[hidden]{display:none!important}
 .rol-kijken{background:var(--surface-2);color:var(--ink-soft)}
 .rol-beheer{background:var(--bad-soft);color:var(--rood)}
+
+/* nooit breder dan het scherm */
+html,body{max-width:100%;overflow-x:hidden}
+@supports (overflow:clip){html,body{overflow-x:clip}}
+main.app,#lijstweergave,#list,.groep,.blok-wrap,.lijstkop,.groepkop{min-width:0;max-width:100%}
+.groepkop .gk-titel{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lijstkop .lk-titel{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.blok-tekst b,.blok-tekst span{overflow-wrap:anywhere}
+.claim.is-trash *{overflow-wrap:anywhere}
+
+/* dikkere vlakken */
+.blok,.teller,.zoekveld input,.tabelkader,.filters,.dagmelding,.paneel,.progress,.empty,.claim.is-trash,.lgarkeuze .keuze,.detail-bedrag{border-width:2px!important}
+.blok{padding:16px 14px!important;border-radius:18px}
+.blok-wrap{border-radius:18px}
+.blok-icoon{width:48px;height:48px;border-radius:13px}
+.blok-tekst b{font-size:1.04rem}
+.teller{border-radius:18px}
+.teller button{padding:16px 6px 14px}
+.zoekveld input{padding-top:14px;padding-bottom:14px}
+.period,.klein-knop,.sorteer-chip,.icon-btn,.btn{border-width:2px!important}
+.list{gap:22px}
+.groep{gap:10px}
+.claimtabel td{padding-top:14px;padding-bottom:14px}
 </style>
 </head>
 <body>
