@@ -1397,7 +1397,7 @@ body.alleen-kijken [data-menu="terugzetten"],body.alleen-kijken [data-menu="inst
       </section>
       <section class="kaartblok kb-roze">
         <div class="kb-tekst"><h2 id="kbLaatKop">Over termijn</h2><p id="kbLaatTekst"></p>
-          <button type="button" class="pil-knop" id="kbLaatKnop" data-blok="rappel">Stuur een rappel</button></div>
+          <button type="button" class="pil-knop" id="kbLaatKnop" data-blok="aandacht">Bekijk claims over termijn</button></div>
         <svg class="kb-illu" viewBox="0 0 170 110" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M12 10v84"/><path d="M12 70h150"/><path d="M12 54h150"/><path d="M162 54v22"/>
         <path d="M30 54 44 30l40 16h70v8" fill="rgba(255,255,255,.45)"/>
@@ -3105,8 +3105,8 @@ body.alleen-kijken [data-menu="terugzetten"],body.alleen-kijken [data-menu="inst
       ? meervoud(laat.length, "claim staat", "claims staan") + " langer dan " + INST.dagen + " dagen open." + (state.dagmelding && state.dagmelding.nieuw ? " " + state.dagmelding.nieuw + " nieuw sinds je vorige bezoek." : "")
       : "Geen claims langer dan " + INST.dagen + " dagen open.";
     const knop = el("kbLaatKnop");
-    knop.textContent = laat.length ? "Stuur een rappel" : "Bekijk afgehandeld";
-    knop.dataset.blok = laat.length ? "rappel" : "afgehandeld";
+    knop.textContent = laat.length ? "Bekijk claims over termijn" : "Bekijk afgehandeld";
+    knop.dataset.blok = laat.length ? "aandacht" : "afgehandeld";
   }
   function dagmeldingHtml(){
     const m = state.dagmelding;
