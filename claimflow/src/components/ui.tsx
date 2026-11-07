@@ -8,7 +8,7 @@ export function Logo({ licht = true, klein = false }: { licht?: boolean; klein?:
   return (
     <span className={`logo${licht ? " logo-licht" : ""}${klein ? " logo-klein" : ""}`}>
       <span className="logo-merk" aria-hidden="true"><Icon naam="vink" maat={klein ? 13 : 15} /></span>
-      <span className="logo-woord">claimflow</span>
+      <span className="logo-woord">ClaimFlow <span className="logo-mp">Medipoint</span></span>
     </span>
   );
 }

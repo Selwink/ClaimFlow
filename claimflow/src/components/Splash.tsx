@@ -18,11 +18,12 @@ export function Splash({ klaar }: { klaar: boolean }) {
   }, [sluit]);
   if (weg) return null;
   return (
-    <div className={`splash${sluit ? " splash-weg" : ""}`} aria-hidden={sluit} role="status" aria-label="Claimflow wordt geladen">
+    <div className={`splash${sluit ? " splash-weg" : ""}`} aria-hidden={sluit} role="status" aria-label="ClaimFlow Medipoint wordt geladen">
       <div className="splash-merk"><Icon naam="vink" maat={34} /></div>
-      <div className="splash-naam">{"claimflow".split("").map((l, i) => <span key={i} style={{ animationDelay: `${i * 45}ms` }}>{l}</span>)}</div>
+      <div className="splash-naam">{"ClaimFlow".split("").map((l, i) => <span key={i} style={{ animationDelay: `${i * 45}ms` }}>{l}</span>)}</div>
       <div className="splash-balk"><i /></div>
-      <small>Garantieclaims · Medipoint</small>
+      <div className="splash-mp">Medipoint</div>
+      <small>Garantieclaims</small>
     </div>
   );
 }

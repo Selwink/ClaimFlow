@@ -51,7 +51,7 @@ export function Beheer() {
   };
   const testMail = async () => {
     setMailStatus("Versturen…");
-    const r = await stuur({ _subject: "Testmelding Claimflow", Bericht: `Testmelding vanuit ${s.inst.vestiging}`, Door: s.naam || "onbekend" });
+    const r = await stuur({ _subject: "Testmelding ClaimFlow Medipoint", Bericht: `Testmelding vanuit ${s.inst.vestiging}`, Door: s.naam || "onbekend" });
     setMailStatus(r.ok ? (r.activatie ? "Activeer FormSubmit via de mail in je inbox." : "Verstuurd — kijk in je inbox.") : `Niet gelukt: ${r.bericht}`);
   };
   const backup = () => download(`claimflow-backup-${vandaag()}.json`, JSON.stringify({ gemaakt: new Date().toISOString(), instellingen: s.inst, claims: s.claims }, null, 2), "application/json");
@@ -125,7 +125,7 @@ export function Beheer() {
           {!uit && <div className="formulier-voet"><button className="knop knop-rood">Instellingen opslaan</button></div>}
         </Blok>
       </form>
-      <p className="hint mono">Claimflow · {s.inst.vestiging}</p>
+      <p className="hint mono">ClaimFlow Medipoint · {s.inst.vestiging}</p>
     </div>
   );
 }

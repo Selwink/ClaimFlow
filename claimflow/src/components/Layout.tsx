@@ -30,7 +30,7 @@ export function Layout() {
   return (
     <div className="frame">
       <aside className="zijbalk">
-        <NavLink to="/" className="zijbalk-logo" aria-label="Claimflow — naar Vandaag"><Logo /></NavLink>
+        <NavLink to="/" className="zijbalk-logo" aria-label="ClaimFlow Medipoint — naar Vandaag"><Logo /></NavLink>
         <nav aria-label="Hoofdmenu">
           {NAV.map((n) => (
             <NavLink key={n.naar} to={n.naar} end={n.einde} className="zij-link">
@@ -53,7 +53,7 @@ export function Layout() {
       </aside>
 
       <header className="topbalk">
-        <NavLink to="/" aria-label="Claimflow — naar Vandaag"><Logo /></NavLink>
+        <NavLink to="/" aria-label="ClaimFlow Medipoint — naar Vandaag"><Logo /></NavLink>
         <div className="topbalk-rechts">
           <i className={`stip ${online ? "aan" : "uit"}`} title={online ? "Verbonden" : "Offline"} />
           <NavLink to="/beheer" className="avatar" aria-label="Beheer en profiel">{initialen}</NavLink>

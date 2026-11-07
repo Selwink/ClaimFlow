@@ -1,6 +1,8 @@
 /* ============ Logo ============ */
 .logo { display: inline-flex; align-items: center; gap: 9px; font-family: var(--display); font-weight: 800; font-size: 1.22rem; letter-spacing: -.035em; color: var(--inkt); }
 .logo-licht { color: #fff; }
+.logo-mp { font-weight: 500; opacity: .7; letter-spacing: -.02em; }
+.logo:not(.logo-licht) .logo-mp { color: var(--inkt-2); opacity: 1; }
 .logo-merk { width: 26px; height: 26px; border-radius: 8px; background: var(--rood); color: #fff; display: grid; place-items: center; box-shadow: 0 4px 12px rgba(232, 56, 43, .4); }
 .logo-klein { font-size: 1rem; }
 .logo-klein .logo-merk { width: 22px; height: 22px; border-radius: 7px; }
@@ -264,3 +266,7 @@ button.taak:active { transform: scale(.99); }
 .paginakop { display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; margin: 14px 0 20px; flex-wrap: wrap; }
 .paginakop h1 { font-weight: 800; font-size: clamp(30px, 5vw, 44px); letter-spacing: -.04em; margin-top: 6px; }
 .paginakop-acties { display: flex; gap: 8px; align-items: center; }
+@media (min-width: 1024px) {
+  .zijbalk .logo-woord { display: flex; flex-direction: column; line-height: 1.05; }
+  .zijbalk .logo-mp { font-size: .86rem; letter-spacing: 0; }
+}
