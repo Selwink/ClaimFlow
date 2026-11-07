@@ -569,9 +569,38 @@ body.met-bulk .list{padding-bottom:110px}
 .toast{display:flex;align-items:center;gap:12px}
 .toast button{border:0;background:transparent;color:inherit;font:inherit;font-weight:800;text-decoration:underline;cursor:pointer;padding:0}
 
-/* sneltoetsen */
-kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;background:var(--surface-2)}
-.sneltoetsen{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:.88rem;align-items:center;margin-top:14px}
+@media (max-width:620px){
+  .tabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;width:100%}
+  .tab{flex:0 0 auto}
+}
+/* menu in groepen */
+.menu-kop{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink-soft);font-weight:700;padding:9px 13px 3px}
+.menu-scheiding{height:1px;background:var(--line);margin:5px 6px}
+.menupaneel{min-width:210px}
+
+/* werkbalk boven de lijst */
+.werkbalk{display:flex;align-items:center;gap:8px;padding-block:10px 0;flex-wrap:wrap}
+.zoekveld{flex:1 1 260px;min-width:0;position:relative}
+.zoekveld input{width:100%;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 15px 9px 36px;font-size:.86rem;color:var(--ink)}
+.zoekveld input:focus{border-color:var(--ink-soft);outline:none}
+.zoekveld svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--ink-soft);pointer-events:none}
+.werkbalk .knoppen{display:flex;gap:8px;flex-wrap:wrap}
+.werkbalk .btn{padding:9px 16px;font-size:.84rem}
+.filters{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:10px;margin-top:8px}
+.filters select{flex:1 1 150px}
+.lijstkop{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding-top:14px;font-size:.78rem;color:var(--ink-soft)}
+.lijstkop b{color:var(--ink);font-weight:700}
+.list{padding-top:4px}
+
+/* knoppen op de kaart in groepen */
+.kaart-detail .row-actions{align-items:center}
+.kaart-detail .row-actions .tussen{width:1px;align-self:stretch;background:var(--line);margin:2px 4px}
+.kaart-detail .row-actions .rechts{margin-left:auto}
+
+/* instellingen in secties */
+.sectie{grid-column:1/-1;font-family:var(--display);font-weight:800;font-size:.9rem;letter-spacing:-.01em;margin:10px 0 -2px;
+  padding-top:12px;border-top:1px solid var(--line);color:var(--ink)}
+.sectie:first-child{margin-top:0;padding-top:0;border-top:0}
 
 /* afdrukken */
 .printkop{display:none}
@@ -611,15 +640,20 @@ kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border
       <div class="menu">
         <button class="ghost-on-brand" id="menuBtn" aria-expanded="false" aria-haspopup="true">Menu</button>
         <div class="menupaneel" id="menuPaneel" hidden>
-          <button type="button" class="menu-item" data-menu="uitleg">Uitleg</button>
-          <button type="button" class="menu-item" data-menu="instellingen">Instellingen</button>
-          <button type="button" class="menu-item" data-menu="updates">Updates</button>
-          <button type="button" class="menu-item" data-menu="csv">CSV exporteren</button>
+          <span class="menu-kop">Exporteren</span>
+          <button type="button" class="menu-item" data-menu="csv">Naar Excel (CSV)</button>
           <button type="button" class="menu-item" data-menu="afdrukken">Afdrukken / PDF</button>
+          <span class="menu-scheiding" aria-hidden="true"></span>
+          <span class="menu-kop">Gegevens</span>
           <button type="button" class="menu-item" data-menu="backup">Back-up downloaden</button>
           <button type="button" class="menu-item" data-menu="terugzetten">Back-up terugzetten</button>
+          <span class="menu-scheiding" aria-hidden="true"></span>
+          <span class="menu-kop">App</span>
+          <button type="button" class="menu-item" data-menu="instellingen">Instellingen</button>
           <button type="button" class="menu-item" data-menu="thema" id="themaItem">Thema: automatisch</button>
-          <button type="button" class="menu-item" data-menu="sneltoetsen">Sneltoetsen</button>
+          <button type="button" class="menu-item" data-menu="uitleg">Uitleg</button>
+          <button type="button" class="menu-item" data-menu="updates">Updates</button>
+          <span class="menu-scheiding" aria-hidden="true" id="uitlogScheiding" hidden></span>
           <button type="button" class="menu-item" data-menu="uitloggen" id="uitlogItem" hidden>Uitloggen</button>
         </div>
       </div>
@@ -649,20 +683,19 @@ kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border
   <div id="banner" class="banner" hidden></div>
 
   <div id="lijstweergave">
-    <section class="progress" id="progress" aria-label="Voortgang"></section>
-    <details class="suppliers" id="suppliers">
-      <summary>Per leverancier <span id="supCount"></span></summary>
-      <div id="supBody"></div>
-    </details>
     <nav class="tabs" id="tabs" role="tablist" aria-label="Status"></nav>
-    <div class="filterbar" id="filterbar">
-      <button type="button" class="btn btn-ghost filtertoggle" id="filterBtn" aria-expanded="false">Filters</button>
-      <button type="button" class="btn lgarknop" id="lgarBtn">+ Nieuwe LGAR</button>
-      <button type="button" class="btn btn-ghost filtertoggle selectknop" id="selectBtn" aria-pressed="false">Selecteren</button>
-      <span class="count" id="count"></span>
+    <div class="werkbalk filterbar" id="filterbar">
+      <div class="zoekveld">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+        <input type="search" id="q" placeholder="Zoek op nummer, type, onderdeel, storing of leverancier" aria-label="Zoeken">
+      </div>
+      <div class="knoppen">
+        <button type="button" class="btn btn-ghost filtertoggle" id="filterBtn" aria-expanded="false" aria-controls="filters">Filters</button>
+        <button type="button" class="btn btn-ghost filtertoggle selectknop" id="selectBtn" aria-pressed="false">Selecteren</button>
+        <button type="button" class="btn lgarknop" id="lgarBtn">+ Nieuwe LGAR</button>
+      </div>
     </div>
     <div class="filters" id="filters" hidden>
-      <input type="search" id="q" placeholder="Zoek op nummer, type, onderdeel, storing of leverancier" aria-label="Zoeken">
       <select id="fLev" aria-label="Leverancier"></select>
       <select id="fLoc" aria-label="Binnen- of buitenmonteur">
         <option value="">Alle monteurs</option>
@@ -684,6 +717,7 @@ kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border
       </select>
       <button type="button" class="linkbtn" id="wisFilters">Filters wissen</button>
     </div>
+    <div class="lijstkop" id="lijstkop"></div>
     <section class="list" id="list"></section>
     <div class="trashbar"><button type="button" class="btn btn-ghost" id="trashBtn" hidden></button></div>
   </div>
@@ -1182,11 +1216,8 @@ kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border
     el("tabs").scrollIntoView({behavior:"smooth", block:"start"});
   });
 
-  function renderProgress(){
-    const base = baseRows();
-    const box = el("progress");
-    if(!base.length){ box.hidden = true; return; }
-    box.hidden = false;
+  function voortgangHtml(base){
+    if(!base.length) return "";
     const totaal = base.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
     const open = base.filter(isOpen).reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
     const done = totaal - open;
@@ -1195,7 +1226,7 @@ kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border
     const som = alle.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
     const pp = [...new Set(alle.map(c => c.periode).filter(isPeriode))].sort();
     const reeks = pp.length ? (pp.length === 1 ? periodLabel(pp[0]) : periodLabel(pp[0]) + " t/m " + periodLabel(pp[pp.length - 1])) : "";
-    box.innerHTML = `<div class="ptop"><span class="ptitle">Afgehandeld in bedrag</span><span class="ppct">${pct}%</span></div>
+    return `<section class="progress" aria-label="Voortgang"><div class="ptop"><span class="ptitle">Afgehandeld in bedrag</span><span class="ppct">${pct}%</span></div>
       <div class="pbar" role="img" aria-label="${pct} procent van het geclaimde bedrag is afgehandeld">
         <i class="done" style="width:${pct}%"></i><i class="open" style="width:${100 - pct}%"></i>
       </div>
@@ -1207,7 +1238,7 @@ kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border
         <span class="pt-label">Totaal geclaimd, alle periodes</span>
         <span class="pt-bedrag">${esc(euro(som))}</span>
         <span class="pt-sub">${alle.length} claims${reeks ? " · " + esc(reeks) : ""}</span>
-      </div>`;
+      </div></section>`;
   }
 
   function perLeverancier(rows){
@@ -1225,18 +1256,6 @@ kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border
     });
     return [...m.values()].sort((a, b) => b.open - a.open || b.totaal - a.totaal);
   }
-  function renderSuppliers(){
-    const lijst = perLeverancier(baseRows());
-    el("supCount").textContent = lijst.length ? meervoud(lijst.length, "leverancier", "leveranciers") : "";
-    el("supBody").innerHTML = !lijst.length ? "" : `<table>
-      <thead><tr><th>Leverancier</th><th class="num">Claims</th><th class="num">Openstaand</th><th class="num">Totaal</th></tr></thead>
-      <tbody>${lijst.map(e => `<tr>
-        <td class="naam">${esc(e.naam)}${e.openN && e.naam !== "Zonder leverancier" ? `<button type="button" class="mailknop" data-mail="${esc(e.naam)}">Rappel</button>` : ""}</td>
-        <td class="num">${e.n}</td>
-        <td class="num${e.open ? " open" : ""}">${e.open ? esc(euro(e.open)) : "—"}</td>
-        <td class="num">${esc(euro(e.totaal))}</td></tr>`).join("")}</tbody></table>`;
-  }
-
   function renderTabs(){
     const base = baseRows();
     const tabs = [
@@ -1322,10 +1341,11 @@ kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border
             ? `<button class="icon-btn ok" data-act="gehonoreerd" data-id="${esc(c.id)}">Gehonoreerd</button>
                <button class="icon-btn warn" data-act="afgewezen" data-id="${esc(c.id)}">Afwijzen</button>`
             : `<button class="icon-btn" data-act="heropenen" data-id="${esc(c.id)}">Heropenen</button>`}
+          <span class="tussen" aria-hidden="true"></span>
           <button class="icon-btn" data-act="notitie" data-id="${esc(c.id)}">Notitie</button>
           <button class="icon-btn" data-act="bewerken" data-id="${esc(c.id)}">Bewerken</button>
           <button class="icon-btn" data-act="dupliceren" data-id="${esc(c.id)}">Dupliceren</button>
-          <button class="icon-btn danger" data-act="verwijderen" data-id="${esc(c.id)}">Verwijderen</button>
+          <button class="icon-btn danger rechts" data-act="verwijderen" data-id="${esc(c.id)}">Verwijderen</button>
         </div>
         ${state.confirmId === c.id ? `<div class="confirm">${esc(titelVan(c))} naar de prullenbak?
           <button class="btn" data-act="annuleren">Annuleren</button>
@@ -1398,8 +1418,7 @@ kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border
     if(state.view === "rapport"){
       el("lijstweergave").hidden = true;
       el("rapportweergave").hidden = false;
-      el("stats").hidden = false;
-      renderStats(baseRows());
+      el("stats").hidden = true;
       renderBulk();
       renderRapport();
       return;
@@ -1410,7 +1429,7 @@ kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border
     const bak = prullenbak();
     if(state.trash && !bak.length) state.trash = false;
     const inBak = state.trash;
-    ["stats", "progress", "suppliers", "tabs", "filterbar"].forEach(id => { el(id).hidden = inBak; });
+    ["stats", "tabs", "filterbar", "lijstkop"].forEach(id => { el(id).hidden = inBak; });
     if(inBak) el("filters").hidden = true;
     const tb = el("trashBtn");
     tb.hidden = !(bak.length || inBak);
@@ -1424,15 +1443,15 @@ kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border
     }
 
     const filtersAan = !!(state.q.trim() || state.loc || state.lev || state.sort !== "standaard" || state.groep !== "maand");
-    el("filterBtn").innerHTML = "Filters" + (filtersAan ? `<span class="fdot"></span>` : "");
+    const extraAan = !!(state.loc || state.lev || state.sort !== "standaard" || state.groep !== "maand");
+    el("filterBtn").innerHTML = "Filters" + (extraAan ? `<span class="fdot"></span>` : "");
     el("selectBtn").setAttribute("aria-pressed", String(state.selecteren));
     el("selectBtn").textContent = state.selecteren ? "Klaar met selecteren" : "Selecteren";
     renderTabs();
     const rows = visible();
     renderStats(rows);
-    el("count").textContent = meervoud(rows.length, "claim", "claims");
-    renderProgress();
-    renderSuppliers();
+    const somRows = rows.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
+    el("lijstkop").innerHTML = rows.length ? `<span><b>${meervoud(rows.length, "claim", "claims")}</b>${state.period !== "all" ? " in " + esc(periodLabel(state.period)) : ""}${filtersAan ? " · gefilterd" : ""}</span><span>${esc(euro(somRows))}</span>` : "";
 
     if(!rows.length){
       list.innerHTML = `<div class="empty"><strong>${state.loaded ? "Geen claims in deze selectie" : "Claims laden…"}</strong>
@@ -1548,7 +1567,8 @@ kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border
     const scope = state.period === "all" ? "alle periodes" : periodLabel(state.period);
 
     box.innerHTML = `
-      <dl class="stats">
+      ${voortgangHtml(rows)}
+      <dl class="stats" style="padding-top:0">
         <div class="stat vlak-groen"><dt>Honoreringsgraad</dt><dd>${graad == null ? "—" : graad + "%"}</dd><span class="sub">${nGeh} gehonoreerd · ${nAfg} afgewezen</span></div>
         <div class="stat vlak-blauw"><dt>Gem. doorlooptijd</dt><dd>${gemDoor == null ? "—" : meervoud(gemDoor, "dag", "dagen")}</dd><span class="sub">${doorloop.length ? "gemeten bij " + meervoud(doorloop.length, "claim", "claims") : "nog niet gemeten"}</span></div>
         <div class="stat vlak-zwart"><dt>Gem. claimbedrag</dt><dd>${esc(euro(gemBedrag))}</dd><span class="sub">${zonderBedrag ? zonderBedrag + " zonder bedrag" : "alle claims met bedrag"}</span></div>
@@ -1970,16 +1990,19 @@ kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border
     const {q, sluit} = openSheet(`<form class="sheet" id="instForm">
       <h2>Instellingen</h2>
       <div class="grid">
+        <h3 class="sectie">Algemeen</h3>
         <label class="full">Naam onder de titel<input id="i_vest" value="${esc(INST.vestiging)}" placeholder="Vestiging Meppel"></label>
         <label class="full">Na hoeveel dagen vereist een openstaande claim aandacht?<input id="i_dagen" type="number" min="1" max="365" value="${INST.dagen}"></label>
+        <h3 class="sectie">Leveranciers</h3>
         <label class="full">Leveranciers, één per regel. Zet een <b>*</b> achter een leverancier die altijd uitbesteed is, en eventueel
           <b>| e-mailadres</b> voor de rappel. Voorbeeld: <i>Wellco * | garantie@wellco.nl</i>
           <textarea id="i_lev" rows="8" style="min-height:160px">${esc(levTekst)}</textarea></label>
+        <h3 class="sectie">Bedragen en formulieren</h3>
         <label class="full">Vaste bedragen. Eén per regel: een woord uit het onderdeel of de storing, een = en het bedrag.
           <textarea id="i_prijs" rows="5" style="min-height:110px">${esc(prijsTekst)}</textarea></label>
         <label class="full vink"><input type="checkbox" id="i_auto"${INST.autoInvoer ? " checked" : ""}>
           <span>Gesleepte formulieren meteen opslaan. Het bedrag vul je later aan.</span></label>
-        ${CONFIG.ACCOUNTS ? "" : `<label class="full">Wachtwoord-hash maken (voor een nieuw wachtwoord)
+        ${CONFIG.ACCOUNTS ? "" : `<h3 class="sectie">Wachtwoord</h3><label class="full">Wachtwoord-hash maken (voor een nieuw wachtwoord)
           <input id="i_pw" type="text" autocomplete="off" placeholder="Typ het nieuwe wachtwoord"><span class="hint" id="i_hash" style="font-family:var(--mono);color:var(--ink-soft);overflow-wrap:anywhere"></span></label>`}
       </div>
       <div class="sheet-actions">
@@ -2017,8 +2040,15 @@ kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border
     });
   }
 
-  /* ---------- uitleg, updates, sneltoetsen ---------- */
+  /* ---------- uitleg en updates ---------- */
   const UPDATES = [
+    ["7 november 2026 — opgeruimd", [
+      "Het claimscherm is rustiger: alleen de melding, de kengetallen, de tabbladen, een vaste <b>zoekbalk</b> en de lijst. De voortgangsbalk en de cijfers per leverancier staan nu bij <b>Rapportage</b>.",
+      "Boven de lijst zie je hoeveel claims er in je selectie staan en voor welk bedrag.",
+      "Het <b>Menu</b> is ingedeeld in Exporteren, Gegevens en App. Sneltoetsen zijn weggehaald.",
+      "Op een geopende claim staan de knoppen in groepen: eerst de status, dan notitie en bewerken, en verwijderen helemaal rechts.",
+      "<b>Instellingen</b> is ingedeeld in Algemeen, Leveranciers, Bedragen en formulieren, en Wachtwoord."
+    ]],
     ["7 november 2026 — versie 2", [
       "<b>Rapportage</b>: knop bovenaan naast Claims. Honoreringsgraad, gemiddelde doorlooptijd, een grafiek per maand (ook als tabel), een overzicht per leverancier met honorering en langst openstaande claim, onderdelen die terugkomen en de verdeling binnen- en buitenmonteur.",
       "<b>Tijdlijn</b> per claim: elke statuswijziging wordt automatisch met datum vastgelegd, naast je eigen notities. Zo zie je ook na hoeveel dagen een claim is afgehandeld.",
@@ -2030,7 +2060,7 @@ kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border
       "Knop <b>Ingediend</b> op nieuwe claims, en <b>Dupliceren</b> om een vergelijkbare claim snel opnieuw vast te leggen.",
       "Bij een notitie kun je meteen de status wijzigen.",
       "Filter op <b>leverancier</b>, zoeken op meerdere woorden tegelijk, sorteren op laatst bijgewerkt. Je filters blijven bewaard.",
-      "<b>Back-up</b> downloaden en terugzetten, <b>afdrukken</b> of als PDF bewaren, <b>donker thema</b> en <b>sneltoetsen</b> (Menu).",
+      "<b>Back-up</b> downloaden en terugzetten, <b>afdrukken</b> of als PDF bewaren, en een <b>donker thema</b> (Menu).",
       "Veiliger: de lijst met claims en het wachtwoord staan niet meer leesbaar in de pagina. De laatst opgehaalde lijst wordt alleen in je eigen browser bewaard, zodat je bij een storing nog kunt kijken. Met <b>eigen accounts</b> (zie LEESMIJ) zijn de claims ook echt afgeschermd."
     ]],
     ["3 november 2026", [
@@ -2054,21 +2084,10 @@ kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border
         <li><b>Stoelen die we uitbesteden aan leveranciers</b> zet je alleen in deze lijst. Daarvoor claimen we geen garantie in de lijst van Medux,
           dus geen LGAR-formulier. Deze orders komen binnen in <b>code 80</b>.</li>
         <li><b>Volg op.</b> Claims die langer dan ${INST.dagen} dagen openstaan, staan onder <b>Vereist aandacht</b>. Stuur de leverancier een
-          <b>Rappel</b> vanuit het overzicht per leverancier, en zet de claim op <b>Gehonoreerd</b> of <b>Afgewezen</b> zodra er antwoord is.</li>
+          <b>Rappel</b> vanuit het leveranciersoverzicht bij Rapportage, en zet de claim op <b>Gehonoreerd</b> of <b>Afgewezen</b> zodra er antwoord is.</li>
       </ol>
       <p style="margin:16px 0 0"><a class="linkbtn" style="background:var(--donker);color:var(--op-donker);text-decoration:none;border-radius:999px;padding:11px 22px;display:inline-block"
         href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=lNlTLdkSZ06NbuTxZ3lQ-h5l1KWN4khFmEPmfPxlgCFUN1NQU003VEEwTzBZQjg1ODhIMVZVUUNFVyQlQCN0PWcu" target="_blank" rel="noopener">LGAR-formulier openen</a></p>
-      <div class="sheet-actions"><button type="button" class="btn btn-primary" data-sluit="1">Sluiten</button></div></div>`);
-  }
-  function openSneltoetsen(){
-    openSheet(`<div class="sheet"><h2>Sneltoetsen</h2>
-      <div class="sneltoetsen">
-        <kbd>N</kbd><span>Nieuwe claim</span>
-        <kbd>/</kbd><span>Zoeken</span>
-        <kbd>R</kbd><span>Wisselen tussen Claims en Rapportage</span>
-        <kbd>S</kbd><span>Selecteren aan of uit</span>
-        <kbd>Esc</kbd><span>Venster sluiten of selecteren stoppen</span>
-      </div>
       <div class="sheet-actions"><button type="button" class="btn btn-primary" data-sluit="1">Sluiten</button></div></div>`);
   }
 
@@ -2410,7 +2429,6 @@ kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border
     const open = el("filters").hidden;
     el("filters").hidden = !open;
     el("filterBtn").setAttribute("aria-expanded", String(open));
-    if(open) el("q").focus();
   });
   el("fLoc").addEventListener("change", e => { state.loc = e.target.value; bewaarWeergave(); render(); });
   el("fLev").addEventListener("change", e => { state.lev = e.target.value; bewaarWeergave(); render(); });
@@ -2447,27 +2465,11 @@ kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border
         case "backup": backup(); break;
         case "terugzetten": kiesBackup(); break;
         case "thema": { const nu = ls.get(SLEUTEL_THEMA) || "auto"; zetThema(THEMAS[(THEMAS.indexOf(nu) + 1) % THEMAS.length]); break; }
-        case "sneltoetsen": openSneltoetsen(); break;
         case "uitloggen": uitloggen(); break;
       }
     });
   })();
 
-  document.addEventListener("keydown", e => {
-    if(e.ctrlKey || e.metaKey || e.altKey) return;
-    if(!el("gate").hidden || document.querySelector(".overlay")) return;
-    const typen = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement && document.activeElement.tagName);
-    if(e.key === "Escape" && state.selecteren){ stopSelecteren(); return; }
-    if(typen) return;
-    const k = e.key.toLowerCase();
-    if(k === "n"){ e.preventDefault(); openForm(null); }
-    else if(e.key === "/"){
-      e.preventDefault(); state.view = "lijst"; state.trash = false; render();
-      el("filters").hidden = false; el("filterBtn").setAttribute("aria-expanded", "true"); el("q").focus();
-    }
-    else if(k === "r"){ state.view = state.view === "lijst" ? "rapport" : "lijst"; render(); }
-    else if(k === "s" && state.view === "lijst"){ if(state.selecteren) stopSelecteren(); else { state.selecteren = true; render(); } }
-  });
 
   /* ======================================================================
      TOEGANGSSCHERM EN START
@@ -2530,7 +2532,7 @@ kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border
   function openApp(){
     const gate = el("gate");
     gate.hidden = true; gate.innerHTML = "";
-    el("uitlogItem").hidden = !(CONFIG.ACCOUNTS || CONFIG.WACHTWOORD_HASH);
+    el("uitlogItem").hidden = el("uitlogScheiding").hidden = !(CONFIG.ACCOUNTS || CONFIG.WACHTWOORD_HASH);
     if(REMOTE){
       const cache = ls.json(SLEUTEL_CACHE);
       if(cache && Array.isArray(cache.claims)){

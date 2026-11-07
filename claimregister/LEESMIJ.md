@@ -21,7 +21,8 @@ Open in Supabase **SQL Editor** → **New query**, plak **deel 1** uit `supabase
 - **Vereist aandacht**: een tabblad met de claims die over de termijn zijn.
 - **Selecteren**: meerdere claims tegelijk op ingediend, gehonoreerd of afgewezen zetten, of naar de prullenbak verplaatsen.
 - **Rappel**: een kant-en-klare e-mail per leverancier met alle openstaande claims.
-- **Ongedaan maken**, een waarschuwing bij een **dubbele claim**, **dupliceren**, filteren op **leverancier**, **back-up** downloaden en terugzetten, **afdrukken**, een **donker thema** en **sneltoetsen**.
+- **Ongedaan maken**, een waarschuwing bij een **dubbele claim**, **dupliceren**, filteren op **leverancier**, **back-up** downloaden en terugzetten, **afdrukken** en een **donker thema**.
+- **Overzichtelijk**: het claimscherm toont alleen wat je dagelijks nodig hebt, met een vaste zoekbalk. Cijfers en grafieken staan bij Rapportage, en het Menu is ingedeeld in Exporteren, Gegevens en App.
 
 ## Beveiliging
 
