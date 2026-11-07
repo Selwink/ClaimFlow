@@ -841,6 +841,45 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
 .dm-tekst b{color:var(--bad);font-family:var(--display);font-size:.95rem}
 .dm-knoppen{display:flex;align-items:center;gap:4px;flex:0 0 auto}
 .dm-weg{border:0;background:transparent;color:var(--ink-soft);font-size:1.4rem;line-height:1;cursor:pointer;padding:2px 6px}
+
+/* ===== inlogscherm ===== */
+#gate{display:block;overflow-y:auto;padding:0;background:var(--bg)}
+#gate .gate-streep{display:flex;height:8px}
+#gate .gate-streep i{display:block;height:100%}
+#gate .gate-streep i:nth-child(1){flex:0 0 10%;background:#f7cbd1}
+#gate .gate-streep i:nth-child(2){flex:0 0 10%;background:#5fc4c0}
+#gate .gate-streep i:nth-child(3){flex:0 0 10%;background:#2e4057}
+#gate .gate-streep i:nth-child(4){flex:0 0 11%;background:#efb13c}
+#gate .gate-streep i:nth-child(5){flex:1 1 auto;background:var(--rood)}
+#gate .gate-inhoud{max-width:400px;margin:0 auto;padding:clamp(28px,8vh,72px) max(20px,env(safe-area-inset-left,0px)) 40px;
+  display:flex;flex-direction:column;align-items:center;text-align:center}
+#gate .gate-icoon{width:84px;height:84px;border-radius:22px;box-shadow:0 10px 26px color-mix(in srgb,var(--rood) 30%,transparent);margin-bottom:18px}
+#gate .merk{font-family:var(--display);font-weight:700;font-size:1.25rem;letter-spacing:-.03em;color:var(--rood);line-height:1}
+#gate h1{font-family:var(--display);font-weight:800;font-size:1.7rem;letter-spacing:-.03em;margin:6px 0 2px;color:var(--ink)}
+#gate .gate-vest{margin:0 0 22px;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+#gate .gate-kaart{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px 18px;
+  display:flex;flex-direction:column;gap:12px;text-align:left;box-shadow:0 12px 32px rgba(34,38,42,.06)}
+#gate .gate-uitleg{margin:0 0 2px;font-size:.88rem;color:var(--ink-soft);line-height:1.45}
+#gate .gate-veld{position:relative;display:block;text-transform:none;letter-spacing:0;font-weight:400}
+#gate .gate-veld > svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--ink-soft);pointer-events:none}
+#gate .gate-veld input{width:100%;border:1.5px solid var(--line);background:var(--bg);border-radius:14px;padding:14px 48px 14px 44px;
+  font-size:1rem;color:var(--ink);text-align:left}
+#gate .gate-veld input:focus{outline:none;border-color:var(--rood);background:var(--surface);box-shadow:0 0 0 4px color-mix(in srgb,var(--rood) 14%,transparent)}
+#gate .gate-oog{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--ink-soft);
+  width:38px;height:38px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+#gate .gate-oog svg{width:19px;height:19px}
+#gate .gate-oog[aria-pressed="true"]{color:var(--rood)}
+#gate .gate-knop{width:100%;margin-top:4px;box-shadow:0 8px 22px color-mix(in srgb,var(--rood) 30%,transparent)}
+#gate .fout{color:var(--bad);font-size:.84rem;font-weight:600;background:var(--bad-soft);border-radius:10px;padding:9px 12px}
+#gate .gate-tip{margin:18px 0 0;font-size:.8rem;color:var(--ink-soft)}
+#gate .gate-voet{margin-top:26px;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+#gate .gate-voet b{color:var(--rood)}
+@keyframes schud{10%,90%{transform:translateX(-1px)}20%,80%{transform:translateX(3px)}30%,50%,70%{transform:translateX(-6px)}40%,60%{transform:translateX(6px)}}
+#gate .gate-kaart.schud{animation:schud .45s ease}
+
+/* rode knop in beide thema's dezelfde, goed leesbare kleur */
+.grote-knop{background:#d9342a}
+.grote-knop:hover{background:#c52e25;filter:none}
 </style>
 </head>
 <body>
@@ -2968,24 +3007,40 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
   function toonGate(melding){
     const gate = el("gate");
     gate.hidden = false;
-    gate.innerHTML = `<form class="kaart" id="gateForm">
-      <span class="streep" aria-hidden="true"><i style="flex:0 0 10%;background:#f7cbd1"></i><i style="flex:0 0 10%;background:#5fc4c0"></i><i style="flex:0 0 10%;background:#2e4057"></i><i style="flex:0 0 11%;background:#efb13c"></i><i style="flex:1 1 auto;background:#e8382b"></i></span>
+    const vest = INST.vestiging.replace(/^vestiging\s+/i, "");
+    gate.innerHTML = `<div class="gate-streep" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="gate-inhoud">
+      <img class="gate-icoon" src="icon-192.png" alt="" width="84" height="84">
       <span class="merk">medipoint</span>
-      <h1>Garantieclaims ${esc(INST.vestiging.replace(/^vestiging\s+/i, ""))}</h1>
-      <p>${CONFIG.ACCOUNTS ? "Log in met je account om het register te openen." : "Vul het wachtwoord in om het register te openen."}</p>
-      <div class="velden">
-        ${CONFIG.ACCOUNTS ? `<input type="email" id="gateMail" placeholder="E-mailadres" autocomplete="username" aria-label="E-mailadres" value="${esc((sessie && sessie.email) || ls.get("claimregister-laatste-mail") || "")}">` : ""}
-        <input type="password" id="gatePw" placeholder="Wachtwoord" autocomplete="current-password" aria-label="Wachtwoord">
-      </div>
-      <span class="fout" id="gateFout"${melding ? "" : " hidden"}>${esc(melding || "")}</span>
-      <button type="submit" class="btn btn-primary">Openen</button>
-    </form>`;
+      <h1>Garantieclaims</h1>
+      <p class="gate-vest">Vestiging ${esc(vest)}</p>
+      <form class="gate-kaart" id="gateForm" novalidate>
+        <p class="gate-uitleg">${CONFIG.ACCOUNTS ? "Log in met je account." : "Vul het wachtwoord in om het register te openen."}</p>
+        ${CONFIG.ACCOUNTS ? `<label class="gate-veld"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg>
+          <input type="email" id="gateMail" placeholder="E-mailadres" autocomplete="username" aria-label="E-mailadres" value="${esc((sessie && sessie.email) || ls.get("claimregister-laatste-mail") || "")}"></label>` : ""}
+        <label class="gate-veld"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.5" width="16" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>
+          <input type="password" id="gatePw" placeholder="Wachtwoord" autocomplete="current-password" aria-label="Wachtwoord">
+          <button type="button" class="gate-oog" id="gateOog" aria-label="Wachtwoord tonen" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></label>
+        <span class="fout" id="gateFout" role="alert"${melding ? "" : " hidden"}>${esc(melding || "")}</span>
+        <button type="submit" class="grote-knop gate-knop">Inloggen</button>
+      </form>
+      <p class="gate-tip">${CONFIG.ACCOUNTS ? "Nog geen account? Vraag het aan je leidinggevende." : "Wachtwoord niet bij de hand? Vraag het aan je leidinggevende."}</p>
+      <span class="gate-voet">Made by <b>Selwin</b></span>
+    </div>`;
+    el("gateOog").onclick = () => {
+      const pw = el("gatePw"), zicht = pw.type === "password";
+      pw.type = zicht ? "text" : "password";
+      el("gateOog").setAttribute("aria-pressed", String(zicht));
+      el("gateOog").setAttribute("aria-label", zicht ? "Wachtwoord verbergen" : "Wachtwoord tonen");
+      pw.focus();
+    };
     const mailVeld = el("gateMail"), pwVeld = el("gatePw");
     (mailVeld && !mailVeld.value ? mailVeld : pwVeld).focus();
     el("gateForm").addEventListener("submit", async e => {
       e.preventDefault();
-      const fout = el("gateFout"), knop = e.target.querySelector("button");
+      const fout = el("gateFout"), knop = e.target.querySelector("button[type=submit]");
       fout.hidden = true;
+      if(!pwVeld.value){ pwVeld.focus(); return; }
       if(CONFIG.ACCOUNTS){
         knop.disabled = true; knop.textContent = "Bezig…";
         try{
@@ -2995,13 +3050,14 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
         }catch(err){
           fout.textContent = /invalid|credentials/i.test(err.message) ? "E-mailadres of wachtwoord klopt niet." : "Inloggen lukt niet: " + err.message;
           fout.hidden = false; pwVeld.value = ""; pwVeld.focus();
-        }finally{ knop.disabled = false; knop.textContent = "Openen"; }
+        }finally{ knop.disabled = false; knop.textContent = "Inloggen"; }
       } else {
         const h = await sha(pwVeld.value + ZOUT);
         if(h && h === CONFIG.WACHTWOORD_HASH){ ls.set(SLEUTEL_PW, h); openApp(); }
         else {
-          fout.textContent = h ? "Dat wachtwoord klopt niet." : "Deze browser kan het wachtwoord niet controleren. Open de site via https.";
+          fout.textContent = h ? "Dat wachtwoord klopt niet. Probeer het nog eens." : "Deze browser kan het wachtwoord niet controleren. Open de site via https.";
           fout.hidden = false; pwVeld.value = ""; pwVeld.focus();
+          const kaart = el("gateForm"); kaart.classList.remove("schud"); void kaart.offsetWidth; kaart.classList.add("schud");
         }
       }
     });
