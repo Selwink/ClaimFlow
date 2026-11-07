@@ -1375,7 +1375,26 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
 </main>
 
 <div class="onderbalk" id="onderbalk">
-  <div class="bulkbalk" id="bulkbalk" hidden></div>
+  <form name="nieuwe-claim" method="POST" data-netlify="true" netlify-honeypot="bot-veld" hidden aria-hidden="true">
+  <input type="hidden" name="form-name" value="nieuwe-claim">
+  <input name="bot-veld">
+  <input name="onderwerp">
+  <input name="type_onderdeel">
+  <input name="leverancier">
+  <input name="inkoopnummer">
+  <input name="voorzieningnummer">
+  <input name="framenummer">
+  <input name="bedrag">
+  <input name="status">
+  <input name="maand">
+  <input name="monteur">
+  <input name="storing">
+  <input name="bijzonderheden">
+  <input name="toegevoegd_door">
+  <input name="bron">
+  <input name="register">
+</form>
+<div class="bulkbalk" id="bulkbalk" hidden></div>
 <footer class="sl-voet" id="slVoet">
   <span class="sl-status" id="slStatus"><i></i><span>Laden…</span></span>
   <span class="sl-pillen">
@@ -2700,7 +2719,8 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
         const id = nieuwId();
         const nieuw = {...body, id, notities:[regel("Claim vastgelegd" + (imp ? " uit " + imp.bron : "") + (extra && extra.notitie ? " " + extra.notitie : "") + " (" + STATUS[body.status].label.toLowerCase() + ")", {soort:"status", naar:body.status})]};
         state.expanded.add(id);
-        await bewaar([nieuw], "Claim toegevoegd", terugdraaier([], id));
+        if(await bewaar([nieuw], "Claim toegevoegd", terugdraaier([], id)))
+          mailNieuweClaim(nieuw, imp ? "LGAR-bestand " + imp.bron : extra && extra.notitie ? "LGAR-formulier" : "Zelf ingevuld");
       }
     });
   }
@@ -2850,6 +2870,9 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
 
   /* ---------- uitleg en updates ---------- */
   const UPDATES = [
+    ["7 november 2026 — e-mail bij nieuwe claim", [
+      "Wordt er een claim of LGAR in de lijst gezet, dan gaat er automatisch een e-mail met de gegevens naar s.kok@medipoint.nl."
+    ]],
     ["7 november 2026 — nieuwe opbouw", [
       "Bovenaan het Medipoint-embleem met drie knoppen: <b>Menu</b>, een rode <b>+</b> om een claim toe te voegen en <b>Vernieuwen</b>.",
       "Een tabbalk met <b>Claims</b>, <b>Over termijn</b> (met teller) en <b>Rapportage</b>; de Prullenbak verschijnt als er iets in zit.",
@@ -2937,6 +2960,30 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
       <p style="margin:16px 0 0"><a class="linkbtn" style="background:var(--donker);color:var(--op-donker);text-decoration:none;border-radius:999px;padding:11px 22px;display:inline-block"
         href="#" data-lgar-invullen="1">LGAR-formulier invullen</a></p>
       <div class="sheet-actions"><button type="button" class="btn btn-primary" data-sluit="1">Sluiten</button></div></div>`);
+  }
+
+  /* ---------- e-mail bij een nieuwe claim (via Netlify Forms) ---------- */
+  function mailNieuweClaim(c, bron){
+    if(!/^https:$/.test(location.protocol) || /localhost|127\.0\.0\.1/.test(location.hostname)) return;
+    const velden = {
+      "form-name": "nieuwe-claim",
+      onderwerp: "Nieuwe garantieclaim: " + titelVan(c) + (c.leverancier ? " (" + c.leverancier + ")" : ""),
+      type_onderdeel: [c.type, c.onderdeel && c.onderdeel !== c.type ? c.onderdeel : ""].filter(Boolean).join(" / "),
+      leverancier: c.leverancier || "",
+      inkoopnummer: c.inkoopnummer || "nog niet bekend",
+      voorzieningnummer: c.voorziening || "",
+      framenummer: c.frame || "",
+      bedrag: geenBedrag(c) ? "volgt later" : euro(c.bedrag),
+      status: STATUS[statusVan(c)].label + (c.uitbesteed ? " (uitbesteed)" : ""),
+      maand: periodLabel(c.periode),
+      monteur: c.locatie === "buiten" ? "Buitenmonteur" : "Binnenmonteur",
+      storing: c.storing || "",
+      bijzonderheden: c.bijzonderheden || "",
+      toegevoegd_door: wie() || "onbekend",
+      bron: bron,
+      register: location.origin + location.pathname
+    };
+    fetch("/", {method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body:new URLSearchParams(velden).toString()}).catch(() => {});
   }
 
   /* ---------- export, back-up, afdrukken ---------- */
@@ -3276,7 +3323,8 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
       const dubbel = zoekDubbel(nieuw, null);
       if(dubbel.length){ openForm(null, {velden, bron, tekst, aantal}); return; }
       state.expanded.add(id);
-      await bewaar([nieuw], meervoud(aantal, "veld", "velden") + " ingelezen uit " + bron, terugdraaier([], id));
+      if(await bewaar([nieuw], meervoud(aantal, "veld", "velden") + " ingelezen uit " + bron, terugdraaier([], id)))
+        mailNieuweClaim(nieuw, "LGAR-bestand " + bron);
       return;
     }
     openForm(null, {velden, bron, tekst, aantal});
