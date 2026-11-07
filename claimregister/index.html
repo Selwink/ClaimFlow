@@ -1375,26 +1375,7 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
 </main>
 
 <div class="onderbalk" id="onderbalk">
-  <form name="nieuwe-claim" method="POST" data-netlify="true" netlify-honeypot="bot-veld" hidden aria-hidden="true">
-  <input type="hidden" name="form-name" value="nieuwe-claim">
-  <input name="bot-veld">
-  <input name="onderwerp">
-  <input name="type_onderdeel">
-  <input name="leverancier">
-  <input name="inkoopnummer">
-  <input name="voorzieningnummer">
-  <input name="framenummer">
-  <input name="bedrag">
-  <input name="status">
-  <input name="maand">
-  <input name="monteur">
-  <input name="storing">
-  <input name="bijzonderheden">
-  <input name="toegevoegd_door">
-  <input name="bron">
-  <input name="register">
-</form>
-<div class="bulkbalk" id="bulkbalk" hidden></div>
+  <div class="bulkbalk" id="bulkbalk" hidden></div>
 <footer class="sl-voet" id="slVoet">
   <span class="sl-status" id="slStatus"><i></i><span>Laden…</span></span>
   <span class="sl-pillen">
@@ -1436,6 +1417,8 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
   const REMOTE = !!(BASE && KEY);
   const API = REMOTE ? BASE + "/rest/v1/" + CONFIG.TABEL : "";
   const ZOUT = "medipoint-meppel";
+  // Hierheen gaat een e-mail bij elke nieuwe claim (via FormSubmit). Leeg = geen e-mail.
+  const MELDING_EMAIL = "s.kok@medipoint.nl";
   const LGAR_FORMULIER = "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=lNlTLdkSZ06NbuTxZ3lQ-h5l1KWN4khFmEPmfPxlgCFUN1NQU003VEEwTzBZQjg1ODhIMVZVUUNFVyQlQCN0PWcu";
 
   /* ---------- kleine hulpjes ---------- */
@@ -2828,6 +2811,10 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
           <textarea id="i_prijs" rows="5" style="min-height:110px">${esc(prijsTekst)}</textarea></label>
         <label class="full vink"><input type="checkbox" id="i_auto"${INST.autoInvoer ? " checked" : ""}>
           <span>Gesleepte formulieren meteen opslaan. Het bedrag vul je later aan.</span></label>
+        <h3 class="sectie">E-mail</h3>
+        <p class="full" style="margin:0;font-size:.86rem;color:var(--ink-soft)">Bij elke nieuwe claim gaat er een e-mail naar <b>${esc(MELDING_EMAIL || "niemand")}</b>.
+          De allereerste keer krijgt dat adres een bevestigingsmail van FormSubmit: klik daarin op <i>Activate</i>.</p>
+        <button type="button" class="btn full" id="i_testmail" style="justify-self:start">Testmail sturen</button>
         ${CONFIG.ACCOUNTS ? "" : `<h3 class="sectie">Wachtwoord</h3><label class="full">Wachtwoord-hash maken (voor een nieuw wachtwoord)
           <input id="i_pw" type="text" autocomplete="off" placeholder="Typ het nieuwe wachtwoord"><span class="hint" id="i_hash" style="font-family:var(--mono);color:var(--ink-soft);overflow-wrap:anywhere"></span></label>`}
       </div>
@@ -2836,6 +2823,14 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
         <button type="submit" class="btn btn-primary">Opslaan</button>
       </div>
     </form>`, {focus:"#i_vest"});
+    q("#i_testmail").onclick = async () => {
+      const b = q("#i_testmail"); b.disabled = true; b.textContent = "Versturen…";
+      const gelukt = await stuurMelding({_subject:"Test: e-mail van het garantieclaimregister", _template:"table", _captcha:"false",
+        "Bericht":"Dit is een testmail. Vanaf nu krijg je hier een e-mail bij elke nieuwe garantieclaim.", "Verstuurd door": wie() || "onbekend",
+        "Register": location.origin + location.pathname});
+      b.disabled = false; b.textContent = "Testmail sturen";
+      toast(gelukt ? "Testmail verstuurd naar " + MELDING_EMAIL : "Verstuurd — kijk in de mailbox van " + MELDING_EMAIL + " (eerste keer: bevestig via de activatiemail)");
+    };
     const pw = q("#i_pw");
     if(pw) pw.addEventListener("input", async () => {
       q("#i_hash").textContent = pw.value ? "Hash (voor WACHTWOORD_HASH of BEHEER_HASH in CONFIG): " + await sha(pw.value + ZOUT) : "";
@@ -2871,7 +2866,7 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
   /* ---------- uitleg en updates ---------- */
   const UPDATES = [
     ["7 november 2026 — e-mail bij nieuwe claim", [
-      "Wordt er een claim of LGAR in de lijst gezet, dan gaat er automatisch een e-mail met de gegevens naar s.kok@medipoint.nl."
+      "Wordt er een claim of LGAR in de lijst gezet, dan gaat er automatisch een e-mail met de gegevens naar s.kok@medipoint.nl. Bij Instellingen staat een knop <b>Testmail sturen</b>."
     ]],
     ["7 november 2026 — nieuwe opbouw", [
       "Bovenaan het Medipoint-embleem met drie knoppen: <b>Menu</b>, een rode <b>+</b> om een claim toe te voegen en <b>Vernieuwen</b>.",
@@ -2963,27 +2958,36 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
   }
 
   /* ---------- e-mail bij een nieuwe claim (via Netlify Forms) ---------- */
+  function mailVelden(c, bron){
+    return {
+      _subject: "Nieuwe garantieclaim: " + titelVan(c) + (c.leverancier ? " (" + c.leverancier + ")" : ""),
+      _template: "table",
+      _captcha: "false",
+      "Type / onderdeel": [c.type, c.onderdeel && c.onderdeel !== c.type ? c.onderdeel : ""].filter(Boolean).join(" / "),
+      "Leverancier": c.leverancier || "",
+      "Inkoopnummer": c.inkoopnummer || "nog niet bekend",
+      "Voorzieningnummer": c.voorziening || "-",
+      "Framenummer": c.frame || "-",
+      "Bedrag": geenBedrag(c) ? "volgt later" : euro(c.bedrag),
+      "Status": STATUS[statusVan(c)].label + (c.uitbesteed ? " (uitbesteed)" : ""),
+      "Maand": periodLabel(c.periode),
+      "Monteur": c.locatie === "buiten" ? "Buitenmonteur" : "Binnenmonteur",
+      "Storing": c.storing || "-",
+      "Bijzonderheden": c.bijzonderheden || "-",
+      "Toegevoegd door": wie() || "onbekend",
+      "Bron": bron,
+      "Register": location.origin + location.pathname
+    };
+  }
+  function stuurMelding(velden){
+    if(!MELDING_EMAIL) return Promise.resolve(false);
+    return fetch("https://formsubmit.co/ajax/" + encodeURIComponent(MELDING_EMAIL), {
+      method:"POST", headers:{"Content-Type":"application/json", "Accept":"application/json"}, body:JSON.stringify(velden)
+    }).then(r => r.json().catch(() => ({}))).then(j => j && (j.success === true || j.success === "true")).catch(() => false);
+  }
   function mailNieuweClaim(c, bron){
     if(!/^https:$/.test(location.protocol) || /localhost|127\.0\.0\.1/.test(location.hostname)) return;
-    const velden = {
-      "form-name": "nieuwe-claim",
-      onderwerp: "Nieuwe garantieclaim: " + titelVan(c) + (c.leverancier ? " (" + c.leverancier + ")" : ""),
-      type_onderdeel: [c.type, c.onderdeel && c.onderdeel !== c.type ? c.onderdeel : ""].filter(Boolean).join(" / "),
-      leverancier: c.leverancier || "",
-      inkoopnummer: c.inkoopnummer || "nog niet bekend",
-      voorzieningnummer: c.voorziening || "",
-      framenummer: c.frame || "",
-      bedrag: geenBedrag(c) ? "volgt later" : euro(c.bedrag),
-      status: STATUS[statusVan(c)].label + (c.uitbesteed ? " (uitbesteed)" : ""),
-      maand: periodLabel(c.periode),
-      monteur: c.locatie === "buiten" ? "Buitenmonteur" : "Binnenmonteur",
-      storing: c.storing || "",
-      bijzonderheden: c.bijzonderheden || "",
-      toegevoegd_door: wie() || "onbekend",
-      bron: bron,
-      register: location.origin + location.pathname
-    };
-    fetch("/", {method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body:new URLSearchParams(velden).toString()}).catch(() => {});
+    stuurMelding(mailVelden(c, bron));
   }
 
   /* ---------- export, back-up, afdrukken ---------- */
