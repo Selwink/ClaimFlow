@@ -993,28 +993,94 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
 
 :root[data-theme="dark"] .blok-icoon{color:color-mix(in srgb,var(--lev) 45%,#ffffff);background:color-mix(in srgb,var(--lev) 32%,#22262a)}
 :root[data-theme="dark"] .blok.k-sel .blok-icoon,:root[data-theme="dark"] .blok .blok-icoon.vink{background:#eef0f1;color:#1b1e21}
+
+/* ===== opzet: grote titel, onderstreepte tabs, groot getal en tegels ===== */
+header.app-kop{box-shadow:none}
+.kop-binnen{max-width:860px;margin-inline:auto;padding-top:14px}
+.kop-titel{display:flex;flex-direction:column;gap:2px}
+.kop-titel .wordmark{font-size:.95rem}
+.kop-titel h1{margin:0;font-family:var(--display);font-weight:800;font-size:1.75rem;letter-spacing:-.03em;color:var(--ink);line-height:1.1}
+.kop-rij{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px}
+.rond-knop{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);
+  display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.rond-knop svg{width:20px;height:20px}
+.rond-knop[aria-expanded="true"]{background:var(--surface);border-color:var(--ink-soft)}
+.kop-rij .menu{position:relative}
+.kop-rij .menupaneel{top:calc(100% + 8px);left:0;right:auto;bottom:auto}
+.kop-info{display:flex;align-items:center;gap:14px;font-size:.8rem;color:var(--ink-soft);font-variant-numeric:tabular-nums;min-width:0}
+.kop-info .sync{margin:0}
+.kop-open{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tabbar.onderstreep{display:grid;grid-template-columns:1fr 1fr;gap:0;background:transparent;border:0;border-radius:0;padding:0;margin-top:10px;box-shadow:none;
+  border-bottom:1px solid var(--line)}
+.tabbar.onderstreep button{flex-direction:row;min-width:0;border-radius:0;background:transparent;padding:12px 6px 13px;font-size:.95rem;font-weight:600;
+  color:var(--ink-soft);position:relative}
+.tabbar.onderstreep button:hover{color:var(--ink);background:transparent}
+.tabbar.onderstreep button[aria-pressed="true"]{color:var(--ink);background:transparent;box-shadow:none;font-weight:800}
+.tabbar.onderstreep button[aria-pressed="true"]::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:3px;background:var(--rood);border-radius:3px 3px 0 0}
+:root[data-theme="dark"] .tabbar.onderstreep button[aria-pressed="true"]{background:transparent;box-shadow:none;color:#fff}
+.app-kop .strip{height:4px}
+#dashboard[hidden]{display:none!important}
+
+/* groot getal met balk */
+.held{position:relative;text-align:center;padding:26px 4px 6px}
+.held-tandwiel{position:absolute;right:0;top:18px;width:40px;height:40px;border:0;background:transparent;color:var(--ink-soft);cursor:pointer;border-radius:50%}
+.held-tandwiel:hover{color:var(--ink);background:var(--surface-2)}
+.held-tandwiel svg{width:22px;height:22px}
+.held-getal{display:inline-flex;align-items:flex-start;justify-content:center;gap:4px;font-family:var(--display);color:var(--ink);line-height:1}
+.held-getal b{font-weight:300;font-size:4.2rem;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.held-getal span{font-size:1.4rem;font-weight:500;margin-top:10px}
+.held-sub{margin:6px 0 18px;font-size:.88rem;color:var(--ink-soft)}
+.accu{position:relative;height:64px;border-radius:12px 8px 8px 12px;background:var(--surface-2);overflow:hidden;display:grid;grid-template-columns:repeat(4,1fr);
+  border:1px solid var(--line);clip-path:polygon(0 18%,4% 0,100% 0,100% 100%,0 100%)}
+.accu-vol{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,#1f9e96,var(--ok));transition:width .6s cubic-bezier(.2,.7,.3,1)}
+.accu-deel{position:relative;border-right:1px solid color-mix(in srgb,var(--line) 70%,transparent);z-index:1}
+.accu-deel:nth-child(2){grid-column:2}
+.accu-deel:nth-child(3){grid-column:3}
+.accu-deel:nth-child(4){grid-column:4;border-right:0}
+.accu-labels{display:flex;justify-content:space-between;gap:10px;margin-top:9px;font-size:.78rem;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.accu-labels span{display:inline-flex;align-items:center;gap:6px}
+.stip-ok,.stip-open{width:8px;height:8px;border-radius:50%;display:inline-block}
+.stip-ok{background:var(--ok)}
+.stip-open{background:var(--surface-2);border:1px solid var(--ink-soft)}
+.held-tijd{margin:14px 0 0;font-size:.8rem;color:var(--ink-soft)}
+
+/* tegels */
+.tegels{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:20px 0 18px}
+.tegel{border:0;background:transparent;padding:0;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;color:var(--ink-soft);min-width:0}
+.tegel-vlak{position:relative;width:100%;height:62px;border-radius:14px;background:var(--surface);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+  color:var(--ink);transition:background .14s ease,border-color .14s ease}
+.tegel:hover .tegel-vlak{border-color:var(--ink-soft)}
+.tegel:active .tegel-vlak{transform:scale(.97)}
+.tegel-vlak svg{width:26px;height:26px}
+.tegel-label{font-size:.76rem;font-weight:600;text-align:center;line-height:1.25}
+.tegel-rood .tegel-vlak{background:#d9342a;border-color:#d9342a;color:#fff;box-shadow:0 8px 20px rgba(217,52,42,.28)}
+.tegel-rood .tegel-label{color:var(--ink)}
+.tegel-badge{position:absolute;top:6px;right:8px;min-width:20px;height:20px;border-radius:999px;background:var(--rood);color:#fff;font-style:normal;
+  font-size:.7rem;font-weight:800;display:inline-flex;align-items:center;justify-content:center;padding:0 6px}
+@media (min-width:640px){.tegel-vlak{height:72px}}
+.app > .zoekveld{margin-top:0}
+@media print{.held,.tegels,.kop-rij,.tabbar.onderstreep{display:none!important}}
+
+header.app-kop,:root[data-theme="dark"] header.app-kop{background:var(--bg);backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none}
+.app-kop .strip{height:5px}
+
+#dashboard[hidden] + .zoekveld{margin-top:16px}
 </style>
 </head>
 <body>
 
 <div id="gate" hidden></div>
 
-<header class="brandbar">
-  <div class="brandbar-inner gutter">
-    <div class="mark">
+<header class="brandbar app-kop">
+  <div class="strip" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="kop-binnen gutter">
+    <div class="kop-titel">
       <span class="wordmark">medipoint</span>
+      <h1 id="paginaTitel">Claims</h1>
     </div>
-    <span class="divider" aria-hidden="true"></span>
-    <div class="site">
-      <h1>Garantieclaims</h1>
-      <p id="vestiging">Vestiging Meppel</p>
-    </div>
-    <span class="sync" id="sync"></span>
-  </div>
-  <div class="topnav gutter">
-    <nav class="tabbar" aria-label="Hoofdmenu">
+    <div class="kop-rij">
       <div class="menu">
-        <button type="button" id="menuBtn" aria-expanded="false" aria-haspopup="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Menu</span></button>
+        <button type="button" class="rond-knop" id="menuBtn" aria-expanded="false" aria-haspopup="true" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
         <div class="menupaneel" id="menuPaneel" hidden>
           <span class="menu-kop">Exporteren</span>
           <button type="button" class="menu-item" data-menu="csv">Naar Excel (CSV)</button>
@@ -1036,17 +1102,36 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
           <span class="menu-voet">Made by <b>Selwin</b></span>
         </div>
       </div>
-      <button type="button" data-view="lijst" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.4 3.4 8.3 8 9 4.6-.7 8-4.6 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg><span>Claims</span></button>
-      <button type="button" data-view="rapport" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Rapportage</span></button>
+      <span class="kop-info"><span class="sync" id="sync"></span><span class="kop-open" id="kopOpen"></span></span>
+    </div>
+    <nav class="tabbar onderstreep" aria-label="Hoofdmenu">
+      <button type="button" data-view="lijst" aria-pressed="true">Claims</button>
+      <button type="button" data-view="rapport" aria-pressed="false">Rapportage</button>
     </nav>
+    <p id="vestiging" hidden>Vestiging Meppel</p>
   </div>
-  <div class="strip" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
 </header>
 
 <main class="gutter app">
   <p class="printkop" id="printkop"></p>
-  <div class="actieknoppen" id="actieknoppen">
-    <button type="button" class="grote-knop" id="addBtn"><span class="plus" aria-hidden="true">+</span>Claim toevoegen</button>
+  <div id="dashboard">
+    <div id="dagmelding"></div>
+    <section class="held" aria-label="Voortgang">
+      <button type="button" class="held-tandwiel" data-menu-direct="instellingen" aria-label="Instellingen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+      <div class="held-getal"><b id="heldPct">–</b><span>%</span></div>
+      <p class="held-sub" id="heldSub">afgehandeld in bedrag</p>
+      <div class="accu" id="accu" role="img" aria-label="Voortgang">
+        <i class="accu-vol" id="accuVol"></i><span class="accu-deel"></span><span class="accu-deel"></span><span class="accu-deel"></span>
+      </div>
+      <div class="accu-labels"><span id="accuLinks"></span><span id="accuRechts"></span></div>
+      <p class="held-tijd" id="heldTijd"></p>
+    </section>
+    <div class="tegels">
+      <button type="button" class="tegel tegel-rood" id="addBtn"><span class="tegel-vlak"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M12 8v8M8 12h8"/></svg></span><span class="tegel-label">Claim toevoegen</span></button>
+      <button type="button" class="tegel" data-tegel="aandacht"><span class="tegel-vlak"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.5 20h19z"/><path d="M12 10v4.5M12 17.5h.01"/></svg><em class="tegel-badge" id="tegelAandacht" hidden></em></span><span class="tegel-label">Vereist aandacht</span></button>
+      <button type="button" class="tegel" data-tegel="rappel"><span class="tegel-vlak"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg></span><span class="tegel-label">Rappel sturen</span></button>
+      <button type="button" class="tegel" data-tegel="agenda"><span class="tegel-vlak"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M8 3v4M16 3v4M3.5 10h17M12 13.5v3l2 1"/></svg></span><span class="tegel-label">Herinneringen</span></button>
+    </div>
   </div>
   <div class="zoekveld">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
@@ -1056,7 +1141,6 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
   <div id="banner" class="banner" hidden></div>
 
   <div id="lijstweergave">
-    <div id="dagmelding"></div>
     <div class="teller" id="teller" role="tablist" aria-label="Status"></div>
     <div class="lijstkop" id="lijstkop">
       <span class="lk-titel" id="lijstTitel"></span>
@@ -1392,7 +1476,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
       const rows = await apiGet();
       // Een open dialoog of selectie niet onder iemands handen verversen.
       state.claims = leesRijen(rows);
-      state.loaded = true; state.live = true; state.offline = false;
+      state.loaded = true; state.live = true; state.offline = false; state.syncTijd = Date.now();
       schrijfCache();
       banner("");
       setTimeout(dagCheck, 0);
@@ -1575,6 +1659,50 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     mk("all", "Alle periodes");
     [...set].sort().reverse().forEach(p => mk(p, periodShort(p)));
   }
+
+  function renderKop(){
+    const open = actief().filter(isOpen);
+    const som = open.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
+    el("kopOpen").textContent = open.length ? meervoud(open.length, "claim", "claims") + " open · " + euroKort(som) : "alles afgehandeld";
+  }
+  function geledenTekst(t){
+    if(!t) return "";
+    const min = Math.floor((Date.now() - t) / 60000);
+    if(min < 1) return "zojuist";
+    if(min < 60) return min + " min geleden";
+    const u = Math.floor(min / 60);
+    return u < 24 ? u + " uur geleden" : new Date(t).toLocaleDateString("nl-NL", {day:"numeric", month:"short"});
+  }
+  function renderHeld(){
+    const base = baseRows();
+    const totaal = base.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
+    const open = base.filter(isOpen).reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
+    const klaar = totaal - open;
+    const pct = totaal ? Math.round(klaar / totaal * 100) : (base.length ? 100 : 0);
+    const nOpen = base.filter(isOpen).length;
+    el("heldPct").textContent = base.length ? pct : "–";
+    el("heldSub").textContent = base.length ? "afgehandeld in bedrag · " + (nOpen ? meervoud(nOpen, "claim", "claims") + " open" : "niets open") : "nog geen claims in deze selectie";
+    el("accuVol").style.width = pct + "%";
+    el("accu").setAttribute("aria-label", pct + " procent van het geclaimde bedrag is afgehandeld");
+    el("accuLinks").innerHTML = `<i class="stip-ok"></i>${esc(euro(klaar))} afgehandeld`;
+    el("accuRechts").innerHTML = `${esc(euro(open))} open<i class="stip-open"></i>`;
+    const t = state.syncTijd || state.cacheTijd;
+    el("heldTijd").textContent = !REMOTE ? "Opgeslagen op dit apparaat" : state.offline ? "Geen verbinding" + (t ? " · laatst bijgewerkt " + geledenTekst(t) : "") : (t ? "Laatst bijgewerkt: " + geledenTekst(t) : "Laden…");
+    const laat = base.filter(vereistAandacht).length;
+    const badge = el("tegelAandacht");
+    badge.hidden = !laat; badge.textContent = laat;
+  }
+  function kiesRappel(){
+    const levs = perLeverancier(actief()).filter(e => e.openN && e.naam !== "Zonder leverancier");
+    if(!levs.length){ toast("Geen openstaande claims om een rappel voor te sturen"); return; }
+    if(levs.length === 1){ openRappel(levs[0].naam); return; }
+    const {ov, sluit} = openSheet(`<div class="sheet lgarkeuze"><h2>Rappel sturen</h2>
+      ${levs.map(e => `<button type="button" class="keuze" data-lev="${esc(e.naam)}"><b>${esc(e.naam)}</b>
+        <span>${meervoud(e.openN, "open claim", "open claims")} · ${esc(euro(e.open))}${e.oudste >= INST.dagen ? " · langst open " + e.oudste + " dagen" : ""}</span></button>`).join("")}
+      <div class="sheet-actions"><button type="button" class="btn btn-ghost" data-sluit="1">Annuleren</button></div></div>`);
+    ov.querySelectorAll("[data-lev]").forEach(b => b.onclick = () => { sluit(); openRappel(b.dataset.lev); });
+  }
+  setInterval(() => { if(el("gate").hidden && state.view === "lijst" && !document.hidden) renderHeld(); }, 60000);
 
   const TABNAAM = {"":"Alle claims", open:"Openstaand", aandacht:"Vereist aandacht", afgehandeld:"Afgehandeld"};
   function renderTeller(){
@@ -1812,6 +1940,9 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     openVeeg = null;
     pasInstToe();
     renderSync();
+    el("paginaTitel").textContent = state.view === "rapport" ? "Rapportage" : (state.trash ? "Prullenbak" : "Claims");
+    renderKop();
+    el("dashboard").hidden = state.view !== "lijst" || state.trash;
     document.querySelectorAll(".tabbar [data-view]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.view === state.view)));
     renderPeriods();
     el("printkop").textContent = "Afgedrukt op " + fmtDate(vandaag()) + " · " + (state.period === "all" ? "alle periodes" : periodLabel(state.period));
@@ -1849,6 +1980,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     el("selectBtn").setAttribute("aria-pressed", String(state.selecteren));
     el("selectBtn").textContent = state.selecteren ? "Klaar" : "Selecteren";
     renderTeller();
+    renderHeld();
     el("dagmelding").innerHTML = dagmeldingHtml();
     const rows = visible();
     const somRows = rows.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
@@ -1970,7 +2102,6 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     const scope = state.period === "all" ? "alle periodes" : periodLabel(state.period);
 
     box.innerHTML = `
-      ${voortgangHtml(rows)}
       <dl class="stats" style="padding-top:0">
         <div class="stat vlak-groen"><dt>Honoreringsgraad</dt><dd>${graad == null ? "—" : graad + "%"}</dd><span class="sub">${nGeh} gehonoreerd · ${nAfg} afgewezen</span></div>
         <div class="stat vlak-blauw"><dt>Gem. doorlooptijd</dt><dd>${gemDoor == null ? "—" : meervoud(gemDoor, "dag", "dagen")}</dd><span class="sub">${doorloop.length ? "gemeten bij " + meervoud(doorloop.length, "claim", "claims") : "nog niet gemeten"}</span></div>
@@ -2451,6 +2582,11 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
 
   /* ---------- uitleg en updates ---------- */
   const UPDATES = [
+    ["7 november 2026 — nieuwe indeling", [
+      "Bovenaan een grote titel, het <b>Menu</b> als ronde knop links en <b>Claims | Rapportage</b> als tabbladen.",
+      "Een groot getal met een <b>balk</b>: hoeveel van het geclaimde bedrag is afgehandeld, en wanneer de lijst voor het laatst is bijgewerkt. Het tandwiel opent Instellingen.",
+      "Vier <b>tegels</b>: Claim toevoegen, Vereist aandacht, Rappel sturen en Herinneringen."
+    ]],
     ["7 november 2026 — donker thema", [
       "De hele app heeft nu dezelfde <b>donkere Medipoint-stijl</b> als het inlogscherm. Liever licht? Kies Menu → Thema."
     ]],
@@ -3006,6 +3142,17 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     if(b.dataset.dag === "bekijk"){ Object.assign(state, {status:"aandacht", period:"all", trash:false}); bewaarWeergave(); }
     state.dagmelding = null; render();
   });
+  document.querySelector(".tegels").addEventListener("click", e => {
+    const t = e.target.closest("[data-tegel]");
+    if(!t) return;
+    if(t.dataset.tegel === "aandacht"){
+      Object.assign(state, {status:"aandacht", period:"all"}); bewaarWeergave(); render();
+      el("teller").scrollIntoView({behavior:"smooth", block:"start"});
+    }
+    else if(t.dataset.tegel === "rappel") kiesRappel();
+    else if(t.dataset.tegel === "agenda") openAgenda();
+  });
+  document.querySelector(".held-tandwiel").addEventListener("click", () => openInstellingen());
   el("teller").addEventListener("click", e => {
     const t = e.target.closest("button[data-tab]");
     if(!t) return;
@@ -3258,7 +3405,13 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
 
   (function meetKop(){
     const kopEl = document.querySelector("header.brandbar");
-    const zet = () => document.documentElement.style.setProperty("--kophoogte", kopEl.offsetHeight + "px");
+    const zet = () => {
+      // Alleen de tabbladen blijven bovenaan staan; titel en menurij schuiven mee weg.
+      const tabs = kopEl.querySelector(".tabbar.onderstreep");
+      const verberg = tabs ? tabs.offsetTop : 0;
+      kopEl.style.top = "calc(env(safe-area-inset-top, 0px) - " + verberg + "px)";
+      document.documentElement.style.setProperty("--kophoogte", (kopEl.offsetHeight - verberg) + "px");
+    };
     zet();
     if(window.ResizeObserver) new ResizeObserver(zet).observe(kopEl);
   })();
