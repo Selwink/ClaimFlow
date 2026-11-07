@@ -1,6 +1,6 @@
 import { Toaster } from 'sonner';
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Geist_Mono, Inter, Space_Grotesk } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 
 import './globals.css';
@@ -16,10 +16,16 @@ export const viewport = {
   maximumScale: 1, // Disable auto-zoom on mobile Safari
 };
 
-const geist = Geist({
+const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-geist',
+  variable: '--font-inter',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-space-grotesk',
 });
 
 const geistMono = Geist_Mono({
@@ -29,7 +35,7 @@ const geistMono = Geist_Mono({
 });
 
 const LIGHT_THEME_COLOR = 'hsl(0 0% 100%)';
-const DARK_THEME_COLOR = 'hsl(240deg 10% 3.92%)';
+const DARK_THEME_COLOR = 'hsl(232deg 25% 8%)';
 const THEME_COLOR_SCRIPT = `\
 (function() {
   var html = document.documentElement;
@@ -61,7 +67,7 @@ export default async function RootLayout({
       // prop is necessary to avoid the React hydration mismatch warning.
       // https://github.com/pacocoursey/next-themes?tab=readme-ov-file#with-app
       suppressHydrationWarning
-      className={`${geist.variable} ${geistMono.variable}`}
+      className={`${inter.variable} ${spaceGrotesk.variable} ${geistMono.variable}`}
     >
       <head>
         <script

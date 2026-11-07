@@ -7,6 +7,7 @@ import { PlusIcon } from '@/components/icons';
 import { SidebarHistory } from '@/components/sidebar-history';
 import { SidebarUserNav } from '@/components/sidebar-user-nav';
 import { Button } from '@/components/ui/button';
+import { BrandMark } from '@/components/brand-mark';
 import {
   Sidebar,
   SidebarContent,
@@ -32,9 +33,10 @@ export function AppSidebar({ user }: { user: User | undefined }) {
               onClick={() => {
                 setOpenMobile(false);
               }}
-              className="flex flex-row gap-3 items-center"
+              className="flex flex-row gap-2.5 items-center rounded-lg px-1.5 py-1 hover:bg-sidebar-accent"
             >
-              <span className="text-lg font-semibold px-2 hover:bg-muted rounded-md cursor-pointer">
+              <BrandMark size="sm" />
+              <span className="font-display text-lg font-semibold tracking-tight">
                 Chatbot
               </span>
             </Link>
@@ -44,6 +46,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
                   variant="ghost"
                   type="button"
                   className="p-2 h-fit"
+                  aria-label="New Chat"
                   onClick={() => {
                     setOpenMobile(false);
                     router.push('/');

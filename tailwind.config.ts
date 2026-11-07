@@ -10,7 +10,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-geist)'],
+        sans: ['var(--font-inter)'],
+        display: ['var(--font-space-grotesk)'],
         mono: ['var(--font-geist-mono)'],
       },
       screens: {
