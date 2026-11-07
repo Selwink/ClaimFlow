@@ -1319,6 +1319,49 @@ main.app{background:transparent!important;border:0!important;border-radius:0!imp
 .pbar .done{background:var(--at-blauw)!important}.pbar .open{background:var(--at-mag2)!important}
 .plegend i[style*="--ok"]{background:var(--at-blauw)!important}.plegend i[style*="--bad"]{background:var(--at-mag2)!important}
 .sl-titel b{font-size:1.2rem!important}
+
+/* ===== laad- en inlogscherm in de dashboardstijl ===== */
+.splash{background:radial-gradient(circle at 50% 42%,#a8306c 0%,#8a2257 45%,#6b1742 100%)!important;color:#fff}
+.splash-gloed{background:radial-gradient(circle,rgba(255,255,255,.28),transparent 65%)!important}
+.splash-ringen i{border-color:rgba(255,255,255,.6)!important}
+.splash-merk{filter:drop-shadow(0 0 22px rgba(255,255,255,.35))!important}
+.splash-naam span{color:#fff!important}
+.splash-naam span:nth-child(n+5){color:#fff!important;text-shadow:0 0 18px rgba(255,255,255,.6)!important}
+.splash-sub{color:rgba(255,255,255,.8)!important}
+.splash-balk{background:rgba(255,255,255,.22)!important}
+.splash-balk i{background:linear-gradient(90deg,#ffffff,#5b9bd5)!important;box-shadow:0 0 12px rgba(255,255,255,.7)!important}
+
+#gate{background:linear-gradient(135deg,#f0f1f3 0%,#e6e8eb 100%)!important;color:#333!important;color-scheme:light!important}
+#gate .gate-streep{display:none}
+#gate .gate-inhoud{padding-top:0!important;max-width:none!important}
+#gate .gate-inhoud > .gate-embleem,#gate .gate-inhoud > .merk,#gate .gate-inhoud > h1,#gate .gate-inhoud > .gate-vest{position:relative;z-index:1}
+#gate .gate-inhoud::before{content:"";position:absolute;left:0;right:0;top:0;height:330px;background:linear-gradient(#7c1d4d 0 78%,#9b2360 78% 100%)}
+#gate .gate-inhoud{position:relative;padding-top:48px!important}
+#gate .gate-embleem{width:96px!important;height:96px!important;filter:drop-shadow(0 6px 16px rgba(0,0,0,.25))!important}
+#gate .gate-embleem circle:first-child{stroke:rgba(255,255,255,.35)!important}
+#gate .merk{color:#fff!important;font-size:1.8rem!important}
+#gate h1{color:#fff!important;font-weight:400!important;font-size:1.25rem!important}
+#gate .gate-vest{color:rgba(255,255,255,.8)!important;margin-bottom:40px!important}
+#gate .gate-kaart{position:relative;z-index:1;max-width:420px;width:calc(100% - 32px);margin:0 auto;background:#f4f4f4!important;border:0!important;border-radius:2px!important;
+  box-shadow:0 3px 10px rgba(0,0,0,.14)!important;padding:70px 20px 22px!important}
+#gate .gate-kaart::before{content:"INLOGGEN";position:absolute;left:0;right:0;top:0;height:52px;background:#5b9bd5;color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;letter-spacing:.04em}
+#gate .gate-uitleg{color:#555!important}
+#gate .gate-veld input{background:#fff!important;border:1px solid #cfd2d7!important;border-radius:4px!important;color:#333!important}
+#gate .gate-veld input:focus{border-color:#9b2360!important;box-shadow:0 0 0 3px rgba(155,35,96,.15)!important}
+#gate .gate-veld > svg,#gate .gate-oog{color:#6b6f75!important}
+#gate .gate-oog[aria-pressed="true"]{color:#9b2360!important}
+#gate .gate-knop{background:#9b2360!important;border-radius:4px!important;box-shadow:none!important;color:#fff!important}
+#gate .gate-knop:hover{background:#7c1d4d!important}
+#gate .gate-vergeten{color:#5b9bd5!important}
+#gate .gate-tip{background:#fff!important;border:1px solid #d9dbe0!important;color:#555!important;border-radius:4px!important}
+#gate .gate-tweede{background:#fff!important;border:1px solid #cfd2d7!important;color:#333!important;border-radius:4px!important}
+#gate .fout{background:#fbe3e7!important;color:#c8102e!important;border-radius:4px!important}
+#gate .gate-voet{color:#6b6f75!important;position:relative;z-index:1}
+#gate .gate-voet b{color:#9b2360!important}
+#gate .gate-vest{margin-bottom:0!important;padding-bottom:34px}
+#gate .gate-inhoud::before{height:300px;background:linear-gradient(#7c1d4d 0 252px,#9b2360 252px 100%)!important}
+#gate .gate-kaart{margin-top:24px!important}
 </style>
 </head>
 <body>
