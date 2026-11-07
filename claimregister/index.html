@@ -619,6 +619,145 @@ body.met-bulk .list{padding-bottom:110px}
   .suppliers{display:block}
   a{color:inherit}
 }
+
+/* ===================== opzet met blokken ===================== */
+:root{--blok:#ffffff;--blok-rand:var(--line);--tabbar:#22262a;--tabbar-ink:#c9ced3;--tabbar-actief:#ffffff}
+:root[data-theme="dark"]{--blok:#1e2225;--tabbar:#0e1113;--tabbar-ink:#9aa2a9;--tabbar-actief:#e9ebec}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--blok:#1e2225;--tabbar:#0e1113;--tabbar-ink:#9aa2a9;--tabbar-actief:#e9ebec}}
+main.app{max-width:860px;margin-inline:auto;padding-bottom:calc(150px + env(safe-area-inset-bottom,0px))}
+header.brandbar .brandbar-inner{max-width:860px;margin-inline:auto}
+header .sync{margin-left:auto;font-size:.72rem;color:var(--ink-soft);display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+@media (max-width:520px){header .sync .sync-tekst{display:none}}
+
+/* zoeken en periodes */
+.app > .zoekveld{margin-top:12px}
+.zoekveld{position:relative}
+.zoekveld input{width:100%;border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:12px 15px 12px 40px;font-size:.95rem;color:var(--ink)}
+.zoekveld input:focus{border-color:var(--ink-soft);outline:none}
+.zoekveld svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:17px;height:17px;color:var(--ink-soft);pointer-events:none}
+.app > .periods{padding-block:10px 0;margin-inline:-2px}
+.period{padding:5px 13px;font-size:.78rem}
+
+/* tellerstrook */
+.teller{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  margin-top:12px;overflow:hidden}
+.teller button{border:0;background:transparent;padding:13px 6px 11px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;
+  position:relative;color:var(--ink-soft);min-width:0}
+.teller button + button::before{content:"";position:absolute;left:0;top:22%;bottom:22%;width:1px;background:var(--line)}
+.teller b{font-family:var(--display);font-weight:800;font-size:1.45rem;line-height:1.1;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.teller .tl-label{font-size:.72rem;font-weight:600}
+.teller .tl-sub{font-size:.66rem;font-variant-numeric:tabular-nums;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.teller button[data-tab="open"] b{color:var(--info)}
+.teller button[data-tab="aandacht"].heeft b{color:var(--rood)}
+.teller button[data-tab="afgehandeld"] b{color:var(--ok)}
+.teller button[aria-selected="true"]{background:var(--surface-2);color:var(--ink)}
+.teller button[aria-selected="true"]::after{content:"";position:absolute;left:24%;right:24%;bottom:0;height:3px;border-radius:3px 3px 0 0;background:var(--rood)}
+
+/* kop boven de lijst */
+.lijstkop{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 2px 4px;flex-wrap:nowrap}
+.lk-titel{min-width:0;overflow:hidden;white-space:nowrap}
+.lk-knoppen{flex:0 0 auto}
+@media (max-width:420px){.lijstkop .lk-bedrag{display:none}}
+.lk-titel{display:inline-flex;align-items:center;gap:8px;font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft)}
+.lk-titel i{width:7px;height:7px;border-radius:50%;background:var(--info);display:inline-block}
+.lk-titel .lk-bedrag{letter-spacing:0;text-transform:none;font-weight:600;font-variant-numeric:tabular-nums}
+.lk-knoppen{display:flex;gap:6px}
+.klein-knop{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 13px;font-size:.76rem;font-weight:700;cursor:pointer}
+.klein-knop:hover{border-color:var(--ink-soft)}
+.klein-knop[aria-pressed="true"],.klein-knop[aria-expanded="true"]{background:var(--donker);border-color:var(--donker);color:var(--op-donker)}
+.klein-knop .fdot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--rood);margin-left:6px;vertical-align:middle}
+.filters{display:flex;gap:7px;flex-wrap:wrap;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px;margin-top:8px}
+.filters select{flex:1 1 150px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 13px;font-size:.82rem;min-width:0}
+
+/* groepen en blokken */
+.list{display:flex;flex-direction:column;gap:18px;padding-top:6px;padding-bottom:10px}
+.groep{display:flex;flex-direction:column;gap:8px}
+.groepkop{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:2px 2px 0;font-size:.7rem;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft)}
+.groepkop .gk-titel{display:inline-flex;align-items:center;gap:8px}
+.groepkop .gk-titel i{width:7px;height:7px;border-radius:50%;background:var(--ok);display:inline-block}
+.groepkop.heeft-open .gk-titel i{background:var(--info)}
+.groepkop.heeft-laat .gk-titel i{background:var(--rood)}
+.groepkop .gk-cijfers{letter-spacing:0;text-transform:none;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.groepkop .gk-cijfers .mo{color:var(--bad)}
+.blok{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--blok);border:1px solid var(--blok-rand);border-radius:16px;
+  padding:12px 12px 12px 12px;cursor:pointer;color:var(--ink);position:relative;transition:border-color .14s ease, transform .08s ease}
+.blok:hover{border-color:var(--ink-soft)}
+.blok:active{transform:scale(.99)}
+.blok.k-laat{border-color:color-mix(in srgb,var(--rood) 45%,var(--line))}
+.blok.k-sel{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.blok-icoon{flex:0 0 auto;width:44px;height:44px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-weight:800;font-size:.82rem;color:var(--lev);background:color-mix(in srgb,var(--lev) 15%,transparent)}
+.blok.k-sel .blok-icoon,.blok .blok-icoon.vink{background:var(--donker);color:var(--op-donker);font-size:1rem}
+.blok-tekst{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:2px}
+.blok-tekst b{font-family:var(--display);font-weight:700;font-size:.98rem;letter-spacing:-.015em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.blok-tekst span{font-size:.78rem;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.blok-tekst .wacht{color:var(--geel)}
+.blok-rechts{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.blok-sub{font-size:.76rem;color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap}
+.blok-sub .laat{color:var(--rood);font-weight:700}
+.blok .chev{flex:0 0 auto;color:var(--ink-soft);font-size:1.1rem;line-height:1;margin-left:-2px}
+.statuspil{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:3px 10px;font-size:.72rem;font-weight:700;white-space:nowrap}
+.sp-nieuw{background:var(--surface-2);color:var(--ink-soft)}
+.sp-ingediend{background:var(--info-soft);color:var(--info)}
+.sp-gehonoreerd{background:var(--ok-soft);color:var(--ok)}
+.sp-afgewezen{background:var(--bad-soft);color:var(--bad)}
+.sp-uitbesteed{background:var(--geel-soft);color:var(--geel)}
+@media (max-width:420px){
+  .blok{gap:10px;padding:11px 10px}
+  .blok-icoon{width:40px;height:40px;border-radius:11px}
+  .blok .chev{display:none}
+}
+
+/* detailvenster */
+.detail-kop{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.detail-kop .blok-icoon{width:48px;height:48px}
+.detail-kop h2{margin:0!important}
+.detail-kop .dk-sub{font-size:.84rem;color:var(--ink-soft)}
+.detail-bedrag{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:12px}
+.detail-bedrag .db-bedrag{font-family:var(--display);font-weight:800;font-size:1.5rem;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.detail-bedrag .db-bedrag.wait{font-size:1rem;color:var(--geel)}
+.detail-bedrag .db-pillen{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.detail .meta{margin-bottom:12px}
+.detail .storing{font-size:.92rem;line-height:1.45;margin:0 0 10px;overflow-wrap:anywhere}
+.detail .doorloop{display:block;margin-bottom:10px}
+.detail .note{margin:0 0 10px}
+.detail .tijdlijn{margin-bottom:6px}
+.detail .row-actions{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 0;align-items:center}
+.detail .row-actions .tussen{width:1px;align-self:stretch;background:var(--line);margin:2px 4px}
+.detail .row-actions .rechts{margin-left:auto}
+.detail .confirm{margin-top:10px}
+
+/* onderbalk */
+.onderbalk{position:fixed;left:0;right:0;bottom:0;z-index:30;pointer-events:none;
+  padding:0 max(12px,env(safe-area-inset-left,0px)) calc(10px + env(safe-area-inset-bottom,0px));
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  background:linear-gradient(to top,var(--bg) 55%,color-mix(in srgb,var(--bg) 0%,transparent))}
+.onderbalk > *{pointer-events:auto}
+.actieknoppen{display:flex;gap:8px;width:min(560px,100%);padding-top:14px}
+.grote-knop{flex:1 1 auto;border:0;border-radius:16px;background:var(--rood);color:#fff;font-family:var(--display);font-weight:700;font-size:1rem;
+  padding:14px 18px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  box-shadow:0 8px 22px color-mix(in srgb,var(--rood) 35%,transparent)}
+.grote-knop .plus{display:inline-flex;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.22);align-items:center;justify-content:center;font-size:1rem;line-height:1}
+.grote-knop:hover{filter:brightness(1.06)}
+.lgar-knop{flex:0 0 auto;border:1.5px dashed var(--rood);border-radius:16px;background:var(--surface);color:var(--rood);font-weight:800;font-size:.86rem;padding:0 18px;cursor:pointer}
+.lgar-knop:hover{background:var(--rood);color:#fff;border-style:solid}
+.tabbar{display:flex;gap:4px;background:var(--tabbar);border-radius:999px;padding:5px;box-shadow:var(--zweef)}
+.tabbar button{border:0;background:transparent;color:var(--tabbar-ink);border-radius:999px;padding:7px 16px;display:flex;flex-direction:column;align-items:center;gap:2px;
+  font-size:.68rem;font-weight:700;cursor:pointer;min-width:84px}
+.tabbar button svg{width:20px;height:20px}
+.tabbar button[aria-pressed="true"]{background:color-mix(in srgb,#fff 12%,transparent);color:var(--tabbar-actief)}
+.tabbar button[aria-pressed="true"] svg{color:var(--rood)}
+.tabbar button:hover{color:var(--tabbar-actief)}
+.tabbar .menu{position:relative}
+.tabbar .menupaneel{top:auto;bottom:calc(100% + 12px);right:-5px}
+.menu-voet{display:block;font-size:.66rem;color:var(--ink-soft);letter-spacing:.08em;text-transform:uppercase;padding:8px 13px 4px;border-top:1px solid var(--line);margin-top:5px}
+.menu-voet b{color:var(--rood)}
+.onderbalk .bulkbalk{position:static;transform:none;width:min(560px,100%);margin-top:14px;animation:none}
+body.met-bulk .actieknoppen{display:none}
+.toast{bottom:calc(150px + env(safe-area-inset-bottom,0px))}
+.trashbar{padding-top:8px}
+@media print{ .onderbalk,.zoekveld,.app > .periods,.teller,.lijstkop,.filters{display:none!important} main.app{padding-bottom:0} }
 </style>
 </head>
 <body>
@@ -626,7 +765,6 @@ body.met-bulk .list{padding-bottom:110px}
 <div id="gate" hidden></div>
 
 <header class="brandbar">
-  <div class="byline gutter">Made by: <b>Selwin</b></div>
   <div class="brandbar-inner gutter">
     <div class="mark">
       <span class="wordmark">medipoint</span>
@@ -636,64 +774,28 @@ body.met-bulk .list{padding-bottom:110px}
       <h1>Garantieclaims</h1>
       <p id="vestiging">Vestiging Meppel</p>
     </div>
-    <div class="bar-tools">
-      <div class="menu">
-        <button class="ghost-on-brand" id="menuBtn" aria-expanded="false" aria-haspopup="true">Menu</button>
-        <div class="menupaneel" id="menuPaneel" hidden>
-          <span class="menu-kop">Exporteren</span>
-          <button type="button" class="menu-item" data-menu="csv">Naar Excel (CSV)</button>
-          <button type="button" class="menu-item" data-menu="afdrukken">Afdrukken / PDF</button>
-          <span class="menu-scheiding" aria-hidden="true"></span>
-          <span class="menu-kop">Gegevens</span>
-          <button type="button" class="menu-item" data-menu="backup">Back-up downloaden</button>
-          <button type="button" class="menu-item" data-menu="terugzetten">Back-up terugzetten</button>
-          <span class="menu-scheiding" aria-hidden="true"></span>
-          <span class="menu-kop">App</span>
-          <button type="button" class="menu-item" data-menu="instellingen">Instellingen</button>
-          <button type="button" class="menu-item" data-menu="thema" id="themaItem">Thema: automatisch</button>
-          <button type="button" class="menu-item" data-menu="uitleg">Uitleg</button>
-          <button type="button" class="menu-item" data-menu="updates">Updates</button>
-          <span class="menu-scheiding" aria-hidden="true" id="uitlogScheiding" hidden></span>
-          <button type="button" class="menu-item" data-menu="uitloggen" id="uitlogItem" hidden>Uitloggen</button>
-        </div>
-      </div>
-      <button class="solid-on-brand" id="addBtn">+ Claim</button>
-    </div>
+    <span class="sync" id="sync"></span>
   </div>
   <div class="strip" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
 </header>
 
-<div class="periodbar">
-  <div class="periodrow gutter">
-    <nav class="periods" id="periods" aria-label="Periode"></nav>
-  </div>
-</div>
-
-<main class="gutter">
+<main class="gutter app">
   <p class="printkop" id="printkop"></p>
-  <div class="weergave-rij">
-    <div class="weergave" role="group" aria-label="Weergave">
-      <button type="button" data-view="lijst" aria-pressed="true">Claims</button>
-      <button type="button" data-view="rapport" aria-pressed="false">Rapportage</button>
-    </div>
-    <span class="sync" id="sync"></span>
+  <div class="zoekveld">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+    <input type="search" id="q" placeholder="Zoek claims" aria-label="Zoek op nummer, type, onderdeel, storing of leverancier">
   </div>
-  <div id="alert" class="alertbar" hidden></div>
-  <dl class="stats" id="stats"></dl>
+  <nav class="periods" id="periods" aria-label="Periode"></nav>
   <div id="banner" class="banner" hidden></div>
 
   <div id="lijstweergave">
-    <nav class="tabs" id="tabs" role="tablist" aria-label="Status"></nav>
-    <div class="werkbalk filterbar" id="filterbar">
-      <div class="zoekveld">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
-        <input type="search" id="q" placeholder="Zoek op nummer, type, onderdeel, storing of leverancier" aria-label="Zoeken">
-      </div>
-      <div class="knoppen">
-        <button type="button" class="btn btn-ghost filtertoggle" id="filterBtn" aria-expanded="false" aria-controls="filters">Filters</button>
-        <button type="button" class="btn btn-ghost filtertoggle selectknop" id="selectBtn" aria-pressed="false">Selecteren</button>
-        <button type="button" class="btn lgarknop" id="lgarBtn">+ Nieuwe LGAR</button>
-      </div>
+    <div class="teller" id="teller" role="tablist" aria-label="Status"></div>
+    <div class="lijstkop" id="lijstkop">
+      <span class="lk-titel" id="lijstTitel"></span>
+      <span class="lk-knoppen">
+        <button type="button" class="klein-knop" id="filterBtn" aria-expanded="false" aria-controls="filters">Filters</button>
+        <button type="button" class="klein-knop" id="selectBtn" aria-pressed="false">Selecteren</button>
+      </span>
     </div>
     <div class="filters" id="filters" hidden>
       <select id="fLev" aria-label="Leverancier"></select>
@@ -701,6 +803,11 @@ body.met-bulk .list{padding-bottom:110px}
         <option value="">Alle monteurs</option>
         <option value="binnen">Binnenmonteurs</option>
         <option value="buiten">Buitenmonteurs</option>
+      </select>
+      <select id="fUit" aria-label="Uitbesteed">
+        <option value="">Uitbesteed en eigen</option>
+        <option value="ja">Alleen uitbesteed</option>
+        <option value="nee">Zonder uitbesteed</option>
       </select>
       <select id="fGroep" aria-label="Groeperen">
         <option value="maand">Per maand</option>
@@ -717,7 +824,6 @@ body.met-bulk .list{padding-bottom:110px}
       </select>
       <button type="button" class="linkbtn" id="wisFilters">Filters wissen</button>
     </div>
-    <div class="lijstkop" id="lijstkop"></div>
     <section class="list" id="list"></section>
     <div class="trashbar"><button type="button" class="btn btn-ghost" id="trashBtn" hidden></button></div>
   </div>
@@ -725,7 +831,38 @@ body.met-bulk .list{padding-bottom:110px}
   <div id="rapportweergave" class="rapport" hidden></div>
 </main>
 
-<div class="bulkbalk" id="bulkbalk" hidden></div>
+<div class="onderbalk" id="onderbalk">
+  <div class="actieknoppen" id="actieknoppen">
+    <button type="button" class="grote-knop" id="addBtn"><span class="plus" aria-hidden="true">+</span>Claim toevoegen</button>
+    <button type="button" class="lgar-knop" id="lgarBtn" title="LGAR-formulier inlezen (pdf of tekst)">LGAR</button>
+  </div>
+  <div class="bulkbalk" id="bulkbalk" hidden></div>
+  <nav class="tabbar" aria-label="Hoofdmenu">
+    <button type="button" data-view="lijst" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.4 3.4 8.3 8 9 4.6-.7 8-4.6 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg><span>Claims</span></button>
+    <button type="button" data-view="rapport" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Rapportage</span></button>
+    <div class="menu">
+      <button type="button" id="menuBtn" aria-expanded="false" aria-haspopup="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Menu</span></button>
+      <div class="menupaneel" id="menuPaneel" hidden>
+        <span class="menu-kop">Exporteren</span>
+        <button type="button" class="menu-item" data-menu="csv">Naar Excel (CSV)</button>
+        <button type="button" class="menu-item" data-menu="afdrukken">Afdrukken / PDF</button>
+        <span class="menu-scheiding" aria-hidden="true"></span>
+        <span class="menu-kop">Gegevens</span>
+        <button type="button" class="menu-item" data-menu="backup">Back-up downloaden</button>
+        <button type="button" class="menu-item" data-menu="terugzetten">Back-up terugzetten</button>
+        <span class="menu-scheiding" aria-hidden="true"></span>
+        <span class="menu-kop">App</span>
+        <button type="button" class="menu-item" data-menu="instellingen">Instellingen</button>
+        <button type="button" class="menu-item" data-menu="thema" id="themaItem">Thema: automatisch</button>
+        <button type="button" class="menu-item" data-menu="uitleg">Uitleg</button>
+        <button type="button" class="menu-item" data-menu="updates">Updates</button>
+        <span class="menu-scheiding" aria-hidden="true" id="uitlogScheiding" hidden></span>
+        <button type="button" class="menu-item" data-menu="uitloggen" id="uitlogItem" hidden>Uitloggen</button>
+        <span class="menu-voet">Made by <b>Selwin</b></span>
+      </div>
+    </div>
+  </nav>
+</div>
 
 <script>
 (function(){
@@ -983,14 +1120,15 @@ body.met-bulk .list{padding-bottom:110px}
   const opgeslagenWeergave = ls.json(SLEUTEL_WEERGAVE) || {};
   const state = {
     claims: [], loaded:false, live:false, offline:false,
-    period:"all", q:"", status: opgeslagenWeergave.status != null ? opgeslagenWeergave.status : "open",
+    period:"all", q:"", status: ["", "open", "aandacht", "afgehandeld"].includes(opgeslagenWeergave.status) ? opgeslagenWeergave.status : "open",
+    uit: opgeslagenWeergave.uit || (opgeslagenWeergave.status === "uitbesteed" ? "ja" : ""),
     loc: opgeslagenWeergave.loc || "", lev: opgeslagenWeergave.lev || "",
     sort: opgeslagenWeergave.sort || "standaard", groep: opgeslagenWeergave.groep || "maand",
     view:"lijst", trash:false, selecteren:false, geselecteerd:new Set(),
     confirmId:null, expanded:new Set(), tabel:false
   };
   function bewaarWeergave(){
-    ls.set(SLEUTEL_WEERGAVE, JSON.stringify({status:state.status, loc:state.loc, lev:state.lev, sort:state.sort, groep:state.groep}));
+    ls.set(SLEUTEL_WEERGAVE, JSON.stringify({status:state.status, uit:state.uit, loc:state.loc, lev:state.lev, sort:state.sort, groep:state.groep}));
   }
   function schrijfCache(){
     if(REMOTE) ls.set(SLEUTEL_CACHE, JSON.stringify({tijd:Date.now(), claims:state.claims, inst:INST}));
@@ -1118,6 +1256,8 @@ body.met-bulk .list{padding-bottom:110px}
       if(!zonderPeriode && state.period !== "all" && (c.periode || "") !== state.period) return false;
       if(state.loc && (c.locatie || "") !== state.loc) return false;
       if(state.lev && (c.leverancier || "") !== state.lev) return false;
+      if(state.uit === "ja" && !c.uitbesteed) return false;
+      if(state.uit === "nee" && c.uitbesteed) return false;
       if(woorden.length){ const h = zoekTekst(c); if(!woorden.every(w => h.includes(w))) return false; }
       return true;
     });
@@ -1168,53 +1308,21 @@ body.met-bulk .list{padding-bottom:110px}
     [...set].sort().reverse().forEach(p => mk(p, periodShort(p)));
   }
 
-  function renderStats(rows){
-    const sum = f => rows.filter(f).reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
-    const nOpen = rows.filter(isOpen).length;
-    const nDone = rows.filter(c => statusVan(c) === "gehonoreerd").length;
-    const uitb = rows.filter(c => c.uitbesteed).length;
-    const data = [
-      ["Claims", String(rows.length), "in deze selectie", "blauw"],
-      ["Openstaand", euro(sum(isOpen)), meervoud(nOpen, "claim", "claims"), "rood"],
-      ["Gehonoreerd", euro(sum(c => statusVan(c) === "gehonoreerd")), meervoud(nDone, "claim", "claims"), "groen"],
-      ["Totaal geclaimd", euro(sum(() => true)), uitb ? "waarvan " + uitb + " uitbesteed" : "alle statussen", "zwart"]
+  const TABNAAM = {"":"Alle claims", open:"Openstaand", aandacht:"Vereist aandacht", afgehandeld:"Afgehandeld"};
+  function renderTeller(){
+    const base = baseRows();
+    const som = l => l.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
+    const open = base.filter(isOpen), laat = base.filter(vereistAandacht), klaar = base.filter(c => !isOpen(c));
+    const vakken = [
+      ["open", "Open", open.length, euroKort(som(open))],
+      ["aandacht", "Aandacht", laat.length, laat.length ? "> " + INST.dagen + " dagen" : "alles op tijd"],
+      ["afgehandeld", "Afgehandeld", klaar.length, euroKort(som(klaar))],
+      ["", "Alles", base.length, euroKort(som(base))]
     ];
-    el("stats").innerHTML = data.map(([k, v, sub, kleur]) =>
-      `<div class="stat vlak-${kleur}"><dt>${k}</dt><dd>${esc(v)}</dd><span class="sub">${esc(sub)}</span></div>`).join("");
+    el("teller").innerHTML = vakken.map(([v, label, n, sub]) =>
+      `<button type="button" role="tab" data-tab="${v}" aria-selected="${state.status === v}"${v === "aandacht" && n ? ' class="heeft"' : ""}>
+        <b>${n}</b><span class="tl-label">${label}</span><span class="tl-sub">${esc(sub)}</span></button>`).join("");
   }
-
-  function renderAlert(){
-    const box = el("alert");
-    const alle = actief();
-    const open = alle.filter(isOpen);
-    if(!alle.length){ box.hidden = true; return; }
-    box.hidden = false;
-    if(!open.length){
-      box.className = "alertbar done";
-      box.innerHTML = `<div class="ab-text"><strong>Alles afgehandeld</strong><span class="ab-sub">Geen openstaande garantieclaims.</span></div>`;
-      return;
-    }
-    const bedrag = open.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
-    const perioden = [...new Set(open.map(c => c.periode).filter(isPeriode))].sort();
-    const laat = alle.filter(vereistAandacht).length;
-    box.className = "alertbar";
-    box.innerHTML = `<div class="ab-text">
-        <span class="ab-eyebrow">Let op! Actie nodig</span>
-        <strong>${open.length === 1 ? "1 claim nog niet gehonoreerd" : open.length + " claims nog niet gehonoreerd"}</strong>
-        <span class="ab-sub">${esc(euro(bedrag))} openstaand${perioden.length ? " · oudste uit " + esc(periodLabel(perioden[0])) : ""}${laat ? " · " + meervoud(laat, "claim", "claims") + " langer dan " + INST.dagen + " dagen open" : ""}</span>
-      </div>
-      <div class="ab-knoppen">
-        ${laat ? `<button type="button" data-alert="aandacht">Vereist aandacht</button>` : ""}
-        <button type="button" data-alert="open">Bekijken</button>
-      </div>`;
-  }
-  el("alert").addEventListener("click", e => {
-    const b = e.target.closest("button[data-alert]");
-    if(!b) return;
-    Object.assign(state, {period:"all", status:b.dataset.alert, loc:"", lev:"", q:"", view:"lijst", trash:false});
-    syncFilterVelden(); bewaarWeergave(); render();
-    el("tabs").scrollIntoView({behavior:"smooth", block:"start"});
-  });
 
   function voortgangHtml(base){
     if(!base.length) return "";
@@ -1256,19 +1364,6 @@ body.met-bulk .list{padding-bottom:110px}
     });
     return [...m.values()].sort((a, b) => b.open - a.open || b.totaal - a.totaal);
   }
-  function renderTabs(){
-    const base = baseRows();
-    const tabs = [
-      ["", "Alles", base.length],
-      ["open", "Openstaand", base.filter(isOpen).length],
-      ["aandacht", "Vereist aandacht", base.filter(vereistAandacht).length],
-      ["afgehandeld", "Afgehandeld", base.filter(c => !isOpen(c)).length],
-      ["uitbesteed", "Uitbesteed", base.filter(c => c.uitbesteed).length]
-    ];
-    el("tabs").innerHTML = tabs.map(([v, label, n]) =>
-      `<button type="button" class="tab" role="tab" data-tab="${v}" aria-selected="${state.status === v}">${label}<span class="n">${n}</span></button>`).join("");
-  }
-
   function ringSvg(pct, kleur, tekst){
     const p = Math.max(0, Math.min(100, Math.round(pct)));
     return `<svg class="ring" viewBox="0 0 42 42" role="img" aria-label="${esc(tekst)}">
@@ -1284,13 +1379,48 @@ body.met-bulk .list{padding-bottom:110px}
       `<div class="tl${x.soort === "status" ? " s s-" + esc(x.naar || "") : ""}"><span class="nd">${esc(fmtDate(x.d) || x.d || "")}</span><span class="bol"></span><span class="nt">${esc(x.t || "")}</span></div>`).join("")}</div>`;
   }
 
-  function rijHtml(c){
+  function statusPil(c){
+    if(c.uitbesteed) return `<span class="statuspil sp-uitbesteed">Uitbesteed</span>`;
+    const st = statusVan(c);
+    return `<span class="statuspil sp-${st}">${esc(STATUS[st].label)}</span>`;
+  }
+  function icoon(c, extra){
+    return `<span class="blok-icoon${extra || ""}" style="--lev:${levKleur(c.leverancier)}" aria-hidden="true">${esc(levLetters(c.leverancier))}</span>`;
+  }
+  function blokHtml(c){
+    const a = ageInfo(c);
+    const laat = vereistAandacht(c);
+    const sel = state.geselecteerd.has(c.id);
+    const bedrag = geenBedrag(c) ? "bedrag volgt" : euro(c.bedrag);
+    const dagen = isOpen(c) && a ? (laat ? `<span class="laat">${a.dagen} d</span>` : a.dagen + " d") : "";
+    const tweede = c.inkoopnummer ? esc(c.inkoopnummer) : (isOpen(c) ? `<span class="wacht">wacht op inkoopnummer</span>` : "");
+    return `<button type="button" class="blok${laat ? " k-laat" : ""}${sel ? " k-sel" : ""}" data-card="${esc(c.id)}"${state.selecteren ? ` aria-pressed="${sel}"` : ""}>
+      ${state.selecteren && sel ? `<span class="blok-icoon vink" aria-hidden="true">✓</span>` : icoon(c)}
+      <span class="blok-tekst"><b>${esc(titelVan(c))}</b><span>${esc(c.leverancier || "Zonder leverancier")}${tweede ? " · " + tweede : ""}</span></span>
+      <span class="blok-rechts">${statusPil(c)}<span class="blok-sub">${esc(bedrag)}${dagen ? " · " + dagen : ""}</span></span>
+      <span class="chev" aria-hidden="true">›</span>
+    </button>`;
+  }
+
+  function groepBlok(lijst, titel){
+    const som = lijst.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
+    const nOpen = lijst.filter(isOpen).length;
+    const nLaat = lijst.filter(vereistAandacht).length;
+    return `<section class="groep">
+      <div class="groepkop${nOpen ? " heeft-open" : ""}${nLaat ? " heeft-laat" : ""}">
+        <span class="gk-titel"><i></i>${esc(titel)} · ${lijst.length}</span>
+        <span class="gk-cijfers">${nOpen ? `<span class="mo">${nOpen} open</span> · ` : ""}${esc(euro(som))}</span>
+      </div>
+      ${lijst.map(blokHtml).join("")}
+    </section>`;
+  }
+
+  let detailVenster = null;
+  function detailHtml(c){
     const st = statusVan(c);
     const open = isOpen(c);
-    const uit = state.expanded.has(c.id) && !state.selecteren;
     const a = ageInfo(c);
     const lang = vereistAandacht(c);
-    const sel = state.geselecteerd.has(c.id);
     let pct, kleur, ringtekst;
     if(c.uitbesteed){ pct = 100; kleur = "var(--geel-rand)"; ringtekst = "80"; }
     else if(st === "afgewezen"){ pct = 100; kleur = "var(--bad)"; ringtekst = "✕"; }
@@ -1298,78 +1428,72 @@ body.met-bulk .list{padding-bottom:110px}
     else if(a){ pct = a.dagen / INST.dagen * 100; kleur = lang ? "var(--rood)" : "var(--geel-rand)"; ringtekst = a.dagen + "d"; }
     else { pct = 0; kleur = "var(--line)"; ringtekst = "—"; }
     const d = doorlooptijd(c);
-    return `<article class="kaart${open ? " k-open" : ""}${lang ? " k-laat" : ""}${c.uitbesteed ? " k-uit" : ""}${uit ? " k-aan" : ""}${sel ? " k-sel" : ""}" data-card="${esc(c.id)}">
-      <div class="kaart-kop">
-        ${state.selecteren ? `<span class="vinkje" aria-hidden="true">✓</span>` : ""}
-        <i class="kaart-merk" style="background:${levKleur(c.leverancier)}">${esc(levLetters(c.leverancier))}</i>
-        <span class="kaart-titel">
-          <h3>${esc(titelVan(c))}</h3>
-          ${c.storing ? `<span class="kaart-storing">${esc(c.storing)}</span>` : ""}
-          <span class="kaart-sub">${esc(c.leverancier || "Zonder leverancier")}${c.uitbesteed ? " · uitbesteed" : ""}</span>
-        </span>
-        ${lang ? `<span class="aandacht">Vereist aandacht</span>` : ""}
-        ${state.selecteren ? "" : `<span class="chev" aria-hidden="true">▾</span>`}
-      </div>
-      <div class="kaart-lijf">
-        <div class="kaart-velden">
-          <span>Status<b class="w-${st}">${esc(STATUS[st].label)}</b></span>
-          <span>Bedrag<b class="${geenBedrag(c) ? "wait" : "geld"}">${geenBedrag(c) ? "volgt later" : esc(euro(c.bedrag))}</b></span>
-          <span>Periode<b>${esc(periodLabel(c.periode))}</b></span>
-          <span>Inkoopnummer<b${c.inkoopnummer ? "" : ` class="wait"`}>${c.inkoopnummer ? esc(c.inkoopnummer) : "wacht op nummer"}</b></span>
+    const id = esc(c.id);
+    return `<div class="detail-kop">${icoon(c)}<div><h2>${esc(titelVan(c))}</h2>
+        <span class="dk-sub">${esc(c.leverancier || "Zonder leverancier")} · ${esc(periodLabel(c.periode))}</span></div></div>
+      <div class="detail-bedrag">
+        <div class="db-pillen">
+          <span class="db-bedrag${geenBedrag(c) ? " wait" : ""}">${geenBedrag(c) ? "Bedrag volgt later" : esc(euro(c.bedrag))}</span>
+          <span>${statusPil(c)}${lang ? ` <span class="aandacht">Vereist aandacht</span>` : ""}</span>
         </div>
         <div class="kaart-ring">${ringSvg(pct, kleur, ringtekst)}</div>
       </div>
-      ${uit ? `<div class="kaart-detail">
-        <div class="meta">
-          ${(c.onderdeel && c.onderdeel !== c.type) ? `<span>Onderdeel<b>${esc(c.onderdeel)}</b></span>` : ""}
-          ${c.voorziening ? `<span>Voorzieningnummer<b>${esc(c.voorziening)}</b></span>` : ""}
-          ${c.frame ? `<span>Framenummer<b>${esc(c.frame)}</b></span>` : ""}
-          <span>Aankoopdatum<b${aankoopVan(c) ? "" : ' class="wait"'}>${esc(aankoopVan(c) || "onbekend")}</b></span>
-          <span>Monteur<b>${c.locatie === "buiten" ? "Buitenmonteur" : "Binnenmonteur"}</b></span>
-          ${c.datum ? `<span>Ingediend<b>${esc(fmtDate(c.datum))}</b></span>` : ""}
-          ${afgehandeldOp(c) ? `<span>Afgehandeld<b>${esc(fmtDate(afgehandeldOp(c)))}</b></span>` : ""}
-          ${c.nummer ? `<span>Claimnummer<b>${esc(c.nummer)}</b></span>` : ""}
-          ${c.bijgewerkt ? `<span>Bijgewerkt<b>${esc(fmtDate(c.bijgewerkt))}</b></span>` : ""}
-        </div>
-        ${d != null ? `<span class="doorloop">Afgehandeld na <b>${meervoud(d, "dag", "dagen")}</b></span>` :
-          (open && a ? `<span class="doorloop">Staat <b>${meervoud(a.dagen, "dag", "dagen")}</b> open${a.schatting ? " (geschat vanaf de periode)" : ""} · termijn ${INST.dagen} dagen</span>` : "")}
-        ${c.bijzonderheden ? `<p class="note">${esc(c.bijzonderheden)}</p>` : ""}
-        ${tijdlijnHtml(c)}
-        <div class="row-actions">
-          ${st === "nieuw" ? `<button class="icon-btn" data-act="ingediend" data-id="${esc(c.id)}">Ingediend</button>` : ""}
-          ${open
-            ? `<button class="icon-btn ok" data-act="gehonoreerd" data-id="${esc(c.id)}">Gehonoreerd</button>
-               <button class="icon-btn warn" data-act="afgewezen" data-id="${esc(c.id)}">Afwijzen</button>`
-            : `<button class="icon-btn" data-act="heropenen" data-id="${esc(c.id)}">Heropenen</button>`}
-          <span class="tussen" aria-hidden="true"></span>
-          <button class="icon-btn" data-act="notitie" data-id="${esc(c.id)}">Notitie</button>
-          <button class="icon-btn" data-act="bewerken" data-id="${esc(c.id)}">Bewerken</button>
-          <button class="icon-btn" data-act="dupliceren" data-id="${esc(c.id)}">Dupliceren</button>
-          <button class="icon-btn danger rechts" data-act="verwijderen" data-id="${esc(c.id)}">Verwijderen</button>
-        </div>
-        ${state.confirmId === c.id ? `<div class="confirm">${esc(titelVan(c))} naar de prullenbak?
-          <button class="btn" data-act="annuleren">Annuleren</button>
-          <button class="btn btn-primary" data-act="bevestig" data-id="${esc(c.id)}">Verwijderen</button></div>` : ""}
-      </div>` : ""}
-    </article>`;
-  }
-
-  function groepBlok(lijst, titel){
-    const som = lijst.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
-    const nOpen = lijst.filter(isOpen).length;
-    const nLaat = lijst.filter(vereistAandacht).length;
-    return `<section class="maand">
-      <div class="maandkop">
-        <h2>${esc(titel)}</h2>
-        <span class="maandcijfers">
-          <span>${meervoud(lijst.length, "claim", "claims")}</span>
-          ${nOpen ? `<span class="mo">${nOpen} open</span>` : `<span class="mk">alles afgehandeld</span>`}
-          ${nLaat ? `<span class="aandacht">${nLaat === 1 ? "1 vereist aandacht" : nLaat + " vereisen aandacht"}</span>` : ""}
-          <b>${esc(euro(som))}</b>
-        </span>
+      ${c.storing ? `<p class="storing">${esc(c.storing)}</p>` : ""}
+      <div class="meta">
+        <span>Inkoopnummer<b${c.inkoopnummer ? "" : ' class="wait"'}>${c.inkoopnummer ? esc(c.inkoopnummer) : "wacht op nummer"}</b></span>
+        ${(c.onderdeel && c.onderdeel !== c.type) ? `<span>Onderdeel<b>${esc(c.onderdeel)}</b></span>` : ""}
+        ${c.voorziening ? `<span>Voorzieningnummer<b>${esc(c.voorziening)}</b></span>` : ""}
+        ${c.frame ? `<span>Framenummer<b>${esc(c.frame)}</b></span>` : ""}
+        <span>Aankoopdatum<b${aankoopVan(c) ? "" : ' class="wait"'}>${esc(aankoopVan(c) || "onbekend")}</b></span>
+        <span>Monteur<b>${c.locatie === "buiten" ? "Buitenmonteur" : "Binnenmonteur"}</b></span>
+        ${c.datum ? `<span>Ingediend<b>${esc(fmtDate(c.datum))}</b></span>` : ""}
+        ${afgehandeldOp(c) ? `<span>Afgehandeld<b>${esc(fmtDate(afgehandeldOp(c)))}</b></span>` : ""}
+        ${c.nummer ? `<span>Claimnummer<b>${esc(c.nummer)}</b></span>` : ""}
       </div>
-      <div class="kaarten">${lijst.map(rijHtml).join("")}</div>
-    </section>`;
+      ${d != null ? `<span class="doorloop">Afgehandeld na <b>${meervoud(d, "dag", "dagen")}</b></span>` :
+        (open && a ? `<span class="doorloop">Staat <b>${meervoud(a.dagen, "dag", "dagen")}</b> open${a.schatting ? " (geschat vanaf de periode)" : ""} · termijn ${INST.dagen} dagen</span>` : "")}
+      ${c.bijzonderheden ? `<p class="note">${esc(c.bijzonderheden)}</p>` : ""}
+      ${tijdlijnHtml(c)}
+      <div class="row-actions">
+        ${st === "nieuw" ? `<button class="icon-btn" data-act="ingediend" data-id="${id}">Ingediend</button>` : ""}
+        ${open
+          ? `<button class="icon-btn ok" data-act="gehonoreerd" data-id="${id}">Gehonoreerd</button>
+             <button class="icon-btn warn" data-act="afgewezen" data-id="${id}">Afwijzen</button>`
+          : `<button class="icon-btn" data-act="heropenen" data-id="${id}">Heropenen</button>`}
+        <span class="tussen" aria-hidden="true"></span>
+        <button class="icon-btn" data-act="notitie" data-id="${id}">Notitie</button>
+        <button class="icon-btn" data-act="bewerken" data-id="${id}">Bewerken</button>
+        <button class="icon-btn" data-act="dupliceren" data-id="${id}">Dupliceren</button>
+        <button class="icon-btn danger rechts" data-act="verwijderen" data-id="${id}">Verwijderen</button>
+      </div>
+      ${state.confirmId === c.id ? `<div class="confirm">${esc(titelVan(c))} naar de prullenbak?
+        <button class="btn" data-act="annuleren">Annuleren</button>
+        <button class="btn btn-primary" data-act="bevestig" data-id="${id}">Verwijderen</button></div>` : ""}
+      <div class="sheet-actions"><button type="button" class="btn btn-ghost" data-sluit="1">Sluiten</button></div>`;
+  }
+  function openDetail(id){
+    const c = state.claims.find(x => x.id === id);
+    if(!c) return;
+    state.confirmId = null;
+    const v = openSheet(`<div class="sheet detail" data-detail="${esc(id)}">${detailHtml(c)}</div>`,
+      {focus:"button[data-act]", naSluiten: () => { detailVenster = null; state.confirmId = null; }});
+    detailVenster = {id, ...v};
+    v.ov.addEventListener("click", async e => {
+      const t = e.target.closest("button[data-act]");
+      if(!t) return;
+      const act = t.dataset.act;
+      if(act === "verwijderen"){ state.confirmId = id; ververs(); return; }
+      if(act === "annuleren"){ state.confirmId = null; ververs(); return; }
+      v.sluit();
+      await voerUit(act, t.dataset.id);
+    });
+    function ververs(){
+      const nu = state.claims.find(x => x.id === id);
+      if(!nu){ v.sluit(); return; }
+      v.ov.querySelector(".sheet").innerHTML = detailHtml(nu);
+      v.ov.querySelectorAll("[data-sluit]").forEach(b => b.onclick = v.sluit);
+    }
+    detailVenster.ververs = ververs;
   }
 
   function trashCard(c){
@@ -1389,17 +1513,18 @@ body.met-bulk .list{padding-bottom:110px}
 
   function renderSync(){
     const s = el("sync");
-    if(!REMOTE){ s.className = "sync lokaal"; s.innerHTML = "<i></i>Alleen op dit apparaat"; return; }
-    if(state.offline){ s.className = "sync offline"; s.innerHTML = "<i></i>Geen verbinding"; return; }
+    if(!REMOTE){ s.className = "sync lokaal"; s.innerHTML = "<i></i><span class=\"sync-tekst\">Alleen op dit apparaat</span>"; return; }
+    if(state.offline){ s.className = "sync offline"; s.innerHTML = "<i></i>Offline"; return; }
     if(!state.live){ s.className = "sync offline"; s.innerHTML = "<i></i>Laden…"; return; }
     s.className = "sync";
-    s.innerHTML = "<i></i>Bijgewerkt " + new Date().toLocaleTimeString("nl-NL", {hour:"2-digit", minute:"2-digit"}) +
-      (CONFIG.ACCOUNTS && sessie && sessie.email ? " · " + esc(sessie.email) : "");
+    s.innerHTML = "<i></i><span class=\"sync-tekst\">Bijgewerkt </span>" + new Date().toLocaleTimeString("nl-NL", {hour:"2-digit", minute:"2-digit"}) +
+      (CONFIG.ACCOUNTS && sessie && sessie.email ? "<span class=\"sync-tekst\"> · " + esc(sessie.email) + "</span>" : "");
   }
 
   function syncFilterVelden(){
     el("q").value = state.q;
     el("fLoc").value = state.loc;
+    el("fUit").value = state.uit;
     el("fSort").value = state.sort;
     el("fGroep").value = state.groep;
     const levs = alleLeveranciers();
@@ -1410,15 +1535,13 @@ body.met-bulk .list{padding-bottom:110px}
   function render(){
     pasInstToe();
     renderSync();
-    document.querySelectorAll(".weergave button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.view === state.view)));
+    document.querySelectorAll(".tabbar [data-view]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.view === state.view)));
     renderPeriods();
-    renderAlert();
     el("printkop").textContent = "Afgedrukt op " + fmtDate(vandaag()) + " · " + (state.period === "all" ? "alle periodes" : periodLabel(state.period));
 
     if(state.view === "rapport"){
       el("lijstweergave").hidden = true;
       el("rapportweergave").hidden = false;
-      el("stats").hidden = true;
       renderBulk();
       renderRapport();
       return;
@@ -1429,7 +1552,7 @@ body.met-bulk .list{padding-bottom:110px}
     const bak = prullenbak();
     if(state.trash && !bak.length) state.trash = false;
     const inBak = state.trash;
-    ["stats", "tabs", "filterbar", "lijstkop"].forEach(id => { el(id).hidden = inBak; });
+    ["teller", "lijstkop"].forEach(id => { el(id).hidden = inBak; });
     if(inBak) el("filters").hidden = true;
     const tb = el("trashBtn");
     tb.hidden = !(bak.length || inBak);
@@ -1437,30 +1560,31 @@ body.met-bulk .list{padding-bottom:110px}
 
     const list = el("list");
     if(inBak){
-      list.innerHTML = bak.slice().sort((a, b) => String(b.verwijderd || "").localeCompare(String(a.verwijderd || ""))).map(trashCard).join("");
+      list.innerHTML = `<div class="groepkop"><span class="gk-titel"><i></i>Prullenbak · ${bak.length}</span></div>` +
+        bak.slice().sort((a, b) => String(b.verwijderd || "").localeCompare(String(a.verwijderd || ""))).map(trashCard).join("");
       renderBulk();
       return;
     }
 
-    const filtersAan = !!(state.q.trim() || state.loc || state.lev || state.sort !== "standaard" || state.groep !== "maand");
-    const extraAan = !!(state.loc || state.lev || state.sort !== "standaard" || state.groep !== "maand");
+    const filtersAan = !!(state.q.trim() || state.loc || state.lev || state.uit || state.sort !== "standaard" || state.groep !== "maand");
+    const extraAan = !!(state.loc || state.lev || state.uit || state.sort !== "standaard" || state.groep !== "maand");
     el("filterBtn").innerHTML = "Filters" + (extraAan ? `<span class="fdot"></span>` : "");
     el("selectBtn").setAttribute("aria-pressed", String(state.selecteren));
-    el("selectBtn").textContent = state.selecteren ? "Klaar met selecteren" : "Selecteren";
-    renderTabs();
+    el("selectBtn").textContent = state.selecteren ? "Klaar" : "Selecteren";
+    renderTeller();
     const rows = visible();
-    renderStats(rows);
     const somRows = rows.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
-    el("lijstkop").innerHTML = rows.length ? `<span><b>${meervoud(rows.length, "claim", "claims")}</b>${state.period !== "all" ? " in " + esc(periodLabel(state.period)) : ""}${filtersAan ? " · gefilterd" : ""}</span><span>${esc(euro(somRows))}</span>` : "";
+    el("lijstTitel").innerHTML = `<i style="background:${state.status === "aandacht" ? "var(--rood)" : state.status === "afgehandeld" ? "var(--ok)" : "var(--info)"}"></i>${esc(TABNAAM[state.status] || "Claims")}
+      <span class="lk-bedrag">${rows.length} · ${esc(euro(somRows))}${filtersAan ? " · gefilterd" : ""}</span>`;
 
     if(!rows.length){
       list.innerHTML = `<div class="empty"><strong>${state.loaded ? "Geen claims in deze selectie" : "Claims laden…"}</strong>
         ${state.loaded ? (filtersAan || state.period !== "all" || state.status
-          ? `Pas de periode, het tabblad of de filters aan. <button type="button" class="linkbtn" data-act="allesTonen">Alles tonen</button>`
-          : "Leg een nieuwe garantieclaim vast met <b>+ Claim</b>, of sleep een LGAR-formulier op de pagina.")
+          ? `Pas de periode, de teller bovenaan of de filters aan. <button type="button" class="linkbtn" data-act="allesTonen">Alles tonen</button>`
+          : "Leg een nieuwe garantieclaim vast met <b>Claim toevoegen</b>, of sleep een LGAR-formulier op de pagina.")
           : "Even geduld, de opgeslagen claims worden opgehaald."}</div>`;
     } else if(state.groep === "geen"){
-      list.innerHTML = groepBlok(rows, meervoud(rows.length, "claim", "claims"));
+      list.innerHTML = groepBlok(rows, TABNAAM[state.status] || "Claims");
     } else {
       const perLev = state.groep === "leverancier";
       const groepen = new Map();
@@ -1475,6 +1599,7 @@ body.met-bulk .list{padding-bottom:110px}
       list.innerHTML = sleutels.map(k => groepBlok(groepen.get(k), perLev ? k : periodLabel(k))).join("");
     }
     renderBulk();
+    if(detailVenster && detailVenster.ververs) detailVenster.ververs();
   }
 
   /* ---------- selecteren en bulkacties ---------- */
@@ -2042,6 +2167,12 @@ body.met-bulk .list{padding-bottom:110px}
 
   /* ---------- uitleg en updates ---------- */
   const UPDATES = [
+    ["7 november 2026 — nieuwe opzet", [
+      "Elke claim is nu een <b>compact blok</b> met leverancier, inkoopnummer, status, bedrag en dagen open. Tik op een blok voor alle details, de tijdlijn en de knoppen.",
+      "Bovenaan een <b>teller</b> met Open, Aandacht, Afgehandeld en Alles; tik erop om te filteren. Zoeken en periodes staan direct onder de kop.",
+      "Onderin een grote knop <b>Claim toevoegen</b> met <b>LGAR</b> ernaast, en een vaste balk voor Claims, Rapportage en Menu.",
+      "Uitbesteed is nu een filter (Filters → Alleen uitbesteed)."
+    ]],
     ["7 november 2026 — opgeruimd", [
       "Het claimscherm is rustiger: alleen de melding, de kengetallen, de tabbladen, een vaste <b>zoekbalk</b> en de lijst. De voortgangsbalk en de cijfers per leverancier staan nu bij <b>Rapportage</b>.",
       "Boven de lijst zie je hoeveel claims er in je selectie staan en voor welk bedrag.",
@@ -2379,18 +2510,7 @@ body.met-bulk .list{padding-bottom:110px}
   /* ======================================================================
      BEDIENING
      ====================================================================== */
-  el("list").addEventListener("click", async e => {
-    const t = e.target.closest("button");
-    if(!t){
-      const card = e.target.closest("[data-card]");
-      if(!card || e.target.closest(".kaart-detail")) return;
-      const id = card.dataset.card;
-      if(state.selecteren){ if(state.geselecteerd.has(id)) state.geselecteerd.delete(id); else state.geselecteerd.add(id); }
-      else if(state.expanded.has(id)) state.expanded.delete(id); else state.expanded.add(id);
-      render();
-      return;
-    }
-    const id = t.dataset.id, act = t.dataset.act;
+  async function voerUit(act, id){
     const c = id ? state.claims.find(x => x.id === id) : null;
     switch(act){
       case "ingediend": case "gehonoreerd": case "afgewezen": await zetStatus([id], act); break;
@@ -2402,16 +2522,26 @@ body.met-bulk .list{padding-bottom:110px}
         openForm(null, null, {...rest, status:"nieuw", periode:thisPeriod(), bijzonderheden:""});
         break;
       }
-      case "verwijderen": state.confirmId = id; render(); break;
-      case "annuleren": state.confirmId = null; render(); break;
       case "bevestig": await naarPrullenbak([id]); break;
       case "terugzetten": await terugzetten(id); break;
       case "purge": state.confirmId = id; render(); break;
       case "purgeok": await purge(id); break;
+      case "annuleren": state.confirmId = null; render(); break;
       case "allesTonen":
-        Object.assign(state, {period:"all", status:"", q:"", loc:"", lev:""});
+        Object.assign(state, {period:"all", status:"", q:"", loc:"", lev:"", uit:""});
         syncFilterVelden(); bewaarWeergave(); render(); break;
     }
+  }
+  el("list").addEventListener("click", async e => {
+    const blok = e.target.closest("[data-card]");
+    if(blok){
+      const id = blok.dataset.card;
+      if(state.selecteren){ if(state.geselecteerd.has(id)) state.geselecteerd.delete(id); else state.geselecteerd.add(id); render(); }
+      else openDetail(id);
+      return;
+    }
+    const t = e.target.closest("button[data-act]");
+    if(t) await voerUit(t.dataset.act, t.dataset.id);
   });
   document.addEventListener("click", e => {
     const m = e.target.closest("button[data-mail]");
@@ -2420,7 +2550,7 @@ body.met-bulk .list{padding-bottom:110px}
     if(w){ state.tabel = !state.tabel; render(); }
   });
   el("q").addEventListener("input", e => { state.q = e.target.value; render(); });
-  el("tabs").addEventListener("click", e => {
+  el("teller").addEventListener("click", e => {
     const t = e.target.closest("button[data-tab]");
     if(!t) return;
     state.status = t.dataset.tab; bewaarWeergave(); render();
@@ -2432,18 +2562,19 @@ body.met-bulk .list{padding-bottom:110px}
   });
   el("fLoc").addEventListener("change", e => { state.loc = e.target.value; bewaarWeergave(); render(); });
   el("fLev").addEventListener("change", e => { state.lev = e.target.value; bewaarWeergave(); render(); });
+  el("fUit").addEventListener("change", e => { state.uit = e.target.value; bewaarWeergave(); render(); });
   el("fSort").addEventListener("change", e => { state.sort = e.target.value; bewaarWeergave(); render(); });
   el("fGroep").addEventListener("change", e => { state.groep = e.target.value; bewaarWeergave(); render(); });
   el("wisFilters").addEventListener("click", () => {
-    Object.assign(state, {q:"", loc:"", lev:"", sort:"standaard", groep:"maand"});
+    Object.assign(state, {q:"", loc:"", lev:"", uit:"", sort:"standaard", groep:"maand"});
     syncFilterVelden(); bewaarWeergave(); render();
   });
   el("trashBtn").addEventListener("click", () => { state.trash = !state.trash; state.confirmId = null; state.selecteren = false; render(); window.scrollTo({top:0}); });
   el("addBtn").addEventListener("click", () => openForm(null));
   el("lgarBtn").addEventListener("click", kiesFormulier);
   el("selectBtn").addEventListener("click", () => { if(state.selecteren) stopSelecteren(); else { state.selecteren = true; render(); } });
-  document.querySelectorAll(".weergave button").forEach(b => b.addEventListener("click", () => {
-    state.view = b.dataset.view; if(state.view === "rapport") state.selecteren = false; render();
+  document.querySelectorAll(".tabbar [data-view]").forEach(b => b.addEventListener("click", () => {
+    state.view = b.dataset.view; state.trash = false; if(state.view === "rapport") state.selecteren = false; render(); window.scrollTo({top:0});
   }));
 
   (function menu(){
