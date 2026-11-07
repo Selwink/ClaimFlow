@@ -1,0 +1,12 @@
+{
+  "name": "Garantie",
+  "short_name": "Garantie",
+  "description": "Garanties, kassabonnen en claims op één plek",
+  "start_url": "/garantie",
+  "scope": "/garantie",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#18181b",
+  "lang": "nl",
+  "icons": [{ "src": "/favicon.ico", "sizes": "48x48", "type": "image/x-icon" }]
+}

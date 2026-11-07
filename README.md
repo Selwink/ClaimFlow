@@ -60,3 +60,14 @@ pnpm dev
 ```
 
 Your app template should now be running on [localhost:3000](http://localhost:3000).
+
+## Garantie-app (`/garantie`)
+
+A complete warranty tracker (Dutch UI) that lives at `/garantie`. It runs fully in the browser (IndexedDB), so it needs no login or database.
+
+- **Overzicht**: active, expiring-soon, and expired counts, open claims, total value still under warranty, the next warranties to expire, and a breakdown per category.
+- **Producten**: search (name, brand, serial number, store…), filter by status and category, sort, and archive.
+- **Product**: brand, model, serial number, store and contact, order number, price, manufacturer and extended warranty, notes, and receipts/invoices (image/PDF) as attachments, with a progress bar of the warranty period.
+- **Claims**: register warranty claims per product (status, RMA number, cost, outcome) plus an overview of all claims.
+- **Instellingen**: warning period, browser notifications, export expiry dates to your calendar (.ics), JSON backup export and import, CSV export for Excel, print, demo data.
+- Light and dark mode, responsive with a bottom navigation bar on phones.
