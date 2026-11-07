@@ -1,6 +1,6 @@
 import type { Claim, Instellingen } from "./types";
 import { dagenOpen, geenBedrag, isOpen, overTermijn, som, statusVan, titelVan } from "./claims";
-import { euro, euroKort, meervoud, periodLabel, vandaag } from "./format";
+import { datum, euro, euroKort, meervoud, periodLabel, vandaag } from "./format";
 
 /** The Monday summary e-mail. Pure, so it runs both in the browser and in the scheduled Netlify function. */
 
@@ -40,7 +40,7 @@ export function weekOverzicht(claims: Claim[], inst: Instellingen, adres: string
     onderwerp,
     velden: {
       _subject: onderwerp,
-      Week: `t/m ${vandaag()} · ${inst.vestiging}`,
+      Week: `t/m ${datum(vandaag())} · ${inst.vestiging}`,
       "Nog terug te halen": `${euro(som(open))} (${meervoud(open.length, "open claim", "open claims")})`,
       [`Over termijn (> ${inst.dagen} dagen)`]: regels(laat, (c) => `${dagenOpen(c)?.dagen} dagen${geenBedrag(c) ? "" : `, ${euroKort(c.bedrag)}`}`),
       "Deze week bellen": bellen || "Niemand — alles loopt binnen de termijn",

@@ -4,13 +4,16 @@ import { STATUS_LABEL } from "./types";
 import { geenBedrag, statusVan, titelVan } from "./claims";
 import { euro, ls, periodLabel } from "./format";
 
-/** E-mail notifications through FormSubmit, with a retry queue for when it is unreachable. */
+/** E-mail notifications. Sent through our Netlify function (Resend), falling back to FormSubmit; failed mails are queued and retried. */
 
 const SLEUTEL = "claimflow-mailwachtrij";
 type Velden = Record<string, string>;
 
-export async function stuur(velden: Velden): Promise<{ ok: boolean; activatie?: boolean; bericht: string }> {
-  if (!CONFIG.MELDING_EMAIL) return { ok: false, bericht: "Geen e-mailadres ingesteld" };
+export type Dienst = "resend" | "formsubmit";
+interface Resultaat { ok: boolean; activatie?: boolean; bericht: string; dienst?: Dienst }
+const FUNCTIE = "/.netlify/functions/mail";
+
+async function viaFormSubmit(velden: Velden): Promise<Resultaat> {
   try {
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), 25000);
@@ -20,12 +23,30 @@ export async function stuur(velden: Velden): Promise<{ ok: boolean; activatie?: 
     });
     clearTimeout(t);
     const j = (await r.json().catch(() => ({}))) as { success?: string | boolean; message?: string };
-    if (j.success === true || j.success === "true") return { ok: true, bericht: "Verstuurd" };
-    if (/activat/i.test(j.message || "")) return { ok: true, activatie: true, bericht: j.message || "" };
-    return { ok: false, bericht: j.message || `Fout ${r.status}` };
+    if (j.success === true || j.success === "true") return { ok: true, bericht: "Verstuurd", dienst: "formsubmit" };
+    if (/activat/i.test(j.message || "")) return { ok: true, activatie: true, bericht: j.message || "", dienst: "formsubmit" };
+    return { ok: false, bericht: j.message || `Fout ${r.status}`, dienst: "formsubmit" };
   } catch {
-    return { ok: false, bericht: "FormSubmit is niet bereikbaar" };
+    return { ok: false, bericht: "FormSubmit is niet bereikbaar", dienst: "formsubmit" };
   }
+}
+
+export async function stuur(velden: Velden): Promise<Resultaat> {
+  if (!CONFIG.MELDING_EMAIL) return { ok: false, bericht: "Geen e-mailadres ingesteld" };
+  try {
+    const r = await fetch(FUNCTIE, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ velden }) });
+    if (r.status !== 404 && (r.headers.get("content-type") || "").includes("json")) return (await r.json()) as Resultaat;
+  } catch { /* function unreachable (offline or local dev): try FormSubmit directly */ }
+  return viaFormSubmit(velden);
+}
+
+/** Which mail service the server uses, or null when the function is not available (local dev). */
+export async function maildienst(): Promise<Dienst | null> {
+  try {
+    const r = await fetch(FUNCTIE);
+    if (!r.ok || !(r.headers.get("content-type") || "").includes("json")) return null;
+    return ((await r.json()) as { dienst?: Dienst }).dienst ?? null;
+  } catch { return null; }
 }
 
 export async function mailNieuweClaim(c: Claim, bron: string, wie: string) {

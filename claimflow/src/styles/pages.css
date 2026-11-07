@@ -255,3 +255,9 @@ button.instelrij:hover, a.instelrij:hover { background: #fbf6ee; }
 .schakelaar:checked { background: var(--turk); }
 .schakelaar:checked::after { transform: translateX(18px); }
 .schakelaar:disabled { opacity: .5; cursor: not-allowed; }
+.mailstatus { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 14px; font-size: .84rem; margin-bottom: 6px; }
+.mailstatus i { width: 9px; height: 9px; border-radius: 50%; margin-top: 6px; flex: 0 0 auto; background: currentColor; }
+.mailstatus code { font-family: var(--mono); font-size: .8rem; background: rgba(0, 0, 0, .06); padding: 1px 5px; border-radius: 5px; }
+.ms-ok { background: var(--turk-zacht); color: #155c58; }
+.ms-reserve { background: var(--oker-zacht); color: var(--oker-2); }
+.ms-onbekend { background: var(--zand); color: var(--inkt-2); }
