@@ -1379,7 +1379,6 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
 <footer class="sl-voet" id="slVoet">
   <span class="sl-status" id="slStatus"><i></i><span>Laden…</span></span>
   <span class="sl-pillen">
-    <button type="button" class="sl-pil" data-voet="rappel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg><span>Rappel</span></button>
     <button type="button" class="sl-pil" data-voet="agenda"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg><span>Agenda</span></button>
     <button type="button" class="sl-pil sl-pil-goud" data-voet="csv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg><span>Export</span></button>
   </span>
@@ -2392,7 +2391,7 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
         <div class="paneel-kop"><h2>Leveranciers</h2><p class="uitleg-kort">${esc(scope)}</p></div>
         <div class="tabelscroll"><table>
           <thead><tr><th>Leverancier</th><th class="num">Claims</th><th class="num">Geclaimd</th><th class="num">Openstaand</th>
-            <th class="num">Afgewezen</th><th>Honorering</th><th class="num">Doorlooptijd</th><th class="num">Langst open</th><th></th></tr></thead>
+            <th class="num">Afgewezen</th><th>Honorering</th><th class="num">Doorlooptijd</th><th class="num">Langst open</th></tr></thead>
           <tbody>${levs.map(e => {
             const g = e.gehN + e.afgN ? Math.round(e.gehN / (e.gehN + e.afgN) * 100) : null;
             const dl = e.doorloop.length ? Math.round(e.doorloop.reduce((a, b) => a + b, 0) / e.doorloop.length) : null;
@@ -2405,7 +2404,7 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
               <td>${g == null ? "—" : g + "%<span class=\"balkje\"><i style=\"width:" + g + "%\"></i></span>"}</td>
               <td class="num">${dl == null ? "—" : dl + " d"}</td>
               <td class="num${e.oudste >= INST.dagen ? " open" : ""}">${e.openN ? e.oudste + " d" : "—"}</td>
-              <td>${e.openN && e.naam !== "Zonder leverancier" ? `<button type="button" class="mailknop" data-mail="${esc(e.naam)}">Rappel</button>` : ""}</td></tr>`;
+              </tr>`;
           }).join("")}</tbody></table></div>
         <p class="uitleg-kort" style="margin-top:8px">Doorlooptijd = dagen van indienen tot gehonoreerd of afgewezen. Die wordt bijgehouden voor claims die vanaf versie 2 worden afgehandeld.</p>
       </section>
@@ -2802,8 +2801,7 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
         <label class="full">Naam onder de titel<input id="i_vest" value="${esc(INST.vestiging)}" placeholder="Vestiging Meppel"></label>
         <label class="full">Na hoeveel dagen vereist een openstaande claim aandacht?<input id="i_dagen" type="number" min="1" max="365" value="${INST.dagen}"></label>
         <h3 class="sectie">Leveranciers</h3>
-        <label class="full">Leveranciers, één per regel. Zet een <b>*</b> achter een leverancier die altijd uitbesteed is, en eventueel
-          <b>| e-mailadres</b> voor de rappel. Voorbeeld: <i>Wellco * | garantie@wellco.nl</i>
+        <label class="full">Leveranciers, één per regel. Zet een <b>*</b> achter een leverancier die altijd uitbesteed is,. Voorbeeld: <i>Wellco *</i>
           <textarea id="i_lev" rows="8" style="min-height:160px">${esc(levTekst)}</textarea></label>
         <h3 class="sectie">Bedragen en formulieren</h3>
         <label class="full">Vaste bedragen. Eén per regel: een woord uit het onderdeel of de storing, een = en het bedrag.
@@ -2855,7 +2853,7 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
     ["7 november 2026 — nieuwe opbouw", [
       "Bovenaan het Medipoint-embleem met drie knoppen: <b>Menu</b>, een rode <b>+</b> om een claim toe te voegen en <b>Vernieuwen</b>.",
       "Een tabbalk met <b>Claims</b>, <b>Over termijn</b> (met teller) en <b>Rapportage</b>; de Prullenbak verschijnt als er iets in zit.",
-      "Onderaan een statusbalk (Verbonden/Offline) met snelknoppen <b>Rappel</b>, <b>Agenda</b> en <b>Export</b>. Telefoon en computer hebben dezelfde opbouw."
+      "Onderaan een statusbalk (Verbonden/Offline) met snelknoppen <b>Agenda</b> en <b>Export</b>. Telefoon en computer hebben dezelfde opbouw."
     ]],
     ["7 november 2026 — stijl van het inlogscherm", [
       "De hele app (telefoon en computer) heeft nu dezelfde donkere Medipoint-stijl als het inlogscherm. Liever licht? Menu → Thema."
@@ -2934,8 +2932,7 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
         <li><b>Stoelen die we uitbesteden aan leveranciers</b> zet je alleen in deze lijst. Daarvoor claimen we geen garantie in de lijst van Medux,
           dus geen LGAR-formulier. Deze orders komen binnen in <b>code 80</b>.</li>
         <li><b>Snel afhandelen.</b> Schuif een claim naar links voor <b>Gehonoreerd</b> of <b>Afwijzen</b>, of tik erop voor alle gegevens.</li>
-        <li><b>Volg op.</b> Zet via Menu → <b>Herinneringen in agenda</b> een alarm op de termijndatum. Claims die langer dan ${INST.dagen} dagen openstaan, staan onder <b>Vereist aandacht</b>. Stuur de leverancier een
-          <b>Rappel</b> vanuit het leveranciersoverzicht bij Rapportage, en zet de claim op <b>Gehonoreerd</b> of <b>Afgewezen</b> zodra er antwoord is.</li>
+        <li><b>Volg op.</b> Zet via Menu → <b>Herinneringen in agenda</b> een alarm op de termijndatum. Claims die langer dan ${INST.dagen} dagen openstaan, staan onder <b>Vereist aandacht</b>. Neem contact op met de leverancier, en zet de claim op <b>Gehonoreerd</b> of <b>Afgewezen</b> zodra er antwoord is.</li>
       </ol>
       <p style="margin:16px 0 0"><a class="linkbtn" style="background:var(--donker);color:var(--op-donker);text-decoration:none;border-radius:999px;padding:11px 22px;display:inline-block"
         href="#" data-lgar-invullen="1">LGAR-formulier invullen</a></p>
@@ -3022,7 +3019,7 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
         "Leverancier: " + (c.leverancier || "-"),
         geenBedrag(c) ? "" : "Bedrag: " + euro(c.bedrag),
         "Ingediend: " + (c.datum ? fmtDate(c.datum) : periodLabel(c.periode)),
-        "Termijn: " + INST.dagen + " dagen. Stuur een rappel als er nog geen antwoord is.",
+        "Termijn: " + INST.dagen + " dagen. Neem contact op met de leverancier als er nog geen antwoord is.",
         plaats ? "Register: " + plaats : ""
       ].filter(Boolean).join("\n");
       return ["BEGIN:VEVENT", "UID:" + c.id + "-termijn@garantieclaims-medipoint", "DTSTAMP:" + stamp,
