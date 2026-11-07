@@ -10,11 +10,11 @@ img{max-width:100%}
 [hidden]{display:none!important}
 </style>
 <title>Garantieclaims Medipoint Meppel</title>
+<script>try{var t=localStorage.getItem("claimregister-thema-v2")||"dark";if(t!=="auto")document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","dark");}</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1e2225" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#1b1e21">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Garantieclaims">
@@ -910,6 +910,89 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
 #gate .gate-voet b{color:#ff5a4c}
 .overlay{z-index:1000}
 .toast{z-index:1001}
+
+/* ===== donker thema = stijl van het inlogscherm ===== */
+:root[data-theme="dark"]{
+  --bg:#1b1e21; --surface:#22262a; --surface-2:#2a2f34;
+  --ink:#eef0f1; --ink-soft:#9aa3ab; --line:#3a4148;
+  --brand:#1b1e21; --brand-deep:#141719; --on-brand:#eef0f1;
+  --rood:#ff5a4c; --accent:#ff5a4c; --on-accent:#ffffff;
+  --donker:#eef0f1; --op-donker:#1b1e21;
+  --ok:#4fc9bd; --ok-soft:rgba(79,201,189,.13);
+  --warn:#e8b45a; --warn-soft:rgba(232,180,90,.13);
+  --geel:#efc375; --geel-soft:rgba(239,177,60,.13); --geel-rand:#c8963a;
+  --bad:#ff7a6d; --bad-soft:rgba(255,90,76,.13);
+  --alarm:#b8322a; --alarm-ink:#ffece9;
+  --info:#9db8d8; --info-soft:rgba(157,184,216,.14);
+  --grijs:#6f777e; --blok:#22262a; --blok-rand:#3a4148;
+  --zweef:0 14px 34px rgba(0,0,0,.5);
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme]){
+  --bg:#1b1e21; --surface:#22262a; --surface-2:#2a2f34;
+  --ink:#eef0f1; --ink-soft:#9aa3ab; --line:#3a4148;
+  --brand:#1b1e21; --brand-deep:#141719; --on-brand:#eef0f1;
+  --rood:#ff5a4c; --accent:#ff5a4c; --on-accent:#ffffff;
+  --donker:#eef0f1; --op-donker:#1b1e21;
+  --ok:#4fc9bd; --ok-soft:rgba(79,201,189,.13);
+  --warn:#e8b45a; --warn-soft:rgba(232,180,90,.13);
+  --geel:#efc375; --geel-soft:rgba(239,177,60,.13); --geel-rand:#c8963a;
+  --bad:#ff7a6d; --bad-soft:rgba(255,90,76,.13);
+  --alarm:#b8322a; --alarm-ink:#ffece9;
+  --info:#9db8d8; --info-soft:rgba(157,184,216,.14);
+  --grijs:#6f777e; --blok:#22262a; --blok-rand:#3a4148;
+  --zweef:0 14px 34px rgba(0,0,0,.5);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"] body{background:radial-gradient(120% 60% at 50% 0%,#2a2f34 0%,#1b1e21 55%) fixed,#1b1e21}
+:root[data-theme="dark"] header.brandbar{background:rgba(27,30,33,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 1px 0 #2a2f34}
+:root[data-theme="dark"] body::before{background:#1b1e21}
+:root[data-theme="dark"] .wordmark{color:#ff5a4c}
+/* navigatie: actief = licht vlak, rood icoon */
+:root[data-theme="dark"] .topnav .tabbar{background:#22262a;border-color:#3a4148}
+:root[data-theme="dark"] .topnav .tabbar button[aria-pressed="true"]{background:rgba(255,255,255,.1);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+:root[data-theme="dark"] .topnav .tabbar button[aria-pressed="true"] svg{color:#ff5a4c}
+:root[data-theme="dark"] .topnav .tabbar button[aria-expanded="true"]{background:#2a2f34;color:#fff}
+/* invoervelden zoals op het inlogscherm */
+:root[data-theme="dark"] .zoekveld input,:root[data-theme="dark"] label input,:root[data-theme="dark"] label select,:root[data-theme="dark"] label textarea,
+:root[data-theme="dark"] .filters select{background:transparent;border:1.5px solid #3a4148;color:#eef0f1}
+:root[data-theme="dark"] .zoekveld input:focus,:root[data-theme="dark"] label input:focus,:root[data-theme="dark"] label select:focus,:root[data-theme="dark"] label textarea:focus{
+  outline:none;border-color:#ff5a4c;box-shadow:0 0 0 4px rgba(255,90,76,.16)}
+:root[data-theme="dark"] select option{background:#22262a;color:#eef0f1}
+/* blokken, teller en vensters */
+:root[data-theme="dark"] .teller,:root[data-theme="dark"] .blok,:root[data-theme="dark"] .filters,:root[data-theme="dark"] .paneel,
+:root[data-theme="dark"] .progress,:root[data-theme="dark"] .empty{background:#22262a;border-color:#3a4148}
+:root[data-theme="dark"] .blok:hover{border-color:#5a636b}
+:root[data-theme="dark"] .blok.k-laat{border-color:rgba(255,90,76,.45)}
+:root[data-theme="dark"] .teller button[aria-selected="true"]{background:rgba(255,255,255,.06)}
+:root[data-theme="dark"] .teller button[aria-selected="true"]::after{background:#ff5a4c}
+:root[data-theme="dark"] .sheet{background:#22262a;border-color:#3a4148}
+:root[data-theme="dark"] .overlay{background:rgba(0,0,0,.6)}
+:root[data-theme="dark"] .detail-bedrag,:root[data-theme="dark"] .lgarkeuze .keuze{background:#1b1e21;border-color:#3a4148}
+:root[data-theme="dark"] .menupaneel{background:#22262a;border-color:#3a4148}
+:root[data-theme="dark"] .period{background:transparent;border-color:#3a4148;color:#9aa3ab}
+:root[data-theme="dark"] .period[aria-current="true"]{background:#d9342a;border-color:#d9342a;color:#fff}
+/* knoppen */
+:root[data-theme="dark"] .btn{background:rgba(255,255,255,.04);border:1.5px solid #3a4148;color:#eef0f1}
+:root[data-theme="dark"] .btn:hover{border-color:#9aa3ab}
+:root[data-theme="dark"] .btn-primary{background:#d9342a;border-color:#d9342a;color:#fff}
+:root[data-theme="dark"] .btn-primary:hover{background:#c52e25;filter:none}
+:root[data-theme="dark"] .klein-knop{background:transparent;border:1.5px solid #3a4148;color:#eef0f1}
+:root[data-theme="dark"] .klein-knop[aria-pressed="true"],:root[data-theme="dark"] .klein-knop[aria-expanded="true"]{background:rgba(255,255,255,.1);border-color:#5a636b;color:#fff}
+:root[data-theme="dark"] .icon-btn{background:transparent;border:1.5px solid #3a4148;color:#c9ced3}
+:root[data-theme="dark"] .icon-btn:hover{background:rgba(255,255,255,.08);color:#fff;border-color:#5a636b}
+:root[data-theme="dark"] .icon-btn.ok{background:#1f9e96;border-color:#1f9e96;color:#fff}
+:root[data-theme="dark"] .icon-btn.warn{color:#ff8a7f;border-color:rgba(255,90,76,.45)}
+:root[data-theme="dark"] .grote-knop{box-shadow:0 10px 26px rgba(217,52,42,.3)}
+:root[data-theme="dark"] .toast{background:#eef0f1;color:#1b1e21}
+:root[data-theme="dark"] .bulkbalk{background:#22262a;border-color:#5a636b}
+:root[data-theme="dark"] .dagmelding{background:rgba(255,90,76,.1);border-color:rgba(255,90,76,.35)}
+:root[data-theme="dark"] .va-ok{background:#1f9e96}
+:root[data-theme="dark"] .va-bad{background:#d9342a}
+:root[data-theme="dark"] .va-info{background:#3d5a7a}
+
+:root[data-theme="dark"] .blok-icoon{color:color-mix(in srgb,var(--lev) 45%,#ffffff);background:color-mix(in srgb,var(--lev) 32%,#22262a)}
+:root[data-theme="dark"] .blok.k-sel .blok-icoon,:root[data-theme="dark"] .blok .blok-icoon.vink{background:#eef0f1;color:#1b1e21}
 </style>
 </head>
 <body>
@@ -945,7 +1028,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
           <span class="menu-kop">App</span>
           <button type="button" class="menu-item" data-menu="installeren" id="installItem">App installeren</button>
           <button type="button" class="menu-item" data-menu="instellingen">Instellingen</button>
-          <button type="button" class="menu-item" data-menu="thema" id="themaItem">Thema: automatisch</button>
+          <button type="button" class="menu-item" data-menu="thema" id="themaItem">Thema: donker</button>
           <button type="button" class="menu-item" data-menu="uitleg">Uitleg</button>
           <button type="button" class="menu-item" data-menu="updates">Updates</button>
           <span class="menu-scheiding" aria-hidden="true" id="uitlogScheiding" hidden></span>
@@ -1197,7 +1280,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
   const SLEUTEL_LOKAAL = "garanties-meppel-v1";
   const SLEUTEL_LOKAAL_INST = "garanties-meppel-inst";
   const SLEUTEL_WEERGAVE = "claimregister-weergave";
-  const SLEUTEL_THEMA = "claimregister-thema";
+  const SLEUTEL_THEMA = "claimregister-thema-v2";
 
   let sessie = ls.json(SLEUTEL_SESSIE);
   function bewaarSessie(s){ sessie = s; if(s) ls.set(SLEUTEL_SESSIE, JSON.stringify(s)); else ls.del(SLEUTEL_SESSIE); }
@@ -2368,6 +2451,9 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
 
   /* ---------- uitleg en updates ---------- */
   const UPDATES = [
+    ["7 november 2026 — donker thema", [
+      "De hele app heeft nu dezelfde <b>donkere Medipoint-stijl</b> als het inlogscherm. Liever licht? Kies Menu → Thema."
+    ]],
     ["7 november 2026 — herinneringen, app, vegen en namen", [
       "<b>Herinneringen in je agenda</b> (Menu, of per claim met de knop Herinnering): een afspraak met alarm op de dag dat de termijn verloopt. Je telefoon waarschuwt je ook als de app dicht is.",
       "Bij de eerste keer openen op een dag zie je bovenaan hoeveel claims <b>over de termijn</b> zijn en hoeveel daarvan nieuw zijn.",
@@ -2604,7 +2690,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
   }
 
   /* ---------- thema ---------- */
-  const THEMAS = ["auto", "light", "dark"];
+  const THEMAS = ["dark", "light", "auto"];
   const THEMANAAM = {auto:"automatisch", light:"licht", dark:"donker"};
   function zetThema(t){
     if(t === "auto") document.documentElement.removeAttribute("data-theme");
@@ -2612,7 +2698,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     el("themaItem").textContent = "Thema: " + THEMANAAM[t];
     ls.set(SLEUTEL_THEMA, t);
   }
-  zetThema(THEMAS.includes(ls.get(SLEUTEL_THEMA)) ? ls.get(SLEUTEL_THEMA) : "auto");
+  zetThema(THEMAS.includes(ls.get(SLEUTEL_THEMA)) ? ls.get(SLEUTEL_THEMA) : "dark");
 
   /* ======================================================================
      FORMULIER INLEZEN (LGAR-pdf of tekstbestand)
@@ -3022,7 +3108,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
         case "afdrukken": setTimeout(() => window.print(), 50); break;
         case "backup": backup(); break;
         case "terugzetten": kiesBackup(); break;
-        case "thema": { const nu = ls.get(SLEUTEL_THEMA) || "auto"; zetThema(THEMAS[(THEMAS.indexOf(nu) + 1) % THEMAS.length]); break; }
+        case "thema": { const nu = ls.get(SLEUTEL_THEMA) || "dark"; zetThema(THEMAS[(THEMAS.indexOf(nu) + 1) % THEMAS.length]); break; }
         case "uitloggen": uitloggen(); break;
         case "agenda": openAgenda(); break;
         case "installeren": installeren(); break;
