@@ -1,0 +1,2572 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>Garantieclaims Medipoint Meppel</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Garantieclaimregister van Medipoint">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: merkbalk met logo bovenaan, daaronder periodepillen, vier kengetallenkaarten en een kolom claimkaarten; formulier als schuiflaag. */
+:root{
+  --bg:#f6f7f8;
+  --surface:#ffffff;
+  --surface-2:#f0f1f2;
+  --ink:#22262a;
+  --ink-soft:#656d75;
+  --line:#dcdfe2;
+  --brand:#ffffff;
+  --brand-deep:#22262a;
+  --on-brand:#22262a;
+  --rood:#e8382b;
+  --accent:#e8382b;
+  --on-accent:#ffffff;
+  --donker:#22262a;
+  --op-donker:#ffffff;
+  --ok:#1f9e96; --ok-soft:#e3f4f3;
+  --warn:#9a6a00; --warn-soft:#fdf1da;
+  --geel:#8a6100; --geel-soft:#fdf4e2; --geel-rand:#efb13c;
+  --bad:#d02a1e; --bad-soft:#fdecea;
+  --alarm:#d02a1e; --alarm-ink:#ffffff;
+  --info:#2e4057; --info-soft:#e8ecf2;
+  --shadow:none;
+  --zweef:0 10px 28px rgba(34,38,42,.14);
+  --display:'Figtree','Segoe UI',system-ui,sans-serif;
+  --body:'Figtree','Segoe UI',system-ui,sans-serif;
+  --mono:'IBM Plex Mono','SFMono-Regular',Menlo,monospace;
+  --r:6px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141719; --surface:#1e2225; --surface-2:#282d31;
+    --ink:#e9ebec; --ink-soft:#9aa2a9; --line:#333a40;
+    --brand:#1e2225; --brand-deep:#0e1113; --on-brand:#e9ebec;
+    --rood:#ff6a5c; --accent:#ff6a5c; --on-accent:#2a0d0a;
+    --donker:#e9ebec;
+    --op-donker:#141719;
+    --ok:#4fc9bd; --ok-soft:#10312f;
+    --warn:#e2b55f; --warn-soft:#332b18;
+    --geel:#efc375; --geel-soft:#332b18; --geel-rand:#8a6d2e;
+    --bad:#ff7a6d; --bad-soft:#3a1d1a;
+    --alarm:#8f2a22; --alarm-ink:#ffece9;
+    --info:#8ea9c9; --info-soft:#1e2630;
+    --shadow:none;
+    --zweef:0 10px 28px rgba(0,0,0,.5);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141719; --surface:#1e2225; --surface-2:#282d31;
+  --ink:#e9ebec; --ink-soft:#9aa2a9; --line:#333a40;
+  --brand:#1e2225; --brand-deep:#0e1113; --on-brand:#e9ebec;
+  --rood:#ff6a5c; --accent:#ff6a5c; --on-accent:#2a0d0a;
+  --donker:#e9ebec;
+  --op-donker:#141719;
+  --ok:#4fc9bd; --ok-soft:#10312f;
+  --warn:#e2b55f; --warn-soft:#332b18;
+  --geel:#efc375; --geel-soft:#332b18; --geel-rand:#8a6d2e;
+  --bad:#ff7a6d; --bad-soft:#3a1d1a;
+  --alarm:#8f2a22; --alarm-ink:#ffece9;
+  --info:#8ea9c9; --info-soft:#1e2630;
+  --shadow:none;
+  --zweef:0 10px 28px rgba(0,0,0,.5);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:14.5px;line-height:1.42;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--brand)}
+.brandbar .site h1{color:var(--ink)}
+.gutter{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* toegangsscherm */
+#gate{position:fixed;inset:0;z-index:999;background:var(--bg);display:flex;align-items:center;justify-content:center;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#gate .kaart{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);
+  padding:26px 22px;width:100%;max-width:360px;display:flex;flex-direction:column;gap:14px;text-align:center}
+#gate .merk{font-family:var(--display);font-weight:700;font-size:1.4rem;letter-spacing:-.03em;color:var(--rood);
+  text-transform:lowercase;line-height:1}
+#gate h1{font-family:var(--display);font-weight:700;font-size:1rem;margin:0;letter-spacing:-.01em}
+#gate p{margin:0;font-size:.84rem;color:var(--ink-soft);line-height:1.45}
+#gate input{border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:12px 14px;
+  font-size:1rem;color:var(--ink);text-align:center;width:100%}
+#gate .fout{color:var(--bad);font-size:.82rem;font-weight:600}
+#gate .streep{display:flex;height:5px;border-radius:999px;overflow:hidden}
+#gate .streep i{display:block;height:100%}
+
+/* merkbalk */
+header.brandbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;color:var(--on-brand);
+  background:var(--brand);box-shadow:0 4px 14px rgba(34,38,42,.07)}
+.strip{display:flex;height:10px}
+.strip i{display:block;height:100%}
+.strip i:nth-child(1){flex:0 0 10%;background:#f7cbd1}
+.strip i:nth-child(2){flex:0 0 10%;background:#5fc4c0}
+.strip i:nth-child(3){flex:0 0 10%;background:#2e4057}
+.strip i:nth-child(4){flex:0 0 11%;background:#efb13c}
+.strip i:nth-child(5){flex:1 1 auto;background:var(--rood)}
+.byline{font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);
+  padding-block:5px 0;font-weight:600}
+.byline b{color:var(--rood);font-weight:700}
+.brandbar-inner{padding-block:9px;display:flex;align-items:center;gap:11px;flex-wrap:nowrap}
+.mark{display:flex;align-items:center;gap:10px;min-width:0}
+.wordmark{font-family:var(--display);font-weight:700;font-size:1.14rem;letter-spacing:-.03em;line-height:1;color:var(--rood);text-transform:lowercase}
+.site{min-width:0;flex:1 1 auto}
+.site h1{font-family:var(--display);font-weight:600;font-size:.92rem;margin:0;line-height:1.2;letter-spacing:-.01em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.site p{margin:1px 0 0;font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.divider{width:1px;align-self:stretch;background:var(--line);margin-inline:2px}
+.bar-tools{display:flex;gap:6px;margin-left:auto;align-items:center;flex:0 0 auto}
+@media (max-width:520px){
+  .brandbar-inner{gap:9px}
+  .mark{flex:0 0 auto}
+  .wordmark{font-size:1rem}
+  .divider{display:none}
+  .site p{display:none}
+  .ghost-on-brand,.solid-on-brand{padding:8px 13px;font-size:.8rem}
+}
+.ghost-on-brand{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:9px 20px;font-size:.86rem;font-weight:700;cursor:pointer}
+.ghost-on-brand:hover{border-color:var(--ink)}
+.solid-on-brand{border:2px solid var(--donker);background:var(--donker);color:var(--op-donker);border-radius:999px;padding:9px 20px;font-size:.86rem;font-weight:700;cursor:pointer}
+.solid-on-brand:hover{filter:brightness(1.25)}
+.solid-on-brand[disabled]{opacity:.5;cursor:not-allowed}
+
+/* menu */
+.menu{position:relative}
+.menupaneel{position:absolute;right:0;top:calc(100% + 7px);z-index:40;min-width:186px;
+  background:var(--surface);border:1px solid var(--line);border-radius:8px;box-shadow:var(--zweef);
+  padding:5px;display:flex;flex-direction:column}
+.menu-item{border:0;background:transparent;color:var(--ink);text-align:left;border-radius:9px;
+  padding:10px 13px;font-size:.87rem;font-weight:600;cursor:pointer;white-space:nowrap}
+.menu-item:hover{background:var(--surface-2)}
+
+/* periodes */
+.periodbar{background:var(--surface);border-bottom:1px solid var(--line)}
+.periodrow{display:flex;align-items:center;gap:10px;min-width:0}
+.periods{display:flex;gap:6px;overflow-x:auto;padding-block:8px;scrollbar-width:none;flex:1 1 auto;min-width:0}
+.updates{display:flex;flex-direction:column;gap:18px;margin:0}
+.upd{display:flex;flex-direction:column;gap:7px}
+.upd-datum{font-family:var(--display);font-weight:700;font-size:.82rem;letter-spacing:-.01em;
+  display:flex;align-items:center;gap:9px}
+.upd-datum::after{content:"";flex:1 1 auto;height:1px;background:var(--line)}
+.upd ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px;font-size:.86rem;line-height:1.5}
+.upd li::marker{color:var(--ink-soft)}
+.uitleg{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:12px;font-size:.92rem;line-height:1.55}
+.uitleg li{padding-left:4px}
+.uitleg li::marker{font-weight:700;color:var(--rood)}
+.linkbtn{display:inline-block;background:var(--donker);color:var(--op-donker);text-decoration:none;
+  border-radius:999px;padding:11px 22px;font-size:.88rem;font-weight:700}
+.linkbtn:hover{filter:brightness(1.3)}
+.periods::-webkit-scrollbar{display:none}
+.period{white-space:nowrap;border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);
+  border-radius:999px;padding:6px 15px;cursor:pointer;font-size:.8rem;font-weight:700}
+.period:hover{color:var(--ink)}
+.period[aria-current="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:600}
+
+/* kengetallen */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:8px;padding-block:10px 2px;margin:0}
+@media (max-width:620px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stat.geel{border-color:var(--geel-rand)}
+.stat.geel dd{color:var(--geel)}
+.stat{border:0;border-radius:var(--r);box-shadow:var(--shadow);position:relative;overflow:hidden;
+  padding:13px 14px;min-width:0;display:flex;flex-direction:column;gap:2px;color:#fff}
+.stat::after{content:"";position:absolute;right:-26px;bottom:-26px;width:62px;height:62px;border-radius:50%;
+  background:rgba(255,255,255,.12)}
+.stat dt{color:inherit;opacity:.78;font-size:.66rem;text-transform:uppercase;letter-spacing:.09em;margin:0;position:relative}
+.stat dd{margin:0;font-family:var(--display);font-weight:800;font-size:1.18rem;letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums;overflow-wrap:anywhere;line-height:1.15;position:relative}
+.stat .sub{font-size:.7rem;opacity:.8;font-variant-numeric:tabular-nums;position:relative}
+.vlak-blauw{background:#2e4057}
+.vlak-rood{background:var(--alarm)}
+.vlak-groen{background:#1f9e96}
+.vlak-zwart{background:#22262a;color:#fff}
+.vlak-geel{background:#efb13c;color:#2e2308}
+.vlak-geel::after{background:rgba(0,0,0,.07)}
+
+/* voortgang */
+.progress{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);
+  padding:11px 13px;margin-top:8px;display:flex;flex-direction:column;gap:7px}
+.progress .ptop{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.progress .ptitle{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft)}
+.progress .ppct{font-family:var(--display);font-weight:700;font-size:.98rem;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.pbar{height:16px;border-radius:999px;background:var(--surface-2);overflow:hidden;display:flex}
+.pbar i{display:block;height:100%}
+.pbar .done{background:var(--ok)}
+.pbar .open{background:var(--bad)}
+.plegend{display:flex;gap:16px;flex-wrap:wrap;font-size:.76rem;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.plegend span{display:inline-flex;align-items:center;gap:6px}
+.plegend i{width:8px;height:8px;border-radius:50%}
+.ptotal{border-top:1px solid var(--line);padding-top:8px;display:flex;justify-content:space-between;
+  align-items:baseline;gap:10px;flex-wrap:wrap}
+.ptotal .pt-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft)}
+.ptotal .pt-sub{font-size:.74rem;color:var(--ink-soft);font-variant-numeric:tabular-nums;width:100%}
+.ptotal .pt-bedrag{font-family:var(--display);font-weight:700;font-size:1.12rem;letter-spacing:-.025em;
+  font-variant-numeric:tabular-nums}
+
+/* leveranciers */
+.suppliers{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);
+  margin-top:8px;padding:0 13px}
+.suppliers summary{list-style:none;cursor:pointer;padding:11px 0;font-size:.68rem;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--ink-soft);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.suppliers summary::-webkit-details-marker{display:none}
+.suppliers summary::after{content:"\25BE";font-size:.8rem;transition:transform .15s ease}
+.suppliers[open] summary::after{transform:rotate(180deg)}
+.suppliers table{width:100%;border-collapse:collapse;font-size:.84rem;margin-bottom:14px}
+.suppliers th,.suppliers td{padding:7px 0;text-align:left;border-bottom:1px solid var(--line)}
+.suppliers th{font-weight:500;color:var(--ink-soft);font-size:.68rem;text-transform:uppercase;letter-spacing:.07em}
+.suppliers td.num,.suppliers th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.suppliers td.num{font-family:var(--mono);font-size:.82rem}
+.suppliers td.open{color:var(--bad);font-weight:600}
+.suppliers tr:last-child td{border-bottom:none}
+.suppliers tr.totaalrij td{border-top:1px solid var(--line);font-weight:700;padding-top:9px}
+.suppliers tr.totaalrij td.naam{font-weight:800}
+.suppliers .naam{font-weight:600}
+
+/* weergavetabs */
+.tabs{display:flex;flex-wrap:wrap;gap:3px;margin-top:10px;background:var(--surface-2);border:1px solid var(--line);
+  border-radius:999px;padding:3px;overflow-x:visible}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 1 auto;white-space:nowrap;border:none;background:transparent;color:var(--ink-soft);
+  border-radius:999px;padding:6px 12px;font-size:.8rem;font-weight:600;cursor:pointer}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.tab .n{font-variant-numeric:tabular-nums;opacity:.6;margin-left:5px;font-weight:500}
+
+/* prullenbak */
+.trashbar{display:flex;justify-content:center;padding-bottom:22px}
+.claim.is-trash{opacity:.72;border-style:dashed;background:var(--surface)}
+.claim.is-trash .part{text-decoration:line-through}
+
+/* filterbalk */
+.filterbar{display:flex;align-items:center;gap:9px;padding-block:10px 0}
+.filtertoggle{padding:9px 18px;font-size:.84rem;border:1.5px solid var(--line);background:var(--surface);
+  color:var(--ink);box-shadow:var(--shadow)}
+.filtertoggle:hover{border-color:var(--ink-soft);background:var(--surface)}
+.filtertoggle[aria-expanded="true"]{background:var(--surface);color:var(--ink);border-color:var(--ink)}
+.filtertoggle .fdot{background:var(--ok);width:16px;height:16px;border-radius:50%;margin-left:8px}
+.filtertoggle[aria-expanded="true"]{background:var(--donker);color:var(--op-donker)}
+.filtertoggle .fdot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-left:7px;vertical-align:middle}
+
+/* filters */
+.filters{display:flex;gap:7px;flex-wrap:wrap;padding-block:8px 0;align-items:center}
+.filters input[type=search],.filters select{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:9px 15px;font-size:.84rem;min-width:0}
+.filters input[type=search]{flex:1 1 180px}
+.filterbar .lgarknop{padding:9px 18px;font-size:.84rem;border:1.5px dashed var(--rood);color:var(--rood);background:var(--surface);font-weight:700}
+.filterbar .lgarknop:hover{background:var(--rood);border-color:var(--rood);color:var(--on-accent)}
+@media (max-width:420px){.lgarknop{padding:9px 14px;font-size:.8rem}}
+.count{color:var(--ink-soft);font-size:.8rem;margin-left:auto;font-variant-numeric:tabular-nums}
+
+/* maandkoppen */
+.maand{display:flex;flex-direction:column;gap:10px}
+.maandkop{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--kophoogte, 76px));z-index:6;background:var(--bg);
+  padding-block:7px 9px;border-bottom:1px solid var(--line)}
+.maandkop h2{font-family:var(--display);font-weight:800;font-size:1.04rem;margin:0;letter-spacing:-.025em}
+.maandcijfers{display:flex;gap:12px;align-items:baseline;font-size:.76rem;color:var(--ink-soft);
+  font-variant-numeric:tabular-nums;flex-wrap:wrap}
+.maandcijfers b{font-family:var(--display);font-weight:700;font-size:.92rem;color:var(--ink);letter-spacing:-.02em}
+.maandcijfers .mo{color:var(--bad);font-weight:700}
+.maandcijfers .mk{color:var(--ok);font-weight:600}
+
+/* kaarten in de stijl van een depositokaart */
+.kaarten{display:flex;flex-direction:column;gap:12px}
+.kaart{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+  cursor:pointer;position:relative;transition:border-color .14s ease}
+.kaart:hover{border-color:var(--ink-soft)}
+.kaart::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:transparent;z-index:1}
+.kaart.k-laat::before{background:var(--rood)}
+.kaart.k-uit::before{background:var(--geel-rand)}
+.kaart-kop{display:flex;align-items:center;gap:11px;padding:13px 15px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.kaart-merk{flex:0 0 auto;width:34px;height:34px;border-radius:8px;display:inline-flex;align-items:center;
+  justify-content:center;font-family:var(--display);font-weight:800;font-size:.8rem;color:#fff;font-style:normal}
+.kaart-titel{min-width:0;flex:1 1 auto;display:flex;flex-direction:column;gap:1px}
+.kaart-titel h3{font-family:var(--display);font-weight:800;font-size:1.06rem;margin:0;letter-spacing:-.025em;
+  overflow-wrap:anywhere;line-height:1.2}
+.kaart-storing{font-size:.86rem;color:var(--ink);line-height:1.35;overflow-wrap:anywhere;margin-top:2px;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.kaart-sub{font-size:.76rem;color:var(--ink-soft);margin-top:2px}
+.kaart .chev{color:var(--ink-soft);font-size:.75rem;transition:transform .16s ease;flex:0 0 auto}
+.kaart.k-aan .chev{transform:rotate(180deg)}
+.kaart-lijf{display:flex;align-items:center;gap:14px;padding:14px 15px}
+.kaart-velden{flex:1 1 auto;min-width:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 14px}
+.kaart-velden span{display:flex;flex-direction:column;gap:2px;min-width:0;font-size:.72rem;color:var(--ink-soft)}
+.kaart-velden b{font-family:var(--display);font-weight:700;font-size:.93rem;color:var(--ink);
+  overflow-wrap:anywhere;letter-spacing:-.01em}
+.kaart-velden b.geld{font-variant-numeric:tabular-nums}
+.kaart-velden b.wait{color:var(--geel);font-size:.84rem}
+.kaart-velden b.w-gehonoreerd{color:var(--ok)}
+.kaart-velden b.w-afgewezen{color:var(--bad)}
+.kaart-ring{flex:0 0 auto}
+.ring{width:66px;height:66px;display:block}
+.ring-bg{fill:none;stroke:var(--surface-2);stroke-width:4}
+.ring-v{fill:none;stroke-width:4;stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%}
+.ring-t{font-family:var(--display);font-weight:800;font-size:9px;text-anchor:middle;dominant-baseline:central}
+.kaart-detail{display:flex;flex-direction:column;gap:11px;padding:14px 15px 16px;border-top:1px solid var(--line);
+  background:var(--surface-2);cursor:default;animation:opent .18s ease-out}
+.kaart-detail .row-actions{display:flex;flex-wrap:wrap;gap:6px;margin:0}
+.kaart .aandacht{flex:0 0 auto}
+@media (max-width:420px){
+  .kaart-velden{grid-template-columns:1fr}
+  .ring{width:56px;height:56px}
+  .kaart-kop,.kaart-lijf{padding:12px 13px}
+}
+
+/* lijst */
+.list{display:flex;flex-direction:column;gap:22px;padding-bottom:26px}
+.claim{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);transition:border-color .15s ease, transform .15s ease;
+  padding:12px 13px 12px 19px;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden}
+.claim::before{content:"";position:absolute;inset:0 auto 0 0;width:9px;background:var(--edge,var(--line))}
+.claim.is-gehonoreerd{background:var(--ok-soft);border-color:color-mix(in srgb,var(--ok) 32%,transparent)}
+.claim.is-nieuw,.claim.is-ingediend{background:var(--bad-soft);border-color:color-mix(in srgb,var(--bad) 32%,transparent)}
+.claim.is-nieuw .note,.claim.is-ingediend .note,
+.claim.is-nieuw .notes,.claim.is-ingediend .notes{border-top-color:color-mix(in srgb,var(--bad) 25%,transparent)}
+.claim.is-nieuw .p-neutral,.claim.is-ingediend .p-neutral{background:color-mix(in srgb,var(--bad) 12%,transparent)}
+.claim.is-nieuw .p-warn,.claim.is-ingediend .p-warn{background:color-mix(in srgb,var(--warn) 20%,transparent)}
+.claim.is-nieuw .icon-btn,.claim.is-ingediend .icon-btn{border-color:color-mix(in srgb,var(--bad) 30%,transparent)}
+.claim.is-uitbesteed{background:var(--geel-soft);border-color:var(--geel-rand)}
+.claim.is-uitbesteed .note,.claim.is-uitbesteed .notes{border-top-color:color-mix(in srgb,var(--geel-rand) 45%,transparent)}
+.claim.is-uitbesteed .p-neutral{background:color-mix(in srgb,var(--geel-rand) 22%,transparent);color:var(--geel)}
+.claim.is-uitbesteed .icon-btn{border-color:color-mix(in srgb,var(--geel-rand) 55%,transparent)}
+.p-geel{background:color-mix(in srgb,var(--geel-rand) 30%,transparent);color:var(--geel)}
+.claim.is-gehonoreerd .note{border-top-color:color-mix(in srgb,var(--ok) 25%,transparent)}
+.claim.is-gehonoreerd .p-ok{background:color-mix(in srgb,var(--ok) 18%,transparent)}
+.claim.is-gehonoreerd .p-neutral{background:color-mix(in srgb,var(--ok) 10%,transparent)}
+.claim.is-gehonoreerd .icon-btn{border-color:color-mix(in srgb,var(--ok) 32%,transparent)}
+.claim{cursor:pointer}
+.claim .chev{position:absolute;right:14px;bottom:12px;color:var(--ink-soft);font-size:.7rem;transition:transform .15s ease;pointer-events:none}
+.claim.open .chev{transform:rotate(180deg)}
+.claim-sum{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.8rem;color:var(--ink-soft)}
+.levmark{display:inline-flex;align-items:center;gap:7px;font-weight:600;color:var(--ink);min-width:0}
+.levmark i{flex:0 0 auto;width:17px;height:17px;border-radius:5px;display:inline-flex;align-items:center;
+  justify-content:center;font-family:var(--display);font-weight:800;font-size:.58rem;color:#fff;
+  font-style:normal;letter-spacing:0}
+.claim-sum .lev{font-weight:600;color:var(--ink)}
+.claim-body{display:flex;flex-direction:column;gap:8px}
+.attention{display:block;font-family:var(--display);font-weight:700;font-size:.68rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--bad);margin-bottom:-3px}
+.claim-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+@media (hover:hover){.claim:hover{border-color:color-mix(in srgb,var(--ink-soft) 45%,transparent)}}
+.claim-head{align-items:baseline}
+.part{font-family:var(--display);font-weight:700;font-size:.98rem;margin:0;min-width:0;overflow-wrap:anywhere;letter-spacing:-.015em}
+.amount{font-family:var(--display);font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;
+  font-size:1rem;letter-spacing:-.02em}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:6px 12px;font-size:.64rem;
+  text-transform:uppercase;letter-spacing:.07em;color:var(--ink-soft);min-width:0}
+.meta span{display:flex;flex-direction:column;min-width:0;gap:1px}
+.meta b.wait{color:var(--warn);font-family:var(--body);font-weight:600}
+.meta b{font-weight:500;color:var(--ink);font-family:var(--mono);font-size:.84rem;overflow-wrap:anywhere;
+  text-transform:none;letter-spacing:0}
+.pills{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.claim-body > .pills:last-of-type .row-actions{margin-left:0;width:100%}
+.pill{font-size:.68rem;font-weight:600;letter-spacing:.03em;padding:3px 8px;border-radius:999px;display:inline-flex;align-items:center;gap:5px}
+.dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.p-ok{background:var(--ok-soft);color:var(--ok)}
+.p-warn{background:var(--warn-soft);color:var(--warn)}
+.p-bad{background:var(--bad-soft);color:var(--bad)}
+.p-info{background:var(--info-soft);color:var(--info)}
+.p-neutral{background:var(--surface-2);color:var(--ink-soft)}
+.note{font-size:.84rem;color:var(--ink-soft);border-top:1px solid var(--line);padding-top:9px;overflow-wrap:anywhere}
+.notes{border-top:1px solid var(--line);padding-top:9px;display:flex;flex-direction:column;gap:7px}
+.claim.is-gehonoreerd .notes{border-top-color:color-mix(in srgb,var(--ok) 25%,transparent)}
+.noteline{display:flex;gap:10px;font-size:.84rem;align-items:baseline}
+.noteline .nd{color:var(--ink-soft);font-size:.72rem;white-space:nowrap;min-width:74px;font-variant-numeric:tabular-nums}
+.noteline .nt{min-width:0;overflow-wrap:anywhere}
+.row-actions{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+.icon-btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 15px;font-size:.76rem;font-weight:700;cursor:pointer;color:var(--ink-soft)}
+.icon-btn:hover{color:var(--op-donker);background:var(--donker);border-color:var(--donker)}
+.icon-btn.danger:hover{color:var(--bad);border-color:var(--bad)}
+.icon-btn.ok{color:var(--op-donker);background:var(--ok);border-color:var(--ok);font-weight:700}
+.icon-btn.ok:hover{filter:brightness(1.12);color:var(--op-donker)}
+.icon-btn.warn{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 40%,transparent)}
+.icon-btn.warn:hover{border-color:var(--bad)}
+
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:var(--r);padding:32px 20px;text-align:center;color:var(--ink-soft)}
+.empty strong{display:block;font-family:var(--display);color:var(--ink);font-size:1.02rem;margin-bottom:6px}
+.banner{background:var(--warn-soft);color:var(--warn);border-radius:10px;padding:10px 13px;font-size:.84rem;margin-bottom:10px}
+.alertbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;
+  background:var(--alarm);color:var(--alarm-ink);border:1px solid var(--alarm);
+  border-radius:var(--r);padding:12px 14px;font-size:.85rem;font-weight:600;
+  box-shadow:0 6px 18px color-mix(in srgb,var(--alarm) 30%,transparent)}
+.alertbar.done{background:var(--ok-soft);color:var(--ok);border-color:color-mix(in srgb,var(--ok) 30%,transparent);box-shadow:var(--shadow);font-weight:600}
+.alertbar .ab-text{min-width:0;flex:1 1 200px}
+.alertbar .ab-eyebrow{display:block;font-family:var(--display);font-weight:800;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:2px}
+.alertbar strong{font-family:var(--display);font-weight:800;display:block;font-size:1.04rem;letter-spacing:-.015em}
+.alertbar .ab-sub{opacity:.9;font-size:.82rem;font-variant-numeric:tabular-nums}
+.alertbar button{border:2px solid currentColor;background:transparent;color:inherit;border-radius:999px;
+  padding:9px 18px;font-size:.86rem;font-weight:700;cursor:pointer;white-space:nowrap}
+.alertbar button:hover{background:color-mix(in srgb,currentColor 12%,transparent)}
+
+/* formulier */
+.overlay{position:fixed;inset:0;background:rgba(10,12,15,.55);z-index:40;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--surface);width:100%;max-width:640px;max-height:92vh;overflow-y:auto;border-radius:18px 18px 0 0;border:1px solid var(--line);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:18px calc(20px + env(safe-area-inset-bottom,0px))}
+@media (min-width:640px){.overlay{align-items:center}.sheet{border-radius:18px}}
+.sheet h2{font-family:var(--display);font-weight:700;font-size:1.15rem;margin:0 0 16px;letter-spacing:-.02em}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.grid .full{grid-column:1/-1}
+@media (max-width:420px){.grid{gap:9px}}
+.grid > label.full{grid-column:1/-1}
+label{display:flex;flex-direction:column;gap:4px;font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);min-width:0;font-weight:700}
+label input,label select,label textarea{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:9px 11px;font-size:.92rem;font-weight:400;text-transform:none;letter-spacing:0;color:var(--ink);width:100%}
+label textarea{resize:vertical;min-height:54px;font-family:inherit}
+.sheet-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:11px 24px;cursor:pointer;font-size:.88rem;font-weight:700}
+.btn:hover{border-color:var(--ink)}
+.btn-ghost{background:transparent}
+.btn-primary{background:var(--donker);border-color:var(--donker);color:var(--op-donker);font-weight:700}
+.btn-primary:hover{filter:brightness(1.3)}
+.confirm{background:var(--bad-soft);color:var(--bad);border-radius:10px;padding:10px 12px;font-size:.85rem;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:.85rem;z-index:50;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.sleepzone{position:fixed;inset:0;z-index:60;background:rgba(10,12,15,.62);display:flex;align-items:center;justify-content:center;padding:24px}
+.sleepkaart{background:var(--surface);border:2px dashed var(--rood);border-radius:16px;padding:26px 30px;text-align:center;display:flex;flex-direction:column;gap:6px;max-width:430px;pointer-events:none}
+.sleepkaart b{font-family:var(--display);font-size:1.05rem;letter-spacing:-.01em}
+.sleepkaart span{font-size:.85rem;color:var(--ink-soft)}
+.leesmelding{background:var(--bg);border:1px solid var(--line);border-left:3px solid var(--rood);border-radius:10px;padding:10px 12px;font-size:.85rem;margin:-4px 0 14px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;line-height:1.45}
+.linkbtn{background:none;border:0;padding:0;color:var(--rood);font:inherit;font-size:.8rem;font-weight:700;cursor:pointer;text-decoration:underline}
+label.vink{flex-direction:row;align-items:flex-start;gap:9px;text-transform:none;letter-spacing:0;font-size:.84rem;font-weight:400;color:var(--ink);line-height:1.45}
+label.vink input{width:18px;height:18px;flex:0 0 auto;margin-top:2px;accent-color:var(--rood)}
+.hint{font-size:.7rem;font-weight:600;text-transform:none;letter-spacing:0;color:var(--ok)}
+.ruwtekst{max-height:170px;overflow:auto;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.73rem;line-height:1.5;white-space:pre-wrap;margin:-6px 0 14px;color:var(--ink-soft)}
+/* beweging: subtiel, en uit zodra het systeem daarom vraagt */
+@keyframes opent{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@keyframes toastin{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes sheetin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.claim-body{animation:opent .18s ease-out}
+.toast{animation:toastin .2s ease-out}
+.sheet{animation:sheetin .22s cubic-bezier(.2,.7,.3,1)}
+.overlay{animation:opent .15s ease-out}
+.pbar i{transition:width .45s cubic-bezier(.2,.7,.3,1)}
+.btn:active,.solid-on-brand:active,.ghost-on-brand:active,.icon-btn:active,.alertbar button:active{transform:scale(.97)}
+.btn,.solid-on-brand,.ghost-on-brand,.icon-btn,.alertbar button,.period,.tab{transition:background-color .14s ease,color .14s ease,border-color .14s ease,transform .08s ease}
+.claim{will-change:auto}
+.chev{transition:transform .18s ease}
+:focus-visible{outline:2px solid var(--rood);outline-offset:3px;border-radius:6px}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===================== versie 2: aanvullingen ===================== */
+:root{--grijs:#8a8f96}
+:root[data-theme="dark"]{--grijs:#6f777e}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--grijs:#6f777e}}
+:root[data-theme="light"]{color-scheme:light}
+
+/* toegangsscherm met e-mail */
+#gate form.kaart{gap:12px}
+#gate .velden{display:flex;flex-direction:column;gap:8px}
+#gate button[disabled]{opacity:.6;cursor:wait}
+
+/* weergavekeuze: claims of rapportage */
+.weergave{display:flex;gap:3px;margin-top:10px;background:var(--surface-2);border:1px solid var(--line);
+  border-radius:999px;padding:3px;width:fit-content}
+.weergave button{border:0;background:transparent;color:var(--ink-soft);border-radius:999px;padding:7px 16px;
+  font-size:.82rem;font-weight:700;cursor:pointer}
+.weergave button[aria-pressed="true"]{background:var(--donker);color:var(--op-donker)}
+.weergave-rij{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.weergave-rij .sync{margin-left:auto;margin-top:10px;font-size:.72rem;color:var(--ink-soft);display:inline-flex;align-items:center;gap:6px}
+.sync i{width:7px;height:7px;border-radius:50%;background:var(--ok);display:inline-block}
+.sync.offline i{background:var(--geel-rand)}
+.sync.lokaal i{background:var(--grijs)}
+
+/* alertbalk: tweede knop */
+.alertbar .ab-knoppen{display:flex;gap:6px;flex-wrap:wrap}
+
+/* tabs: aandacht */
+.tab[data-tab="aandacht"] .n{color:var(--bad);opacity:1;font-weight:700}
+
+/* filterbalk */
+.filterbar{flex-wrap:wrap}
+.selectknop[aria-pressed="true"]{background:var(--donker);color:var(--op-donker);border-color:var(--donker)}
+
+/* selecteren */
+.kaart .vinkje{flex:0 0 auto;width:22px;height:22px;border-radius:6px;border:2px solid var(--line);background:var(--surface);
+  display:inline-flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;color:transparent}
+.kaart.k-sel{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.kaart.k-sel .vinkje{background:var(--donker);border-color:var(--donker);color:var(--op-donker)}
+.bulkbalk{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:35;
+  width:min(720px,calc(100% - 24px));background:var(--surface);border:1px solid var(--ink);border-radius:14px;
+  box-shadow:var(--zweef);padding:10px 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;animation:sheetin .2s ease-out}
+.bulkbalk .bb-tekst{font-size:.84rem;font-weight:700;margin-right:auto;font-variant-numeric:tabular-nums}
+.bulkbalk .bb-tekst span{display:block;font-weight:500;color:var(--ink-soft);font-size:.74rem}
+.bulkbalk .linkbtn{font-size:.76rem}
+body.met-bulk .list{padding-bottom:110px}
+
+/* tijdlijn in het detail */
+.tijdlijn{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line);padding-top:9px}
+.tl{display:grid;grid-template-columns:82px 14px 1fr;gap:0 8px;font-size:.84rem;align-items:start;padding-bottom:7px;position:relative}
+.tl .nd{color:var(--ink-soft);font-size:.72rem;white-space:nowrap;font-variant-numeric:tabular-nums;padding-top:2px}
+.tl .bol{width:9px;height:9px;border-radius:50%;background:var(--ink-soft);margin-top:5px;justify-self:center;position:relative;z-index:1}
+.tl:not(:last-child)::after{content:"";position:absolute;left:calc(82px + 8px + 6px);top:14px;bottom:-2px;width:1px;background:var(--line)}
+.tl.s .bol{background:var(--info)}
+.tl.s-gehonoreerd .bol{background:var(--ok)}
+.tl.s-afgewezen .bol{background:var(--bad)}
+.tl.s .nt{color:var(--ink-soft);font-weight:600}
+.tl .nt{min-width:0;overflow-wrap:anywhere}
+.doorloop{font-size:.8rem;color:var(--ink-soft)}
+.doorloop b{color:var(--ink)}
+
+/* waarschuwing dubbele claim */
+.dubbel{background:var(--warn-soft);color:var(--warn);border-radius:10px;padding:10px 12px;font-size:.85rem;line-height:1.45;margin-top:14px}
+.dubbel b{color:var(--ink)}
+
+/* rapportage */
+.rapport{display:flex;flex-direction:column;gap:12px;padding-block:10px 30px}
+.paneel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 15px}
+.paneel-kop{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.paneel h2{font-family:var(--display);font-weight:800;font-size:1.02rem;margin:0;letter-spacing:-.02em}
+.paneel .uitleg-kort{font-size:.76rem;color:var(--ink-soft);margin:0}
+.paneel table{width:100%;border-collapse:collapse;font-size:.84rem}
+.paneel th,.paneel td{padding:7px 8px 7px 0;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+.paneel th{font-weight:600;color:var(--ink-soft);font-size:.66rem;text-transform:uppercase;letter-spacing:.07em;white-space:nowrap}
+.paneel td.num,.paneel th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.paneel td.num{font-family:var(--mono);font-size:.8rem}
+.paneel tr:last-child td{border-bottom:0}
+.paneel td.num + td:not(.num),.paneel th.num + th:not(.num){padding-left:18px}
+.paneel td.open{color:var(--bad);font-weight:600}
+.paneel td .klein{display:block;font-size:.72rem;color:var(--ink-soft);font-family:var(--body)}
+.tabelscroll{overflow-x:auto;margin-inline:-15px;padding-inline:15px}
+.tabelscroll table{min-width:640px}
+.balkje{display:block;height:6px;border-radius:999px;background:var(--surface-2);overflow:hidden;margin-top:4px;min-width:60px}
+.balkje i{display:block;height:100%;background:var(--ok);border-radius:999px}
+.mailknop{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 11px;font-size:.72rem;font-weight:700;cursor:pointer;color:var(--ink);white-space:nowrap}
+.mailknop:hover{background:var(--donker);color:var(--op-donker);border-color:var(--donker)}
+.suppliers td .mailknop{margin-left:6px}
+
+/* grafiek */
+.grafiek{position:relative}
+.grafiek svg{display:block;width:100%;height:auto;overflow:visible}
+.grafiek .as{stroke:var(--line);stroke-width:1}
+.grafiek .rooster{stroke:var(--line);stroke-width:1;stroke-dasharray:2 3;opacity:.7}
+.grafiek .aslabel{fill:var(--ink-soft);font-size:10.5px;font-family:var(--body);font-variant-numeric:tabular-nums}
+.grafiek .waarde{fill:var(--ink);font-size:10.5px;font-weight:700;font-family:var(--body);font-variant-numeric:tabular-nums}
+.grafiek .hit{fill:transparent;cursor:default}
+.grafiek .kolom.dim{opacity:.45}
+.legenda{display:flex;gap:14px;flex-wrap:wrap;font-size:.76rem;color:var(--ink-soft);margin-top:8px}
+.legenda span{display:inline-flex;align-items:center;gap:6px}
+.legenda i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.tip{position:absolute;pointer-events:none;background:var(--surface);border:1px solid var(--line);border-radius:8px;box-shadow:var(--zweef);
+  padding:8px 10px;font-size:.78rem;min-width:180px;z-index:5;transform:translateX(-50%);white-space:nowrap}
+.tip b{font-family:var(--display);display:block;margin-bottom:4px}
+.tip .r{display:flex;justify-content:space-between;gap:12px;font-variant-numeric:tabular-nums}
+.tip .r span{display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft)}
+.tip .r i{width:8px;height:8px;border-radius:2px;display:inline-block}
+.schakel{border:0;background:none;color:var(--rood);font-weight:700;font-size:.78rem;cursor:pointer;text-decoration:underline;padding:0}
+
+/* mailvoorbeeld */
+.mailvoorbeeld{width:100%;min-height:220px;font-family:var(--mono);font-size:.78rem;line-height:1.5;border:1px solid var(--line);
+  border-radius:8px;padding:10px 12px;background:var(--bg);color:var(--ink);resize:vertical}
+
+/* toast met knop */
+.toast{display:flex;align-items:center;gap:12px}
+.toast button{border:0;background:transparent;color:inherit;font:inherit;font-weight:800;text-decoration:underline;cursor:pointer;padding:0}
+
+/* sneltoetsen */
+kbd{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px;background:var(--surface-2)}
+.sneltoetsen{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:.88rem;align-items:center;margin-top:14px}
+
+/* afdrukken */
+.printkop{display:none}
+@media print{
+  :root{--bg:#fff;--surface:#fff;--surface-2:#f4f4f4}
+  body{background:#fff;font-size:11px}
+  body::before,.byline,.bar-tools,.periodbar,.filterbar,.filters,.tabs,.weergave-rij,.alertbar,.trashbar,.bulkbalk,.toast,.kaart .chev,
+  .row-actions,.mailknop,.schakel,.sync,.kaart-ring,.banner{display:none!important}
+  header.brandbar{position:static;box-shadow:none}
+  .printkop{display:block;font-size:.8rem;color:#555;margin:6px 0 10px}
+  .maandkop{position:static}
+  .kaart,.paneel,.stat{break-inside:avoid}
+  .stat{color:#000!important;background:#fff!important;border:1px solid #ccc!important}
+  .kaart-lijf{padding:8px 12px}
+  .kaart-kop{padding:8px 12px}
+  .suppliers{display:block}
+  a{color:inherit}
+}
+</style>
+</head>
+<body>
+
+<div id="gate" hidden></div>
+
+<header class="brandbar">
+  <div class="byline gutter">Made by: <b>Selwin</b></div>
+  <div class="brandbar-inner gutter">
+    <div class="mark">
+      <span class="wordmark">medipoint</span>
+    </div>
+    <span class="divider" aria-hidden="true"></span>
+    <div class="site">
+      <h1>Garantieclaims</h1>
+      <p id="vestiging">Vestiging Meppel</p>
+    </div>
+    <div class="bar-tools">
+      <div class="menu">
+        <button class="ghost-on-brand" id="menuBtn" aria-expanded="false" aria-haspopup="true">Menu</button>
+        <div class="menupaneel" id="menuPaneel" hidden>
+          <button type="button" class="menu-item" data-menu="uitleg">Uitleg</button>
+          <button type="button" class="menu-item" data-menu="instellingen">Instellingen</button>
+          <button type="button" class="menu-item" data-menu="updates">Updates</button>
+          <button type="button" class="menu-item" data-menu="csv">CSV exporteren</button>
+          <button type="button" class="menu-item" data-menu="afdrukken">Afdrukken / PDF</button>
+          <button type="button" class="menu-item" data-menu="backup">Back-up downloaden</button>
+          <button type="button" class="menu-item" data-menu="terugzetten">Back-up terugzetten</button>
+          <button type="button" class="menu-item" data-menu="thema" id="themaItem">Thema: automatisch</button>
+          <button type="button" class="menu-item" data-menu="sneltoetsen">Sneltoetsen</button>
+          <button type="button" class="menu-item" data-menu="uitloggen" id="uitlogItem" hidden>Uitloggen</button>
+        </div>
+      </div>
+      <button class="solid-on-brand" id="addBtn">+ Claim</button>
+    </div>
+  </div>
+  <div class="strip" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+</header>
+
+<div class="periodbar">
+  <div class="periodrow gutter">
+    <nav class="periods" id="periods" aria-label="Periode"></nav>
+  </div>
+</div>
+
+<main class="gutter">
+  <p class="printkop" id="printkop"></p>
+  <div class="weergave-rij">
+    <div class="weergave" role="group" aria-label="Weergave">
+      <button type="button" data-view="lijst" aria-pressed="true">Claims</button>
+      <button type="button" data-view="rapport" aria-pressed="false">Rapportage</button>
+    </div>
+    <span class="sync" id="sync"></span>
+  </div>
+  <div id="alert" class="alertbar" hidden></div>
+  <dl class="stats" id="stats"></dl>
+  <div id="banner" class="banner" hidden></div>
+
+  <div id="lijstweergave">
+    <section class="progress" id="progress" aria-label="Voortgang"></section>
+    <details class="suppliers" id="suppliers">
+      <summary>Per leverancier <span id="supCount"></span></summary>
+      <div id="supBody"></div>
+    </details>
+    <nav class="tabs" id="tabs" role="tablist" aria-label="Status"></nav>
+    <div class="filterbar" id="filterbar">
+      <button type="button" class="btn btn-ghost filtertoggle" id="filterBtn" aria-expanded="false">Filters</button>
+      <button type="button" class="btn lgarknop" id="lgarBtn">+ Nieuwe LGAR</button>
+      <button type="button" class="btn btn-ghost filtertoggle selectknop" id="selectBtn" aria-pressed="false">Selecteren</button>
+      <span class="count" id="count"></span>
+    </div>
+    <div class="filters" id="filters" hidden>
+      <input type="search" id="q" placeholder="Zoek op nummer, type, onderdeel, storing of leverancier" aria-label="Zoeken">
+      <select id="fLev" aria-label="Leverancier"></select>
+      <select id="fLoc" aria-label="Binnen- of buitenmonteur">
+        <option value="">Alle monteurs</option>
+        <option value="binnen">Binnenmonteurs</option>
+        <option value="buiten">Buitenmonteurs</option>
+      </select>
+      <select id="fGroep" aria-label="Groeperen">
+        <option value="maand">Per maand</option>
+        <option value="leverancier">Per leverancier</option>
+        <option value="geen">Alles op één hoop</option>
+      </select>
+      <select id="fSort" aria-label="Sorteren">
+        <option value="standaard">Openstaand eerst</option>
+        <option value="ouderdom">Langst openstaand</option>
+        <option value="bedrag">Hoogste bedrag</option>
+        <option value="leverancier">Leverancier A–Z</option>
+        <option value="onderdeel">Onderdeel A–Z</option>
+        <option value="bijgewerkt">Laatst bijgewerkt</option>
+      </select>
+      <button type="button" class="linkbtn" id="wisFilters">Filters wissen</button>
+    </div>
+    <section class="list" id="list"></section>
+    <div class="trashbar"><button type="button" class="btn btn-ghost" id="trashBtn" hidden></button></div>
+  </div>
+
+  <div id="rapportweergave" class="rapport" hidden></div>
+</main>
+
+<div class="bulkbalk" id="bulkbalk" hidden></div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ======================================================================
+     INSTELLINGEN
+     - SUPABASE_URL / SUPABASE_KEY: Project Settings -> API in Supabase.
+       Laat ze leeg en de app bewaart alles alleen in deze browser.
+     - ACCOUNTS: false = één gedeeld wachtwoord (WACHTWOORD_HASH), zoals
+       versie 1. true = iedereen logt in met een eigen Supabase-account
+       (e-mail + wachtwoord). Alleen met true en de beveiliging uit
+       supabase-beveiliging.sql zijn de claims echt afgeschermd.
+     - WACHTWOORD_HASH: sha256 van (wachtwoord + "medipoint-meppel").
+       Een nieuwe maak je in Menu -> Instellingen -> Wachtwoord-hash maken.
+     ====================================================================== */
+  const CONFIG = {
+    SUPABASE_URL: "https://xpktjqdtwmqznhgcicim.supabase.co",
+    SUPABASE_KEY: "sb_publishable_Pg8KNp50y2EzGkYurn117w_4Llr27bI",
+    TABEL: "claims",
+    ACCOUNTS: false,
+    WACHTWOORD_HASH: "1360561d88563bcbd4716c3e1dc928fc6275afe52d64e830ef5c025446d567a9"
+  };
+  /* ===================================================================== */
+
+  const BASE = String(CONFIG.SUPABASE_URL || "").replace(/\/+$/, "");
+  const KEY = CONFIG.SUPABASE_KEY || "";
+  const REMOTE = !!(BASE && KEY);
+  const API = REMOTE ? BASE + "/rest/v1/" + CONFIG.TABEL : "";
+  const ZOUT = "medipoint-meppel";
+
+  /* ---------- kleine hulpjes ---------- */
+  const el = id => document.getElementById(id);
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const ls = {
+    get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } },
+    set(k, v){ try{ localStorage.setItem(k, v); return true; }catch(e){ return false; } },
+    del(k){ try{ localStorage.removeItem(k); }catch(e){} },
+    json(k){ try{ return JSON.parse(localStorage.getItem(k) || "null"); }catch(e){ return null; } }
+  };
+  const MONTHS = ["januari","februari","maart","april","mei","juni","juli","augustus","september","oktober","november","december"];
+  const euro = n => "€ " + (Number(n) || 0).toLocaleString("nl-NL", {minimumFractionDigits:2, maximumFractionDigits:2});
+  const euroKort = n => "€ " + Math.round(Number(n) || 0).toLocaleString("nl-NL");
+  const isPeriode = p => /^\d{4}-\d{2}$/.test(p || "");
+  const periodLabel = p => {
+    if(!isPeriode(p)) return "Zonder periode";
+    const [y, m] = p.split("-");
+    return MONTHS[Number(m) - 1].replace(/^./, c => c.toUpperCase()) + " " + y;
+  };
+  const periodShort = p => {
+    if(!isPeriode(p)) return "Overig";
+    const [y, m] = p.split("-");
+    return MONTHS[Number(m) - 1].slice(0, 3).replace(/^./, c => c.toUpperCase()) + " '" + y.slice(2);
+  };
+  const vandaag = () => {
+    const d = new Date();
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  };
+  const thisPeriod = () => vandaag().slice(0, 7);
+  const DAY = 86400000;
+  const dag = iso => { const d = new Date(String(iso).slice(0, 10) + "T00:00:00"); return isNaN(d) ? null : d; };
+  const dagenTussen = (a, b) => Math.max(0, Math.round((dag(b) - dag(a)) / DAY));
+  function fmtDate(iso){
+    const d = iso ? dag(iso) : null;
+    return d ? d.toLocaleDateString("nl-NL", {day:"numeric", month:"short", year:"numeric"}) : "";
+  }
+  const meervoud = (n, een, veel) => n + " " + (n === 1 ? een : veel);
+  const nieuwId = () => (crypto.randomUUID ? crypto.randomUUID() : "c" + Date.now() + Math.random().toString(36).slice(2, 8));
+  async function sha(tekst){
+    if(!(window.crypto && crypto.subtle)) return null;
+    const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(tekst));
+    return [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+  function parseAmount(v){
+    if(String(v || "").trim() === "") return null;
+    const s = String(v).replace(/[^\d,.-]/g, "").replace(/\.(?=\d{3}\b)/g, "").replace(",", ".");
+    const n = parseFloat(s);
+    return isNaN(n) ? null : n;
+  }
+
+  /* ---------- statussen ---------- */
+  const STATUS = {
+    nieuw:       {label:"Nieuw"},
+    ingediend:   {label:"Ingediend"},
+    gehonoreerd: {label:"Gehonoreerd"},
+    afgewezen:   {label:"Afgewezen"}
+  };
+  const statusVan = c => STATUS[c.status] ? c.status : "nieuw";
+  const isOpen = c => statusVan(c) === "nieuw" || statusVan(c) === "ingediend";
+  const geenBedrag = c => c.bedrag == null || c.bedrag === "" || Number(c.bedrag) === 0;
+  const aankoopVan = c => (c.aankoop && String(c.aankoop).trim()) || (c.bouwjaar && String(c.bouwjaar).trim()) || "";
+  const titelVan = c => c.type || c.onderdeel || "Naamloos onderdeel";
+
+  function startDatum(c){
+    if(c.datum && dag(c.datum)) return String(c.datum).slice(0, 10);
+    if(isPeriode(c.periode)) return c.periode + "-01";
+    return null;
+  }
+  function ageInfo(c){
+    const s = startDatum(c);
+    if(!s) return null;
+    return {dagen: dagenTussen(s, vandaag()), schatting: !c.datum};
+  }
+  const vereistAandacht = c => { if(!isOpen(c) || c.uitbesteed) return false; const a = ageInfo(c); return !!(a && a.dagen >= INST.dagen); };
+  // Datum waarop de claim is afgehandeld, uit de tijdlijn. Oudere claims hebben die niet.
+  function afgehandeldOp(c){
+    if(isOpen(c)) return null;
+    const n = (Array.isArray(c.notities) ? c.notities : []).filter(x => x && x.soort === "status" && (x.naar === "gehonoreerd" || x.naar === "afgewezen"));
+    return n.length ? n.map(x => x.d).sort().pop() : null;
+  }
+  function doorlooptijd(c){
+    const eind = afgehandeldOp(c), begin = startDatum(c);
+    return eind && begin ? dagenTussen(begin, eind) : null;
+  }
+
+  /* ---------- leveranciers: vaste kleur en letters ---------- */
+  const LEVKLEUREN = ["#2e4057","#1f9e96","#e8382b","#8a5a9e","#2f6f3e","#b4651a","#4a6b8a","#7a4a2b"];
+  function levKleur(naam){
+    const n = String(naam || "").trim();
+    if(!n) return "#8a8f96";
+    let h = 0;
+    for(let i = 0; i < n.length; i++) h = (h * 31 + n.charCodeAt(i)) >>> 0;
+    return LEVKLEUREN[h % LEVKLEUREN.length];
+  }
+  function levLetters(naam){
+    const n = String(naam || "").trim();
+    if(!n) return "?";
+    const d = n.split(/[\s-]+/).filter(Boolean);
+    return (d.length > 1 ? d[0][0] + d[1][0] : n.slice(0, 2)).toUpperCase();
+  }
+
+  /* ---------- instellingen (staan als rij _instellingen in de tabel) ---------- */
+  const INST_ID = "_instellingen";
+  const INST_STANDAARD = {
+    vestiging: "Vestiging Meppel",
+    dagen: 42,
+    leveranciers: ["Direct Healthcare","Eureva","Mercado","Sowecare","UnitedCare","Umotion","Wellco"],
+    uitbesteedLev: ["Wellco"],
+    levMail: {},
+    autoInvoer: true,
+    prijzen: [{woord:"speling", bedrag:780}, {woord:"beremd wiel", bedrag:114},
+      {woord:"seatsupport", bedrag:507}, {woord:"seat support", bedrag:507}, {woord:"jukmotor", bedrag:351}]
+  };
+  let INST = {...INST_STANDAARD};
+  function instUit(o){
+    if(!o || typeof o !== "object") return {...INST_STANDAARD};
+    return {
+      vestiging: typeof o.vestiging === "string" && o.vestiging.trim() ? o.vestiging.trim() : INST_STANDAARD.vestiging,
+      dagen: Number(o.dagen) > 0 ? Math.round(Number(o.dagen)) : INST_STANDAARD.dagen,
+      leveranciers: Array.isArray(o.leveranciers) && o.leveranciers.length ? o.leveranciers : INST_STANDAARD.leveranciers,
+      uitbesteedLev: Array.isArray(o.uitbesteedLev) ? o.uitbesteedLev : INST_STANDAARD.uitbesteedLev,
+      levMail: o.levMail && typeof o.levMail === "object" ? o.levMail : {},
+      autoInvoer: o.autoInvoer !== false,
+      prijzen: Array.isArray(o.prijzen)
+        ? o.prijzen.filter(r => r && typeof r.woord === "string" && r.woord.trim() && Number(r.bedrag) > 0)
+                   .map(r => ({woord:r.woord.trim(), bedrag:Number(r.bedrag)}))
+        : INST_STANDAARD.prijzen.slice()
+    };
+  }
+  function instUitRij(rij){
+    if(!rij) return {...INST_STANDAARD};
+    try{ return instUit(JSON.parse(rij.bijzonderheden || "{}")); }catch(e){ return {...INST_STANDAARD}; }
+  }
+  function pasInstToe(){
+    el("vestiging").textContent = INST.vestiging;
+    document.title = "Garantieclaims Medipoint " + INST.vestiging.replace(/^vestiging\s+/i, "");
+  }
+
+  /* ======================================================================
+     TOEGANG EN OPSLAG
+     ====================================================================== */
+  const SLEUTEL_PW = "garanties-meppel-toegang";
+  const SLEUTEL_SESSIE = "claimregister-sessie";
+  const SLEUTEL_CACHE = "claimregister-cache-v2";
+  const SLEUTEL_LOKAAL = "garanties-meppel-v1";
+  const SLEUTEL_LOKAAL_INST = "garanties-meppel-inst";
+  const SLEUTEL_WEERGAVE = "claimregister-weergave";
+  const SLEUTEL_THEMA = "claimregister-thema";
+
+  let sessie = ls.json(SLEUTEL_SESSIE);
+  function bewaarSessie(s){ sessie = s; if(s) ls.set(SLEUTEL_SESSIE, JSON.stringify(s)); else ls.del(SLEUTEL_SESSIE); }
+
+  async function authAanvraag(grant, body){
+    const r = await fetch(BASE + "/auth/v1/token?grant_type=" + grant, {
+      method:"POST", headers:{apikey:KEY, "Content-Type":"application/json"}, body:JSON.stringify(body)});
+    const j = await r.json().catch(() => ({}));
+    if(!r.ok) throw new Error(j.error_description || j.msg || j.message || "Inloggen mislukt");
+    return {access_token:j.access_token, refresh_token:j.refresh_token,
+      expires_at: Date.now() + (Number(j.expires_in) || 3600) * 1000,
+      email: (j.user && j.user.email) || body.email || (sessie && sessie.email) || ""};
+  }
+  class AuthFout extends Error {}
+  async function kop(extra){
+    let token = KEY;
+    if(CONFIG.ACCOUNTS){
+      if(!sessie) throw new AuthFout("niet ingelogd");
+      if(Date.now() > sessie.expires_at - 60000){
+        try{ bewaarSessie(await authAanvraag("refresh_token", {refresh_token:sessie.refresh_token})); }
+        catch(e){ throw new AuthFout("sessie verlopen"); }
+      }
+      token = sessie.access_token;
+    }
+    return {apikey:KEY, Authorization:"Bearer " + token, "Content-Type":"application/json", ...(extra || {})};
+  }
+  async function verzoek(url, opties){
+    const r = await fetch(url, {...opties, headers: await kop(opties && opties.headers)});
+    if(r.status === 401 && CONFIG.ACCOUNTS) throw new AuthFout("geen toegang");
+    return r;
+  }
+
+  // Alle kolommen die de app schrijft. Kent de tabel er een niet, dan laat de app die weg.
+  const KOLOMMEN = ["id","nummer","onderdeel","voorziening","type","frame","storing","inkoopnummer","leverancier","aankoop",
+    "bouwjaar","bedrag","datum","periode","status","locatie","uitbesteed","bijzonderheden","notities","bijgewerkt","verwijderd"];
+  const onbekendeKolommen = new Set(ls.json("claimregister-onbekend") || []);
+  function naarRij(c){
+    const r = {};
+    KOLOMMEN.forEach(k => {
+      if(onbekendeKolommen.has(k)) return;
+      let v = c[k];
+      if(k === "notities") v = Array.isArray(v) ? v : [];
+      else if(k === "uitbesteed") v = !!v;
+      else if(k === "bedrag") v = (v == null || v === "") ? null : Number(v);
+      else if(v === undefined || v === "") v = (k === "verwijderd" || k === "datum") ? null : (v === "" ? "" : null);
+      r[k] = v;
+    });
+    return r;
+  }
+  async function apiGet(){
+    const r = await verzoek(API + "?select=*", {});
+    if(!r.ok) throw new Error("GET " + r.status);
+    return r.json();
+  }
+  async function apiSave(rijen){
+    for(let poging = 0; poging < KOLOMMEN.length; poging++){
+      const body = rijen.map(r => { const o = {...r}; onbekendeKolommen.forEach(k => delete o[k]); return o; });
+      const r = await verzoek(API, {method:"POST", headers:{Prefer:"resolution=merge-duplicates,return=minimal"}, body:JSON.stringify(body)});
+      if(r.ok) return;
+      const t = await r.text().catch(() => "");
+      const m = t.match(/'([a-z_]+)' column/i) || t.match(/column "?([a-z_]+)"? (?:of|does)/i);
+      if(m && m[1] !== "id" && !onbekendeKolommen.has(m[1])){
+        onbekendeKolommen.add(m[1]);
+        ls.set("claimregister-onbekend", JSON.stringify([...onbekendeKolommen]));
+        toast("De tabel kent de kolom ‘" + m[1] + "’ nog niet — zie supabase-beveiliging.sql");
+        continue;
+      }
+      throw new Error("POST " + r.status + " " + t.slice(0, 160));
+    }
+  }
+  async function apiDelete(id){
+    const r = await verzoek(API + "?id=eq." + encodeURIComponent(id), {method:"DELETE"});
+    if(!r.ok) throw new Error("DELETE " + r.status);
+  }
+
+  /* ---------- staat ---------- */
+  const opgeslagenWeergave = ls.json(SLEUTEL_WEERGAVE) || {};
+  const state = {
+    claims: [], loaded:false, live:false, offline:false,
+    period:"all", q:"", status: opgeslagenWeergave.status != null ? opgeslagenWeergave.status : "open",
+    loc: opgeslagenWeergave.loc || "", lev: opgeslagenWeergave.lev || "",
+    sort: opgeslagenWeergave.sort || "standaard", groep: opgeslagenWeergave.groep || "maand",
+    view:"lijst", trash:false, selecteren:false, geselecteerd:new Set(),
+    confirmId:null, expanded:new Set(), tabel:false
+  };
+  function bewaarWeergave(){
+    ls.set(SLEUTEL_WEERGAVE, JSON.stringify({status:state.status, loc:state.loc, lev:state.lev, sort:state.sort, groep:state.groep}));
+  }
+  function schrijfCache(){
+    if(REMOTE) ls.set(SLEUTEL_CACHE, JSON.stringify({tijd:Date.now(), claims:state.claims, inst:INST}));
+    else { ls.set(SLEUTEL_LOKAAL, JSON.stringify(state.claims)); ls.set(SLEUTEL_LOKAAL_INST, JSON.stringify(INST)); }
+  }
+  function leesRijen(rows){
+    const inst = rows.find(r => r.id === INST_ID);
+    if(inst){ INST = instUitRij(inst); pasInstToe(); }
+    return rows.filter(r => r && r.id && String(r.id).charAt(0) !== "_").map(r => ({
+      ...r,
+      bedrag: (r.bedrag == null || r.bedrag === "") ? null : Number(r.bedrag),
+      notities: Array.isArray(r.notities) ? r.notities : (typeof r.notities === "string" ? (()=>{ try{ return JSON.parse(r.notities) || []; }catch(e){ return []; } })() : [])
+    }));
+  }
+
+  let bezigMetLaden = false;
+  async function refresh(){
+    if(!REMOTE || bezigMetLaden) return;
+    bezigMetLaden = true;
+    try{
+      const rows = await apiGet();
+      // Een open dialoog of selectie niet onder iemands handen verversen.
+      state.claims = leesRijen(rows);
+      state.loaded = true; state.live = true; state.offline = false;
+      schrijfCache();
+      banner("");
+      if(!document.querySelector(".overlay")) render(); else renderSync();
+    }catch(err){
+      if(err instanceof AuthFout){ uitloggen("Je sessie is verlopen. Log opnieuw in."); return; }
+      state.offline = true;
+      banner(state.claims.length
+        ? "Even geen verbinding met de database. Je ziet de laatst opgehaalde lijst" + (state.cacheTijd ? " van " + new Date(state.cacheTijd).toLocaleString("nl-NL", {day:"numeric", month:"short", hour:"2-digit", minute:"2-digit"}) : "") + "; wijzigingen worden pas bewaard als de verbinding terug is."
+        : "De claims konden niet worden opgehaald. Controleer je internetverbinding.");
+      state.loaded = true;
+      render();
+    }finally{ bezigMetLaden = false; }
+  }
+
+  /* Bewaar een of meer claims. Optimistisch: eerst op het scherm, dan naar de database. */
+  async function bewaar(claims, melding, ongedaan){
+    const nu = vandaag();
+    claims = claims.map(c => ({...c, bijgewerkt: nu}));
+    claims.forEach(c => {
+      const i = state.claims.findIndex(x => x.id === c.id);
+      if(i > -1) state.claims[i] = c; else state.claims.push(c);
+    });
+    render();
+    schrijfCache();
+    if(!REMOTE){ if(melding) toast(melding, ongedaan); return true; }
+    try{
+      await apiSave(claims.map(naarRij));
+      if(melding) toast(melding, ongedaan);
+      refresh();
+      return true;
+    }catch(err){
+      if(err instanceof AuthFout){ uitloggen("Je sessie is verlopen. Log opnieuw in."); return false; }
+      toast("Opslaan mislukt — controleer je verbinding");
+      refresh();
+      return false;
+    }
+  }
+  const kopie = c => JSON.parse(JSON.stringify(c));
+  function terugdraaier(voor, extraWeg){
+    return async () => {
+      if(extraWeg) await purge(extraWeg, true);
+      if(voor.length) await bewaar(voor, "Teruggedraaid");
+    };
+  }
+  function metStatus(c, naar, tekst){
+    const van = statusVan(c);
+    if(van === naar) return c;
+    const notities = [...(Array.isArray(c.notities) ? c.notities : []),
+      {d: vandaag(), t: tekst || ("Status: " + STATUS[van].label + " → " + STATUS[naar].label), soort:"status", naar}];
+    return {...c, status:naar, notities};
+  }
+  async function zetStatus(ids, naar){
+    const voor = ids.map(id => state.claims.find(c => c.id === id)).filter(Boolean).filter(c => statusVan(c) !== naar);
+    if(!voor.length) return;
+    const na = voor.map(c => metStatus(kopie(c), naar));
+    await bewaar(na, (na.length === 1 ? "Claim" : na.length + " claims") + " op " + STATUS[naar].label.toLowerCase() + " gezet", terugdraaier(voor.map(kopie)));
+  }
+  async function naarPrullenbak(ids){
+    const voor = ids.map(id => state.claims.find(c => c.id === id)).filter(Boolean);
+    if(!voor.length) return;
+    const na = voor.map(c => ({...kopie(c), verwijderd: vandaag()}));
+    state.confirmId = null;
+    await bewaar(na, (na.length === 1 ? "Claim" : na.length + " claims") + " naar de prullenbak", terugdraaier(voor.map(kopie)));
+  }
+  async function terugzetten(id){
+    const c = state.claims.find(x => x.id === id);
+    if(!c) return;
+    await bewaar([{...kopie(c), verwijderd:null}], "Claim teruggezet");
+  }
+  async function purge(id, stil){
+    state.confirmId = null;
+    state.claims = state.claims.filter(c => c.id !== id);
+    render(); schrijfCache();
+    if(!REMOTE){ if(!stil) toast("Definitief verwijderd"); return; }
+    try{ await apiDelete(id); if(!stil) toast("Definitief verwijderd"); refresh(); }
+    catch(err){ if(err instanceof AuthFout){ uitloggen("Je sessie is verlopen. Log opnieuw in."); return; } toast("Verwijderen mislukt"); refresh(); }
+  }
+  async function bewaarInst(nieuw){
+    INST = instUit({...INST, ...nieuw});
+    pasInstToe(); render(); schrijfCache();
+    if(!REMOTE){ toast("Instellingen opgeslagen"); return; }
+    try{
+      await apiSave([{id:INST_ID, onderdeel:"", nummer:"", leverancier:"", status:"nieuw", locatie:"binnen", bedrag:0, periode:"",
+        bijzonderheden: JSON.stringify(INST)}]);
+      toast("Instellingen opgeslagen");
+    }catch(e){ toast("Opslaan mislukt"); }
+  }
+
+  /* ======================================================================
+     SELECTIE VAN DE LIJST
+     ====================================================================== */
+  const actief = () => state.claims.filter(c => !c.verwijderd);
+  const prullenbak = () => state.claims.filter(c => c.verwijderd);
+  const zoekTekst = c => [c.nummer, c.onderdeel, c.leverancier, c.inkoopnummer, c.bijzonderheden, c.voorziening, c.type, c.frame,
+    c.storing, c.aankoop, (Array.isArray(c.notities) ? c.notities.map(n => n && n.t).join(" ") : "")].join(" ").toLowerCase();
+
+  function baseRows(zonderPeriode){
+    const q = state.q.trim().toLowerCase();
+    const woorden = q.split(/\s+/).filter(Boolean);
+    return actief().filter(c => {
+      if(!zonderPeriode && state.period !== "all" && (c.periode || "") !== state.period) return false;
+      if(state.loc && (c.locatie || "") !== state.loc) return false;
+      if(state.lev && (c.leverancier || "") !== state.lev) return false;
+      if(woorden.length){ const h = zoekTekst(c); if(!woorden.every(w => h.includes(w))) return false; }
+      return true;
+    });
+  }
+  function filterTab(c){
+    switch(state.status){
+      case "open": return isOpen(c);
+      case "aandacht": return vereistAandacht(c);
+      case "afgehandeld": return !isOpen(c);
+      case "uitbesteed": return !!c.uitbesteed;
+      default: return true;
+    }
+  }
+  function visible(){
+    return baseRows().filter(filterTab).sort((a, b) => {
+      if(state.sort === "bedrag") return (Number(b.bedrag) || 0) - (Number(a.bedrag) || 0);
+      if(state.sort === "ouderdom") return ((ageInfo(b) || {dagen:-1}).dagen) - ((ageInfo(a) || {dagen:-1}).dagen);
+      if(state.sort === "bijgewerkt") return String(b.bijgewerkt || "").localeCompare(String(a.bijgewerkt || ""));
+      if(state.sort === "leverancier") return String(a.leverancier || "").localeCompare(String(b.leverancier || ""), "nl")
+        || titelVan(a).localeCompare(titelVan(b), "nl");
+      if(state.sort === "onderdeel") return titelVan(a).localeCompare(titelVan(b), "nl");
+      const oa = isOpen(a), ob = isOpen(b);
+      if(oa !== ob) return oa ? -1 : 1;
+      const pa = String(a.periode || ""), pb = String(b.periode || "");
+      if(pa !== pb) return oa ? pa.localeCompare(pb) : pb.localeCompare(pa);
+      return titelVan(a).localeCompare(titelVan(b), "nl");
+    });
+  }
+  const alleLeveranciers = () => [...new Set([...INST.leveranciers, ...state.claims.map(c => c.leverancier).filter(Boolean)])]
+    .sort((a, b) => a.localeCompare(b, "nl"));
+
+  /* ======================================================================
+     WEERGAVE
+     ====================================================================== */
+  function renderPeriods(){
+    const set = new Set(actief().map(c => c.periode).filter(isPeriode));
+    set.add(thisPeriod());
+    const nav = el("periods");
+    nav.innerHTML = "";
+    const mk = (val, label) => {
+      const b = document.createElement("button");
+      b.className = "period"; b.textContent = label; b.type = "button";
+      b.setAttribute("aria-current", state.period === val ? "true" : "false");
+      b.onclick = () => { state.period = val; render(); nav.scrollLeft = b.offsetLeft - 60; };
+      nav.appendChild(b);
+    };
+    mk("all", "Alle periodes");
+    [...set].sort().reverse().forEach(p => mk(p, periodShort(p)));
+  }
+
+  function renderStats(rows){
+    const sum = f => rows.filter(f).reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
+    const nOpen = rows.filter(isOpen).length;
+    const nDone = rows.filter(c => statusVan(c) === "gehonoreerd").length;
+    const uitb = rows.filter(c => c.uitbesteed).length;
+    const data = [
+      ["Claims", String(rows.length), "in deze selectie", "blauw"],
+      ["Openstaand", euro(sum(isOpen)), meervoud(nOpen, "claim", "claims"), "rood"],
+      ["Gehonoreerd", euro(sum(c => statusVan(c) === "gehonoreerd")), meervoud(nDone, "claim", "claims"), "groen"],
+      ["Totaal geclaimd", euro(sum(() => true)), uitb ? "waarvan " + uitb + " uitbesteed" : "alle statussen", "zwart"]
+    ];
+    el("stats").innerHTML = data.map(([k, v, sub, kleur]) =>
+      `<div class="stat vlak-${kleur}"><dt>${k}</dt><dd>${esc(v)}</dd><span class="sub">${esc(sub)}</span></div>`).join("");
+  }
+
+  function renderAlert(){
+    const box = el("alert");
+    const alle = actief();
+    const open = alle.filter(isOpen);
+    if(!alle.length){ box.hidden = true; return; }
+    box.hidden = false;
+    if(!open.length){
+      box.className = "alertbar done";
+      box.innerHTML = `<div class="ab-text"><strong>Alles afgehandeld</strong><span class="ab-sub">Geen openstaande garantieclaims.</span></div>`;
+      return;
+    }
+    const bedrag = open.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
+    const perioden = [...new Set(open.map(c => c.periode).filter(isPeriode))].sort();
+    const laat = alle.filter(vereistAandacht).length;
+    box.className = "alertbar";
+    box.innerHTML = `<div class="ab-text">
+        <span class="ab-eyebrow">Let op! Actie nodig</span>
+        <strong>${open.length === 1 ? "1 claim nog niet gehonoreerd" : open.length + " claims nog niet gehonoreerd"}</strong>
+        <span class="ab-sub">${esc(euro(bedrag))} openstaand${perioden.length ? " · oudste uit " + esc(periodLabel(perioden[0])) : ""}${laat ? " · " + meervoud(laat, "claim", "claims") + " langer dan " + INST.dagen + " dagen open" : ""}</span>
+      </div>
+      <div class="ab-knoppen">
+        ${laat ? `<button type="button" data-alert="aandacht">Vereist aandacht</button>` : ""}
+        <button type="button" data-alert="open">Bekijken</button>
+      </div>`;
+  }
+  el("alert").addEventListener("click", e => {
+    const b = e.target.closest("button[data-alert]");
+    if(!b) return;
+    Object.assign(state, {period:"all", status:b.dataset.alert, loc:"", lev:"", q:"", view:"lijst", trash:false});
+    syncFilterVelden(); bewaarWeergave(); render();
+    el("tabs").scrollIntoView({behavior:"smooth", block:"start"});
+  });
+
+  function renderProgress(){
+    const base = baseRows();
+    const box = el("progress");
+    if(!base.length){ box.hidden = true; return; }
+    box.hidden = false;
+    const totaal = base.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
+    const open = base.filter(isOpen).reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
+    const done = totaal - open;
+    const pct = totaal ? Math.round(done / totaal * 100) : 100;
+    const alle = actief();
+    const som = alle.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
+    const pp = [...new Set(alle.map(c => c.periode).filter(isPeriode))].sort();
+    const reeks = pp.length ? (pp.length === 1 ? periodLabel(pp[0]) : periodLabel(pp[0]) + " t/m " + periodLabel(pp[pp.length - 1])) : "";
+    box.innerHTML = `<div class="ptop"><span class="ptitle">Afgehandeld in bedrag</span><span class="ppct">${pct}%</span></div>
+      <div class="pbar" role="img" aria-label="${pct} procent van het geclaimde bedrag is afgehandeld">
+        <i class="done" style="width:${pct}%"></i><i class="open" style="width:${100 - pct}%"></i>
+      </div>
+      <div class="plegend">
+        <span><i style="background:var(--ok)"></i>Afgehandeld ${esc(euro(done))}</span>
+        <span><i style="background:var(--bad)"></i>Openstaand ${esc(euro(open))}</span>
+      </div>
+      <div class="ptotal">
+        <span class="pt-label">Totaal geclaimd, alle periodes</span>
+        <span class="pt-bedrag">${esc(euro(som))}</span>
+        <span class="pt-sub">${alle.length} claims${reeks ? " · " + esc(reeks) : ""}</span>
+      </div>`;
+  }
+
+  function perLeverancier(rows){
+    const m = new Map();
+    rows.forEach(c => {
+      const k = (c.leverancier || "").trim() || "Zonder leverancier";
+      const e = m.get(k) || {naam:k, n:0, open:0, openN:0, totaal:0, geh:0, gehN:0, afg:0, afgN:0, doorloop:[], oudste:0};
+      const b = Number(c.bedrag) || 0;
+      e.n++; e.totaal += b;
+      if(isOpen(c)){ e.open += b; e.openN++; const a = ageInfo(c); if(a && a.dagen > e.oudste) e.oudste = a.dagen; }
+      if(statusVan(c) === "gehonoreerd"){ e.geh += b; e.gehN++; }
+      if(statusVan(c) === "afgewezen"){ e.afg += b; e.afgN++; }
+      const d = doorlooptijd(c); if(d != null && !c.uitbesteed) e.doorloop.push(d);
+      m.set(k, e);
+    });
+    return [...m.values()].sort((a, b) => b.open - a.open || b.totaal - a.totaal);
+  }
+  function renderSuppliers(){
+    const lijst = perLeverancier(baseRows());
+    el("supCount").textContent = lijst.length ? meervoud(lijst.length, "leverancier", "leveranciers") : "";
+    el("supBody").innerHTML = !lijst.length ? "" : `<table>
+      <thead><tr><th>Leverancier</th><th class="num">Claims</th><th class="num">Openstaand</th><th class="num">Totaal</th></tr></thead>
+      <tbody>${lijst.map(e => `<tr>
+        <td class="naam">${esc(e.naam)}${e.openN && e.naam !== "Zonder leverancier" ? `<button type="button" class="mailknop" data-mail="${esc(e.naam)}">Rappel</button>` : ""}</td>
+        <td class="num">${e.n}</td>
+        <td class="num${e.open ? " open" : ""}">${e.open ? esc(euro(e.open)) : "—"}</td>
+        <td class="num">${esc(euro(e.totaal))}</td></tr>`).join("")}</tbody></table>`;
+  }
+
+  function renderTabs(){
+    const base = baseRows();
+    const tabs = [
+      ["", "Alles", base.length],
+      ["open", "Openstaand", base.filter(isOpen).length],
+      ["aandacht", "Vereist aandacht", base.filter(vereistAandacht).length],
+      ["afgehandeld", "Afgehandeld", base.filter(c => !isOpen(c)).length],
+      ["uitbesteed", "Uitbesteed", base.filter(c => c.uitbesteed).length]
+    ];
+    el("tabs").innerHTML = tabs.map(([v, label, n]) =>
+      `<button type="button" class="tab" role="tab" data-tab="${v}" aria-selected="${state.status === v}">${label}<span class="n">${n}</span></button>`).join("");
+  }
+
+  function ringSvg(pct, kleur, tekst){
+    const p = Math.max(0, Math.min(100, Math.round(pct)));
+    return `<svg class="ring" viewBox="0 0 42 42" role="img" aria-label="${esc(tekst)}">
+      <circle class="ring-bg" cx="21" cy="21" r="15.9155" pathLength="100"></circle>
+      <circle class="ring-v" cx="21" cy="21" r="15.9155" pathLength="100" stroke="${kleur}" stroke-dasharray="${p} ${100 - p}" stroke-dashoffset="25"></circle>
+      <text class="ring-t" x="21" y="21" fill="${kleur}">${esc(tekst)}</text></svg>`;
+  }
+
+  function tijdlijnHtml(c){
+    const n = (Array.isArray(c.notities) ? c.notities : []).filter(x => x && (x.t || x.d));
+    if(!n.length) return "";
+    return `<div class="tijdlijn">${n.slice().sort((x, y) => String(y.d || "").localeCompare(String(x.d || ""))).map(x =>
+      `<div class="tl${x.soort === "status" ? " s s-" + esc(x.naar || "") : ""}"><span class="nd">${esc(fmtDate(x.d) || x.d || "")}</span><span class="bol"></span><span class="nt">${esc(x.t || "")}</span></div>`).join("")}</div>`;
+  }
+
+  function rijHtml(c){
+    const st = statusVan(c);
+    const open = isOpen(c);
+    const uit = state.expanded.has(c.id) && !state.selecteren;
+    const a = ageInfo(c);
+    const lang = vereistAandacht(c);
+    const sel = state.geselecteerd.has(c.id);
+    let pct, kleur, ringtekst;
+    if(c.uitbesteed){ pct = 100; kleur = "var(--geel-rand)"; ringtekst = "80"; }
+    else if(st === "afgewezen"){ pct = 100; kleur = "var(--bad)"; ringtekst = "✕"; }
+    else if(!open){ pct = 100; kleur = "var(--ok)"; ringtekst = "✓"; }
+    else if(a){ pct = a.dagen / INST.dagen * 100; kleur = lang ? "var(--rood)" : "var(--geel-rand)"; ringtekst = a.dagen + "d"; }
+    else { pct = 0; kleur = "var(--line)"; ringtekst = "—"; }
+    const d = doorlooptijd(c);
+    return `<article class="kaart${open ? " k-open" : ""}${lang ? " k-laat" : ""}${c.uitbesteed ? " k-uit" : ""}${uit ? " k-aan" : ""}${sel ? " k-sel" : ""}" data-card="${esc(c.id)}">
+      <div class="kaart-kop">
+        ${state.selecteren ? `<span class="vinkje" aria-hidden="true">✓</span>` : ""}
+        <i class="kaart-merk" style="background:${levKleur(c.leverancier)}">${esc(levLetters(c.leverancier))}</i>
+        <span class="kaart-titel">
+          <h3>${esc(titelVan(c))}</h3>
+          ${c.storing ? `<span class="kaart-storing">${esc(c.storing)}</span>` : ""}
+          <span class="kaart-sub">${esc(c.leverancier || "Zonder leverancier")}${c.uitbesteed ? " · uitbesteed" : ""}</span>
+        </span>
+        ${lang ? `<span class="aandacht">Vereist aandacht</span>` : ""}
+        ${state.selecteren ? "" : `<span class="chev" aria-hidden="true">▾</span>`}
+      </div>
+      <div class="kaart-lijf">
+        <div class="kaart-velden">
+          <span>Status<b class="w-${st}">${esc(STATUS[st].label)}</b></span>
+          <span>Bedrag<b class="${geenBedrag(c) ? "wait" : "geld"}">${geenBedrag(c) ? "volgt later" : esc(euro(c.bedrag))}</b></span>
+          <span>Periode<b>${esc(periodLabel(c.periode))}</b></span>
+          <span>Inkoopnummer<b${c.inkoopnummer ? "" : ` class="wait"`}>${c.inkoopnummer ? esc(c.inkoopnummer) : "wacht op nummer"}</b></span>
+        </div>
+        <div class="kaart-ring">${ringSvg(pct, kleur, ringtekst)}</div>
+      </div>
+      ${uit ? `<div class="kaart-detail">
+        <div class="meta">
+          ${(c.onderdeel && c.onderdeel !== c.type) ? `<span>Onderdeel<b>${esc(c.onderdeel)}</b></span>` : ""}
+          ${c.voorziening ? `<span>Voorzieningnummer<b>${esc(c.voorziening)}</b></span>` : ""}
+          ${c.frame ? `<span>Framenummer<b>${esc(c.frame)}</b></span>` : ""}
+          <span>Aankoopdatum<b${aankoopVan(c) ? "" : ' class="wait"'}>${esc(aankoopVan(c) || "onbekend")}</b></span>
+          <span>Monteur<b>${c.locatie === "buiten" ? "Buitenmonteur" : "Binnenmonteur"}</b></span>
+          ${c.datum ? `<span>Ingediend<b>${esc(fmtDate(c.datum))}</b></span>` : ""}
+          ${afgehandeldOp(c) ? `<span>Afgehandeld<b>${esc(fmtDate(afgehandeldOp(c)))}</b></span>` : ""}
+          ${c.nummer ? `<span>Claimnummer<b>${esc(c.nummer)}</b></span>` : ""}
+          ${c.bijgewerkt ? `<span>Bijgewerkt<b>${esc(fmtDate(c.bijgewerkt))}</b></span>` : ""}
+        </div>
+        ${d != null ? `<span class="doorloop">Afgehandeld na <b>${meervoud(d, "dag", "dagen")}</b></span>` :
+          (open && a ? `<span class="doorloop">Staat <b>${meervoud(a.dagen, "dag", "dagen")}</b> open${a.schatting ? " (geschat vanaf de periode)" : ""} · termijn ${INST.dagen} dagen</span>` : "")}
+        ${c.bijzonderheden ? `<p class="note">${esc(c.bijzonderheden)}</p>` : ""}
+        ${tijdlijnHtml(c)}
+        <div class="row-actions">
+          ${st === "nieuw" ? `<button class="icon-btn" data-act="ingediend" data-id="${esc(c.id)}">Ingediend</button>` : ""}
+          ${open
+            ? `<button class="icon-btn ok" data-act="gehonoreerd" data-id="${esc(c.id)}">Gehonoreerd</button>
+               <button class="icon-btn warn" data-act="afgewezen" data-id="${esc(c.id)}">Afwijzen</button>`
+            : `<button class="icon-btn" data-act="heropenen" data-id="${esc(c.id)}">Heropenen</button>`}
+          <button class="icon-btn" data-act="notitie" data-id="${esc(c.id)}">Notitie</button>
+          <button class="icon-btn" data-act="bewerken" data-id="${esc(c.id)}">Bewerken</button>
+          <button class="icon-btn" data-act="dupliceren" data-id="${esc(c.id)}">Dupliceren</button>
+          <button class="icon-btn danger" data-act="verwijderen" data-id="${esc(c.id)}">Verwijderen</button>
+        </div>
+        ${state.confirmId === c.id ? `<div class="confirm">${esc(titelVan(c))} naar de prullenbak?
+          <button class="btn" data-act="annuleren">Annuleren</button>
+          <button class="btn btn-primary" data-act="bevestig" data-id="${esc(c.id)}">Verwijderen</button></div>` : ""}
+      </div>` : ""}
+    </article>`;
+  }
+
+  function groepBlok(lijst, titel){
+    const som = lijst.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
+    const nOpen = lijst.filter(isOpen).length;
+    const nLaat = lijst.filter(vereistAandacht).length;
+    return `<section class="maand">
+      <div class="maandkop">
+        <h2>${esc(titel)}</h2>
+        <span class="maandcijfers">
+          <span>${meervoud(lijst.length, "claim", "claims")}</span>
+          ${nOpen ? `<span class="mo">${nOpen} open</span>` : `<span class="mk">alles afgehandeld</span>`}
+          ${nLaat ? `<span class="aandacht">${nLaat === 1 ? "1 vereist aandacht" : nLaat + " vereisen aandacht"}</span>` : ""}
+          <b>${esc(euro(som))}</b>
+        </span>
+      </div>
+      <div class="kaarten">${lijst.map(rijHtml).join("")}</div>
+    </section>`;
+  }
+
+  function trashCard(c){
+    return `<article class="claim is-trash">
+      <div class="claim-head"><h3 class="part">${esc(titelVan(c))}</h3><span class="amount">${esc(euro(c.bedrag))}</span></div>
+      <div class="claim-sum"><span class="pill p-neutral">Verwijderd ${esc(fmtDate(c.verwijderd) || c.verwijderd || "")}</span>
+        <span class="lev">${esc(c.leverancier || "Zonder leverancier")}</span>${c.inkoopnummer ? `<span>· ${esc(c.inkoopnummer)}</span>` : ""}</div>
+      <div class="pills"><span class="row-actions">
+        <button class="icon-btn" data-act="terugzetten" data-id="${esc(c.id)}">Terugzetten</button>
+        <button class="icon-btn danger" data-act="purge" data-id="${esc(c.id)}">Definitief verwijderen</button>
+      </span></div>
+      ${state.confirmId === c.id ? `<div class="confirm">Deze claim is daarna echt weg.
+        <button class="btn" data-act="annuleren">Annuleren</button>
+        <button class="btn btn-primary" data-act="purgeok" data-id="${esc(c.id)}">Definitief verwijderen</button></div>` : ""}
+    </article>`;
+  }
+
+  function renderSync(){
+    const s = el("sync");
+    if(!REMOTE){ s.className = "sync lokaal"; s.innerHTML = "<i></i>Alleen op dit apparaat"; return; }
+    if(state.offline){ s.className = "sync offline"; s.innerHTML = "<i></i>Geen verbinding"; return; }
+    if(!state.live){ s.className = "sync offline"; s.innerHTML = "<i></i>Laden…"; return; }
+    s.className = "sync";
+    s.innerHTML = "<i></i>Bijgewerkt " + new Date().toLocaleTimeString("nl-NL", {hour:"2-digit", minute:"2-digit"}) +
+      (CONFIG.ACCOUNTS && sessie && sessie.email ? " · " + esc(sessie.email) : "");
+  }
+
+  function syncFilterVelden(){
+    el("q").value = state.q;
+    el("fLoc").value = state.loc;
+    el("fSort").value = state.sort;
+    el("fGroep").value = state.groep;
+    const levs = alleLeveranciers();
+    el("fLev").innerHTML = `<option value="">Alle leveranciers</option>` + levs.map(l => `<option value="${esc(l)}">${esc(l)}</option>`).join("");
+    el("fLev").value = levs.includes(state.lev) ? state.lev : "";
+  }
+
+  function render(){
+    pasInstToe();
+    renderSync();
+    document.querySelectorAll(".weergave button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.view === state.view)));
+    renderPeriods();
+    renderAlert();
+    el("printkop").textContent = "Afgedrukt op " + fmtDate(vandaag()) + " · " + (state.period === "all" ? "alle periodes" : periodLabel(state.period));
+
+    if(state.view === "rapport"){
+      el("lijstweergave").hidden = true;
+      el("rapportweergave").hidden = false;
+      el("stats").hidden = false;
+      renderStats(baseRows());
+      renderBulk();
+      renderRapport();
+      return;
+    }
+    el("lijstweergave").hidden = false;
+    el("rapportweergave").hidden = true;
+
+    const bak = prullenbak();
+    if(state.trash && !bak.length) state.trash = false;
+    const inBak = state.trash;
+    ["stats", "progress", "suppliers", "tabs", "filterbar"].forEach(id => { el(id).hidden = inBak; });
+    if(inBak) el("filters").hidden = true;
+    const tb = el("trashBtn");
+    tb.hidden = !(bak.length || inBak);
+    tb.textContent = inBak ? "Terug naar de claims" : `Prullenbak (${bak.length})`;
+
+    const list = el("list");
+    if(inBak){
+      list.innerHTML = bak.slice().sort((a, b) => String(b.verwijderd || "").localeCompare(String(a.verwijderd || ""))).map(trashCard).join("");
+      renderBulk();
+      return;
+    }
+
+    const filtersAan = !!(state.q.trim() || state.loc || state.lev || state.sort !== "standaard" || state.groep !== "maand");
+    el("filterBtn").innerHTML = "Filters" + (filtersAan ? `<span class="fdot"></span>` : "");
+    el("selectBtn").setAttribute("aria-pressed", String(state.selecteren));
+    el("selectBtn").textContent = state.selecteren ? "Klaar met selecteren" : "Selecteren";
+    renderTabs();
+    const rows = visible();
+    renderStats(rows);
+    el("count").textContent = meervoud(rows.length, "claim", "claims");
+    renderProgress();
+    renderSuppliers();
+
+    if(!rows.length){
+      list.innerHTML = `<div class="empty"><strong>${state.loaded ? "Geen claims in deze selectie" : "Claims laden…"}</strong>
+        ${state.loaded ? (filtersAan || state.period !== "all" || state.status
+          ? `Pas de periode, het tabblad of de filters aan. <button type="button" class="linkbtn" data-act="allesTonen">Alles tonen</button>`
+          : "Leg een nieuwe garantieclaim vast met <b>+ Claim</b>, of sleep een LGAR-formulier op de pagina.")
+          : "Even geduld, de opgeslagen claims worden opgehaald."}</div>`;
+    } else if(state.groep === "geen"){
+      list.innerHTML = groepBlok(rows, meervoud(rows.length, "claim", "claims"));
+    } else {
+      const perLev = state.groep === "leverancier";
+      const groepen = new Map();
+      rows.forEach(c => {
+        const k = perLev ? ((c.leverancier || "").trim() || "Zonder leverancier") : (c.periode || "");
+        if(!groepen.has(k)) groepen.set(k, []);
+        groepen.get(k).push(c);
+      });
+      let sleutels = [...groepen.keys()];
+      if(perLev) sleutels.sort((a, b) => groepen.get(b).length - groepen.get(a).length || a.localeCompare(b, "nl"));
+      else sleutels.sort().reverse();
+      list.innerHTML = sleutels.map(k => groepBlok(groepen.get(k), perLev ? k : periodLabel(k))).join("");
+    }
+    renderBulk();
+  }
+
+  /* ---------- selecteren en bulkacties ---------- */
+  function renderBulk(){
+    const balk = el("bulkbalk");
+    const tonen = state.selecteren && state.view === "lijst" && !state.trash;
+    balk.hidden = !tonen;
+    document.body.classList.toggle("met-bulk", tonen);
+    if(!tonen) return;
+    const zichtbaar = new Set(visible().map(c => c.id));
+    [...state.geselecteerd].forEach(id => { if(!zichtbaar.has(id)) state.geselecteerd.delete(id); });
+    const sel = state.claims.filter(c => state.geselecteerd.has(c.id));
+    const som = sel.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
+    const leeg = !sel.length ? " disabled" : "";
+    balk.innerHTML = `<span class="bb-tekst">${meervoud(sel.length, "claim", "claims")} geselecteerd<span>${esc(euro(som))} ·
+        <button type="button" class="linkbtn" data-bulk="alles">${sel.length === zichtbaar.size && sel.length ? "Niets" : "Alles"} selecteren</button></span></span>
+      <button type="button" class="icon-btn"${leeg} data-bulk="ingediend">Ingediend</button>
+      <button type="button" class="icon-btn ok"${leeg} data-bulk="gehonoreerd">Gehonoreerd</button>
+      <button type="button" class="icon-btn warn"${leeg} data-bulk="afgewezen">Afwijzen</button>
+      <button type="button" class="icon-btn danger"${leeg} data-bulk="prullenbak">Prullenbak</button>
+      <button type="button" class="icon-btn" data-bulk="klaar">Klaar</button>`;
+  }
+  el("bulkbalk").addEventListener("click", async e => {
+    const b = e.target.closest("button[data-bulk]");
+    if(!b || b.disabled) return;
+    const ids = [...state.geselecteerd];
+    const actie = b.dataset.bulk;
+    if(actie === "alles"){
+      const zicht = visible().map(c => c.id);
+      if(state.geselecteerd.size === zicht.length) state.geselecteerd.clear(); else zicht.forEach(id => state.geselecteerd.add(id));
+      render(); return;
+    }
+    if(actie === "klaar"){ stopSelecteren(); return; }
+    state.geselecteerd.clear();
+    if(actie === "prullenbak") await naarPrullenbak(ids);
+    else await zetStatus(ids, actie);
+  });
+  function stopSelecteren(){ state.selecteren = false; state.geselecteerd.clear(); render(); }
+
+  /* ======================================================================
+     RAPPORTAGE
+     ====================================================================== */
+  const KLEUR = {geh:"var(--ok)", open:"var(--bad)", afg:"var(--grijs)"};
+  function renderRapport(){
+    const box = el("rapportweergave");
+    const rows = baseRows();
+    if(!actief().length){ box.innerHTML = `<div class="empty"><strong>Nog geen claims</strong>Zodra er claims zijn, zie je hier de cijfers.</div>`; return; }
+
+    // kerncijfers
+    const afgehandeld = rows.filter(c => !isOpen(c) && !c.uitbesteed);
+    const nGeh = afgehandeld.filter(c => statusVan(c) === "gehonoreerd").length;
+    const nAfg = afgehandeld.filter(c => statusVan(c) === "afgewezen").length;
+    const graad = nGeh + nAfg ? Math.round(nGeh / (nGeh + nAfg) * 100) : null;
+    const doorloop = rows.map(c => c.uitbesteed ? null : doorlooptijd(c)).filter(d => d != null);
+    const gemDoor = doorloop.length ? Math.round(doorloop.reduce((a, b) => a + b, 0) / doorloop.length) : null;
+    const metBedrag = rows.filter(c => !geenBedrag(c));
+    const gemBedrag = metBedrag.length ? metBedrag.reduce((t, c) => t + Number(c.bedrag), 0) / metBedrag.length : 0;
+    const zonderBedrag = rows.filter(c => geenBedrag(c)).length;
+    const zonderInkoop = rows.filter(c => isOpen(c) && !c.inkoopnummer).length;
+
+    // per maand (los van de gekozen periode, zodat je het verloop ziet)
+    const perMaand = new Map();
+    baseRows(true).forEach(c => {
+      if(!isPeriode(c.periode)) return;
+      const e = perMaand.get(c.periode) || {p:c.periode, geh:0, open:0, afg:0, n:0};
+      const b = Number(c.bedrag) || 0;
+      if(isOpen(c)) e.open += b; else if(statusVan(c) === "afgewezen") e.afg += b; else e.geh += b;
+      e.n++;
+      perMaand.set(c.periode, e);
+    });
+    const maanden = [...perMaand.values()].sort((a, b) => a.p.localeCompare(b.p)).slice(-12);
+
+    // onderdelen die vaak terugkomen
+    const perOnderdeel = new Map();
+    rows.forEach(c => {
+      const naam = titelVan(c);
+      const k = naam.toLowerCase().replace(/\s+/g, " ").trim();
+      const e = perOnderdeel.get(k) || {naam, n:0, totaal:0, lev:new Set(), open:0};
+      e.n++; e.totaal += Number(c.bedrag) || 0; if(c.leverancier) e.lev.add(c.leverancier); if(isOpen(c)) e.open++;
+      perOnderdeel.set(k, e);
+    });
+    const topOnderdelen = [...perOnderdeel.values()].filter(e => e.n > 1).sort((a, b) => b.n - a.n || b.totaal - a.totaal).slice(0, 10);
+
+    // monteurs
+    const monteur = ["binnen", "buiten"].map(l => {
+      const r = rows.filter(c => (c.locatie === "buiten" ? "buiten" : "binnen") === l);
+      return {l, n:r.length, totaal:r.reduce((t, c) => t + (Number(c.bedrag) || 0), 0), open:r.filter(isOpen).length};
+    });
+    const levs = perLeverancier(rows);
+    const scope = state.period === "all" ? "alle periodes" : periodLabel(state.period);
+
+    box.innerHTML = `
+      <dl class="stats">
+        <div class="stat vlak-groen"><dt>Honoreringsgraad</dt><dd>${graad == null ? "—" : graad + "%"}</dd><span class="sub">${nGeh} gehonoreerd · ${nAfg} afgewezen</span></div>
+        <div class="stat vlak-blauw"><dt>Gem. doorlooptijd</dt><dd>${gemDoor == null ? "—" : meervoud(gemDoor, "dag", "dagen")}</dd><span class="sub">${doorloop.length ? "gemeten bij " + meervoud(doorloop.length, "claim", "claims") : "nog niet gemeten"}</span></div>
+        <div class="stat vlak-zwart"><dt>Gem. claimbedrag</dt><dd>${esc(euro(gemBedrag))}</dd><span class="sub">${zonderBedrag ? zonderBedrag + " zonder bedrag" : "alle claims met bedrag"}</span></div>
+        <div class="stat vlak-geel"><dt>Wacht op inkoopnummer</dt><dd>${zonderInkoop}</dd><span class="sub">openstaande claims</span></div>
+      </dl>
+
+      <section class="paneel">
+        <div class="paneel-kop"><h2>Geclaimd per maand</h2>
+          <button type="button" class="schakel" data-act="tabelwissel">${state.tabel ? "Toon als grafiek" : "Toon als tabel"}</button></div>
+        ${maanden.length ? (state.tabel ? maandTabel(maanden) : maandGrafiek(maanden)) : `<p class="uitleg-kort">Geen claims met een periode in deze selectie.</p>`}
+        ${maanden.length && !state.tabel ? `<div class="legenda">
+          <span><i style="background:${KLEUR.geh}"></i>Gehonoreerd</span>
+          <span><i style="background:${KLEUR.open}"></i>Openstaand</span>
+          <span><i style="background:${KLEUR.afg}"></i>Afgewezen</span></div>` : ""}
+      </section>
+
+      <section class="paneel">
+        <div class="paneel-kop"><h2>Leveranciers</h2><p class="uitleg-kort">${esc(scope)}</p></div>
+        <div class="tabelscroll"><table>
+          <thead><tr><th>Leverancier</th><th class="num">Claims</th><th class="num">Geclaimd</th><th class="num">Openstaand</th>
+            <th class="num">Afgewezen</th><th>Honorering</th><th class="num">Doorlooptijd</th><th class="num">Langst open</th><th></th></tr></thead>
+          <tbody>${levs.map(e => {
+            const g = e.gehN + e.afgN ? Math.round(e.gehN / (e.gehN + e.afgN) * 100) : null;
+            const dl = e.doorloop.length ? Math.round(e.doorloop.reduce((a, b) => a + b, 0) / e.doorloop.length) : null;
+            return `<tr>
+              <td><b>${esc(e.naam)}</b>${INST.uitbesteedLev.includes(e.naam) ? `<span class="klein">uitbesteed</span>` : ""}</td>
+              <td class="num">${e.n}</td>
+              <td class="num">${esc(euroKort(e.totaal))}</td>
+              <td class="num${e.open ? " open" : ""}">${e.open ? esc(euroKort(e.open)) + `<span class="klein">${e.openN} open</span>` : "—"}</td>
+              <td class="num">${e.afgN ? esc(euroKort(e.afg)) + `<span class="klein">${e.afgN}×</span>` : "—"}</td>
+              <td>${g == null ? "—" : g + "%<span class=\"balkje\"><i style=\"width:" + g + "%\"></i></span>"}</td>
+              <td class="num">${dl == null ? "—" : dl + " d"}</td>
+              <td class="num${e.oudste >= INST.dagen ? " open" : ""}">${e.openN ? e.oudste + " d" : "—"}</td>
+              <td>${e.openN && e.naam !== "Zonder leverancier" ? `<button type="button" class="mailknop" data-mail="${esc(e.naam)}">Rappel</button>` : ""}</td></tr>`;
+          }).join("")}</tbody></table></div>
+        <p class="uitleg-kort" style="margin-top:8px">Doorlooptijd = dagen van indienen tot gehonoreerd of afgewezen. Die wordt bijgehouden voor claims die vanaf versie 2 worden afgehandeld.</p>
+      </section>
+
+      <section class="paneel">
+        <div class="paneel-kop"><h2>Onderdelen die terugkomen</h2><p class="uitleg-kort">vaker dan één keer geclaimd</p></div>
+        ${topOnderdelen.length ? `<div class="tabelscroll"><table style="min-width:420px">
+          <thead><tr><th>Type / onderdeel</th><th class="num">Aantal</th><th class="num">Bedrag</th><th>Leverancier</th></tr></thead>
+          <tbody>${topOnderdelen.map(e => `<tr><td><b>${esc(e.naam)}</b>${e.open ? `<span class="klein">${e.open} nog open</span>` : ""}</td>
+            <td class="num">${e.n}×</td><td class="num">${esc(euroKort(e.totaal))}</td><td>${esc([...e.lev].join(", "))}</td></tr>`).join("")}</tbody></table></div>`
+          : `<p class="uitleg-kort">Geen onderdelen die meer dan één keer voorkomen in deze selectie.</p>`}
+      </section>
+
+      <section class="paneel">
+        <div class="paneel-kop"><h2>Monteurs</h2></div>
+        <table><thead><tr><th>Monteur</th><th class="num">Claims</th><th class="num">Open</th><th class="num">Geclaimd</th></tr></thead>
+          <tbody>${monteur.map(m => `<tr><td><b>${m.l === "binnen" ? "Binnenmonteur" : "Buitenmonteur"}</b></td><td class="num">${m.n}</td>
+            <td class="num">${m.open || "—"}</td><td class="num">${esc(euroKort(m.totaal))}</td></tr>`).join("")}</tbody></table>
+      </section>`;
+    koppelGrafiek();
+  }
+
+  function maandTabel(maanden){
+    return `<div class="tabelscroll"><table style="min-width:420px"><thead><tr><th>Maand</th><th class="num">Claims</th><th class="num">Gehonoreerd</th>
+      <th class="num">Openstaand</th><th class="num">Afgewezen</th><th class="num">Totaal</th></tr></thead><tbody>${maanden.map(m =>
+      `<tr><td>${esc(periodLabel(m.p))}</td><td class="num">${m.n}</td><td class="num">${esc(euroKort(m.geh))}</td>
+       <td class="num${m.open ? " open" : ""}">${m.open ? esc(euroKort(m.open)) : "—"}</td><td class="num">${m.afg ? esc(euroKort(m.afg)) : "—"}</td>
+       <td class="num"><b>${esc(euroKort(m.geh + m.open + m.afg))}</b></td></tr>`).join("")}</tbody></table></div>`;
+  }
+
+  function niceMax(v){
+    if(v <= 0) return 1000;
+    const e = Math.pow(10, Math.floor(Math.log10(v)));
+    const f = v / e;
+    return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * e;
+  }
+  let grafiekData = [];
+  function maandGrafiek(maanden){
+    grafiekData = maanden;
+    const W = 720, H = 250, L = 52, R = 8, T = 18, B = 26;
+    const max = niceMax(Math.max(...maanden.map(m => m.geh + m.open + m.afg)));
+    const ph = H - T - B, pw = W - L - R;
+    const stap = pw / maanden.length;
+    const bw = Math.min(46, stap * 0.62);
+    const y = v => T + ph - v / max * ph;
+    const gap = 2;
+    let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Geclaimd bedrag per maand, verdeeld naar status">`;
+    for(let i = 0; i <= 4; i++){
+      const v = max / 4 * i, yy = y(v);
+      svg += `<line class="${i ? "rooster" : "as"}" x1="${L}" x2="${W - R}" y1="${yy}" y2="${yy}"></line>`;
+      svg += `<text class="aslabel" x="${L - 8}" y="${yy}" text-anchor="end" dominant-baseline="central">${esc(euroKort(v))}</text>`;
+    }
+    maanden.forEach((m, i) => {
+      const x = L + stap * i + (stap - bw) / 2;
+      let basis = 0;
+      const delen = [["geh", m.geh], ["afg", m.afg], ["open", m.open]].filter(d => d[1] > 0);
+      svg += `<g class="kolom" data-i="${i}">`;
+      delen.forEach(([k, v], j) => {
+        const top = y(basis + v), bodem = y(basis);
+        const isBoven = j === delen.length - 1;
+        const h = Math.max(0, bodem - top - (j ? gap : 0));
+        const yTop = top;
+        if(isBoven){
+          const r = Math.min(4, h / 2, bw / 2);
+          svg += `<path fill="${KLEUR[k]}" d="M${x},${yTop + h} V${yTop + r} Q${x},${yTop} ${x + r},${yTop} H${x + bw - r} Q${x + bw},${yTop} ${x + bw},${yTop + r} V${yTop + h} Z"></path>`;
+        } else {
+          svg += `<rect fill="${KLEUR[k]}" x="${x}" y="${yTop}" width="${bw}" height="${h}"></rect>`;
+        }
+        basis += v;
+      });
+      const tot = m.geh + m.open + m.afg;
+      if(maanden.length <= 8 || i === maanden.length - 1)
+        svg += `<text class="waarde" x="${x + bw / 2}" y="${y(tot) - 6}" text-anchor="middle">${esc(euroKort(tot).replace("€ ", "€"))}</text>`;
+      svg += `<text class="aslabel" x="${x + bw / 2}" y="${H - 8}" text-anchor="middle">${esc(periodShort(m.p))}</text>`;
+      svg += `<rect class="hit" x="${L + stap * i}" y="${T}" width="${stap}" height="${ph}"></rect></g>`;
+    });
+    svg += `</svg>`;
+    return `<div class="grafiek" id="grafiek">${svg}<div class="tip" id="tip" hidden></div></div>`;
+  }
+  function koppelGrafiek(){
+    const g = el("grafiek");
+    if(!g) return;
+    const tip = el("tip");
+    const toon = kolom => {
+      const m = grafiekData[Number(kolom.dataset.i)];
+      if(!m) return;
+      g.querySelectorAll(".kolom").forEach(k => k.classList.toggle("dim", k !== kolom));
+      const box = kolom.querySelector(".hit").getBoundingClientRect(), gb = g.getBoundingClientRect();
+      tip.innerHTML = `<b>${esc(periodLabel(m.p))}</b>
+        <div class="r"><span><i style="background:${KLEUR.geh}"></i>Gehonoreerd</span>${esc(euro(m.geh))}</div>
+        <div class="r"><span><i style="background:${KLEUR.open}"></i>Openstaand</span>${esc(euro(m.open))}</div>
+        <div class="r"><span><i style="background:${KLEUR.afg}"></i>Afgewezen</span>${esc(euro(m.afg))}</div>
+        <div class="r" style="margin-top:4px"><span>${meervoud(m.n, "claim", "claims")}</span><b style="margin:0">${esc(euro(m.geh + m.open + m.afg))}</b></div>`;
+      tip.hidden = false;
+      const x = Math.min(Math.max(box.left + box.width / 2 - gb.left, 100), gb.width - 100);
+      tip.style.left = x + "px";
+      tip.style.top = Math.round(box.top - gb.top + 4) + "px";
+    };
+    const weg = () => { tip.hidden = true; g.querySelectorAll(".kolom").forEach(k => k.classList.remove("dim")); };
+    g.querySelectorAll(".kolom").forEach(k => {
+      k.addEventListener("mouseenter", () => toon(k));
+      k.addEventListener("click", () => toon(k));
+    });
+    g.addEventListener("mouseleave", weg);
+  }
+
+  /* ======================================================================
+     DIALOGEN
+     ====================================================================== */
+  function openSheet(html, opties){
+    const ov = document.createElement("div");
+    ov.className = "overlay";
+    ov.innerHTML = html;
+    document.body.appendChild(ov);
+    const vorigeFocus = document.activeElement;
+    const sluit = () => { ov.remove(); document.removeEventListener("keydown", opEsc); if(vorigeFocus && vorigeFocus.focus) vorigeFocus.focus(); if(opties && opties.naSluiten) opties.naSluiten(); };
+    function opEsc(e){ if(e.key === "Escape"){ e.stopPropagation(); sluit(); } }
+    document.addEventListener("keydown", opEsc);
+    ov.addEventListener("mousedown", e => { if(e.target === ov) sluit(); });
+    ov.querySelectorAll("[data-sluit]").forEach(b => b.onclick = sluit);
+    const eerste = ov.querySelector((opties && opties.focus) || "input,select,textarea,button.btn-primary");
+    if(eerste) eerste.focus();
+    return {ov, sluit, q: s => ov.querySelector(s)};
+  }
+
+  function maandOpties(huidig){
+    const nu = new Date();
+    const lijst = [];
+    for(let i = -1; i < 24; i++){
+      const d = new Date(nu.getFullYear(), nu.getMonth() - i, 1);
+      lijst.push(d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0"));
+    }
+    state.claims.forEach(c => { if(isPeriode(c.periode) && !lijst.includes(c.periode)) lijst.push(c.periode); });
+    const gekozen = isPeriode(huidig) ? huidig : thisPeriod();
+    if(!lijst.includes(gekozen)) lijst.push(gekozen);
+    return lijst.sort().reverse().map(p => `<option value="${esc(p)}"${p === gekozen ? " selected" : ""}>${esc(periodLabel(p))}</option>`).join("");
+  }
+
+  function prijsVoor(tekst){
+    const t = String(tekst || "").toLowerCase();
+    if(!t.trim()) return null;
+    const lijst = (INST.prijzen || []).slice().sort((a, b) => b.woord.length - a.woord.length);
+    return lijst.find(r => t.indexOf(String(r.woord).toLowerCase()) !== -1) || null;
+  }
+
+  function zoekDubbel(body, eigenId){
+    const norm = s => String(s || "").toLowerCase().replace(/\s+/g, "");
+    const titel = norm(body.type || body.onderdeel);
+    const treffers = [];
+    actief().forEach(c => {
+      if(c.id === eigenId) return;
+      if(body.inkoopnummer && norm(c.inkoopnummer) === norm(body.inkoopnummer)) treffers.push([c, "inkoopnummer " + body.inkoopnummer]);
+      else if(body.frame && norm(c.frame) === norm(body.frame) && norm(c.type || c.onderdeel) === titel) treffers.push([c, "framenummer " + body.frame]);
+      else if(body.voorziening && norm(c.voorziening) === norm(body.voorziening) && norm(c.type || c.onderdeel) === titel && isOpen(c))
+        treffers.push([c, "voorzieningnummer " + body.voorziening]);
+    });
+    return treffers;
+  }
+
+  function openForm(claim, imp, sjabloon){
+    const c = claim || {status:"nieuw", locatie:"binnen", periode: state.period !== "all" ? state.period : thisPeriod(), leverancier: state.lev || "", ...(sjabloon || {})};
+    if(imp && imp.velden) Object.assign(c, imp.velden);
+    const levs = alleLeveranciers();
+    const anders = c.leverancier && !levs.includes(c.leverancier);
+    const {q, sluit} = openSheet(`<form class="sheet" id="claimForm" novalidate>
+      <h2>${claim ? "Claim bewerken" : sjabloon ? "Claim dupliceren" : "Nieuwe garantieclaim"}</h2>
+      ${imp ? `<div class="leesmelding"><span>${imp.aantal
+          ? meervoud(imp.aantal, "veld", "velden") + " overgenomen uit <b>" + esc(imp.bron) + "</b>. Controleer ze en sla op."
+          : "Uit <b>" + esc(imp.bron) + "</b> kon ik geen velden herkennen. Vul het hieronder zelf in."}</span>
+        <button type="button" class="linkbtn" id="ruwBtn">tekst van het formulier</button></div>
+        <pre class="ruwtekst" id="ruwtekst" hidden>${esc((imp.tekst || "").slice(0, 6000).trim() || "(geen tekst gevonden)")}</pre>` : ""}
+      <div class="grid">
+        <label class="full">Onderdeel<input id="f_onderdeel" value="${esc(c.onderdeel || "")}" placeholder="Kolom 700E"></label>
+        <label>Voorzieningnummer<input id="f_voorz" value="${esc(c.voorziening || "")}" placeholder="1234567"></label>
+        <label>Type<input id="f_type" value="${esc(c.type || "")}" placeholder="Vela 700E"></label>
+        <label>Framenummer<input id="f_frame" value="${esc(c.frame || "")}" placeholder="572-00123"></label>
+        <label>Inkoopnummer<input id="f_inkoop" inputmode="numeric" value="${esc(c.inkoopnummer || "")}" placeholder="2467524"></label>
+        <label>Leverancier<select id="f_lev_sel">
+          <option value="">Kies een leverancier</option>
+          ${levs.map(l => `<option value="${esc(l)}"${c.leverancier === l ? " selected" : ""}>${esc(l)}</option>`).join("")}
+          <option value="__anders"${anders ? " selected" : ""}>Anders…</option></select></label>
+        <label id="f_lev_wrap" hidden>Nieuwe leverancier<input id="f_lev" value="${anders ? esc(c.leverancier) : ""}" placeholder="Naam van de leverancier"></label>
+        <label>Aankoopdatum<input id="f_aankoop" value="${esc(aankoopVan(c))}" placeholder="03-11-2026"></label>
+        <label>Bedrag (€)<input id="f_bedrag" inputmode="decimal" value="${(c.bedrag != null && c.bedrag !== "") ? String(c.bedrag).replace(".", ",") : ""}" placeholder="later invullen"><span class="hint" id="f_bedrag_hint" hidden></span></label>
+        <label>Maand<select id="f_maand">${maandOpties(c.periode)}</select></label>
+        <label>Status<select id="f_status">${Object.entries(STATUS).map(([k, v]) => `<option value="${k}"${statusVan(c) === k ? " selected" : ""}>${v.label}</option>`).join("")}</select></label>
+        <label>Uitbesteed<select id="f_uitbesteed">
+          <option value=""${c.uitbesteed ? "" : " selected"}>Nee</option>
+          <option value="ja"${c.uitbesteed ? " selected" : ""}>Ja, uitbesteed</option></select></label>
+        <label>Monteur<select id="f_loc">
+          <option value="binnen"${c.locatie !== "buiten" ? " selected" : ""}>Binnenmonteur</option>
+          <option value="buiten"${c.locatie === "buiten" ? " selected" : ""}>Buitenmonteur</option></select></label>
+        <label class="full">Omschrijving storing<textarea id="f_storing" placeholder="Wat is er stuk en wat doet het niet meer">${esc(c.storing || "")}</textarea></label>
+        <label class="full">Bijzonderheden<textarea id="f_note" placeholder="Ingediend bij leverancier op …">${esc(c.bijzonderheden || "")}</textarea></label>
+      </div>
+      <div id="f_melding"></div>
+      <div class="sheet-actions">
+        <button type="button" class="btn btn-ghost" data-sluit="1">Annuleren</button>
+        <button type="submit" class="btn btn-primary" id="f_opslaan">${claim ? "Wijzigingen opslaan" : "Claim toevoegen"}</button>
+      </div>
+    </form>`, {focus: imp ? "#f_inkoop" : "#f_onderdeel"});
+
+    const ruwBtn = q("#ruwBtn");
+    if(ruwBtn){ const ruw = q("#ruwtekst"); ruwBtn.onclick = () => { ruw.hidden = !ruw.hidden; ruwBtn.textContent = ruw.hidden ? "tekst van het formulier" : "tekst verbergen"; }; }
+
+    // Bedrag volgt uit de vaste bedragen, zolang je er zelf niets anders hebt ingezet.
+    const bedragVeld = q("#f_bedrag"), hint = q("#f_bedrag_hint");
+    let bedragZelf = bedragVeld.value.trim() !== "";
+    bedragVeld.addEventListener("input", () => { bedragZelf = true; hint.hidden = true; });
+    const vulBedrag = () => {
+      if(bedragZelf) return;
+      const tref = prijsVoor([q("#f_onderdeel").value, q("#f_type").value, q("#f_storing").value].join(" "));
+      if(tref){ bedragVeld.value = String(tref.bedrag).replace(".", ","); hint.textContent = "automatisch ingevuld bij “" + tref.woord + "”"; hint.hidden = false; }
+      else { bedragVeld.value = ""; hint.hidden = true; }
+    };
+    ["#f_onderdeel", "#f_type", "#f_storing"].forEach(s => q(s).addEventListener("input", vulBedrag));
+    vulBedrag();
+
+    const levSel = q("#f_lev_sel"), levWrap = q("#f_lev_wrap"), uitbVeld = q("#f_uitbesteed"), statusVeld = q("#f_status");
+    const syncUitb = () => {
+      if(uitbVeld.value === "ja"){ statusVeld.value = "gehonoreerd"; statusVeld.disabled = true; }
+      else statusVeld.disabled = false;
+    };
+    const syncLev = () => {
+      levWrap.hidden = levSel.value !== "__anders";
+      if(INST.uitbesteedLev.includes(levSel.value)){ uitbVeld.value = "ja"; uitbVeld.disabled = true; }
+      else uitbVeld.disabled = false;
+      syncUitb();
+    };
+    uitbVeld.addEventListener("change", syncUitb);
+    levSel.addEventListener("change", () => { syncLev(); if(levSel.value === "__anders") q("#f_lev").focus(); });
+    syncLev();
+
+    let dubbelGezien = false;
+    ["#f_inkoop", "#f_frame", "#f_voorz"].forEach(s => q(s).addEventListener("input", () => { dubbelGezien = false; }));
+
+    q("#claimForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const typeVeld = q("#f_type").value.trim();
+      const leverancier = levSel.value === "__anders" ? q("#f_lev").value.trim() : levSel.value;
+      const uitbesteed = uitbVeld.value === "ja" || INST.uitbesteedLev.includes(leverancier);
+      const maand = q("#f_maand").value || c.periode || thisPeriod();
+      const body = {
+        onderdeel: q("#f_onderdeel").value.trim() || typeVeld,
+        voorziening: q("#f_voorz").value.trim(),
+        type: typeVeld,
+        frame: q("#f_frame").value.trim(),
+        storing: q("#f_storing").value.trim(),
+        nummer: (claim && claim.nummer) || (imp && imp.velden && imp.velden.nummer) || "",
+        inkoopnummer: q("#f_inkoop").value.trim(),
+        leverancier,
+        aankoop: q("#f_aankoop").value.trim(),
+        bouwjaar: (claim && claim.bouwjaar) || "",
+        bedrag: parseAmount(bedragVeld.value),
+        datum: (() => {
+          if(claim && claim.datum && String(claim.datum).slice(0, 7) === maand) return claim.datum;
+          const nu = vandaag();
+          return nu.slice(0, 7) === maand ? nu : maand + "-01";
+        })(),
+        periode: maand,
+        status: uitbesteed ? "gehonoreerd" : statusVeld.value,
+        locatie: q("#f_loc").value,
+        uitbesteed,
+        bijzonderheden: q("#f_note").value.trim(),
+        notities: Array.isArray(claim && claim.notities) ? claim.notities : []
+      };
+      const melding = q("#f_melding");
+      const ontbreekt = [];
+      if(!body.onderdeel) ontbreekt.push("een onderdeel of type");
+      if(!body.leverancier) ontbreekt.push("een leverancier");
+      if(ontbreekt.length){
+        melding.innerHTML = `<div class="confirm" style="margin-top:14px">Vul nog ${esc(ontbreekt.join(" en "))} in.</div>`;
+        return;
+      }
+      const dubbel = zoekDubbel(body, claim && claim.id);
+      if(dubbel.length && !dubbelGezien){
+        dubbelGezien = true;
+        melding.innerHTML = `<div class="dubbel">Let op: er ${dubbel.length === 1 ? "staat al een claim" : "staan al " + dubbel.length + " claims"} met hetzelfde
+          ${dubbel.slice(0, 3).map(([d, waarom]) => `<br>· ${esc(waarom)}: <b>${esc(titelVan(d))}</b> (${esc(d.leverancier || "")}, ${esc(periodLabel(d.periode))}, ${esc(STATUS[statusVan(d)].label.toLowerCase())})`).join("")}
+          <br>Klik nogmaals op opslaan als dit toch een nieuwe claim is.</div>`;
+        q("#f_opslaan").textContent = "Toch opslaan";
+        return;
+      }
+      sluit();
+      if(claim){
+        let nieuw = {...kopie(claim), ...body};
+        if(statusVan(claim) !== body.status) nieuw = metStatus({...nieuw, status:statusVan(claim)}, body.status);
+        await bewaar([nieuw], "Claim bijgewerkt", terugdraaier([kopie(claim)]));
+      } else {
+        const id = nieuwId();
+        const nieuw = {...body, id, notities:[{d:vandaag(), t:"Claim vastgelegd" + (imp ? " uit " + imp.bron : "") + " (" + STATUS[body.status].label.toLowerCase() + ")", soort:"status", naar:body.status}]};
+        state.expanded.add(id);
+        await bewaar([nieuw], "Claim toegevoegd", terugdraaier([], id));
+      }
+    });
+  }
+
+  function openNote(claim){
+    if(!claim) return;
+    const {q, sluit} = openSheet(`<form class="sheet" id="noteForm">
+      <h2>Notitie bij ${esc(titelVan(claim))}</h2>
+      <div class="grid">
+        <label>Datum<input id="n_datum" type="date" value="${vandaag()}"></label>
+        <label>Status<select id="n_status"><option value="">Niet wijzigen</option>${Object.entries(STATUS).filter(([k]) => k !== statusVan(claim))
+          .map(([k, v]) => `<option value="${k}">${v.label}</option>`).join("")}</select></label>
+        <label class="full">Wat is er gebeurd<textarea id="n_tekst" required placeholder="Gebeld met de leverancier, onderdeel is onderweg"></textarea></label>
+      </div>
+      <div class="sheet-actions">
+        <button type="button" class="btn btn-ghost" data-sluit="1">Annuleren</button>
+        <button type="submit" class="btn btn-primary">Notitie toevoegen</button>
+      </div>
+    </form>`, {focus:"#n_tekst"});
+    q("#noteForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const tekst = q("#n_tekst").value.trim();
+      const datum = q("#n_datum").value || vandaag();
+      const naar = q("#n_status").value;
+      if(!tekst && !naar){ q("#n_tekst").focus(); return; }
+      sluit();
+      let nieuw = kopie(claim);
+      if(tekst) nieuw.notities = [...(nieuw.notities || []), {d:datum, t:tekst}];
+      if(naar) nieuw = metStatus(nieuw, naar);
+      await bewaar([nieuw], naar ? "Notitie toegevoegd, status " + STATUS[naar].label.toLowerCase() : "Notitie toegevoegd", terugdraaier([kopie(claim)]));
+    });
+  }
+
+  /* ---------- rappel aan een leverancier ---------- */
+  function openRappel(lev){
+    const open = actief().filter(c => (c.leverancier || "") === lev && isOpen(c))
+      .sort((a, b) => String(a.datum || a.periode || "").localeCompare(String(b.datum || b.periode || "")));
+    if(!open.length){ toast("Geen openstaande claims bij " + lev); return; }
+    const som = open.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
+    const regels = open.map(c => {
+      const a = ageInfo(c);
+      return "- " + titelVan(c) + (c.storing ? " (" + c.storing.replace(/\s+/g, " ").slice(0, 70) + ")" : "") +
+        "\n  Inkoopnummer: " + (c.inkoopnummer || "volgt") + (c.voorziening ? " · Voorziening: " + c.voorziening : "") + (c.frame ? " · Frame: " + c.frame : "") +
+        "\n  Ingediend: " + (c.datum ? fmtDate(c.datum) : periodLabel(c.periode)) + (a ? " (" + a.dagen + " dagen geleden)" : "") +
+        (geenBedrag(c) ? "" : " · Bedrag: " + euro(c.bedrag));
+    }).join("\n\n");
+    const tekst = "Goedendag,\n\nVoor de volgende garantieclaims van Medipoint " + INST.vestiging.replace(/^vestiging\s+/i, "") +
+      " hebben we nog geen honorering of creditering ontvangen:\n\n" + regels +
+      "\n\nTotaal openstaand: " + euro(som) + " (" + meervoud(open.length, "claim", "claims") + ").\n\nKunt u laten weten wat de status is?\n\nMet vriendelijke groet,\n\nMedipoint " +
+      INST.vestiging.replace(/^vestiging\s+/i, "");
+    const onderwerp = "Openstaande garantieclaims Medipoint " + INST.vestiging.replace(/^vestiging\s+/i, "") + " — " + lev;
+    const mail = INST.levMail[lev] || "";
+    const {q, sluit} = openSheet(`<form class="sheet" id="rappelForm">
+      <h2>Rappel aan ${esc(lev)}</h2>
+      <div class="grid">
+        <label class="full">Aan<input id="r_aan" type="email" value="${esc(mail)}" placeholder="garantie@leverancier.nl"></label>
+        <label class="full">Onderwerp<input id="r_ond" value="${esc(onderwerp)}"></label>
+        <label class="full">Bericht<textarea id="r_tekst" class="mailvoorbeeld">${esc(tekst)}</textarea></label>
+        <label class="full vink"><input type="checkbox" id="r_notitie" checked><span>Zet bij elke claim een notitie “Rappel gestuurd naar ${esc(lev)}”.</span></label>
+      </div>
+      <div class="sheet-actions">
+        <button type="button" class="btn btn-ghost" data-sluit="1">Sluiten</button>
+        <button type="button" class="btn" id="r_kopie">Tekst kopiëren</button>
+        <button type="submit" class="btn btn-primary">Openen in e-mail</button>
+      </div>
+    </form>`, {focus:"#r_aan"});
+    const naVersturen = async () => {
+      const aan = q("#r_aan").value.trim();
+      if(aan && aan !== mail){ INST.levMail = {...INST.levMail, [lev]: aan}; bewaarInst({levMail: INST.levMail}); }
+      if(q("#r_notitie").checked){
+        const nu = vandaag();
+        await bewaar(open.map(c => ({...kopie(c), notities:[...(c.notities || []), {d:nu, t:"Rappel gestuurd naar " + lev}]})), "Rappel genoteerd bij " + meervoud(open.length, "claim", "claims"));
+      }
+    };
+    q("#r_kopie").onclick = async () => {
+      try{ await navigator.clipboard.writeText(q("#r_ond").value + "\n\n" + q("#r_tekst").value); toast("Tekst gekopieerd"); }
+      catch(e){ q("#r_tekst").select(); toast("Kopieer de geselecteerde tekst met Ctrl+C"); }
+    };
+    q("#rappelForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const href = "mailto:" + encodeURIComponent(q("#r_aan").value.trim()) + "?subject=" + encodeURIComponent(q("#r_ond").value) + "&body=" + encodeURIComponent(q("#r_tekst").value);
+      window.location.href = href;
+      sluit();
+      await naVersturen();
+    });
+  }
+
+  /* ---------- instellingen ---------- */
+  function openInstellingen(){
+    const levTekst = INST.leveranciers.map(l => l + (INST.uitbesteedLev.includes(l) ? " *" : "") + (INST.levMail[l] ? " | " + INST.levMail[l] : "")).join("\n");
+    const prijsTekst = (INST.prijzen || []).map(r => r.woord + " = " + String(r.bedrag).replace(".", ",")).join("\n");
+    const {q, sluit} = openSheet(`<form class="sheet" id="instForm">
+      <h2>Instellingen</h2>
+      <div class="grid">
+        <label class="full">Naam onder de titel<input id="i_vest" value="${esc(INST.vestiging)}" placeholder="Vestiging Meppel"></label>
+        <label class="full">Na hoeveel dagen vereist een openstaande claim aandacht?<input id="i_dagen" type="number" min="1" max="365" value="${INST.dagen}"></label>
+        <label class="full">Leveranciers, één per regel. Zet een <b>*</b> achter een leverancier die altijd uitbesteed is, en eventueel
+          <b>| e-mailadres</b> voor de rappel. Voorbeeld: <i>Wellco * | garantie@wellco.nl</i>
+          <textarea id="i_lev" rows="8" style="min-height:160px">${esc(levTekst)}</textarea></label>
+        <label class="full">Vaste bedragen. Eén per regel: een woord uit het onderdeel of de storing, een = en het bedrag.
+          <textarea id="i_prijs" rows="5" style="min-height:110px">${esc(prijsTekst)}</textarea></label>
+        <label class="full vink"><input type="checkbox" id="i_auto"${INST.autoInvoer ? " checked" : ""}>
+          <span>Gesleepte formulieren meteen opslaan. Het bedrag vul je later aan.</span></label>
+        ${CONFIG.ACCOUNTS ? "" : `<label class="full">Wachtwoord-hash maken (voor een nieuw wachtwoord)
+          <input id="i_pw" type="text" autocomplete="off" placeholder="Typ het nieuwe wachtwoord"><span class="hint" id="i_hash" style="font-family:var(--mono);color:var(--ink-soft);overflow-wrap:anywhere"></span></label>`}
+      </div>
+      <div class="sheet-actions">
+        <button type="button" class="btn btn-ghost" data-sluit="1">Annuleren</button>
+        <button type="submit" class="btn btn-primary">Opslaan</button>
+      </div>
+    </form>`, {focus:"#i_vest"});
+    const pw = q("#i_pw");
+    if(pw) pw.addEventListener("input", async () => {
+      q("#i_hash").textContent = pw.value ? "Zet in CONFIG → WACHTWOORD_HASH: " + await sha(pw.value + ZOUT) : "";
+    });
+    q("#instForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const lev = [], uit = [], mail = {};
+      q("#i_lev").value.split("\n").map(r => r.trim()).filter(Boolean).forEach(r => {
+        const [kopdeel, adres] = r.split("|").map(s => s.trim());
+        const ster = /\*\s*$/.test(kopdeel);
+        const naam = kopdeel.replace(/\*\s*$/, "").trim();
+        if(!naam) return;
+        lev.push(naam);
+        if(ster) uit.push(naam);
+        if(adres) mail[naam] = adres;
+      });
+      const dagen = parseInt(q("#i_dagen").value, 10);
+      const prijzen = q("#i_prijs").value.split("\n").map(r => {
+        const m = r.match(/^\s*(.+?)\s*[=:;]\s*€?\s*([\d.,]+)\s*$/);
+        if(!m) return null;
+        const bedrag = parseAmount(m[2]);
+        return (m[1] && bedrag > 0) ? {woord:m[1], bedrag} : null;
+      }).filter(Boolean);
+      const vest = q("#i_vest").value.trim(), auto = q("#i_auto").checked;
+      sluit();
+      await bewaarInst({vestiging: vest || INST_STANDAARD.vestiging, dagen: dagen > 0 ? dagen : INST_STANDAARD.dagen,
+        leveranciers: lev.length ? lev : INST_STANDAARD.leveranciers, uitbesteedLev: uit, levMail: mail, autoInvoer: auto, prijzen});
+    });
+  }
+
+  /* ---------- uitleg, updates, sneltoetsen ---------- */
+  const UPDATES = [
+    ["7 november 2026 — versie 2", [
+      "<b>Rapportage</b>: knop bovenaan naast Claims. Honoreringsgraad, gemiddelde doorlooptijd, een grafiek per maand (ook als tabel), een overzicht per leverancier met honorering en langst openstaande claim, onderdelen die terugkomen en de verdeling binnen- en buitenmonteur.",
+      "<b>Tijdlijn</b> per claim: elke statuswijziging wordt automatisch met datum vastgelegd, naast je eigen notities. Zo zie je ook na hoeveel dagen een claim is afgehandeld.",
+      "Tabblad <b>Vereist aandacht</b>: alleen de claims die langer dan de termijn openstaan. De rode balk heeft er een eigen knop voor.",
+      "<b>Selecteren</b>: kies meerdere claims tegelijk en zet ze in één keer op ingediend, gehonoreerd, afgewezen of in de prullenbak.",
+      "<b>Rappel</b> per leverancier: een kant-en-klare e-mail met alle openstaande claims van die leverancier. Het e-mailadres onthoudt de app; zet het eventueel bij Instellingen achter de leverancier.",
+      "<b>Ongedaan maken</b> na een statuswijziging, bewerking of verwijdering, via de melding onderin.",
+      "Waarschuwing bij een <b>dubbele claim</b>: zelfde inkoopnummer, of zelfde framenummer of voorzieningnummer met hetzelfde type.",
+      "Knop <b>Ingediend</b> op nieuwe claims, en <b>Dupliceren</b> om een vergelijkbare claim snel opnieuw vast te leggen.",
+      "Bij een notitie kun je meteen de status wijzigen.",
+      "Filter op <b>leverancier</b>, zoeken op meerdere woorden tegelijk, sorteren op laatst bijgewerkt. Je filters blijven bewaard.",
+      "<b>Back-up</b> downloaden en terugzetten, <b>afdrukken</b> of als PDF bewaren, <b>donker thema</b> en <b>sneltoetsen</b> (Menu).",
+      "Veiliger: de lijst met claims en het wachtwoord staan niet meer leesbaar in de pagina. De laatst opgehaalde lijst wordt alleen in je eigen browser bewaard, zodat je bij een storing nog kunt kijken. Met <b>eigen accounts</b> (zie LEESMIJ) zijn de claims ook echt afgeschermd."
+    ]],
+    ["3 november 2026", [
+      "Knop <b>+ Nieuwe LGAR</b>, nieuwe kaartindeling met type, storing en leverancier, aankoopdatum in plaats van bouwjaar, vaste bedragen, claims meteen opslaan na het slepen van een formulier, keuzelijst Maand, Instellingen, groeperen per maand of leverancier, en de ring met de 42-dagentermijn."
+    ]],
+    ["2 november 2026", ["Menu met Uitleg, Updates, CSV en Uitloggen; wachtwoord op de site; deze updatelijst."]],
+    ["1 november 2026", ["Uitbesteed, uitleg met het LGAR-stappenplan, Gehonoreerd en Afwijzen op de kaart, notities, prullenbak, sorteren, melding Let op! Actie nodig, overzicht per leverancier. Eerste versie vanuit het Excel-blad met 45 claims."]]
+  ];
+  function openUpdates(){
+    openSheet(`<div class="sheet"><h2>Updates</h2>
+      <div class="updates">${UPDATES.map(([d, regels]) => `<div class="upd"><span class="upd-datum">${esc(d)}</span>
+        <ul>${regels.map(r => `<li>${r}</li>`).join("")}</ul></div>`).join("")}</div>
+      <div class="sheet-actions"><button type="button" class="btn btn-primary" data-sluit="1">Sluiten</button></div></div>`);
+  }
+  function openUitleg(){
+    openSheet(`<div class="sheet"><h2>Uitleg</h2>
+      <ol class="uitleg">
+        <li><b>Vul het LGAR-formulier in.</b> Klik op de knop hieronder om het formulier te openen.
+          Kies daarin altijd <b>LGAR leidt tot Credit</b>: we versturen of gooien niets weg tot we goedkeuring krijgen van VAM.</li>
+        <li><b>Zet de claim daarna in deze lijst.</b> Met <b>+ Claim</b>, of sleep de pdf van het formulier op de pagina (of gebruik <b>+ Nieuwe LGAR</b>).</li>
+        <li><b>Stoelen die we uitbesteden aan leveranciers</b> zet je alleen in deze lijst. Daarvoor claimen we geen garantie in de lijst van Medux,
+          dus geen LGAR-formulier. Deze orders komen binnen in <b>code 80</b>.</li>
+        <li><b>Volg op.</b> Claims die langer dan ${INST.dagen} dagen openstaan, staan onder <b>Vereist aandacht</b>. Stuur de leverancier een
+          <b>Rappel</b> vanuit het overzicht per leverancier, en zet de claim op <b>Gehonoreerd</b> of <b>Afgewezen</b> zodra er antwoord is.</li>
+      </ol>
+      <p style="margin:16px 0 0"><a class="linkbtn" style="background:var(--donker);color:var(--op-donker);text-decoration:none;border-radius:999px;padding:11px 22px;display:inline-block"
+        href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=lNlTLdkSZ06NbuTxZ3lQ-h5l1KWN4khFmEPmfPxlgCFUN1NQU003VEEwTzBZQjg1ODhIMVZVUUNFVyQlQCN0PWcu" target="_blank" rel="noopener">LGAR-formulier openen</a></p>
+      <div class="sheet-actions"><button type="button" class="btn btn-primary" data-sluit="1">Sluiten</button></div></div>`);
+  }
+  function openSneltoetsen(){
+    openSheet(`<div class="sheet"><h2>Sneltoetsen</h2>
+      <div class="sneltoetsen">
+        <kbd>N</kbd><span>Nieuwe claim</span>
+        <kbd>/</kbd><span>Zoeken</span>
+        <kbd>R</kbd><span>Wisselen tussen Claims en Rapportage</span>
+        <kbd>S</kbd><span>Selecteren aan of uit</span>
+        <kbd>Esc</kbd><span>Venster sluiten of selecteren stoppen</span>
+      </div>
+      <div class="sheet-actions"><button type="button" class="btn btn-primary" data-sluit="1">Sluiten</button></div></div>`);
+  }
+
+  /* ---------- export, back-up, afdrukken ---------- */
+  function download(naam, inhoud, type){
+    const blob = new Blob([inhoud], {type});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = naam;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  }
+  function csv(){
+    const head = ["Nummer","Onderdeel","Voorzieningnummer","Type","Framenummer","Aankoopdatum","Leverancier","Status","Uitbesteed","Monteur","Bedrag",
+      "Inkoopnummer","Ingediend op","Afgehandeld op","Doorlooptijd (dagen)","Periode","Omschrijving storing","Bijzonderheden","Notities"];
+    const q = v => '"' + String(v == null ? "" : v).replace(/"/g, '""') + '"';
+    const rows = (state.view === "lijst" ? visible() : baseRows()).map(c => [c.nummer, c.onderdeel, c.voorziening, c.type, c.frame, aankoopVan(c), c.leverancier,
+      STATUS[statusVan(c)].label, c.uitbesteed ? "Ja" : "Nee", c.locatie === "buiten" ? "Buitenmonteur" : "Binnenmonteur",
+      geenBedrag(c) ? "" : String(c.bedrag).replace(".", ","), c.inkoopnummer, c.datum || "", afgehandeldOp(c) || "", doorlooptijd(c) ?? "",
+      periodLabel(c.periode), c.storing, c.bijzonderheden,
+      (Array.isArray(c.notities) ? c.notities.slice().sort((x, y) => String(x.d || "").localeCompare(String(y.d || ""))).map(n => (n.d || "") + ": " + (n.t || "")).join(" | ") : "")
+    ].map(q).join(";"));
+    return "﻿" + [head.map(q).join(";")].concat(rows).join("\r\n");
+  }
+  function backup(){
+    download("garantieclaims-backup-" + vandaag() + ".json",
+      JSON.stringify({app:"medipoint-garantieclaims", versie:2, gemaakt:new Date().toISOString(), instellingen:INST, claims:state.claims}, null, 2),
+      "application/json");
+    toast("Back-up gedownload (" + meervoud(state.claims.length, "claim", "claims") + ")");
+  }
+  function kiesBackup(){
+    const inp = document.createElement("input");
+    inp.type = "file"; inp.accept = ".json,application/json"; inp.style.display = "none";
+    document.body.appendChild(inp);
+    inp.addEventListener("change", async () => {
+      const f = inp.files && inp.files[0]; inp.remove();
+      if(!f) return;
+      let data;
+      try{ data = JSON.parse(await f.text()); }catch(e){ toast("Dit is geen geldig back-upbestand"); return; }
+      const lijst = (Array.isArray(data) ? data : data.claims || []).filter(c => c && c.id && String(c.id).charAt(0) !== "_");
+      if(!lijst.length){ toast("Geen claims gevonden in dit bestand"); return; }
+      const bestaand = new Set(state.claims.map(c => c.id));
+      const nNieuw = lijst.filter(c => !bestaand.has(c.id)).length;
+      const {q, sluit} = openSheet(`<div class="sheet"><h2>Back-up terugzetten</h2>
+        <p>${esc(f.name)} bevat ${meervoud(lijst.length, "claim", "claims")}: ${nNieuw} nieuw en ${lijst.length - nNieuw} die al bestaan.
+          Bestaande claims worden overschreven met de versie uit de back-up. Claims die niet in de back-up staan, blijven staan.</p>
+        ${data.instellingen ? `<label class="vink"><input type="checkbox" id="b_inst"><span>Ook de instellingen terugzetten</span></label>` : ""}
+        <div class="sheet-actions"><button type="button" class="btn btn-ghost" data-sluit="1">Annuleren</button>
+          <button type="button" class="btn btn-primary" id="b_ok">Terugzetten</button></div></div>`);
+      q("#b_ok").onclick = async () => {
+        const metInst = q("#b_inst") && q("#b_inst").checked;
+        sluit();
+        await bewaar(lijst.map(c => ({...c, notities: Array.isArray(c.notities) ? c.notities : []})), meervoud(lijst.length, "claim", "claims") + " teruggezet");
+        if(metInst) await bewaarInst(instUit(data.instellingen));
+      };
+    });
+    inp.click();
+  }
+
+  /* ---------- thema ---------- */
+  const THEMAS = ["auto", "light", "dark"];
+  const THEMANAAM = {auto:"automatisch", light:"licht", dark:"donker"};
+  function zetThema(t){
+    if(t === "auto") document.documentElement.removeAttribute("data-theme");
+    else document.documentElement.setAttribute("data-theme", t);
+    el("themaItem").textContent = "Thema: " + THEMANAAM[t];
+    ls.set(SLEUTEL_THEMA, t);
+  }
+  zetThema(THEMAS.includes(ls.get(SLEUTEL_THEMA)) ? ls.get(SLEUTEL_THEMA) : "auto");
+
+  /* ======================================================================
+     FORMULIER INLEZEN (LGAR-pdf of tekstbestand)
+     ====================================================================== */
+  const PDF_BRONNEN = ["https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/", "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/"];
+  let pdfBelofte = null;
+  function laadScript(src){
+    return new Promise((ok, fout) => {
+      const s = document.createElement("script");
+      s.src = src; s.onload = () => ok(); s.onerror = () => fout(new Error("script niet geladen"));
+      document.head.appendChild(s);
+    });
+  }
+  function pdfLezer(){
+    if(window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
+    if(pdfBelofte) return pdfBelofte;
+    pdfBelofte = (async () => {
+      for(const basis of PDF_BRONNEN){
+        try{
+          await laadScript(basis + "pdf.min.js");
+          if(!window.pdfjsLib) continue;
+          window.pdfjsLib.GlobalWorkerOptions.workerSrc = basis + "pdf.worker.min.js";
+          return window.pdfjsLib;
+        }catch(e){ /* volgende bron */ }
+      }
+      pdfBelofte = null;
+      throw new Error("pdf-lezer niet beschikbaar");
+    })();
+    return pdfBelofte;
+  }
+  async function pdfTekst(file){
+    const lib = await pdfLezer();
+    const doc = await lib.getDocument({data:new Uint8Array(await file.arrayBuffer()), isEvalSupported:false}).promise;
+    let uit = "";
+    for(let p = 1; p <= Math.min(doc.numPages, 12); p++){
+      const inhoud = await (await doc.getPage(p)).getTextContent();
+      let regel = "";
+      inhoud.items.forEach(it => {
+        regel += (it.str || "");
+        if(it.hasEOL){ uit += regel.trim() + "\n"; regel = ""; } else regel += " ";
+      });
+      if(regel.trim()) uit += regel.trim() + "\n";
+      uit += "\n";
+    }
+    return uit;
+  }
+
+  const VELDREGELS = [
+    {k:"voorziening", labels:["voorzieningsnummer","voorzieningnummer","voorzienings?\\s*nr\\.?","voorziening\\s*nummer","voorziening"]},
+    {k:"frame",       labels:["framenummer","frame\\s*nummer","frame\\s*nr\\.?","serienummer","serie\\s*nr\\.?","frame"]},
+    {k:"type",        labels:["type\\s*hulpmiddel","hulpmiddel\\s*type","type\\s*/?\\s*model","typenummer","hulpmiddel","type"]},
+    {k:"storing",     labels:["omschrijving\\s*(?:van\\s*)?(?:de\\s*)?storing","storing\\s*omschrijving","klachtomschrijving","omschrijving\\s*klacht","aard\\s*van\\s*de\\s*storing","storing","klacht","omschrijving"], lang:true},
+    {k:"leverancier", labels:["leverancier","fabrikant","merk"]},
+    {k:"nummer",      labels:["claimnummer","claim\\s*nr\\.?","garantienummer","werkordernummer","werkorder\\s*nr\\.?","werkorder","opdrachtnummer","meldingsnummer"]},
+    {k:"inkoopnummer",labels:["inkoopnummer","inkoop\\s*nr\\.?","inkooporder","bestelnummer"]},
+    {k:"aankoop",     labels:["aankoopdatum","datum\\s*van\\s*aankoop","datum\\s*aankoop","aanschafdatum","datum\\s*van\\s*aanschaf","leverdatum","afleverdatum","aankoop","aanschaf"]},
+    {k:"onderdeel",   labels:["vervangen\\s*onderdeel","defect\\s*onderdeel","onderdeel\\s*omschrijving","onderdeel"]}
+  ];
+  const vlucht = s => String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const EXTRA_LABELS = ["monteur","vestiging","datum","cli[eë]nt","klant","naam","adres","postcode","woonplaats",
+    "telefoon","e-?mail","ondertekening","aanvrager","artikelnummer","aantal","bedrag","kosten","prijs","handtekening","paraaf"];
+  const ALLE_LABELS = VELDREGELS.reduce((a, v) => a.concat(v.labels), []).concat(EXTRA_LABELS);
+  const LABEL_REGEL = new RegExp("(?:^|[^a-z])(?:" + ALLE_LABELS.join("|") + ")\\s*(?:nr\\.?|nummer)?\\s*[:=]", "i");
+  function snijd(waarde, eigen, alleenMetDubbelepunt){
+    let kortste = waarde.length;
+    ALLE_LABELS.forEach(l => {
+      if(l === eigen) return;
+      const staart = alleenMetDubbelepunt ? "\\s*(?:nr\\.?|nummer)?\\s*[:=]" : "(?:[^a-z]|$)";
+      const m = waarde.match(new RegExp("(?:^|[^a-z])" + l + staart, "i"));
+      if(!m || m.index == null) return;
+      const i = m.index + (/^[^a-z]/i.test(m[0]) ? 1 : 0);
+      if(i < kortste) kortste = i;
+    });
+    return waarde.slice(0, kortste).replace(/[\s:=,;.\-]+$/, "").trim();
+  }
+  function leesVelden(tekst){
+    const T = String(tekst || "").replace(/\r/g, "");
+    const regels = T.split("\n").map(r => r.replace(/\s+/g, " ").trim()).filter(r => r !== "");
+    const uit = {};
+    const isLabel = r => ALLE_LABELS.some(l => new RegExp("^\\s*(?:" + l + ")\\s*(?:nr\\.?|nummer)?\\s*[:=]?\\s*$", "i").test(r));
+    VELDREGELS.forEach(v => {
+      for(const lab of v.labels){
+        const re = new RegExp("(?:^|[^a-z])" + lab + "\\s*[:=\\u2013-]?\\s*(.*)$", "i");
+        for(let i = 0; i < regels.length; i++){
+          const m = regels[i].match(re);
+          if(!m) continue;
+          const opRegel = (m[1] || "").trim();
+          let waarde = opRegel;
+          if(v.lang){
+            const onder = regels[i + 1];
+            const bruikbaar = (onder && !isLabel(onder) && !LABEL_REGEL.test(onder)) ? onder.trim() : "";
+            waarde = bruikbaar || opRegel;
+          } else if(!waarde && regels[i + 1] && !isLabel(regels[i + 1])){
+            waarde = regels[i + 1].trim();
+          }
+          waarde = snijd(waarde, lab, !!v.lang);
+          if(waarde && !isLabel(waarde)){ uit[v.k] = waarde.slice(0, 400); break; }
+        }
+        if(uit[v.k]) break;
+      }
+    });
+    const bekend = alleLeveranciers();
+    const match = bekend.find(l => new RegExp("(?:^|[^a-z])" + vlucht(l) + "(?:[^a-z]|$)", "i").test(T));
+    if(match) uit.leverancier = match;
+    else if(uit.leverancier) uit.leverancier = uit.leverancier.replace(/[.,;]$/, "").slice(0, 60);
+    if(uit.aankoop){
+      const d = (uit.aankoop.match(/\d{1,2}[-\/. ]\d{1,2}[-\/. ]\d{2,4}|\d{4}-\d{2}-\d{2}|(?:19|20)\d{2}/) || [])[0];
+      if(d) uit.aankoop = d.trim(); else delete uit.aankoop;
+    }
+    ["nummer", "inkoopnummer"].forEach(k => {
+      if(!uit[k]) return;
+      const brok = (uit[k].match(/\d[\d.\-\/ ]{2,}\d|\d{4,}/) || [])[0];
+      if(!brok){ delete uit[k]; return; }
+      const delen = brok.split("/").map(s => s.replace(/\D/g, "")).filter(Boolean);
+      const gekozen = k === "inkoopnummer" ? delen[delen.length - 1] : delen[0];
+      if(gekozen) uit[k] = gekozen; else delete uit[k];
+    });
+    if(!uit.inkoopnummer){
+      const paar = T.match(/(?:^|\D)(\d{5,})\s*\/\s*(\d{5,})(?:\D|$)/);
+      if(paar) uit.inkoopnummer = paar[2];
+    }
+    if(uit.voorziening){
+      const code = (uit.voorziening.match(/[A-Za-z]{0,4}[\-\s]?\d[\d.\-\/]{2,}/) || [])[0];
+      if(code) uit.voorziening = code.trim();
+      uit.voorziening = uit.voorziening.slice(0, 40);
+    }
+    if(uit.frame) uit.frame = uit.frame.split(" ").slice(0, 4).join(" ").slice(0, 40);
+    if(uit.type) uit.type = uit.type.slice(0, 60);
+    return uit;
+  }
+  async function leesFormulier(file){
+    if(!file) return;
+    const naam = (file.name || "formulier").toLowerCase();
+    const isPdf = file.type === "application/pdf" || naam.endsWith(".pdf");
+    const isTekst = /\.(txt|eml|csv|json|md|htm|html)$/.test(naam) || String(file.type || "").startsWith("text/");
+    if(!isPdf && !isTekst){
+      toast(String(file.type || "").startsWith("image/") ? "Van een foto kan ik de tekst niet lezen — sleep de pdf van het formulier" : "Dit bestand kan ik niet lezen — een pdf of tekstbestand wel");
+      return;
+    }
+    toast("Formulier lezen…");
+    let tekst = "";
+    try{ tekst = isPdf ? await pdfTekst(file) : await file.text(); }
+    catch(err){ toast("Het formulier kon niet gelezen worden — vul het zelf in"); openForm(null); return; }
+    const velden = leesVelden(tekst);
+    const aantal = Object.keys(velden).length;
+    const bron = file.name || "formulier";
+    if(INST.autoInvoer && aantal && velden.leverancier && (velden.type || velden.onderdeel)){
+      const uitbesteed = INST.uitbesteedLev.includes(velden.leverancier || "");
+      const status = uitbesteed ? "gehonoreerd" : "nieuw";
+      const id = nieuwId();
+      const nieuw = {
+        id, onderdeel: velden.onderdeel || velden.type || "Onbekend onderdeel", voorziening: velden.voorziening || "", type: velden.type || "",
+        frame: velden.frame || "", storing: velden.storing || "", nummer: velden.nummer || "", inkoopnummer: velden.inkoopnummer || "",
+        leverancier: velden.leverancier || "", aankoop: velden.aankoop || "", bouwjaar:"",
+        bedrag: (prijsVoor([velden.onderdeel, velden.type, velden.storing].filter(Boolean).join(" ")) || {}).bedrag ?? null,
+        datum: vandaag(), periode: thisPeriod(), status, locatie:"binnen", uitbesteed,
+        bijzonderheden: "Ingelezen uit " + bron,
+        notities: [{d:vandaag(), t:"Claim vastgelegd uit " + bron + " (" + STATUS[status].label.toLowerCase() + ")", soort:"status", naar:status}]
+      };
+      const dubbel = zoekDubbel(nieuw, null);
+      if(dubbel.length){ openForm(null, {velden, bron, tekst, aantal}); return; }
+      state.expanded.add(id);
+      await bewaar([nieuw], meervoud(aantal, "veld", "velden") + " ingelezen uit " + bron, terugdraaier([], id));
+      return;
+    }
+    openForm(null, {velden, bron, tekst, aantal});
+  }
+  function kiesFormulier(){
+    const inp = document.createElement("input");
+    inp.type = "file"; inp.accept = ".pdf,.txt,.eml,.csv,.json,application/pdf,text/plain"; inp.style.display = "none";
+    document.body.appendChild(inp);
+    inp.addEventListener("change", () => { const f = inp.files && inp.files[0]; inp.remove(); if(f) leesFormulier(f); });
+    inp.click();
+  }
+  (function sleepZone(){
+    const zone = document.createElement("div");
+    zone.className = "sleepzone"; zone.hidden = true;
+    zone.innerHTML = '<div class="sleepkaart"><b>Laat het formulier hier vallen</b><span></span></div>';
+    document.body.appendChild(zone);
+    let diep = 0;
+    const heeftBestand = e => e.dataTransfer && Array.from(e.dataTransfer.types || []).indexOf("Files") !== -1;
+    window.addEventListener("dragenter", e => {
+      if(!heeftBestand(e) || !el("gate").hidden) return;
+      e.preventDefault(); diep++;
+      zone.querySelector("span").textContent = INST.autoInvoer
+        ? "Een pdf of tekstbestand — de claim wordt meteen toegevoegd, het bedrag vul je later aan."
+        : "Een pdf of tekstbestand — ik lees voorzieningnummer, type, framenummer, leverancier en de storing eruit en zet de claim klaar.";
+      zone.hidden = false;
+    });
+    window.addEventListener("dragover", e => { if(!heeftBestand(e)) return; e.preventDefault(); e.dataTransfer.dropEffect = "copy"; });
+    window.addEventListener("dragleave", () => { diep = Math.max(0, diep - 1); if(!diep) zone.hidden = true; });
+    window.addEventListener("drop", e => {
+      if(!heeftBestand(e)) return;
+      e.preventDefault(); diep = 0; zone.hidden = true;
+      if(!el("gate").hidden) return;
+      const f = e.dataTransfer.files && e.dataTransfer.files[0];
+      if(f) leesFormulier(f);
+    });
+  })();
+
+  /* ---------- meldingen ---------- */
+  let toastTimer = null;
+  function toast(msg, ongedaan){
+    document.querySelectorAll(".toast").forEach(t => t.remove());
+    const t = document.createElement("div");
+    t.className = "toast"; t.setAttribute("role", "status");
+    t.appendChild(document.createTextNode(msg));
+    if(ongedaan){
+      const b = document.createElement("button");
+      b.type = "button"; b.textContent = "Ongedaan maken";
+      b.onclick = () => { t.remove(); ongedaan(); };
+      t.appendChild(b);
+    }
+    document.body.appendChild(t);
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.remove(), ongedaan ? 7000 : 2800);
+  }
+  function banner(msg){ const b = el("banner"); b.hidden = !msg; b.textContent = msg || ""; }
+
+  /* ======================================================================
+     BEDIENING
+     ====================================================================== */
+  el("list").addEventListener("click", async e => {
+    const t = e.target.closest("button");
+    if(!t){
+      const card = e.target.closest("[data-card]");
+      if(!card || e.target.closest(".kaart-detail")) return;
+      const id = card.dataset.card;
+      if(state.selecteren){ if(state.geselecteerd.has(id)) state.geselecteerd.delete(id); else state.geselecteerd.add(id); }
+      else if(state.expanded.has(id)) state.expanded.delete(id); else state.expanded.add(id);
+      render();
+      return;
+    }
+    const id = t.dataset.id, act = t.dataset.act;
+    const c = id ? state.claims.find(x => x.id === id) : null;
+    switch(act){
+      case "ingediend": case "gehonoreerd": case "afgewezen": await zetStatus([id], act); break;
+      case "heropenen": await zetStatus([id], "ingediend"); break;
+      case "notitie": openNote(c); break;
+      case "bewerken": openForm(c); break;
+      case "dupliceren": {
+        const {id:_i, notities:_n, inkoopnummer:_k, nummer:_nr, frame:_f, voorziening:_v, verwijderd:_d, bijgewerkt:_b, datum:_dt, ...rest} = c;
+        openForm(null, null, {...rest, status:"nieuw", periode:thisPeriod(), bijzonderheden:""});
+        break;
+      }
+      case "verwijderen": state.confirmId = id; render(); break;
+      case "annuleren": state.confirmId = null; render(); break;
+      case "bevestig": await naarPrullenbak([id]); break;
+      case "terugzetten": await terugzetten(id); break;
+      case "purge": state.confirmId = id; render(); break;
+      case "purgeok": await purge(id); break;
+      case "allesTonen":
+        Object.assign(state, {period:"all", status:"", q:"", loc:"", lev:""});
+        syncFilterVelden(); bewaarWeergave(); render(); break;
+    }
+  });
+  document.addEventListener("click", e => {
+    const m = e.target.closest("button[data-mail]");
+    if(m){ e.preventDefault(); openRappel(m.dataset.mail); return; }
+    const w = e.target.closest("button[data-act='tabelwissel']");
+    if(w){ state.tabel = !state.tabel; render(); }
+  });
+  el("q").addEventListener("input", e => { state.q = e.target.value; render(); });
+  el("tabs").addEventListener("click", e => {
+    const t = e.target.closest("button[data-tab]");
+    if(!t) return;
+    state.status = t.dataset.tab; bewaarWeergave(); render();
+  });
+  el("filterBtn").addEventListener("click", () => {
+    const open = el("filters").hidden;
+    el("filters").hidden = !open;
+    el("filterBtn").setAttribute("aria-expanded", String(open));
+    if(open) el("q").focus();
+  });
+  el("fLoc").addEventListener("change", e => { state.loc = e.target.value; bewaarWeergave(); render(); });
+  el("fLev").addEventListener("change", e => { state.lev = e.target.value; bewaarWeergave(); render(); });
+  el("fSort").addEventListener("change", e => { state.sort = e.target.value; bewaarWeergave(); render(); });
+  el("fGroep").addEventListener("change", e => { state.groep = e.target.value; bewaarWeergave(); render(); });
+  el("wisFilters").addEventListener("click", () => {
+    Object.assign(state, {q:"", loc:"", lev:"", sort:"standaard", groep:"maand"});
+    syncFilterVelden(); bewaarWeergave(); render();
+  });
+  el("trashBtn").addEventListener("click", () => { state.trash = !state.trash; state.confirmId = null; state.selecteren = false; render(); window.scrollTo({top:0}); });
+  el("addBtn").addEventListener("click", () => openForm(null));
+  el("lgarBtn").addEventListener("click", kiesFormulier);
+  el("selectBtn").addEventListener("click", () => { if(state.selecteren) stopSelecteren(); else { state.selecteren = true; render(); } });
+  document.querySelectorAll(".weergave button").forEach(b => b.addEventListener("click", () => {
+    state.view = b.dataset.view; if(state.view === "rapport") state.selecteren = false; render();
+  }));
+
+  (function menu(){
+    const knop = el("menuBtn"), paneel = el("menuPaneel");
+    const zet = open => { paneel.hidden = !open; knop.setAttribute("aria-expanded", String(open)); };
+    knop.addEventListener("click", e => { e.stopPropagation(); zet(paneel.hidden); });
+    document.addEventListener("click", e => { if(!e.target.closest(".menu")) zet(false); });
+    document.addEventListener("keydown", e => { if(e.key === "Escape") zet(false); });
+    paneel.addEventListener("click", e => {
+      const b = e.target.closest("[data-menu]");
+      if(!b) return;
+      if(b.dataset.menu !== "thema") zet(false);
+      switch(b.dataset.menu){
+        case "uitleg": openUitleg(); break;
+        case "instellingen": openInstellingen(); break;
+        case "updates": openUpdates(); break;
+        case "csv": download("garanties-medipoint-" + INST.vestiging.replace(/^vestiging\s+/i, "").toLowerCase().replace(/\s+/g, "-") + ".csv", csv(), "text/csv;charset=utf-8"); break;
+        case "afdrukken": setTimeout(() => window.print(), 50); break;
+        case "backup": backup(); break;
+        case "terugzetten": kiesBackup(); break;
+        case "thema": { const nu = ls.get(SLEUTEL_THEMA) || "auto"; zetThema(THEMAS[(THEMAS.indexOf(nu) + 1) % THEMAS.length]); break; }
+        case "sneltoetsen": openSneltoetsen(); break;
+        case "uitloggen": uitloggen(); break;
+      }
+    });
+  })();
+
+  document.addEventListener("keydown", e => {
+    if(e.ctrlKey || e.metaKey || e.altKey) return;
+    if(!el("gate").hidden || document.querySelector(".overlay")) return;
+    const typen = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement && document.activeElement.tagName);
+    if(e.key === "Escape" && state.selecteren){ stopSelecteren(); return; }
+    if(typen) return;
+    const k = e.key.toLowerCase();
+    if(k === "n"){ e.preventDefault(); openForm(null); }
+    else if(e.key === "/"){
+      e.preventDefault(); state.view = "lijst"; state.trash = false; render();
+      el("filters").hidden = false; el("filterBtn").setAttribute("aria-expanded", "true"); el("q").focus();
+    }
+    else if(k === "r"){ state.view = state.view === "lijst" ? "rapport" : "lijst"; render(); }
+    else if(k === "s" && state.view === "lijst"){ if(state.selecteren) stopSelecteren(); else { state.selecteren = true; render(); } }
+  });
+
+  /* ======================================================================
+     TOEGANGSSCHERM EN START
+     ====================================================================== */
+  function toonGate(melding){
+    const gate = el("gate");
+    gate.hidden = false;
+    gate.innerHTML = `<form class="kaart" id="gateForm">
+      <span class="streep" aria-hidden="true"><i style="flex:0 0 10%;background:#f7cbd1"></i><i style="flex:0 0 10%;background:#5fc4c0"></i><i style="flex:0 0 10%;background:#2e4057"></i><i style="flex:0 0 11%;background:#efb13c"></i><i style="flex:1 1 auto;background:#e8382b"></i></span>
+      <span class="merk">medipoint</span>
+      <h1>Garantieclaims ${esc(INST.vestiging.replace(/^vestiging\s+/i, ""))}</h1>
+      <p>${CONFIG.ACCOUNTS ? "Log in met je account om het register te openen." : "Vul het wachtwoord in om het register te openen."}</p>
+      <div class="velden">
+        ${CONFIG.ACCOUNTS ? `<input type="email" id="gateMail" placeholder="E-mailadres" autocomplete="username" aria-label="E-mailadres" value="${esc((sessie && sessie.email) || ls.get("claimregister-laatste-mail") || "")}">` : ""}
+        <input type="password" id="gatePw" placeholder="Wachtwoord" autocomplete="current-password" aria-label="Wachtwoord">
+      </div>
+      <span class="fout" id="gateFout"${melding ? "" : " hidden"}>${esc(melding || "")}</span>
+      <button type="submit" class="btn btn-primary">Openen</button>
+    </form>`;
+    const mailVeld = el("gateMail"), pwVeld = el("gatePw");
+    (mailVeld && !mailVeld.value ? mailVeld : pwVeld).focus();
+    el("gateForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const fout = el("gateFout"), knop = e.target.querySelector("button");
+      fout.hidden = true;
+      if(CONFIG.ACCOUNTS){
+        knop.disabled = true; knop.textContent = "Bezig…";
+        try{
+          bewaarSessie(await authAanvraag("password", {email:mailVeld.value.trim(), password:pwVeld.value}));
+          ls.set("claimregister-laatste-mail", mailVeld.value.trim());
+          openApp();
+        }catch(err){
+          fout.textContent = /invalid|credentials/i.test(err.message) ? "E-mailadres of wachtwoord klopt niet." : "Inloggen lukt niet: " + err.message;
+          fout.hidden = false; pwVeld.value = ""; pwVeld.focus();
+        }finally{ knop.disabled = false; knop.textContent = "Openen"; }
+      } else {
+        const h = await sha(pwVeld.value + ZOUT);
+        if(h && h === CONFIG.WACHTWOORD_HASH){ ls.set(SLEUTEL_PW, h); openApp(); }
+        else {
+          fout.textContent = h ? "Dat wachtwoord klopt niet." : "Deze browser kan het wachtwoord niet controleren. Open de site via https.";
+          fout.hidden = false; pwVeld.value = ""; pwVeld.focus();
+        }
+      }
+    });
+  }
+  function uitloggen(melding){
+    if(CONFIG.ACCOUNTS){
+      if(sessie && REMOTE){ kop().then(h => fetch(BASE + "/auth/v1/logout", {method:"POST", headers:h})).catch(() => {}); }
+      bewaarSessie(null);
+    } else ls.del(SLEUTEL_PW);
+    ls.del(SLEUTEL_CACHE);
+    state.claims = []; state.live = false;
+    clearInterval(ververser);
+    document.querySelectorAll(".overlay").forEach(o => o.remove());
+    render();
+    toonGate(melding);
+  }
+
+  let ververser = null;
+  function openApp(){
+    const gate = el("gate");
+    gate.hidden = true; gate.innerHTML = "";
+    el("uitlogItem").hidden = !(CONFIG.ACCOUNTS || CONFIG.WACHTWOORD_HASH);
+    if(REMOTE){
+      const cache = ls.json(SLEUTEL_CACHE);
+      if(cache && Array.isArray(cache.claims)){
+        state.claims = cache.claims; state.cacheTijd = cache.tijd;
+        if(cache.inst) INST = instUit(cache.inst);
+      }
+      syncFilterVelden();
+      render();
+      refresh().then(syncFilterVelden);
+      clearInterval(ververser);
+      ververser = setInterval(() => { if(!document.hidden) refresh(); }, 20000);
+    } else {
+      const saved = ls.json(SLEUTEL_LOKAAL);
+      const inst = ls.json(SLEUTEL_LOKAAL_INST);
+      if(inst) INST = instUit(inst);
+      if(Array.isArray(saved)) state.claims = saved;
+      state.loaded = true;
+      if(!saved) banner("Nog geen database ingesteld. Claims worden bewaard in deze browser, op dit apparaat. Vul in CONFIG de SUPABASE_URL en SUPABASE_KEY in om de lijst te delen.");
+      syncFilterVelden();
+      render();
+    }
+  }
+  document.addEventListener("visibilitychange", () => { if(!document.hidden && el("gate").hidden) refresh(); });
+
+  (function meetKop(){
+    const kopEl = document.querySelector("header.brandbar");
+    const zet = () => document.documentElement.style.setProperty("--kophoogte", kopEl.offsetHeight + "px");
+    zet();
+    if(window.ResizeObserver) new ResizeObserver(zet).observe(kopEl);
+  })();
+
+  // Start
+  pasInstToe();
+  const toegang = CONFIG.ACCOUNTS ? !!sessie : (!CONFIG.WACHTWOORD_HASH || ls.get(SLEUTEL_PW) === CONFIG.WACHTWOORD_HASH);
+  if(toegang) openApp(); else { render(); toonGate(); }
+})();
+</script>
+</body>
+</html>

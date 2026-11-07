@@ -13,11 +13,6 @@ export async function middleware(request: NextRequest) {
     return new Response('pong', { status: 200 });
   }
 
-  // The warranty app is fully client-side and needs no account.
-  if (pathname.startsWith('/garantie')) {
-    return NextResponse.next();
-  }
-
   if (pathname.startsWith('/api/auth')) {
     return NextResponse.next();
   }
@@ -59,6 +54,6 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico, sitemap.xml, robots.txt (metadata files)
      */
-    '/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|garantie.webmanifest).*)',
+    '/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
   ],
 };
