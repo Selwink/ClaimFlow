@@ -10,11 +10,11 @@ img{max-width:100%}
 [hidden]{display:none!important}
 </style>
 <title>Garantieclaims Medipoint Meppel</title>
-<script>try{var t=localStorage.getItem("claimregister-thema-v2")||"dark";if(t!=="auto")document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","dark");}</script>
+<script>try{var t=localStorage.getItem("claimregister-thema-v3")||"light";if(t!=="auto")document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","light");}</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="theme-color" content="#1b1e21">
+<meta name="theme-color" content="#f4f1ea">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Garantieclaims">
@@ -22,7 +22,7 @@ img{max-width:100%}
 <meta name="robots" content="noindex,nofollow">
 <meta name="description" content="Garantieclaimregister van Medipoint">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif&display=swap">
 <style>
 /* Layout: merkbalk met logo bovenaan, daaronder periodepillen, vier kengetallenkaarten en een kolom claimkaarten; formulier als schuiflaag. */
 :root{
@@ -1065,22 +1065,152 @@ header.app-kop,:root[data-theme="dark"] header.app-kop{background:var(--bg);back
 .app-kop .strip{height:5px}
 
 #dashboard[hidden] + .zoekveld{margin-top:16px}
+
+/* ===================== rustige papierstijl (licht, standaard) ===================== */
+:root[data-theme="light"],:root:not([data-theme]){
+  --bg:#f4f1ea; --surface:#fbfaf6; --surface-2:#efebe2; --line:#e3ded3;
+  --ink:#24211d; --ink-soft:#6f695f;
+  --brand:#f4f1ea; --on-brand:#24211d;
+  --rood:#d9342a; --accent:#d9342a; --on-accent:#fff;
+  --donker:#24211d; --op-donker:#fbfaf6;
+  --ok:#2f7d5b; --ok-soft:#e3efe6; --warn:#9a6a1c; --warn-soft:#f6ead2;
+  --geel:#8f6414; --geel-soft:#f5e8cc; --geel-rand:#d9a94a;
+  --bad:#b2342b; --bad-soft:#f6dfda; --info:#3f5a78; --info-soft:#e3e9f0;
+  --blok:#fbfaf6; --blok-rand:#e3ded3; --zweef:0 12px 30px rgba(60,45,25,.12);
+}
+:root[data-theme="light"] body{background:radial-gradient(90% 40% at 50% 0%,#fbf6ec 0%,#f4f1ea 70%) fixed,#f4f1ea}
+.papier-kop h1,.lk-naam{font-family:"Instrument Serif","Iowan Old Style",Georgia,serif;font-weight:400;letter-spacing:-.01em}
+
+/* kop */
+header.papier-kop{background:var(--bg);border-bottom:1px solid var(--line);box-shadow:none}
+.papier-kop .strip{height:4px}
+.papier-kop .kop-binnen{padding-top:10px;padding-bottom:10px}
+.kop-rij1{display:flex;align-items:center;gap:10px}
+.kop-logo{width:34px;height:34px;border-radius:9px;flex:0 0 auto}
+.kop-titel{min-width:0;flex:1 1 auto;display:flex;flex-direction:column}
+.papier-kop h1{margin:0;font-size:1.65rem;line-height:1.05;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kop-sub{display:flex;align-items:center;gap:5px;font-size:.72rem;color:var(--ink-soft);white-space:nowrap;overflow:hidden}
+.kop-sub .wordmark{font-size:.78rem}
+.kop-sub .kop-punt{opacity:.5}
+.kop-sub .sync{margin:0;font-size:.72rem}
+.kop-iconen{display:flex;align-items:center;gap:2px;flex:0 0 auto}
+.ikoon-knop{position:relative;width:38px;height:38px;border:0;border-radius:10px;background:transparent;color:var(--ink);display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.ikoon-knop svg{width:21px;height:21px}
+.ikoon-knop:hover{background:var(--surface-2)}
+.ikoon-knop.actief,.ikoon-knop[aria-expanded="true"]{background:var(--surface-2);color:var(--rood)}
+.ik-badge{position:absolute;top:3px;right:3px;min-width:16px;height:16px;border-radius:999px;background:var(--rood);color:#fff;font-style:normal;font-size:.62rem;
+  font-weight:800;display:inline-flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid var(--bg)}
+.ik-badge[hidden]{display:none!important}
+.tabbar.ikoon-nav{display:flex;gap:2px;background:transparent;border:0;padding:0;box-shadow:none;margin:0;border-radius:0}
+.tabbar.ikoon-nav button{min-width:0;flex-direction:row;padding:0;width:38px;height:38px;border-radius:10px;color:var(--ink)}
+.tabbar.ikoon-nav button svg{width:21px;height:21px}
+.tabbar.ikoon-nav button[aria-pressed="true"]{background:var(--surface-2);color:var(--rood);box-shadow:none}
+.tabbar.ikoon-nav button[aria-pressed="true"] svg{color:var(--rood)}
+.kop-rij1 .menu{position:relative}
+.kop-rij1 .menupaneel{top:calc(100% + 8px);left:0;right:auto;bottom:auto}
+@media (max-width:420px){
+  .kop-logo{display:none}
+  .papier-kop h1{font-size:1.45rem}
+  .ikoon-knop,.tabbar.ikoon-nav button{width:34px;height:34px}
+  .kop-sub #vestiging,.kop-sub #vestiging + .kop-punt{display:none}
+}
+
+/* zoeken en chips */
+.app > .zoekveld{margin-top:14px}
+.zoekveld input{border-radius:12px;background:var(--surface);border:1px solid var(--line);padding:12px 14px 12px 40px;font-size:.92rem}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:12px 2px 2px;margin-inline:-2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font-size:.84rem;font-weight:500;cursor:pointer;white-space:nowrap}
+.chip b{font-weight:700;color:var(--ink-soft);margin-left:3px;font-variant-numeric:tabular-nums}
+.chip:hover{border-color:var(--ink-soft)}
+.chip[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.chip[aria-selected="true"] b{color:var(--bg);opacity:.75}
+.chip-rood b{color:var(--rood)}
+.chips[hidden]{display:none!important}
+
+/* kop boven de lijst */
+.lijstkop{padding:18px 2px 6px;align-items:baseline}
+.lk-titel{gap:6px;font-size:.84rem;letter-spacing:0;text-transform:none;font-weight:500;color:var(--ink-soft)}
+.lk-titel i{display:none}
+.lk-naam{font-size:1.35rem;color:var(--ink)}
+.lk-bedrag{font-weight:500}
+.lk-knoppen{align-items:center;gap:4px}
+.lk-periode{display:inline-flex!important;flex-direction:row!important;align-items:center;gap:5px;color:var(--ink-soft);font-size:.8rem;text-transform:none;letter-spacing:0;font-weight:500;cursor:pointer}
+.lk-periode svg{width:16px;height:16px}
+.lk-periode select{border:0!important;background:transparent!important;color:inherit;font:inherit;padding:4px 2px;cursor:pointer;max-width:130px;width:auto;box-shadow:none!important}
+.lk-periode.aan{color:var(--rood);font-weight:700}
+.klein-knop{border:0;background:transparent;color:var(--ink-soft);padding:6px 8px;font-size:.8rem;font-weight:600}
+.klein-knop:hover{color:var(--ink);background:var(--surface-2)}
+.klein-knop[aria-pressed="true"],.klein-knop[aria-expanded="true"]{background:var(--ink);color:var(--bg)}
+@media (max-width:420px){.lk-bedrag{display:none}.lk-periode select{max-width:96px}}
+
+/* rijen */
+.list{gap:14px}
+.groep{gap:7px}
+.groepkop{font-size:.66rem;padding-top:4px}
+.blok.rij{padding:11px 12px;border-radius:14px;gap:12px;background:var(--surface);border:1px solid var(--line);box-shadow:0 1px 0 rgba(60,45,25,.03)}
+.blok-wrap{border-radius:14px}
+.blok.rij .blok-icoon{width:40px;height:40px;border-radius:10px;background:var(--surface-2);color:var(--ink-soft);font-size:.74rem;box-shadow:inset 0 0 0 1px var(--line)}
+.blok.rij .blok-tekst b{font-family:var(--body);font-weight:600;font-size:.95rem;letter-spacing:0}
+.blok.rij .blok-tekst span{font-size:.76rem}
+.blok.rij.k-laat{border-color:color-mix(in srgb,var(--bad) 35%,var(--line))}
+.label{flex:0 0 auto;font-family:var(--mono);font-size:.7rem;font-weight:500;border-radius:999px;padding:4px 10px;white-space:nowrap;letter-spacing:-.01em}
+.label-rood{background:var(--bad-soft);color:var(--bad)}
+.label-geel{background:var(--geel-soft);color:var(--geel)}
+.label-groen{background:var(--ok-soft);color:var(--ok)}
+.label-grijs{background:var(--surface-2);color:var(--ink-soft)}
+@media (max-width:420px){.label{font-size:.64rem;padding:3px 8px}.blok.rij{gap:10px}}
+
+/* zwevende knop */
+.fab{position:fixed;right:max(18px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:30;
+  display:inline-flex;align-items:center;gap:9px;border:0;border-radius:14px;background:#d9342a;color:#fff;padding:14px 18px;
+  font-family:var(--display);font-weight:700;font-size:.95rem;cursor:pointer;box-shadow:0 10px 26px rgba(217,52,42,.35)}
+.fab svg{width:20px;height:20px}
+.fab:hover{background:#c52e25}
+.fab:active{transform:scale(.97)}
+body.met-bulk .fab{display:none}
+main.app{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+.toast{bottom:calc(86px + env(safe-area-inset-bottom,0px))}
+@media print{.fab,.chips,.kop-iconen{display:none!important}}
+
+/* donker thema: nieuwe onderdelen */
+:root[data-theme="dark"] header.papier-kop{background:#1b1e21;border-bottom-color:#2a2f34}
+:root[data-theme="dark"] .chip{background:#22262a;border-color:#3a4148;color:#eef0f1}
+:root[data-theme="dark"] .chip[aria-selected="true"]{background:#eef0f1;color:#1b1e21;border-color:#eef0f1}
+:root[data-theme="dark"] .chip[aria-selected="true"] b{color:#1b1e21}
+:root[data-theme="dark"] .blok.rij .blok-icoon{background:color-mix(in srgb,var(--lev) 32%,#22262a);color:color-mix(in srgb,var(--lev) 45%,#ffffff);box-shadow:none}
+:root[data-theme="dark"] .klein-knop{background:transparent;border:0}
+:root[data-theme="dark"] .klein-knop[aria-pressed="true"],:root[data-theme="dark"] .klein-knop[aria-expanded="true"]{background:#eef0f1;color:#1b1e21}
+:root[data-theme="dark"] .ik-badge{border-color:#1b1e21}
+
+@media (max-width:560px){
+  .lijstkop{flex-wrap:wrap;row-gap:2px}
+  .lk-titel{flex:1 0 100%}
+  .lk-knoppen{margin-left:-8px}
+  .lk-bedrag{display:inline!important}
+}
+
+/* rapportage in de rustige stijl */
+:root[data-theme="light"] .rapport .stat{background:var(--surface)!important;color:var(--ink)!important;border:1px solid var(--line)}
+:root[data-theme="light"] .rapport .stat::after{display:none}
+:root[data-theme="light"] .rapport .stat dt{color:var(--ink-soft);opacity:1}
+:root[data-theme="light"] .rapport .stat .sub{color:var(--ink-soft);opacity:1}
+:root[data-theme="light"] .rapport .vlak-groen dd{color:var(--ok)}
+:root[data-theme="light"] .rapport .vlak-blauw dd{color:var(--info)}
+:root[data-theme="light"] .rapport .vlak-geel dd{color:var(--geel)}
+.rapport .paneel h2{font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:1.45rem;letter-spacing:-.01em}
 </style>
 </head>
 <body>
 
 <div id="gate" hidden></div>
 
-<header class="brandbar app-kop">
+<header class="brandbar app-kop papier-kop">
   <div class="strip" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
   <div class="kop-binnen gutter">
-    <div class="kop-titel">
-      <span class="wordmark">medipoint</span>
-      <h1 id="paginaTitel">Claims</h1>
-    </div>
-    <div class="kop-rij">
+    <div class="kop-rij1">
       <div class="menu">
-        <button type="button" class="rond-knop" id="menuBtn" aria-expanded="false" aria-haspopup="true" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+        <button type="button" class="ikoon-knop" id="menuBtn" aria-expanded="false" aria-haspopup="true" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
         <div class="menupaneel" id="menuPaneel" hidden>
           <span class="menu-kop">Exporteren</span>
           <button type="button" class="menu-item" data-menu="csv">Naar Excel (CSV)</button>
@@ -1094,7 +1224,7 @@ header.app-kop,:root[data-theme="dark"] header.app-kop{background:var(--bg);back
           <span class="menu-kop">App</span>
           <button type="button" class="menu-item" data-menu="installeren" id="installItem">App installeren</button>
           <button type="button" class="menu-item" data-menu="instellingen">Instellingen</button>
-          <button type="button" class="menu-item" data-menu="thema" id="themaItem">Thema: donker</button>
+          <button type="button" class="menu-item" data-menu="thema" id="themaItem">Thema: licht</button>
           <button type="button" class="menu-item" data-menu="uitleg">Uitleg</button>
           <button type="button" class="menu-item" data-menu="updates">Updates</button>
           <span class="menu-scheiding" aria-hidden="true" id="uitlogScheiding" hidden></span>
@@ -1102,49 +1232,39 @@ header.app-kop,:root[data-theme="dark"] header.app-kop{background:var(--bg);back
           <span class="menu-voet">Made by <b>Selwin</b></span>
         </div>
       </div>
-      <span class="kop-info"><span class="sync" id="sync"></span><span class="kop-open" id="kopOpen"></span></span>
+      <img class="kop-logo" src="icon-192.png" alt="" width="34" height="34">
+      <div class="kop-titel">
+        <h1 id="paginaTitel">Garantieclaims</h1>
+        <span class="kop-sub"><span class="wordmark">medipoint</span><span class="kop-punt">·</span><span id="vestiging">Vestiging Meppel</span><span class="kop-punt">·</span><span class="sync" id="sync"></span></span>
+      </div>
+      <div class="kop-iconen">
+        <button type="button" class="ikoon-knop" id="belBtn" aria-label="Vereist aandacht"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg><em class="ik-badge" id="belBadge" hidden></em></button>
+        <button type="button" class="ikoon-knop" id="rappelBtn" aria-label="Rappel sturen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg></button>
+        <nav class="tabbar ikoon-nav" aria-label="Weergave">
+          <button type="button" class="ikoon-knop" data-view="lijst" aria-pressed="true" aria-label="Claims"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg></button>
+          <button type="button" class="ikoon-knop" data-view="rapport" aria-pressed="false" aria-label="Rapportage"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></button>
+        </nav>
+      </div>
     </div>
-    <nav class="tabbar onderstreep" aria-label="Hoofdmenu">
-      <button type="button" data-view="lijst" aria-pressed="true">Claims</button>
-      <button type="button" data-view="rapport" aria-pressed="false">Rapportage</button>
-    </nav>
-    <p id="vestiging" hidden>Vestiging Meppel</p>
+    <span id="kopOpen" hidden></span>
   </div>
 </header>
 
 <main class="gutter app">
   <p class="printkop" id="printkop"></p>
-  <div id="dashboard">
-    <div id="dagmelding"></div>
-    <section class="held" aria-label="Voortgang">
-      <button type="button" class="held-tandwiel" data-menu-direct="instellingen" aria-label="Instellingen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
-      <div class="held-getal"><b id="heldPct">–</b><span>%</span></div>
-      <p class="held-sub" id="heldSub">afgehandeld in bedrag</p>
-      <div class="accu" id="accu" role="img" aria-label="Voortgang">
-        <i class="accu-vol" id="accuVol"></i><span class="accu-deel"></span><span class="accu-deel"></span><span class="accu-deel"></span>
-      </div>
-      <div class="accu-labels"><span id="accuLinks"></span><span id="accuRechts"></span></div>
-      <p class="held-tijd" id="heldTijd"></p>
-    </section>
-    <div class="tegels">
-      <button type="button" class="tegel tegel-rood" id="addBtn"><span class="tegel-vlak"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M12 8v8M8 12h8"/></svg></span><span class="tegel-label">Claim toevoegen</span></button>
-      <button type="button" class="tegel" data-tegel="aandacht"><span class="tegel-vlak"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2.5 20h19z"/><path d="M12 10v4.5M12 17.5h.01"/></svg><em class="tegel-badge" id="tegelAandacht" hidden></em></span><span class="tegel-label">Vereist aandacht</span></button>
-      <button type="button" class="tegel" data-tegel="rappel"><span class="tegel-vlak"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg></span><span class="tegel-label">Rappel sturen</span></button>
-      <button type="button" class="tegel" data-tegel="agenda"><span class="tegel-vlak"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M8 3v4M16 3v4M3.5 10h17M12 13.5v3l2 1"/></svg></span><span class="tegel-label">Herinneringen</span></button>
-    </div>
-  </div>
+  <div id="dashboard"><div id="dagmelding"></div></div>
   <div class="zoekveld">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
-    <input type="search" id="q" placeholder="Zoek claims" aria-label="Zoek op nummer, type, onderdeel, storing of leverancier">
+    <input type="search" id="q" placeholder="Leverancier, type, inkoopnummer, storing…" aria-label="Zoek op nummer, type, onderdeel, storing of leverancier">
   </div>
-  <nav class="periods" id="periods" aria-label="Periode"></nav>
+  <div class="chips" id="teller" role="tablist" aria-label="Status"></div>
   <div id="banner" class="banner" hidden></div>
 
   <div id="lijstweergave">
-    <div class="teller" id="teller" role="tablist" aria-label="Status"></div>
     <div class="lijstkop" id="lijstkop">
       <span class="lk-titel" id="lijstTitel"></span>
       <span class="lk-knoppen">
+        <label class="lk-periode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M7 12h10M10 17h4"/></svg><select id="periods" aria-label="Periode"></select></label>
         <button type="button" class="klein-knop" id="filterBtn" aria-expanded="false" aria-controls="filters">Filters</button>
         <button type="button" class="klein-knop" id="selectBtn" aria-pressed="false">Selecteren</button>
       </span>
@@ -1185,6 +1305,7 @@ header.app-kop,:root[data-theme="dark"] header.app-kop{background:var(--bg);back
 
 <div class="onderbalk" id="onderbalk">
   <div class="bulkbalk" id="bulkbalk" hidden></div>
+  <button type="button" class="fab" id="addBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg><span>Claim toevoegen</span></button>
 </div>
 
 <script>
@@ -1364,7 +1485,7 @@ header.app-kop,:root[data-theme="dark"] header.app-kop{background:var(--bg);back
   const SLEUTEL_LOKAAL = "garanties-meppel-v1";
   const SLEUTEL_LOKAAL_INST = "garanties-meppel-inst";
   const SLEUTEL_WEERGAVE = "claimregister-weergave";
-  const SLEUTEL_THEMA = "claimregister-thema-v2";
+  const SLEUTEL_THEMA = "claimregister-thema-v3";
 
   let sessie = ls.json(SLEUTEL_SESSIE);
   function bewaarSessie(s){ sessie = s; if(s) ls.set(SLEUTEL_SESSIE, JSON.stringify(s)); else ls.del(SLEUTEL_SESSIE); }
@@ -1647,20 +1768,17 @@ header.app-kop,:root[data-theme="dark"] header.app-kop{background:var(--bg);back
   function renderPeriods(){
     const set = new Set(actief().map(c => c.periode).filter(isPeriode));
     set.add(thisPeriod());
-    const nav = el("periods");
-    nav.innerHTML = "";
-    const mk = (val, label) => {
-      const b = document.createElement("button");
-      b.className = "period"; b.textContent = label; b.type = "button";
-      b.setAttribute("aria-current", state.period === val ? "true" : "false");
-      b.onclick = () => { state.period = val; render(); nav.scrollLeft = b.offsetLeft - 60; };
-      nav.appendChild(b);
-    };
-    mk("all", "Alle periodes");
-    [...set].sort().reverse().forEach(p => mk(p, periodShort(p)));
+    const sel = el("periods");
+    sel.innerHTML = `<option value="all">Alle periodes</option>` + [...set].sort().reverse().map(p => `<option value="${p}">${esc(periodLabel(p))}</option>`).join("");
+    sel.value = state.period;
+    sel.closest(".lk-periode").classList.toggle("aan", state.period !== "all");
   }
+  el("periods").addEventListener("change", e => { state.period = e.target.value; render(); });
 
   function renderKop(){
+    const laat = actief().filter(vereistAandacht).length;
+    el("belBadge").hidden = !laat; el("belBadge").textContent = laat;
+    el("belBtn").classList.toggle("actief", state.view === "lijst" && state.status === "aandacht");
     const open = actief().filter(isOpen);
     const som = open.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
     el("kopOpen").textContent = open.length ? meervoud(open.length, "claim", "claims") + " open · " + euroKort(som) : "alles afgehandeld";
@@ -1702,22 +1820,19 @@ header.app-kop,:root[data-theme="dark"] header.app-kop{background:var(--bg);back
       <div class="sheet-actions"><button type="button" class="btn btn-ghost" data-sluit="1">Annuleren</button></div></div>`);
     ov.querySelectorAll("[data-lev]").forEach(b => b.onclick = () => { sluit(); openRappel(b.dataset.lev); });
   }
-  setInterval(() => { if(el("gate").hidden && state.view === "lijst" && !document.hidden) renderHeld(); }, 60000);
 
-  const TABNAAM = {"":"Alle claims", open:"Openstaand", aandacht:"Vereist aandacht", afgehandeld:"Afgehandeld"};
+
+  const TABNAAM = {"":"Alle claims", open:"Openstaand", aandacht:"Over termijn", afgehandeld:"Afgehandeld"};
   function renderTeller(){
     const base = baseRows();
-    const som = l => l.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
-    const open = base.filter(isOpen), laat = base.filter(vereistAandacht), klaar = base.filter(c => !isOpen(c));
     const vakken = [
-      ["open", "Open", open.length, euroKort(som(open))],
-      ["aandacht", "Aandacht", laat.length, laat.length ? "> " + INST.dagen + " dagen" : "alles op tijd"],
-      ["afgehandeld", "Afgehandeld", klaar.length, euroKort(som(klaar))],
-      ["", "Alles", base.length, euroKort(som(base))]
+      ["open", "Open", base.filter(isOpen).length],
+      ["aandacht", "Over termijn", base.filter(vereistAandacht).length],
+      ["afgehandeld", "Afgehandeld", base.filter(c => !isOpen(c)).length],
+      ["", "Alles", base.length]
     ];
-    el("teller").innerHTML = vakken.map(([v, label, n, sub]) =>
-      `<button type="button" role="tab" data-tab="${v}" aria-selected="${state.status === v}"${v === "aandacht" && n ? ' class="heeft"' : ""}>
-        <b>${n}</b><span class="tl-label">${label}</span><span class="tl-sub">${esc(sub)}</span></button>`).join("");
+    el("teller").innerHTML = vakken.map(([v, label, n]) =>
+      `<button type="button" class="chip${v === "aandacht" && n ? " chip-rood" : ""}" role="tab" data-tab="${v}" aria-selected="${state.status === v}">${label} <b>${n}</b></button>`).join("");
   }
 
   function voortgangHtml(base){
@@ -1783,24 +1898,32 @@ header.app-kop,:root[data-theme="dark"] header.app-kop{background:var(--bg);back
   function icoon(c, extra){
     return `<span class="blok-icoon${extra || ""}" style="--lev:${levKleur(c.leverancier)}" aria-hidden="true">${esc(levLetters(c.leverancier))}</span>`;
   }
+  function labelVan(c){
+    const st = statusVan(c), a = ageInfo(c);
+    if(c.uitbesteed) return ["geel", "Uitbesteed"];
+    if(st === "gehonoreerd") return ["groen", "Gehonoreerd"];
+    if(st === "afgewezen") return ["rood", "Afgewezen"];
+    if(vereistAandacht(c)) return ["rood", "Over termijn " + a.dagen + " d"];
+    const d = a ? " " + a.dagen + " d" : "";
+    return st === "nieuw" ? ["grijs", "Nieuw" + d] : ["geel", "Ingediend" + d];
+  }
   function blokHtml(c){
-    const a = ageInfo(c);
     const laat = vereistAandacht(c);
     const sel = state.geselecteerd.has(c.id);
-    const bedrag = geenBedrag(c) ? "bedrag volgt" : euro(c.bedrag);
-    const dagen = isOpen(c) && a ? (laat ? `<span class="laat">${a.dagen} d</span>` : a.dagen + " d") : "";
-    const tweede = c.inkoopnummer ? esc(c.inkoopnummer) : (isOpen(c) ? `<span class="wacht">wacht op inkoopnummer</span>` : "");
     const id = esc(c.id), st = statusVan(c);
+    const [kleur, label] = labelVan(c);
+    const delen = [esc(c.leverancier || "Zonder leverancier"),
+      c.inkoopnummer ? esc(c.inkoopnummer) : (isOpen(c) ? `<span class="wacht">wacht op nr</span>` : ""),
+      geenBedrag(c) ? `<span class="wacht">bedrag volgt</span>` : esc(euroKort(c.bedrag))].filter(Boolean);
     const acties = state.selecteren ? "" : (isOpen(c)
       ? (st === "nieuw" ? `<button type="button" class="va va-info" data-act="ingediend" data-id="${id}">Ingediend</button>` : "") +
         `<button type="button" class="va va-ok" data-act="gehonoreerd" data-id="${id}">Gehonoreerd</button>
          <button type="button" class="va va-bad" data-act="afgewezen" data-id="${id}">Afwijzen</button>`
       : `<button type="button" class="va va-info" data-act="heropenen" data-id="${id}">Heropenen</button>`);
-    return `<div class="blok-wrap">${acties ? `<div class="blok-acties" aria-label="Snelle acties">${acties}</div>` : ""}<button type="button" class="blok${laat ? " k-laat" : ""}${sel ? " k-sel" : ""}" data-card="${esc(c.id)}"${state.selecteren ? ` aria-pressed="${sel}"` : ""}>
+    return `<div class="blok-wrap">${acties ? `<div class="blok-acties" aria-label="Snelle acties">${acties}</div>` : ""}<button type="button" class="blok rij${laat ? " k-laat" : ""}${sel ? " k-sel" : ""}" data-card="${id}"${state.selecteren ? ` aria-pressed="${sel}"` : ""}>
       ${state.selecteren && sel ? `<span class="blok-icoon vink" aria-hidden="true">✓</span>` : icoon(c)}
-      <span class="blok-tekst"><b>${esc(titelVan(c))}</b><span>${esc(c.leverancier || "Zonder leverancier")}${tweede ? " · " + tweede : ""}</span></span>
-      <span class="blok-rechts">${statusPil(c)}<span class="blok-sub">${esc(bedrag)}${dagen ? " · " + dagen : ""}</span></span>
-      <span class="chev" aria-hidden="true">›</span>
+      <span class="blok-tekst"><b>${esc(titelVan(c))}</b><span>${delen.join(" · ")}</span></span>
+      <span class="label label-${kleur}">${esc(label)}</span>
     </button></div>`;
   }
 
@@ -1940,9 +2063,10 @@ header.app-kop,:root[data-theme="dark"] header.app-kop{background:var(--bg);back
     openVeeg = null;
     pasInstToe();
     renderSync();
-    el("paginaTitel").textContent = state.view === "rapport" ? "Rapportage" : (state.trash ? "Prullenbak" : "Claims");
+    el("paginaTitel").textContent = state.view === "rapport" ? "Rapportage" : (state.trash ? "Prullenbak" : "Garantieclaims");
     renderKop();
     el("dashboard").hidden = state.view !== "lijst" || state.trash;
+    el("teller").hidden = state.view !== "lijst" || state.trash;
     document.querySelectorAll(".tabbar [data-view]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.view === state.view)));
     renderPeriods();
     el("printkop").textContent = "Afgedrukt op " + fmtDate(vandaag()) + " · " + (state.period === "all" ? "alle periodes" : periodLabel(state.period));
@@ -1960,7 +2084,7 @@ header.app-kop,:root[data-theme="dark"] header.app-kop{background:var(--bg);back
     const bak = prullenbak();
     if(state.trash && !bak.length) state.trash = false;
     const inBak = state.trash;
-    ["teller", "lijstkop"].forEach(id => { el(id).hidden = inBak; });
+    ["lijstkop"].forEach(id => { el(id).hidden = inBak; });
     if(inBak) el("filters").hidden = true;
     const tb = el("trashBtn");
     tb.hidden = !(bak.length || inBak);
@@ -1980,12 +2104,11 @@ header.app-kop,:root[data-theme="dark"] header.app-kop{background:var(--bg);back
     el("selectBtn").setAttribute("aria-pressed", String(state.selecteren));
     el("selectBtn").textContent = state.selecteren ? "Klaar" : "Selecteren";
     renderTeller();
-    renderHeld();
     el("dagmelding").innerHTML = dagmeldingHtml();
     const rows = visible();
     const somRows = rows.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
-    el("lijstTitel").innerHTML = `<i style="background:${state.status === "aandacht" ? "var(--rood)" : state.status === "afgehandeld" ? "var(--ok)" : "var(--info)"}"></i>${esc(TABNAAM[state.status] || "Claims")}
-      <span class="lk-bedrag">${rows.length} · ${esc(euro(somRows))}${filtersAan ? " · gefilterd" : ""}</span>`;
+    el("lijstTitel").innerHTML = `<span class="lk-naam">${esc(TABNAAM[state.status] || "Claims")}</span>
+      <span class="lk-bedrag">· ${meervoud(rows.length, "claim", "claims")} · ${esc(euroKort(somRows))}${filtersAan ? " · gefilterd" : ""}</span>`;
 
     if(!rows.length){
       list.innerHTML = `<div class="empty"><strong>${state.loaded ? "Geen claims in deze selectie" : "Claims laden…"}</strong>
@@ -2102,6 +2225,7 @@ header.app-kop,:root[data-theme="dark"] header.app-kop{background:var(--bg);back
     const scope = state.period === "all" ? "alle periodes" : periodLabel(state.period);
 
     box.innerHTML = `
+      ${voortgangHtml(rows)}
       <dl class="stats" style="padding-top:0">
         <div class="stat vlak-groen"><dt>Honoreringsgraad</dt><dd>${graad == null ? "—" : graad + "%"}</dd><span class="sub">${nGeh} gehonoreerd · ${nAfg} afgewezen</span></div>
         <div class="stat vlak-blauw"><dt>Gem. doorlooptijd</dt><dd>${gemDoor == null ? "—" : meervoud(gemDoor, "dag", "dagen")}</dd><span class="sub">${doorloop.length ? "gemeten bij " + meervoud(doorloop.length, "claim", "claims") : "nog niet gemeten"}</span></div>
@@ -2582,6 +2706,12 @@ header.app-kop,:root[data-theme="dark"] header.app-kop{background:var(--bg);back
 
   /* ---------- uitleg en updates ---------- */
   const UPDATES = [
+    ["7 november 2026 — rustige stijl", [
+      "Nieuwe, rustige stijl op een warme lichte achtergrond. Donker kan nog via Menu → Thema.",
+      "Bovenaan: titel met de knoppen <b>Vereist aandacht</b> (bel), <b>Rappel</b> (envelop) en <b>Claims / Rapportage</b>.",
+      "Statusknoppen als <b>chips</b>, de periode als keuzelijst boven de lijst, en elke claim als rustige rij met een gekleurd label (bijv. <i>Over termijn 67 d</i>).",
+      "<b>Claim toevoegen</b> is een zwevende knop rechtsonder."
+    ]],
     ["7 november 2026 — nieuwe indeling", [
       "Bovenaan een grote titel, het <b>Menu</b> als ronde knop links en <b>Claims | Rapportage</b> als tabbladen.",
       "Een groot getal met een <b>balk</b>: hoeveel van het geclaimde bedrag is afgehandeld, en wanneer de lijst voor het laatst is bijgewerkt. Het tandwiel opent Instellingen.",
@@ -2826,7 +2956,7 @@ header.app-kop,:root[data-theme="dark"] header.app-kop{background:var(--bg);back
   }
 
   /* ---------- thema ---------- */
-  const THEMAS = ["dark", "light", "auto"];
+  const THEMAS = ["light", "dark", "auto"];
   const THEMANAAM = {auto:"automatisch", light:"licht", dark:"donker"};
   function zetThema(t){
     if(t === "auto") document.documentElement.removeAttribute("data-theme");
@@ -2834,7 +2964,7 @@ header.app-kop,:root[data-theme="dark"] header.app-kop{background:var(--bg);back
     el("themaItem").textContent = "Thema: " + THEMANAAM[t];
     ls.set(SLEUTEL_THEMA, t);
   }
-  zetThema(THEMAS.includes(ls.get(SLEUTEL_THEMA)) ? ls.get(SLEUTEL_THEMA) : "dark");
+  zetThema(THEMAS.includes(ls.get(SLEUTEL_THEMA)) ? ls.get(SLEUTEL_THEMA) : "light");
 
   /* ======================================================================
      FORMULIER INLEZEN (LGAR-pdf of tekstbestand)
@@ -3142,17 +3272,11 @@ header.app-kop,:root[data-theme="dark"] header.app-kop{background:var(--bg);back
     if(b.dataset.dag === "bekijk"){ Object.assign(state, {status:"aandacht", period:"all", trash:false}); bewaarWeergave(); }
     state.dagmelding = null; render();
   });
-  document.querySelector(".tegels").addEventListener("click", e => {
-    const t = e.target.closest("[data-tegel]");
-    if(!t) return;
-    if(t.dataset.tegel === "aandacht"){
-      Object.assign(state, {status:"aandacht", period:"all"}); bewaarWeergave(); render();
-      el("teller").scrollIntoView({behavior:"smooth", block:"start"});
-    }
-    else if(t.dataset.tegel === "rappel") kiesRappel();
-    else if(t.dataset.tegel === "agenda") openAgenda();
+  el("belBtn").addEventListener("click", () => {
+    Object.assign(state, {view:"lijst", trash:false, period:"all", status: state.status === "aandacht" && state.view === "lijst" ? "open" : "aandacht"});
+    bewaarWeergave(); render(); window.scrollTo({top:0, behavior:"smooth"});
   });
-  document.querySelector(".held-tandwiel").addEventListener("click", () => openInstellingen());
+  el("rappelBtn").addEventListener("click", () => kiesRappel());
   el("teller").addEventListener("click", e => {
     const t = e.target.closest("button[data-tab]");
     if(!t) return;
@@ -3255,7 +3379,7 @@ header.app-kop,:root[data-theme="dark"] header.app-kop{background:var(--bg);back
         case "afdrukken": setTimeout(() => window.print(), 50); break;
         case "backup": backup(); break;
         case "terugzetten": kiesBackup(); break;
-        case "thema": { const nu = ls.get(SLEUTEL_THEMA) || "dark"; zetThema(THEMAS[(THEMAS.indexOf(nu) + 1) % THEMAS.length]); break; }
+        case "thema": { const nu = ls.get(SLEUTEL_THEMA) || "light"; zetThema(THEMAS[(THEMAS.indexOf(nu) + 1) % THEMAS.length]); break; }
         case "uitloggen": uitloggen(); break;
         case "agenda": openAgenda(); break;
         case "installeren": installeren(); break;
