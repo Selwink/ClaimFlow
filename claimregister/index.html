@@ -1177,6 +1177,83 @@ main.app,#lijstweergave,#list,.groep,.blok-wrap,.lijstkop,.groepkop{min-width:0;
 @keyframes sp-fade{to{opacity:1}}
 @media (prefers-reduced-motion:reduce){.splash{display:none!important}}
 @media print{.splash{display:none!important}}
+
+/* ===================== opbouw zoals het voorbeeld, in Medipoint-stijl ===================== */
+:root[data-theme="dark"]{--bg:#121419;--surface:#1a1d23;--surface-2:#22262d;--line:#2e333b;--blok:#1a1d23;--blok-rand:#2e333b}
+:root[data-theme="dark"] body{background:radial-gradient(120% 50% at 50% 0%,#1d1418 0%,#121419 55%) fixed,#121419}
+header.sl-kop{position:sticky;top:0;z-index:25;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  box-shadow:none;border:0;padding:0}
+.sl-boven{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px max(16px,env(safe-area-inset-left,0px)) 12px;
+  border-bottom:1px solid color-mix(in srgb,var(--rood) 35%,var(--line));max-width:1320px;margin:0 auto}
+.sl-merk{display:flex;align-items:center;gap:10px;min-width:0}
+.sl-logo{width:44px;height:44px;flex:0 0 auto;filter:drop-shadow(0 0 10px rgba(232,56,43,.35))}
+.sl-titel{display:flex;flex-direction:column;line-height:1.1;min-width:0}
+.sl-titel b{font-family:var(--display);font-weight:800;font-size:1.05rem;color:var(--rood);letter-spacing:-.02em}
+.sl-titel span{font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft);white-space:nowrap}
+.sl-knoppen{display:flex;gap:8px;align-items:center}
+.sl-knop{width:46px;height:34px;border-radius:9px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);display:inline-flex;align-items:center;
+  justify-content:center;cursor:pointer;transition:background .12s ease,border-color .12s ease}
+.sl-knop svg{width:18px;height:18px}
+.sl-knop:hover{border-color:var(--ink-soft)}
+.sl-knop[aria-expanded="true"]{background:var(--surface);border-color:var(--ink-soft)}
+.sl-knop-rood{background:linear-gradient(180deg,#f0576b,#e0394d);border-color:transparent;color:#fff;box-shadow:0 6px 18px rgba(232,56,43,.35)}
+.sl-knop-rood:hover{filter:brightness(1.08);border-color:transparent}
+.sl-knop.draait svg{animation:sl-draai .5s linear}
+@keyframes sl-draai{to{transform:rotate(360deg)}}
+.sl-knoppen .menu{position:relative}
+.sl-knoppen .menupaneel{top:calc(100% + 8px);right:0;left:auto;bottom:auto;min-width:230px}
+.sl-tabsrand{padding:12px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line);max-width:1320px;margin:0 auto}
+.sl-tabs{display:flex;align-items:center;gap:4px;padding:6px;border-radius:999px;border:1px solid var(--line);background:var(--surface);overflow-x:auto;scrollbar-width:none}
+.sl-tabs::-webkit-scrollbar{display:none}
+.sl-tabs button{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;border:1px solid transparent;background:transparent;color:var(--ink-soft);
+  border-radius:999px;padding:9px 16px;font-family:var(--display);font-weight:700;font-size:.92rem;cursor:pointer;white-space:nowrap;position:relative}
+.sl-tabs button svg{width:18px;height:18px}
+.sl-tabs button:hover{color:var(--ink)}
+.sl-tabs button[aria-pressed="true"]{color:var(--ink);background:color-mix(in srgb,var(--rood) 18%,var(--surface-2));border-color:color-mix(in srgb,var(--rood) 70%,transparent);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--rood) 25%,transparent),0 0 18px color-mix(in srgb,var(--rood) 18%,transparent)}
+.sl-tabs button[aria-pressed="true"] svg{color:var(--rood)}
+.sl-tabs em{font-style:normal;min-width:18px;height:18px;border-radius:999px;background:var(--rood);color:#fff;font-size:.66rem;font-weight:800;display:inline-flex;align-items:center;justify-content:center;padding:0 5px}
+.sl-tabs em[hidden]{display:none}
+.sl-scheid{flex:0 0 auto;width:1px;height:26px;background:var(--line);margin:0 4px}
+/* inhoud in een groot paneel */
+main.app{max-width:1320px!important;margin:16px auto 0!important;border:1px solid var(--line);border-radius:28px;background:color-mix(in srgb,var(--surface) 55%,transparent);
+  padding:18px 16px calc(96px + env(safe-area-inset-bottom,0px))!important}
+@media (max-width:520px){main.app{margin:12px 10px 0!important;padding:14px 12px calc(96px + env(safe-area-inset-bottom,0px))!important;border-radius:22px}}
+.app > .zoekveld{margin-top:0}
+.dagmelding{border-radius:16px}
+.empty{border-style:dashed!important;border-width:2px!important;border-radius:18px;background:transparent!important;padding:40px 20px}
+/* statusbalk onderaan */
+.sl-voet{position:fixed;left:0;right:0;bottom:0;z-index:28;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px max(16px,env(safe-area-inset-left,0px)) calc(10px + env(safe-area-inset-bottom,0px));
+  background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+.sl-status{display:inline-flex;align-items:center;gap:9px;font-size:.88rem;color:var(--ink-soft);min-width:0;white-space:nowrap;overflow:hidden}
+.sl-status i{width:9px;height:9px;border-radius:50%;background:var(--ok);flex:0 0 auto;box-shadow:0 0 0 4px color-mix(in srgb,var(--ok) 18%,transparent)}
+.sl-status.sl-uit i,.sl-status.sl-laden i{background:var(--rood);box-shadow:0 0 0 4px color-mix(in srgb,var(--rood) 18%,transparent)}
+.sl-status.sl-lokaal i{background:var(--ink-soft)}
+.sl-status .rol-label{margin-left:2px}
+.sl-pillen{display:flex;gap:6px;flex:0 0 auto}
+.sl-pil{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 13px;
+  font-family:var(--display);font-weight:700;font-size:.84rem;cursor:pointer}
+.sl-pil svg{width:16px;height:16px;color:var(--rood)}
+.sl-pil:hover{border-color:var(--ink-soft)}
+.sl-pil-goud{border-color:#c8963a;color:#efc375}
+.sl-pil-goud svg{color:#efc375}
+@media (max-width:420px){.sl-pil span{display:none}.sl-pil{padding:8px 11px}}
+.toast{bottom:calc(76px + env(safe-area-inset-bottom,0px))!important}
+body.met-bulk .sl-voet{display:none}
+.bulkbalk{bottom:calc(14px + env(safe-area-inset-bottom,0px))}
+body.alleen-kijken #addBtn{display:none!important}
+/* computer: zelfde opbouw, geen zijbalk */
+@media (min-width:1100px){
+  header.brandbar.sl-kop{position:sticky;top:0;bottom:auto;width:auto;display:block;border-right:0;background:color-mix(in srgb,var(--bg) 92%,transparent)}
+  main.app{margin-left:auto!important;margin-top:20px!important;padding:24px 28px calc(96px + env(safe-area-inset-bottom,0px))!important}
+  main.app > *,#lijstweergave > *,#rapportweergave{max-width:none}
+  main.app > .zoekveld{max-width:none}
+  .bulkbalk,.toast{left:50%!important}
+  body:has(.overlay.zijpaneel) main.app{margin-right:500px!important}
+}
+@media print{.sl-voet,.sl-tabsrand,.sl-knoppen{display:none!important}main.app{border:0;margin:0!important}}
+header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
 </style>
 </head>
 <body>
@@ -1197,23 +1274,12 @@ main.app,#lijstweergave,#list,.groep,.blok-wrap,.lijstkop,.groepkop{min-width:0;
 
 <div id="gate" hidden></div>
 
-<header class="brandbar">
-  <div class="brandbar-inner gutter">
-    <div class="mark">
-      <span class="wordmark">medipoint</span>
-    </div>
-    <span class="divider" aria-hidden="true"></span>
-    <div class="site">
-      <h1>Garantieclaims</h1>
-      <p id="vestiging">Vestiging Meppel</p>
-    </div>
-    <span class="sync" id="sync"></span>
-    <span class="rol-label" id="rolLabel" hidden></span>
-  </div>
-  <div class="topnav gutter">
-    <nav class="tabbar" aria-label="Hoofdmenu">
+<header class="brandbar sl-kop">
+  <div class="sl-boven">
+    <div class="sl-merk"><svg class="sl-logo" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="50" fill="none" stroke="#eef0f1" stroke-width="7" stroke-linecap="round" pathLength="100" stroke-dasharray="86 14" transform="rotate(-60 60 60)"/><path d="M60 30 36 39v18c0 15 10.4 27.6 24 31.5 13.6-3.9 24-16.5 24-31.5V39z" fill="#ff5a4c"/><path d="m48.5 59.5 8 8 15-16" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="sl-titel"><b>medipoint</b><span id="vestiging">Vestiging Meppel</span></span></div>
+    <div class="sl-knoppen">
       <div class="menu">
-        <button type="button" id="menuBtn" aria-expanded="false" aria-haspopup="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Menu</span></button>
+        <button type="button" class="sl-knop" id="menuBtn" aria-expanded="false" aria-haspopup="true" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
         <div class="menupaneel" id="menuPaneel" hidden>
           <span class="menu-kop">Exporteren</span>
           <button type="button" class="menu-item" data-menu="csv">Naar Excel (CSV)</button>
@@ -1236,18 +1302,24 @@ main.app,#lijstweergave,#list,.groep,.blok-wrap,.lijstkop,.groepkop{min-width:0;
           <span class="menu-voet">Made by <b>Selwin</b></span>
         </div>
       </div>
-      <button type="button" data-view="lijst" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.4 3.4 8.3 8 9 4.6-.7 8-4.6 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg><span>Claims</span></button>
-      <button type="button" data-view="rapport" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Rapportage</span></button>
+      <button type="button" class="sl-knop sl-knop-rood" id="addBtn" aria-label="Claim toevoegen" title="Claim toevoegen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+      <button type="button" class="sl-knop" id="vernieuwBtn" aria-label="Vernieuwen" title="Vernieuwen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg></button>
+    </div>
+  </div>
+  <div class="sl-tabsrand">
+    <nav class="sl-tabs" id="slTabs" aria-label="Hoofdmenu">
+      <button type="button" data-sltab="claims"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg><span>Claims</span></button>
+      <span class="sl-scheid" aria-hidden="true"></span>
+      <button type="button" data-sltab="aandacht"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span>Over termijn</span><em id="slTabTeller" hidden></em></button>
+      <button type="button" data-sltab="rapport"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V4"/><path d="M4 20h16"/><path d="m7 15 4-5 3 3 5-7"/></svg><span>Rapportage</span></button>
+      <button type="button" data-sltab="prullenbak" id="slTabBak" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M9 7V4.5h6V7M6.5 7l1 13h9l1-13"/></svg><span>Prullenbak</span></button>
     </nav>
   </div>
-  <div class="strip" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+  <span class="sync" id="sync" hidden></span><span class="rol-label" id="rolLabel" hidden></span>
 </header>
 
 <main class="gutter app">
   <p class="printkop" id="printkop"></p>
-  <div class="actieknoppen" id="actieknoppen">
-    <button type="button" class="grote-knop" id="addBtn"><span class="plus" aria-hidden="true">+</span>Claim toevoegen</button>
-  </div>
   <div class="zoekveld">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
     <input type="search" id="q" placeholder="Zoek claims" aria-label="Zoek op nummer, type, onderdeel, storing of leverancier">
@@ -1304,6 +1376,14 @@ main.app,#lijstweergave,#list,.groep,.blok-wrap,.lijstkop,.groepkop{min-width:0;
 
 <div class="onderbalk" id="onderbalk">
   <div class="bulkbalk" id="bulkbalk" hidden></div>
+<footer class="sl-voet" id="slVoet">
+  <span class="sl-status" id="slStatus"><i></i><span>Laden…</span></span>
+  <span class="sl-pillen">
+    <button type="button" class="sl-pil" data-voet="rappel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg><span>Rappel</span></button>
+    <button type="button" class="sl-pil" data-voet="agenda"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg><span>Agenda</span></button>
+    <button type="button" class="sl-pil sl-pil-goud" data-voet="csv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg><span>Export</span></button>
+  </span>
+</footer>
 </div>
 
 <script>
@@ -2077,6 +2157,33 @@ main.app,#lijstweergave,#list,.groep,.blok-wrap,.lijstkop,.groepkop{min-width:0;
       (CONFIG.ACCOUNTS && sessie && sessie.email ? "<span class=\"sync-tekst\"> · " + esc(sessie.email) + "</span>" : "");
   }
 
+  function renderSl(){
+    const st = el("slStatus");
+    const s0 = el("sync");
+    const tijd = new Date().toLocaleTimeString("nl-NL", {hour:"2-digit", minute:"2-digit"});
+    let kl = "ok", tekst = "Verbonden · " + tijd;
+    if(!REMOTE){ kl = "lokaal"; tekst = "Alleen op dit apparaat"; }
+    else if(state.offline){ kl = "uit"; tekst = "Offline"; }
+    else if(!state.live){ kl = "laden"; tekst = "Laden…"; }
+    st.className = "sl-status sl-" + kl;
+    st.innerHTML = `<i></i><span>${esc(tekst)}</span>${!el("rolLabel").hidden ? `<span class="${el("rolLabel").className}">${esc(el("rolLabel").textContent)}</span>` : ""}`;
+    const tab = state.view === "rapport" ? "rapport" : state.trash ? "prullenbak" : state.status === "aandacht" ? "aandacht" : "claims";
+    document.querySelectorAll("#slTabs [data-sltab]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.sltab === tab)));
+    const laat = actief().filter(vereistAandacht).length;
+    const t = el("slTabTeller"); t.hidden = !laat; t.textContent = laat;
+    el("slTabBak").hidden = !prullenbak().length && !state.trash;
+  }
+  function kiesRappelLev(){
+    const levs = perLeverancier(actief()).filter(e => e.openN && e.naam !== "Zonder leverancier");
+    if(!levs.length){ toast("Geen openstaande claims om een rappel voor te sturen"); return; }
+    if(levs.length === 1){ openRappel(levs[0].naam); return; }
+    const {ov, sluit} = openSheet(`<div class="sheet lgarkeuze"><h2>Rappel sturen</h2>
+      ${levs.map(e => `<button type="button" class="keuze" data-lev="${esc(e.naam)}"><b>${esc(e.naam)}</b>
+        <span>${meervoud(e.openN, "open claim", "open claims")} · ${esc(euro(e.open))}</span></button>`).join("")}
+      <div class="sheet-actions"><button type="button" class="btn btn-ghost" data-sluit="1">Annuleren</button></div></div>`);
+    ov.querySelectorAll("[data-lev]").forEach(b => b.onclick = () => { sluit(); openRappel(b.dataset.lev); });
+  }
+
   function syncFilterVelden(){
     el("q").value = state.q;
     el("fLoc").value = state.loc;
@@ -2090,6 +2197,7 @@ main.app,#lijstweergave,#list,.groep,.blok-wrap,.lijstkop,.groepkop{min-width:0;
 
   function render(){
     openVeeg = null;
+    setTimeout(renderSl, 0);
     renderRol();
     pasInstToe();
     renderSync();
@@ -2744,6 +2852,11 @@ main.app,#lijstweergave,#list,.groep,.blok-wrap,.lijstkop,.groepkop{min-width:0;
 
   /* ---------- uitleg en updates ---------- */
   const UPDATES = [
+    ["7 november 2026 — nieuwe opbouw", [
+      "Bovenaan het Medipoint-embleem met drie knoppen: <b>Menu</b>, een rode <b>+</b> om een claim toe te voegen en <b>Vernieuwen</b>.",
+      "Een tabbalk met <b>Claims</b>, <b>Over termijn</b> (met teller) en <b>Rapportage</b>; de Prullenbak verschijnt als er iets in zit.",
+      "Onderaan een statusbalk (Verbonden/Offline) met snelknoppen <b>Rappel</b>, <b>Agenda</b> en <b>Export</b>. Telefoon en computer hebben dezelfde opbouw."
+    ]],
     ["7 november 2026 — stijl van het inlogscherm", [
       "De hele app (telefoon en computer) heeft nu dezelfde donkere Medipoint-stijl als het inlogscherm. Liever licht? Menu → Thema."
     ]],
@@ -3403,6 +3516,28 @@ main.app,#lijstweergave,#list,.groep,.blok-wrap,.lijstkop,.groepkop{min-width:0;
     lgarInvullen();
   });
   el("addBtn").addEventListener("click", lgarKeuze);
+  el("vernieuwBtn").addEventListener("click", async () => {
+    const b = el("vernieuwBtn"); b.classList.add("draait");
+    if(REMOTE) await refresh(); else render();
+    setTimeout(() => b.classList.remove("draait"), 500);
+    toast("Bijgewerkt");
+  });
+  el("slTabs").addEventListener("click", e => {
+    const b = e.target.closest("[data-sltab]");
+    if(!b) return;
+    const t = b.dataset.sltab;
+    if(t === "rapport"){ state.view = "rapport"; state.trash = false; state.selecteren = false; }
+    else if(t === "prullenbak"){ state.view = "lijst"; state.trash = true; state.selecteren = false; }
+    else { state.view = "lijst"; state.trash = false; state.status = t === "aandacht" ? "aandacht" : (state.status === "aandacht" ? "open" : state.status); bewaarWeergave(); }
+    render(); window.scrollTo({top:0});
+  });
+  el("slVoet").addEventListener("click", e => {
+    const b = e.target.closest("[data-voet]");
+    if(!b) return;
+    if(b.dataset.voet === "rappel") kiesRappelLev();
+    else if(b.dataset.voet === "agenda") openAgenda();
+    else document.querySelector('[data-menu="csv"]').click();
+  });
   el("selectBtn").addEventListener("click", () => { if(state.selecteren) stopSelecteren(); else { state.selecteren = true; render(); } });
   document.querySelectorAll(".tabbar [data-view]").forEach(b => b.addEventListener("click", () => {
     state.view = b.dataset.view; state.trash = false; if(state.view === "rapport") state.selecteren = false; render(); window.scrollTo({top:0});
