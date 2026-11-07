@@ -778,6 +778,17 @@ main.app{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .tabbar .menupaneel .menu-item{display:block;width:100%;min-width:0;text-align:left;justify-content:flex-start;flex-direction:row;
   color:var(--ink);font-size:.87rem;font-weight:600;padding:10px 13px;border-radius:9px;background:transparent}
 .tabbar .menupaneel .menu-item:hover{background:var(--surface-2);color:var(--ink)}
+
+/* Claim toevoegen bovenaan, onder de navigatie */
+main.app > .actieknoppen{width:100%;padding-top:14px}
+main.app > .actieknoppen .grote-knop{box-shadow:none}
+main.app{padding-bottom:calc(30px + env(safe-area-inset-bottom,0px))}
+body.met-bulk main.app{padding-bottom:calc(120px + env(safe-area-inset-bottom,0px))}
+.onderbalk{background:none}
+.onderbalk .bulkbalk{margin-top:0}
+.toast{bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
+@media print{main.app > .actieknoppen{display:none!important}}
 </style>
 </head>
 <body>
@@ -828,6 +839,10 @@ main.app{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 
 <main class="gutter app">
   <p class="printkop" id="printkop"></p>
+  <div class="actieknoppen" id="actieknoppen">
+    <button type="button" class="grote-knop" id="addBtn"><span class="plus" aria-hidden="true">+</span>Claim toevoegen</button>
+    <button type="button" class="lgar-knop" id="lgarBtn" title="LGAR-formulier inlezen (pdf of tekst)">LGAR</button>
+  </div>
   <div class="zoekveld">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
     <input type="search" id="q" placeholder="Zoek claims" aria-label="Zoek op nummer, type, onderdeel, storing of leverancier">
@@ -879,10 +894,6 @@ main.app{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 </main>
 
 <div class="onderbalk" id="onderbalk">
-  <div class="actieknoppen" id="actieknoppen">
-    <button type="button" class="grote-knop" id="addBtn"><span class="plus" aria-hidden="true">+</span>Claim toevoegen</button>
-    <button type="button" class="lgar-knop" id="lgarBtn" title="LGAR-formulier inlezen (pdf of tekst)">LGAR</button>
-  </div>
   <div class="bulkbalk" id="bulkbalk" hidden></div>
 </div>
 
@@ -2192,7 +2203,7 @@ main.app{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
     ["7 november 2026 — nieuwe opzet", [
       "Elke claim is nu een <b>compact blok</b> met leverancier, inkoopnummer, status, bedrag en dagen open. Tik op een blok voor alle details, de tijdlijn en de knoppen.",
       "Bovenaan een <b>teller</b> met Open, Aandacht, Afgehandeld en Alles; tik erop om te filteren. Zoeken en periodes staan direct onder de kop.",
-      "Onderin een grote knop <b>Claim toevoegen</b> met <b>LGAR</b> ernaast. <b>Claims</b>, <b>Rapportage</b> en <b>Menu</b> staan als vaste balk bovenaan, onder het logo.",
+      "<b>Claims</b>, <b>Rapportage</b> en <b>Menu</b> staan als vaste balk bovenaan, onder het logo. Daaronder de grote knop <b>Claim toevoegen</b> met <b>LGAR</b> ernaast.",
       "Uitbesteed is nu een filter (Filters → Alleen uitbesteed)."
     ]],
     ["7 november 2026 — opgeruimd", [
