@@ -858,7 +858,6 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
   <p class="printkop" id="printkop"></p>
   <div class="actieknoppen" id="actieknoppen">
     <button type="button" class="grote-knop" id="addBtn"><span class="plus" aria-hidden="true">+</span>Claim toevoegen</button>
-    <button type="button" class="lgar-knop" id="lgarBtn" title="LGAR-formulier inlezen (pdf of tekst)"><span class="plus" aria-hidden="true">+</span>LGAR toevoegen</button>
   </div>
   <div class="zoekveld">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
@@ -1632,7 +1631,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
       list.innerHTML = `<div class="empty"><strong>${state.loaded ? "Geen claims in deze selectie" : "Claims laden…"}</strong>
         ${state.loaded ? (filtersAan || state.period !== "all" || state.status
           ? `Pas de periode, de teller bovenaan of de filters aan. <button type="button" class="linkbtn" data-act="allesTonen">Alles tonen</button>`
-          : "Leg een nieuwe garantieclaim vast met <b>Claim toevoegen</b>, of sleep een LGAR-formulier op de pagina.")
+          : "Leg een nieuwe garantieclaim vast met <b>Claim toevoegen</b>, of sleep een LGAR-pdf op de pagina.")
           : "Even geduld, de opgeslagen claims worden opgehaald."}</div>`;
     } else if(state.groep === "geen"){
       list.innerHTML = groepBlok(rows, TABNAAM[state.status] || "Claims");
@@ -2219,14 +2218,17 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
 
   /* ---------- uitleg en updates ---------- */
   const UPDATES = [
+    ["7 november 2026 — één knop", [
+      "<b>Claim toevoegen</b> en <b>LGAR toevoegen</b> zijn samengevoegd tot één knop. Je kiest daarna: LGAR-formulier invullen, LGAR-pdf inlezen of zelf invullen."
+    ]],
     ["7 november 2026 — LGAR-formulier", [
-      "<b>+ LGAR toevoegen</b> vraagt nu wat je wilt: het <b>LGAR-formulier invullen</b> of een <b>pdf of bestand inlezen</b>.",
+      "<b>+ Claim toevoegen</b> vraagt nu wat je wilt: het <b>LGAR-formulier invullen</b> of een <b>pdf of bestand inlezen</b>.",
       "Kies je invullen, dan opent het Microsoft-formulier. Kom je na het versturen terug in de app, dan vraagt die of je de claim wilt vastleggen; het claimformulier staat dan klaar met status Ingediend en de datum van vandaag."
     ]],
     ["7 november 2026 — nieuwe opzet", [
       "Elke claim is nu een <b>compact blok</b> met leverancier, inkoopnummer, status, bedrag en dagen open. Tik op een blok voor alle details, de tijdlijn en de knoppen.",
       "Bovenaan een <b>teller</b> met Open, Aandacht, Afgehandeld en Alles; tik erop om te filteren. Zoeken en periodes staan direct onder de kop.",
-      "<b>Menu</b>, <b>Claims</b> en <b>Rapportage</b> staan als vaste balk bovenaan, onder het logo. Daaronder de knoppen <b>Claim toevoegen</b> en <b>LGAR toevoegen</b>.",
+      "<b>Menu</b>, <b>Claims</b> en <b>Rapportage</b> staan als vaste balk bovenaan, onder het logo. Daaronder de knop <b>Claim toevoegen</b>.",
       "Uitbesteed is nu een filter (Filters → Alleen uitbesteed)."
     ]],
     ["7 november 2026 — opgeruimd", [
@@ -2267,7 +2269,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
       <ol class="uitleg">
         <li><b>Vul het LGAR-formulier in.</b> Klik op de knop hieronder om het formulier te openen.
           Kies daarin altijd <b>LGAR leidt tot Credit</b>: we versturen of gooien niets weg tot we goedkeuring krijgen van VAM.</li>
-        <li><b>Zet de claim daarna in deze lijst.</b> Het makkelijkst via <b>+ LGAR toevoegen → LGAR-formulier invullen</b>: na het versturen vraagt
+        <li><b>Zet de claim daarna in deze lijst.</b> Het makkelijkst via <b>+ Claim toevoegen → LGAR-formulier invullen</b>: na het versturen vraagt
           de app of je de claim wilt vastleggen en staat het formulier al klaar. Een pdf van het formulier kun je ook op de pagina slepen.</li>
         <li><b>Stoelen die we uitbesteden aan leveranciers</b> zet je alleen in deze lijst. Daarvoor claimen we geen garantie in de lijst van Medux,
           dus geen LGAR-formulier. Deze orders komen binnen in <b>code 80</b>.</li>
@@ -2627,18 +2629,20 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     syncFilterVelden(); bewaarWeergave(); render();
   });
   el("trashBtn").addEventListener("click", () => { state.trash = !state.trash; state.confirmId = null; state.selecteren = false; render(); window.scrollTo({top:0}); });
-  el("addBtn").addEventListener("click", () => openForm(null));
   /* ---------- LGAR: formulier invullen of bestand inlezen ---------- */
   const SLEUTEL_LGAR = "claimregister-lgar-open";
   function lgarKeuze(){
-    const {q, sluit} = openSheet(`<div class="sheet lgarkeuze"><h2>LGAR toevoegen</h2>
+    const {q, sluit} = openSheet(`<div class="sheet lgarkeuze"><h2>Claim toevoegen</h2>
       <button type="button" class="keuze" id="lk_invullen"><b>LGAR-formulier invullen</b>
         <span>Opent het Microsoft-formulier. Na het versturen zet je de claim hier met één tik in de lijst.</span></button>
-      <button type="button" class="keuze" id="lk_bestand"><b>Pdf of bestand inlezen</b>
+      <button type="button" class="keuze" id="lk_bestand"><b>LGAR-pdf of bestand inlezen</b>
         <span>Kies een LGAR-pdf of tekstbestand; de app haalt de gegevens eruit.</span></button>
+      <button type="button" class="keuze" id="lk_zelf"><b>Zelf invullen</b>
+        <span>Een leeg claimformulier, bijvoorbeeld voor uitbesteed werk zonder LGAR.</span></button>
       <div class="sheet-actions"><button type="button" class="btn btn-ghost" data-sluit="1">Annuleren</button></div></div>`, {focus:"#lk_invullen"});
     q("#lk_invullen").onclick = () => { sluit(); lgarInvullen(); };
     q("#lk_bestand").onclick = () => { sluit(); kiesFormulier(); };
+    q("#lk_zelf").onclick = () => { sluit(); openForm(null); };
   }
   function lgarInvullen(){
     ls.set(SLEUTEL_LGAR, String(Date.now()));
@@ -2683,7 +2687,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     const ov = a.closest(".overlay"); if(ov) ov.remove();
     lgarInvullen();
   });
-  el("lgarBtn").addEventListener("click", lgarKeuze);
+  el("addBtn").addEventListener("click", lgarKeuze);
   el("selectBtn").addEventListener("click", () => { if(state.selecteren) stopSelecteren(); else { state.selecteren = true; render(); } });
   document.querySelectorAll(".tabbar [data-view]").forEach(b => b.addEventListener("click", () => {
     state.view = b.dataset.view; state.trash = false; if(state.view === "rapport") state.selecteren = false; render(); window.scrollTo({top:0});
