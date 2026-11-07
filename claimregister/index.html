@@ -10,11 +10,11 @@ img{max-width:100%}
 [hidden]{display:none!important}
 </style>
 <title>Garantieclaims Medipoint Meppel</title>
-<script>try{var t=localStorage.getItem("claimregister-thema-donker")||"dark";if(t!=="auto")document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","dark");}</script>
+<script>try{var t=localStorage.getItem("claimregister-thema-dashboard")||"light";if(t!=="auto")document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","light");}</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="theme-color" content="#1b1e21">
+<meta name="theme-color" content="#7c1d4d">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Garantieclaims">
@@ -1254,6 +1254,71 @@ body.alleen-kijken #addBtn{display:none!important}
 }
 @media print{.sl-voet,.sl-tabsrand,.sl-knoppen{display:none!important}main.app{border:0;margin:0!important}}
 header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
+
+/* ===== dashboardstijl (magenta + blauw) ===== */
+:root[data-theme],:root{--at-mag1:#7c1d4d;--at-mag2:#9b2360;--at-blauw:#5b9bd5;--at-bg:#eceef1;--at-kaart:#f4f4f4;
+  --bg:#eceef1;--surface:#f4f4f4;--surface-2:#e8e9ec;--ink:#333;--ink-soft:#6b6f75;--line:#d9dbe0;--rood:#c8102e;--accent:#9b2360;--ok:#2f8f5b;--bad:#c8102e;--info:#5b9bd5;--blok:#f7f7f7;--blok-rand:#dcdde1;color-scheme:light}
+body{background:linear-gradient(135deg,#f0f1f3 0%,#e6e8eb 100%) fixed!important;color:#333}
+header.sl-kop{background:var(--at-mag2)!important;backdrop-filter:none!important}
+.sl-boven{background:var(--at-mag1);max-width:none!important;border-bottom:0!important}
+.sl-merk{gap:12px}
+.sl-titel b{color:#fff!important;font-size:1.35rem!important}
+.sl-titel span{color:rgba(255,255,255,.75)!important}
+.sl-logo circle{stroke:#fff}
+
+.sl-knop{background:transparent!important;border-color:rgba(255,255,255,.35)!important;color:#fff!important;box-shadow:none!important}
+.sl-knop-rood{background:#fff!important;color:var(--at-mag2)!important}
+.sl-tabsrand{background:var(--at-mag2);border-bottom:0!important;max-width:none!important}
+.sl-tabs{background:transparent!important;border:0!important;padding:0!important}
+.sl-tabs button{color:rgba(255,255,255,.8)!important;font-family:inherit!important;font-weight:400!important;font-size:1.05rem!important;border-radius:6px!important}
+.sl-tabs button[aria-pressed="true"]{background:rgba(255,255,255,.16)!important;border-color:transparent!important;box-shadow:none!important;color:#fff!important}
+.sl-tabs button[aria-pressed="true"] svg{color:#fff!important}
+.sl-tabs em{background:#fff!important;color:var(--at-mag2)!important}
+.sl-scheid{background:rgba(255,255,255,.3)!important}
+main.app{background:transparent!important;border:0!important;border-radius:0!important}
+.zoekveld input{background:#fff!important;border:1px solid #cfd2d7!important;border-radius:4px!important;color:#333!important}
+.period{background:#fff!important;border:1px solid #cfd2d7!important;color:#555!important;border-radius:4px!important}
+.period[aria-current="true"]{background:var(--at-mag2)!important;border-color:var(--at-mag2)!important;color:#fff!important}
+/* kaarten met blauwe kop */
+.teller{position:relative;background:var(--at-kaart)!important;border:0!important;border-radius:2px!important;box-shadow:0 2px 6px rgba(0,0,0,.12);padding-top:58px;overflow:hidden}
+.teller::before{content:"CLAIMS ZV MEPPEL";position:absolute;left:0;right:0;top:0;height:50px;background:var(--at-blauw);color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:1.25rem;letter-spacing:.03em}
+.teller button{background:transparent!important;border-right:1px dotted #c9cbd0}
+.teller button::before{display:none}
+.teller button::after{display:none!important}
+.teller .tl-label{color:var(--at-blauw)!important;font-weight:800;text-transform:uppercase;letter-spacing:.03em}
+.teller b{color:var(--at-blauw)!important;font-weight:400!important;font-family:inherit!important}
+.teller .tl-sub{color:var(--at-blauw)!important}
+.teller button[aria-selected="true"]{background:rgba(91,155,213,.12)!important}
+.dagmelding{background:var(--at-kaart)!important;border:0!important;border-radius:2px!important;box-shadow:0 2px 6px rgba(0,0,0,.12);position:relative;padding-top:24px}
+.dagmelding::after{content:"– ✕";position:absolute;right:12px;top:4px;color:#c8102e;font-weight:800;letter-spacing:.4em}
+.dm-tekst b{color:#7c1d4d!important;font-weight:400!important;text-transform:uppercase;font-size:1.05rem!important}
+.dm-icoon{background:#c8102e!important}
+.lijstkop .lk-titel{color:#7c1d4d!important}
+.klein-knop,.sorteer-chip{background:#fff!important;border:1px solid #cfd2d7!important;color:#444!important;border-radius:4px!important}
+.blok{background:var(--at-kaart)!important;border:0!important;border-radius:2px!important;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.blok.k-laat{box-shadow:inset 4px 0 0 #c8102e,0 2px 6px rgba(0,0,0,.12)!important}
+.blok-icoon{border-radius:50%!important;background:#fff!important;color:var(--at-mag2)!important;box-shadow:inset 0 0 0 2px var(--at-mag2)}
+.blok-tekst b{color:#333!important}
+.blok-sub{color:var(--at-blauw)!important}
+.statuspil{border-radius:3px!important}
+.groepkop{color:#7c1d4d!important}
+.sl-voet{background:var(--at-mag1)!important;border:0!important}
+.sl-status{color:#fff!important}
+.sl-pil{background:transparent!important;border-color:rgba(255,255,255,.4)!important;color:#fff!important;border-radius:4px!important}
+.sl-pil svg{color:#fff!important}
+/* rapportage */
+.rapport .stat{background:var(--at-kaart)!important;color:#333!important;border-radius:2px!important;box-shadow:0 2px 6px rgba(0,0,0,.12);padding-top:56px!important}
+.rapport .stat::after{display:none}
+.rapport .stat dt{position:absolute;left:0;right:0;top:0;height:44px;background:var(--at-blauw);color:#fff!important;opacity:1!important;display:flex;align-items:center;justify-content:center;font-size:.8rem!important}
+.rapport .stat dd{color:var(--at-blauw)!important;font-weight:400!important}
+.rapport .stat .sub{color:var(--at-blauw)!important;opacity:1!important}
+.paneel,.progress{background:var(--at-kaart)!important;border:0!important;border-radius:2px!important;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.paneel h2,.progress .ptitle{color:#7c1d4d!important;font-weight:400!important;text-transform:uppercase}
+.grafiek rect[fill="var(--ok)"],.grafiek path[fill="var(--ok)"]{fill:#f2d4dc;stroke:#e06a85;stroke-width:1.5}
+.pbar .done{background:var(--at-blauw)!important}.pbar .open{background:var(--at-mag2)!important}
+.plegend i[style*="--ok"]{background:var(--at-blauw)!important}.plegend i[style*="--bad"]{background:var(--at-mag2)!important}
+.sl-titel b{font-size:1.2rem!important}
 </style>
 </head>
 <body>
@@ -1293,7 +1358,7 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
           <span class="menu-kop">App</span>
           <button type="button" class="menu-item" data-menu="installeren" id="installItem">App installeren</button>
           <button type="button" class="menu-item" data-menu="instellingen">Instellingen</button>
-          <button type="button" class="menu-item" data-menu="thema" id="themaItem">Thema: donker</button>
+          <button type="button" class="menu-item" data-menu="thema" id="themaItem">Thema: licht</button>
           <button type="button" class="menu-item" data-menu="uitleg">Uitleg</button>
           <button type="button" class="menu-item" data-menu="updates">Updates</button>
           <span class="menu-scheiding" aria-hidden="true" id="uitlogScheiding" hidden></span>
@@ -1578,7 +1643,7 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
   const SLEUTEL_LOKAAL = "garanties-meppel-v1";
   const SLEUTEL_LOKAAL_INST = "garanties-meppel-inst";
   const SLEUTEL_WEERGAVE = "claimregister-weergave";
-  const SLEUTEL_THEMA = "claimregister-thema-donker";
+  const SLEUTEL_THEMA = "claimregister-thema-dashboard";
 
   let sessie = ls.json(SLEUTEL_SESSIE);
   function bewaarSessie(s){ sessie = s; if(s) ls.set(SLEUTEL_SESSIE, JSON.stringify(s)); else ls.del(SLEUTEL_SESSIE); }
@@ -2868,6 +2933,9 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
 
   /* ---------- uitleg en updates ---------- */
   const UPDATES = [
+    ["7 november 2026 — dashboardstijl", [
+      "Nieuwe stijl: magenta balken bovenaan en onderaan, grijze kaarten en blauwe kopbalken, zoals de dashboards die jullie al gebruiken."
+    ]],
     ["7 november 2026 — e-mail bij nieuwe claim", [
       "Wordt er een claim of LGAR in de lijst gezet, dan gaat er automatisch een e-mail met de gegevens naar s.kok@medipoint.nl. Bij Instellingen staat een knop <b>Testmail sturen</b>."
     ]],
@@ -3182,7 +3250,7 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
   }
 
   /* ---------- thema ---------- */
-  const THEMAS = ["dark", "light", "auto"];
+  const THEMAS = ["light", "dark", "auto"];
   const THEMANAAM = {auto:"automatisch", light:"licht", dark:"donker"};
   function zetThema(t){
     if(t === "auto") document.documentElement.removeAttribute("data-theme");
@@ -3190,7 +3258,7 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
     el("themaItem").textContent = "Thema: " + THEMANAAM[t];
     ls.set(SLEUTEL_THEMA, t);
   }
-  zetThema(THEMAS.includes(ls.get(SLEUTEL_THEMA)) ? ls.get(SLEUTEL_THEMA) : "dark");
+  zetThema(THEMAS.includes(ls.get(SLEUTEL_THEMA)) ? ls.get(SLEUTEL_THEMA) : "light");
 
   /* ======================================================================
      FORMULIER INLEZEN (LGAR-pdf of tekstbestand)
@@ -3637,7 +3705,7 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
         case "afdrukken": setTimeout(() => window.print(), 50); break;
         case "backup": backup(); break;
         case "terugzetten": kiesBackup(); break;
-        case "thema": { const nu = ls.get(SLEUTEL_THEMA) || "dark"; zetThema(THEMAS[(THEMAS.indexOf(nu) + 1) % THEMAS.length]); break; }
+        case "thema": { const nu = ls.get(SLEUTEL_THEMA) || "light"; zetThema(THEMAS[(THEMAS.indexOf(nu) + 1) % THEMAS.length]); break; }
         case "uitloggen": uitloggen(); break;
         case "agenda": openAgenda(); break;
         case "beheer": magBewerken() ? naarKijken() : openBeheerLogin(); break;
