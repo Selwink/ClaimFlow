@@ -1362,6 +1362,38 @@ main.app{background:transparent!important;border:0!important;border-radius:0!imp
 #gate .gate-vest{margin-bottom:0!important;padding-bottom:34px}
 #gate .gate-inhoud::before{height:300px;background:linear-gradient(#7c1d4d 0 252px,#9b2360 252px 100%)!important}
 #gate .gate-kaart{margin-top:24px!important}
+
+/* teller met 5 vakken */
+.teller{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+.teller button[data-tab="gehonoreerd"] b{color:var(--ok)!important}
+.teller button[data-tab="gehonoreerd"] .tl-label{color:var(--ok)!important}
+@media (max-width:520px){
+  .teller b{font-size:1.4rem!important}
+  .teller .tl-label{font-size:.6rem!important;letter-spacing:0!important}
+  .teller .tl-sub{font-size:.6rem!important}
+  .teller button{padding-left:2px!important;padding-right:2px!important}
+}
+
+@media (max-width:520px){
+  .teller .tl-label{font-size:.54rem!important;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;text-align:center}
+}
+.teller .tl-label{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+@media (max-width:520px){
+  .teller .tl-label{text-transform:none!important;letter-spacing:-.01em!important;font-size:.64rem!important;font-weight:800}
+}
+@media (max-width:385px){.teller .tl-label{font-size:.56rem!important}}
+
+/* telefoon: teller in twee rijen (3 + 2), labels volledig leesbaar */
+@media (max-width:520px){
+  .teller{grid-template-columns:repeat(6,minmax(0,1fr))!important}
+  .teller button{grid-column:span 2;border-bottom:1px dotted #c9cbd0}
+  .teller button:nth-child(4),.teller button:nth-child(5){grid-column:span 3;border-bottom:0}
+  .teller button:nth-child(3){border-right:0!important}
+  .teller .tl-label{font-size:.72rem!important;text-transform:uppercase!important;letter-spacing:.02em!important;overflow:visible;text-overflow:clip}
+  .teller b{font-size:1.6rem!important}
+  .teller .tl-sub{font-size:.68rem!important}
+}
 </style>
 </head>
 <body>
@@ -1766,7 +1798,7 @@ main.app{background:transparent!important;border:0!important;border-radius:0!imp
   const opgeslagenWeergave = ls.json(SLEUTEL_WEERGAVE) || {};
   const state = {
     claims: [], loaded:false, live:false, offline:false,
-    period:"all", q:"", status: ["", "open", "aandacht", "afgehandeld"].includes(opgeslagenWeergave.status) ? opgeslagenWeergave.status : "open",
+    period:"all", q:"", status: ["", "open", "aandacht", "gehonoreerd", "afgehandeld"].includes(opgeslagenWeergave.status) ? opgeslagenWeergave.status : "open",
     uit: opgeslagenWeergave.uit || (opgeslagenWeergave.status === "uitbesteed" ? "ja" : ""),
     loc: opgeslagenWeergave.loc || "", lev: opgeslagenWeergave.lev || "",
     sort: opgeslagenWeergave.sort || "standaard", groep: opgeslagenWeergave.groep || "maand",
@@ -1944,6 +1976,7 @@ main.app{background:transparent!important;border:0!important;border-radius:0!imp
       case "open": return isOpen(c);
       case "aandacht": return vereistAandacht(c);
       case "afgehandeld": return !isOpen(c);
+      case "gehonoreerd": return statusVan(c) === "gehonoreerd";
       case "uitbesteed": return !!c.uitbesteed;
       default: return true;
     }
@@ -1990,14 +2023,16 @@ main.app{background:transparent!important;border:0!important;border-radius:0!imp
     [...set].sort().reverse().forEach(p => mk(p, periodShort(p)));
   }
 
-  const TABNAAM = {"":"Alle claims", open:"Openstaand", aandacht:"Vereist aandacht", afgehandeld:"Afgehandeld"};
+  const TABNAAM = {"":"Alle claims", open:"Openstaand", aandacht:"Vereist aandacht", gehonoreerd:"Gehonoreerd", afgehandeld:"Afgehandeld"};
   function renderTeller(){
     const base = baseRows();
     const som = l => l.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
     const open = base.filter(isOpen), laat = base.filter(vereistAandacht), klaar = base.filter(c => !isOpen(c));
+    const geh = base.filter(c => statusVan(c) === "gehonoreerd");
     const vakken = [
       ["open", "Open", open.length, euroKort(som(open))],
       ["aandacht", "Aandacht", laat.length, laat.length ? "> " + INST.dagen + " dagen" : "alles op tijd"],
+      ["gehonoreerd", "Gehonoreerd", geh.length, euroKort(som(geh))],
       ["afgehandeld", "Afgehandeld", klaar.length, euroKort(som(klaar))],
       ["", "Alles", base.length, euroKort(som(base))]
     ];
@@ -2976,6 +3011,7 @@ main.app{background:transparent!important;border:0!important;border-radius:0!imp
 
   /* ---------- uitleg en updates ---------- */
   const UPDATES = [
+    ["7 november 2026 — Gehonoreerd", ["Nieuw vak <b>Gehonoreerd</b> in de teller: tik erop om alleen de gehonoreerde claims te zien."]],
     ["7 november 2026 — dashboardstijl", [
       "Nieuwe stijl: magenta balken bovenaan en onderaan, grijze kaarten en blauwe kopbalken, zoals de dashboards die jullie al gebruiken."
     ]],
