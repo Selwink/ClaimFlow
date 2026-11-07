@@ -789,6 +789,8 @@ body.met-bulk main.app{padding-bottom:calc(120px + env(safe-area-inset-bottom,0p
 .toast{bottom:calc(20px + env(safe-area-inset-bottom,0px))}
 body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
 @media print{main.app > .actieknoppen{display:none!important}}
+
+.topnav .menupaneel{left:0;right:auto}
 </style>
 </head>
 <body>
@@ -809,8 +811,6 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
   </div>
   <div class="topnav gutter">
     <nav class="tabbar" aria-label="Hoofdmenu">
-      <button type="button" data-view="lijst" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.4 3.4 8.3 8 9 4.6-.7 8-4.6 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg><span>Claims</span></button>
-      <button type="button" data-view="rapport" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Rapportage</span></button>
       <div class="menu">
         <button type="button" id="menuBtn" aria-expanded="false" aria-haspopup="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Menu</span></button>
         <div class="menupaneel" id="menuPaneel" hidden>
@@ -832,6 +832,8 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
           <span class="menu-voet">Made by <b>Selwin</b></span>
         </div>
       </div>
+      <button type="button" data-view="lijst" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.4 3.4 8.3 8 9 4.6-.7 8-4.6 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg><span>Claims</span></button>
+      <button type="button" data-view="rapport" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Rapportage</span></button>
     </nav>
   </div>
   <div class="strip" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
@@ -2203,7 +2205,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     ["7 november 2026 — nieuwe opzet", [
       "Elke claim is nu een <b>compact blok</b> met leverancier, inkoopnummer, status, bedrag en dagen open. Tik op een blok voor alle details, de tijdlijn en de knoppen.",
       "Bovenaan een <b>teller</b> met Open, Aandacht, Afgehandeld en Alles; tik erop om te filteren. Zoeken en periodes staan direct onder de kop.",
-      "<b>Claims</b>, <b>Rapportage</b> en <b>Menu</b> staan als vaste balk bovenaan, onder het logo. Daaronder de grote knop <b>Claim toevoegen</b> met <b>LGAR</b> ernaast.",
+      "<b>Menu</b>, <b>Claims</b> en <b>Rapportage</b> staan als vaste balk bovenaan, onder het logo. Daaronder de grote knop <b>Claim toevoegen</b> met <b>LGAR</b> ernaast.",
       "Uitbesteed is nu een filter (Filters → Alleen uitbesteed)."
     ]],
     ["7 november 2026 — opgeruimd", [
