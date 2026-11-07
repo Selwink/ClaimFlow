@@ -1,0 +1,25 @@
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--zand); color: var(--inkt); font-family: var(--body); font-size: 15px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+h1, h2, h3 { font-family: var(--display); letter-spacing: -.03em; line-height: 1.08; margin: 0; }
+p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .55; }
+img, svg { display: block; }
+:focus-visible { outline: 3px solid rgba(232, 56, 43, .45); outline-offset: 2px; border-radius: 6px; }
+::selection { background: var(--roze); }
+.mono { font-family: var(--mono); font-size: .92em; }
+.rechts { text-align: right; }
+.t-rood { color: var(--rood); }
+.t-turk { color: var(--turk-2); }
+.t-oker { color: var(--oker-2); }
+.t-zacht { color: var(--inkt-2); }
+.hint { color: var(--inkt-2); font-size: .82rem; text-align: center; margin: 14px 0; }
+@media (max-width: 759px) { .alleen-desktop { display: none !important; } }
+@media (min-width: 760px) { .alleen-mobiel { display: none !important; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
