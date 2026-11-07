@@ -1109,6 +1109,15 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
 }
 
 @media (min-width:1100px){:root[data-theme="dark"] .overlay.zijpaneel{background:transparent}}
+
+/* alleen kijken */
+body.alleen-kijken .actieknoppen,body.alleen-kijken #selectBtn,body.alleen-kijken .is-trash .row-actions,
+body.alleen-kijken [data-menu="terugzetten"],body.alleen-kijken [data-menu="instellingen"]{display:none!important}
+.alleen-kijken-tekst{font-size:.82rem;color:var(--ink-soft)}
+.rol-label{font-size:.66rem;font-weight:700;border-radius:999px;padding:2px 9px;white-space:nowrap;margin-left:8px}
+.rol-label[hidden]{display:none!important}
+.rol-kijken{background:var(--surface-2);color:var(--ink-soft)}
+.rol-beheer{background:var(--bad-soft);color:var(--rood)}
 </style>
 </head>
 <body>
@@ -1126,6 +1135,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
       <p id="vestiging">Vestiging Meppel</p>
     </div>
     <span class="sync" id="sync"></span>
+    <span class="rol-label" id="rolLabel" hidden></span>
   </div>
   <div class="topnav gutter">
     <nav class="tabbar" aria-label="Hoofdmenu">
@@ -1148,6 +1158,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
           <button type="button" class="menu-item" data-menu="uitleg">Uitleg</button>
           <button type="button" class="menu-item" data-menu="updates">Updates</button>
           <span class="menu-scheiding" aria-hidden="true" id="uitlogScheiding" hidden></span>
+          <button type="button" class="menu-item" data-menu="beheer" id="beheerItem" hidden>Inloggen als beheerder</button>
           <button type="button" class="menu-item" data-menu="uitloggen" id="uitlogItem" hidden>Uitloggen</button>
           <span class="menu-voet">Made by <b>Selwin</b></span>
         </div>
@@ -1242,7 +1253,10 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     SUPABASE_KEY: "sb_publishable_Pg8KNp50y2EzGkYurn117w_4Llr27bI",
     TABEL: "claims",
     ACCOUNTS: false,
-    WACHTWOORD_HASH: "1360561d88563bcbd4716c3e1dc928fc6275afe52d64e830ef5c025446d567a9"
+    WACHTWOORD_HASH: "1360561d88563bcbd4716c3e1dc928fc6275afe52d64e830ef5c025446d567a9",
+    // Beheerderswachtwoord: alleen hiermee kun je claims toevoegen, aanpassen en verwijderen.
+    // Met het gewone wachtwoord kun je alleen kijken. Leeg = iedereen met het gewone wachtwoord mag alles.
+    BEHEER_HASH: ""
   };
   /* ===================================================================== */
 
@@ -1394,6 +1408,17 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
      TOEGANG EN OPSLAG
      ====================================================================== */
   const SLEUTEL_PW = "garanties-meppel-toegang";
+  /* Rollen: "beheer" mag alles, "kijken" alleen bekijken. */
+  function rol(){
+    if(CONFIG.ACCOUNTS) return sessie ? "beheer" : null;
+    if(!CONFIG.WACHTWOORD_HASH && !CONFIG.BEHEER_HASH) return "beheer";
+    const h = ls.get(SLEUTEL_PW);
+    if(h && CONFIG.BEHEER_HASH && h === CONFIG.BEHEER_HASH) return "beheer";
+    if(h && h === CONFIG.WACHTWOORD_HASH) return CONFIG.BEHEER_HASH ? "kijken" : "beheer";
+    return null;
+  }
+  const magBewerken = () => rol() === "beheer";
+  function alleenKijkenMelding(){ toast("Alleen een beheerder kan dit — log in als beheerder via het Menu"); }
   const SLEUTEL_SESSIE = "claimregister-sessie";
   const SLEUTEL_CACHE = "claimregister-cache-v2";
   const SLEUTEL_LOKAAL = "garanties-meppel-v1";
@@ -1529,6 +1554,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
 
   /* Bewaar een of meer claims. Optimistisch: eerst op het scherm, dan naar de database. */
   async function bewaar(claims, melding, ongedaan){
+    if(!magBewerken()){ alleenKijkenMelding(); return false; }
     const nu = vandaag();
     claims = claims.map(c => ({...c, bijgewerkt: nu}));
     claims.forEach(c => {
@@ -1610,6 +1636,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     await bewaar([{...metRegel(kopie(c), "Teruggezet uit de prullenbak"), verwijderd:null}], "Claim teruggezet");
   }
   async function purge(id, stil){
+    if(!magBewerken()){ alleenKijkenMelding(); return; }
     state.confirmId = null;
     state.claims = state.claims.filter(c => c.id !== id);
     render(); schrijfCache();
@@ -1618,6 +1645,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     catch(err){ if(err instanceof AuthFout){ uitloggen("Je sessie is verlopen. Log opnieuw in."); return; } toast("Verwijderen mislukt"); refresh(); }
   }
   async function bewaarInst(nieuw){
+    if(!magBewerken()){ alleenKijkenMelding(); return; }
     INST = instUit({...INST, ...nieuw});
     pasInstToe(); render(); schrijfCache();
     if(!REMOTE){ toast("Instellingen opgeslagen"); return; }
@@ -1787,7 +1815,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     const dagen = isOpen(c) && a ? (laat ? `<span class="laat">${a.dagen} d</span>` : a.dagen + " d") : "";
     const tweede = (c.inkoopnummer ? esc(c.inkoopnummer) : (isOpen(c) ? `<span class="wacht">wacht op nr</span>` : "")) + (state.groep === "maand" ? "" : (c.inkoopnummer || isOpen(c) ? " · " : "") + esc(periodShort(c.periode)));
     const id = esc(c.id), st = statusVan(c);
-    const acties = state.selecteren ? "" : (isOpen(c)
+    const acties = (state.selecteren || !magBewerken()) ? "" : (isOpen(c)
       ? (st === "nieuw" ? `<button type="button" class="va va-info" data-act="ingediend" data-id="${id}">Ingediend</button>` : "") +
         `<button type="button" class="va va-ok" data-act="gehonoreerd" data-id="${id}">Gehonoreerd</button>
          <button type="button" class="va va-bad" data-act="afgewezen" data-id="${id}">Afwijzen</button>`
@@ -1818,7 +1846,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
       <td class="num mono">${geenBedrag(c) ? `<span class="wacht">volgt</span>` : esc(euro(c.bedrag))}</td>
       <td>${statusPil(c)}</td>
       <td class="num">${dagen}</td>
-      <td class="t-acties">${state.selecteren ? "" : (isOpen(c)
+      <td class="t-acties">${(state.selecteren || !magBewerken()) ? "" : (isOpen(c)
         ? (statusVan(c) === "nieuw" ? `<button type="button" class="ta ta-info" data-act="ingediend" data-id="${esc(c.id)}" title="Ingediend">Ingediend</button>` : "") +
           `<button type="button" class="ta ta-ok" data-act="gehonoreerd" data-id="${esc(c.id)}" title="Gehonoreerd">✓</button><button type="button" class="ta ta-bad" data-act="afgewezen" data-id="${esc(c.id)}" title="Afwijzen">✕</button>`
         : `<button type="button" class="ta" data-act="heropenen" data-id="${esc(c.id)}" title="Heropenen">↺</button>`)}<span class="t-pijl" aria-hidden="true">›</span></td>
@@ -1900,7 +1928,9 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
         (open && a ? `<span class="doorloop">Staat <b>${meervoud(a.dagen, "dag", "dagen")}</b> open${a.schatting ? " (geschat vanaf de periode)" : ""} · termijn ${INST.dagen} dagen</span>` : "")}
       ${c.bijzonderheden ? `<p class="note">${esc(c.bijzonderheden)}</p>` : ""}
       ${tijdlijnHtml(c)}
-      <div class="row-actions">
+      ${!magBewerken() ? `<div class="row-actions">
+        ${open && !c.uitbesteed ? `<button class="icon-btn" data-act="agenda" data-id="${id}">Herinnering</button>` : ""}
+        <span class="alleen-kijken-tekst">Alleen kijken — log in als beheerder om deze claim te wijzigen.</span></div>` : `<div class="row-actions">
         ${st === "nieuw" ? `<button class="icon-btn" data-act="ingediend" data-id="${id}">Ingediend</button>` : ""}
         ${open
           ? `<button class="icon-btn ok" data-act="gehonoreerd" data-id="${id}">Gehonoreerd</button>
@@ -1912,7 +1942,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
         <button class="icon-btn" data-act="dupliceren" data-id="${id}">Dupliceren</button>
         ${open && !c.uitbesteed ? `<button class="icon-btn" data-act="agenda" data-id="${id}">Herinnering</button>` : ""}
         <button class="icon-btn danger rechts" data-act="verwijderen" data-id="${id}">Verwijderen</button>
-      </div>
+      </div>`}
       ${state.confirmId === c.id ? `<div class="confirm">${esc(titelVan(c))} naar de prullenbak?
         <button class="btn" data-act="annuleren">Annuleren</button>
         <button class="btn btn-primary" data-act="bevestig" data-id="${id}">Verwijderen</button></div>` : ""}
@@ -1987,6 +2017,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
 
   function render(){
     openVeeg = null;
+    renderRol();
     pasInstToe();
     renderSync();
     document.querySelectorAll(".tabbar [data-view]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.view === state.view)));
@@ -2548,7 +2579,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
         <label class="full">Aan<input id="r_aan" type="email" value="${esc(mail)}" placeholder="garantie@leverancier.nl"></label>
         <label class="full">Onderwerp<input id="r_ond" value="${esc(onderwerp)}"></label>
         <label class="full">Bericht<textarea id="r_tekst" class="mailvoorbeeld">${esc(tekst)}</textarea></label>
-        <label class="full vink"><input type="checkbox" id="r_notitie" checked><span>Zet bij elke claim een notitie “Rappel gestuurd naar ${esc(lev)}”.</span></label>
+        <label class="full vink"${magBewerken() ? "" : " hidden"}><input type="checkbox" id="r_notitie"${magBewerken() ? " checked" : ""}><span>Zet bij elke claim een notitie “Rappel gestuurd naar ${esc(lev)}”.</span></label>
       </div>
       <div class="sheet-actions">
         <button type="button" class="btn btn-ghost" data-sluit="1">Sluiten</button>
@@ -2558,6 +2589,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     </form>`, {focus:"#r_aan"});
     const naVersturen = async () => {
       const aan = q("#r_aan").value.trim();
+      if(!magBewerken()) return;
       if(aan && aan !== mail){ INST.levMail = {...INST.levMail, [lev]: aan}; bewaarInst({levMail: INST.levMail}); }
       if(q("#r_notitie").checked){
         const nu = vandaag();
@@ -2607,7 +2639,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     </form>`, {focus:"#i_vest"});
     const pw = q("#i_pw");
     if(pw) pw.addEventListener("input", async () => {
-      q("#i_hash").textContent = pw.value ? "Zet in CONFIG → WACHTWOORD_HASH: " + await sha(pw.value + ZOUT) : "";
+      q("#i_hash").textContent = pw.value ? "Hash (voor WACHTWOORD_HASH of BEHEER_HASH in CONFIG): " + await sha(pw.value + ZOUT) : "";
     });
     q("#instForm").addEventListener("submit", async e => {
       e.preventDefault();
@@ -3029,6 +3061,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     return uit;
   }
   async function leesFormulier(file){
+    if(!magBewerken()){ alleenKijkenMelding(); return; }
     if(!file) return;
     const naam = (file.name || "formulier").toLowerCase();
     const isPdf = file.type === "application/pdf" || naam.endsWith(".pdf");
@@ -3149,7 +3182,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
   function sluitVeeg(){ if(openVeeg){ openVeeg.style.transform = ""; openVeeg.classList.remove("open"); openVeeg = null; } }
   el("list").addEventListener("pointerdown", e => {
     const b = e.target.closest(".blok");
-    if(!b || state.selecteren || (e.pointerType === "mouse" && e.button !== 0) || !actieBreedte(b)) return;
+    if(!b || state.selecteren || !magBewerken() || (e.pointerType === "mouse" && e.button !== 0) || !actieBreedte(b)) return;
     if(openVeeg && openVeeg !== b) sluitVeeg();
     veeg = {b, x:e.clientX, y:e.clientY, actief:false, start: openVeeg === b ? -actieBreedte(b) : 0, pos:0, id:e.pointerId};
   });
@@ -3263,6 +3296,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
   }
   let lgarVraagOpen = false;
   function lgarTerug(){
+    if(!magBewerken()) return;
     const sinds = Number(ls.get(SLEUTEL_LGAR) || 0);
     if(!sinds || lgarVraagOpen || !el("gate").hidden || document.hidden) return;
     if(Date.now() - sinds > 12 * 3600 * 1000){ ls.del(SLEUTEL_LGAR); return; }
@@ -3322,6 +3356,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
         case "thema": { const nu = ls.get(SLEUTEL_THEMA) || "dark"; zetThema(THEMAS[(THEMAS.indexOf(nu) + 1) % THEMAS.length]); break; }
         case "uitloggen": uitloggen(); break;
         case "agenda": openAgenda(); break;
+        case "beheer": magBewerken() ? naarKijken() : openBeheerLogin(); break;
         case "installeren": installeren(); break;
       }
     });
@@ -3347,7 +3382,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
       <h1>garantieclaims</h1>
       <p class="gate-vest">Vestiging ${esc(vest)}</p>
       <form class="gate-kaart" id="gateForm" novalidate>
-        <p class="gate-uitleg">${CONFIG.ACCOUNTS ? "Log in met je account." : "Vul het wachtwoord in om het register te openen."}</p>
+        <p class="gate-uitleg">${CONFIG.ACCOUNTS ? "Log in met je account." : CONFIG.BEHEER_HASH ? "Vul het wachtwoord in. Met het beheerderswachtwoord kun je ook claims toevoegen en aanpassen." : "Vul het wachtwoord in om het register te openen."}</p>
         ${CONFIG.ACCOUNTS ? `<label class="gate-veld"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg>
           <input type="email" id="gateMail" placeholder="E-mailadres" autocomplete="username" aria-label="E-mailadres" value="${esc((sessie && sessie.email) || ls.get("claimregister-laatste-mail") || "")}"></label>` : ""}
         <label class="gate-veld"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.5" width="16" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>
@@ -3395,7 +3430,10 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
         }finally{ knop.disabled = false; knop.textContent = "Inloggen"; }
       } else {
         const h = await sha(pwVeld.value + ZOUT);
-        if(h && h === CONFIG.WACHTWOORD_HASH){ ls.set(SLEUTEL_PW, h); openApp(); }
+        if(h && (h === CONFIG.WACHTWOORD_HASH || (CONFIG.BEHEER_HASH && h === CONFIG.BEHEER_HASH))){
+          ls.set(SLEUTEL_PW, h); openApp();
+          if(CONFIG.BEHEER_HASH) toast(h === CONFIG.BEHEER_HASH ? "Ingelogd als beheerder" : "Ingelogd — alleen kijken");
+        }
         else {
           fout.textContent = h ? "Dat wachtwoord klopt niet. Probeer het nog eens." : "Deze browser kan het wachtwoord niet controleren. Open de site via https.";
           fout.hidden = false; pwVeld.value = ""; pwVeld.focus();
@@ -3417,7 +3455,41 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     toonGate(melding);
   }
 
+  function openBeheerLogin(){
+    const {q, sluit} = openSheet(`<form class="sheet" id="beheerForm"><h2>Inloggen als beheerder</h2>
+      <p style="margin:0 0 12px;color:var(--ink-soft)">Met het beheerderswachtwoord kun je claims toevoegen, aanpassen, afhandelen en verwijderen.</p>
+      <div class="grid"><label class="full">Beheerderswachtwoord<input type="password" id="bh_pw" autocomplete="current-password" required></label></div>
+      <div id="bh_fout"></div>
+      <div class="sheet-actions"><button type="button" class="btn btn-ghost" data-sluit="1">Annuleren</button>
+        <button type="submit" class="btn btn-primary">Inloggen</button></div></form>`, {focus:"#bh_pw"});
+    q("#beheerForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      const h = await sha(q("#bh_pw").value + ZOUT);
+      if(h && h === CONFIG.BEHEER_HASH){ ls.set(SLEUTEL_PW, h); sluit(); render(); toast("Je bent nu beheerder"); setTimeout(vraagNaam, 600); }
+      else { q("#bh_fout").innerHTML = `<div class="confirm" style="margin-top:12px">Dat is niet het beheerderswachtwoord.</div>`; q("#bh_pw").value = ""; q("#bh_pw").focus(); }
+    });
+  }
+  function naarKijken(){
+    ls.set(SLEUTEL_PW, CONFIG.WACHTWOORD_HASH);
+    state.selecteren = false; state.geselecteerd.clear();
+    document.querySelectorAll(".overlay").forEach(o => o.remove());
+    render(); toast("Je kijkt nu alleen mee");
+  }
+  function renderRol(){
+    const beheer = magBewerken();
+    document.body.classList.toggle("alleen-kijken", !beheer);
+    const item = el("beheerItem");
+    item.hidden = CONFIG.ACCOUNTS || !CONFIG.BEHEER_HASH;
+    item.textContent = beheer ? "Beheer verlaten (alleen kijken)" : "Inloggen als beheerder";
+    const lbl = el("rolLabel");
+    lbl.hidden = CONFIG.ACCOUNTS || !CONFIG.BEHEER_HASH;
+    lbl.textContent = beheer ? "Beheer" : "Kijken";
+    lbl.title = beheer ? "Je kunt claims toevoegen en aanpassen" : "Alleen kijken: log in als beheerder via het Menu om te wijzigen";
+    lbl.className = "rol-label " + (beheer ? "rol-beheer" : "rol-kijken");
+  }
+
   function vraagNaam(){
+    if(!magBewerken()) return;
     if(CONFIG.ACCOUNTS || ls.get(SLEUTEL_NAAM) || sessionStorage.getItem("claimregister-naam-later")) return;
     if(document.querySelector(".overlay") || !el("gate").hidden){ setTimeout(vraagNaam, 1500); return; }
     const {q, sluit} = openSheet(`<form class="sheet" id="naamForm"><h2>Hoe heet je?</h2>
@@ -3476,7 +3548,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
 
   // Start
   pasInstToe();
-  const toegang = CONFIG.ACCOUNTS ? !!sessie : (!CONFIG.WACHTWOORD_HASH || ls.get(SLEUTEL_PW) === CONFIG.WACHTWOORD_HASH);
+  const toegang = rol() !== null;
   if(toegang) openApp(); else { render(); toonGate(); }
 })();
 </script>
