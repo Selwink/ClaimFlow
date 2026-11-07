@@ -799,6 +799,13 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
   .actieknoppen .grote-knop{font-size:.92rem;padding:13px 12px;gap:8px}
   .actieknoppen .lgar-knop{padding:0 12px;font-size:.84rem;gap:6px}
 }
+
+/* LGAR keuze */
+.lgarkeuze .keuze{display:flex;flex-direction:column;gap:3px;width:100%;text-align:left;background:var(--bg);border:1px solid var(--line);
+  border-radius:14px;padding:14px 16px;margin-bottom:10px;cursor:pointer;color:var(--ink)}
+.lgarkeuze .keuze:hover{border-color:var(--rood)}
+.lgarkeuze .keuze b{font-family:var(--display);font-size:1rem}
+.lgarkeuze .keuze span{font-size:.84rem;color:var(--ink-soft);line-height:1.4}
 </style>
 </head>
 <body>
@@ -936,6 +943,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
   const REMOTE = !!(BASE && KEY);
   const API = REMOTE ? BASE + "/rest/v1/" + CONFIG.TABEL : "";
   const ZOUT = "medipoint-meppel";
+  const LGAR_FORMULIER = "https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=lNlTLdkSZ06NbuTxZ3lQ-h5l1KWN4khFmEPmfPxlgCFUN1NQU003VEEwTzBZQjg1ODhIMVZVUUNFVyQlQCN0PWcu";
 
   /* ---------- kleine hulpjes ---------- */
   const el = id => document.getElementById(id);
@@ -1930,13 +1938,14 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     return treffers;
   }
 
-  function openForm(claim, imp, sjabloon){
+  function openForm(claim, imp, sjabloon, extra){
     const c = claim || {status:"nieuw", locatie:"binnen", periode: state.period !== "all" ? state.period : thisPeriod(), leverancier: state.lev || "", ...(sjabloon || {})};
     if(imp && imp.velden) Object.assign(c, imp.velden);
     const levs = alleLeveranciers();
     const anders = c.leverancier && !levs.includes(c.leverancier);
     const {q, sluit} = openSheet(`<form class="sheet" id="claimForm" novalidate>
-      <h2>${claim ? "Claim bewerken" : sjabloon ? "Claim dupliceren" : "Nieuwe garantieclaim"}</h2>
+      <h2>${claim ? "Claim bewerken" : extra && extra.titel ? esc(extra.titel) : sjabloon ? "Claim dupliceren" : "Nieuwe garantieclaim"}</h2>
+      ${extra && extra.melding ? `<div class="leesmelding"><span>${extra.melding}</span></div>` : ""}
       ${imp ? `<div class="leesmelding"><span>${imp.aantal
           ? meervoud(imp.aantal, "veld", "velden") + " overgenomen uit <b>" + esc(imp.bron) + "</b>. Controleer ze en sla op."
           : "Uit <b>" + esc(imp.bron) + "</b> kon ik geen velden herkennen. Vul het hieronder zelf in."}</span>
@@ -2061,7 +2070,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
         await bewaar([nieuw], "Claim bijgewerkt", terugdraaier([kopie(claim)]));
       } else {
         const id = nieuwId();
-        const nieuw = {...body, id, notities:[{d:vandaag(), t:"Claim vastgelegd" + (imp ? " uit " + imp.bron : "") + " (" + STATUS[body.status].label.toLowerCase() + ")", soort:"status", naar:body.status}]};
+        const nieuw = {...body, id, notities:[{d:vandaag(), t:"Claim vastgelegd" + (imp ? " uit " + imp.bron : "") + (extra && extra.notitie ? " " + extra.notitie : "") + " (" + STATUS[body.status].label.toLowerCase() + ")", soort:"status", naar:body.status}]};
         state.expanded.add(id);
         await bewaar([nieuw], "Claim toegevoegd", terugdraaier([], id));
       }
@@ -2210,6 +2219,10 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
 
   /* ---------- uitleg en updates ---------- */
   const UPDATES = [
+    ["7 november 2026 — LGAR-formulier", [
+      "<b>+ LGAR toevoegen</b> vraagt nu wat je wilt: het <b>LGAR-formulier invullen</b> of een <b>pdf of bestand inlezen</b>.",
+      "Kies je invullen, dan opent het Microsoft-formulier. Kom je na het versturen terug in de app, dan vraagt die of je de claim wilt vastleggen; het claimformulier staat dan klaar met status Ingediend en de datum van vandaag."
+    ]],
     ["7 november 2026 — nieuwe opzet", [
       "Elke claim is nu een <b>compact blok</b> met leverancier, inkoopnummer, status, bedrag en dagen open. Tik op een blok voor alle details, de tijdlijn en de knoppen.",
       "Bovenaan een <b>teller</b> met Open, Aandacht, Afgehandeld en Alles; tik erop om te filteren. Zoeken en periodes staan direct onder de kop.",
@@ -2254,14 +2267,15 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
       <ol class="uitleg">
         <li><b>Vul het LGAR-formulier in.</b> Klik op de knop hieronder om het formulier te openen.
           Kies daarin altijd <b>LGAR leidt tot Credit</b>: we versturen of gooien niets weg tot we goedkeuring krijgen van VAM.</li>
-        <li><b>Zet de claim daarna in deze lijst.</b> Met <b>+ Claim</b>, of sleep de pdf van het formulier op de pagina (of gebruik <b>+ Nieuwe LGAR</b>).</li>
+        <li><b>Zet de claim daarna in deze lijst.</b> Het makkelijkst via <b>+ LGAR toevoegen → LGAR-formulier invullen</b>: na het versturen vraagt
+          de app of je de claim wilt vastleggen en staat het formulier al klaar. Een pdf van het formulier kun je ook op de pagina slepen.</li>
         <li><b>Stoelen die we uitbesteden aan leveranciers</b> zet je alleen in deze lijst. Daarvoor claimen we geen garantie in de lijst van Medux,
           dus geen LGAR-formulier. Deze orders komen binnen in <b>code 80</b>.</li>
         <li><b>Volg op.</b> Claims die langer dan ${INST.dagen} dagen openstaan, staan onder <b>Vereist aandacht</b>. Stuur de leverancier een
           <b>Rappel</b> vanuit het leveranciersoverzicht bij Rapportage, en zet de claim op <b>Gehonoreerd</b> of <b>Afgewezen</b> zodra er antwoord is.</li>
       </ol>
       <p style="margin:16px 0 0"><a class="linkbtn" style="background:var(--donker);color:var(--op-donker);text-decoration:none;border-radius:999px;padding:11px 22px;display:inline-block"
-        href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=lNlTLdkSZ06NbuTxZ3lQ-h5l1KWN4khFmEPmfPxlgCFUN1NQU003VEEwTzBZQjg1ODhIMVZVUUNFVyQlQCN0PWcu" target="_blank" rel="noopener">LGAR-formulier openen</a></p>
+        href="#" data-lgar-invullen="1">LGAR-formulier invullen</a></p>
       <div class="sheet-actions"><button type="button" class="btn btn-primary" data-sluit="1">Sluiten</button></div></div>`);
   }
 
@@ -2614,7 +2628,62 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
   });
   el("trashBtn").addEventListener("click", () => { state.trash = !state.trash; state.confirmId = null; state.selecteren = false; render(); window.scrollTo({top:0}); });
   el("addBtn").addEventListener("click", () => openForm(null));
-  el("lgarBtn").addEventListener("click", kiesFormulier);
+  /* ---------- LGAR: formulier invullen of bestand inlezen ---------- */
+  const SLEUTEL_LGAR = "claimregister-lgar-open";
+  function lgarKeuze(){
+    const {q, sluit} = openSheet(`<div class="sheet lgarkeuze"><h2>LGAR toevoegen</h2>
+      <button type="button" class="keuze" id="lk_invullen"><b>LGAR-formulier invullen</b>
+        <span>Opent het Microsoft-formulier. Na het versturen zet je de claim hier met één tik in de lijst.</span></button>
+      <button type="button" class="keuze" id="lk_bestand"><b>Pdf of bestand inlezen</b>
+        <span>Kies een LGAR-pdf of tekstbestand; de app haalt de gegevens eruit.</span></button>
+      <div class="sheet-actions"><button type="button" class="btn btn-ghost" data-sluit="1">Annuleren</button></div></div>`, {focus:"#lk_invullen"});
+    q("#lk_invullen").onclick = () => { sluit(); lgarInvullen(); };
+    q("#lk_bestand").onclick = () => { sluit(); kiesFormulier(); };
+  }
+  function lgarInvullen(){
+    ls.set(SLEUTEL_LGAR, String(Date.now()));
+    const venster = window.open(LGAR_FORMULIER, "_blank");
+    if(venster){ try{ venster.opener = null; }catch(e){} }
+    else {
+      // Pop-up geblokkeerd: dan in hetzelfde tabblad; bij terugkomst vraagt de app het alsnog.
+      window.location.href = LGAR_FORMULIER;
+    }
+  }
+  let lgarVraagOpen = false;
+  function lgarTerug(){
+    const sinds = Number(ls.get(SLEUTEL_LGAR) || 0);
+    if(!sinds || lgarVraagOpen || !el("gate").hidden || document.hidden) return;
+    if(Date.now() - sinds > 12 * 3600 * 1000){ ls.del(SLEUTEL_LGAR); return; }
+    if(Date.now() - sinds < 4000) return;
+    if(document.querySelector(".overlay")) return;
+    lgarVraagOpen = true;
+    const {q, sluit} = openSheet(`<div class="sheet"><h2>LGAR-formulier verstuurd?</h2>
+      <p style="margin:0 0 6px;color:var(--ink-soft)">Je hebt het LGAR-formulier geopend. Heb je het verstuurd, zet de claim dan meteen in de lijst.
+        Status en datum staan al goed; vul type, leverancier en inkoopnummer in.</p>
+      <div class="sheet-actions">
+        <button type="button" class="btn btn-ghost" id="lt_nee">Niet verstuurd</button>
+        <button type="button" class="btn" id="lt_later">Nog bezig</button>
+        <button type="button" class="btn btn-primary" id="lt_ja">Ja, claim vastleggen</button>
+      </div></div>`, {focus:"#lt_ja", naSluiten: () => { lgarVraagOpen = false; }});
+    q("#lt_nee").onclick = () => { ls.del(SLEUTEL_LGAR); sluit(); };
+    q("#lt_later").onclick = () => { ls.set(SLEUTEL_LGAR, String(Date.now())); sluit(); };
+    q("#lt_ja").onclick = () => {
+      ls.del(SLEUTEL_LGAR); sluit();
+      openForm(null, null, {status:"ingediend", periode:thisPeriod(), leverancier: state.lev || ""},
+        {titel:"Claim na LGAR-formulier", notitie:"na het versturen van het LGAR-formulier",
+         melding:"Het LGAR-formulier is verstuurd op <b>" + esc(fmtDate(vandaag())) + "</b>. Vul dezelfde gegevens in als op het formulier."});
+    };
+  }
+  window.addEventListener("focus", () => setTimeout(lgarTerug, 300));
+  document.addEventListener("visibilitychange", () => setTimeout(lgarTerug, 300));
+  document.addEventListener("click", e => {
+    const a = e.target.closest("[data-lgar-invullen]");
+    if(!a) return;
+    e.preventDefault();
+    const ov = a.closest(".overlay"); if(ov) ov.remove();
+    lgarInvullen();
+  });
+  el("lgarBtn").addEventListener("click", lgarKeuze);
   el("selectBtn").addEventListener("click", () => { if(state.selecteren) stopSelecteren(); else { state.selecteren = true; render(); } });
   document.querySelectorAll(".tabbar [data-view]").forEach(b => b.addEventListener("click", () => {
     state.view = b.dataset.view; state.trash = false; if(state.view === "rapport") state.selecteren = false; render(); window.scrollTo({top:0});
@@ -2706,6 +2775,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
   function openApp(){
     const gate = el("gate");
     gate.hidden = true; gate.innerHTML = "";
+    setTimeout(lgarTerug, 800);
     el("uitlogItem").hidden = el("uitlogScheiding").hidden = !(CONFIG.ACCOUNTS || CONFIG.WACHTWOORD_HASH);
     if(REMOTE){
       const cache = ls.json(SLEUTEL_CACHE);
@@ -2730,6 +2800,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     }
   }
   document.addEventListener("visibilitychange", () => { if(!document.hidden && el("gate").hidden) refresh(); });
+  setTimeout(lgarTerug, 800);
 
   (function meetKop(){
     const kopEl = document.querySelector("header.brandbar");
