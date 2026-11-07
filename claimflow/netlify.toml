@@ -1,0 +1,7 @@
+# Lets Netlify build this folder straight from Git (base directory: claimflow).
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
