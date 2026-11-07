@@ -14,7 +14,7 @@ img{max-width:100%}
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="theme-color" content="#f4f1ea">
+<meta name="theme-color" content="#ffffff">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Garantieclaims">
@@ -1208,6 +1208,128 @@ body.alleen-kijken [data-menu="terugzetten"],body.alleen-kijken [data-menu="inst
 .rol-label[hidden]{display:none!important}
 .rol-kijken{background:var(--surface-2);color:var(--ink-soft)}
 .rol-beheer{background:var(--bad-soft);color:var(--rood)}
+
+/* ===================== stijl van medipoint.nl (licht, standaard) ===================== */
+:root[data-theme="light"],:root:not([data-theme]){
+  --bg:#f4f5f7; --surface:#ffffff; --surface-2:#eef0f3; --line:#e2e5ea;
+  --ink:#2b2d30; --ink-soft:#5d646d;
+  --brand:#ffffff; --on-brand:#2b2d30;
+  --rood:#e8382b; --accent:#e8382b; --on-accent:#fff;
+  --donker:#2b2d30; --op-donker:#ffffff;
+  --mp-teal:#67c7c8; --mp-teal-zacht:#dff3f3; --mp-teal-donker:#1d7f80;
+  --mp-roze:#f7d4da; --mp-roze-donker:#b3394a;
+  --mp-geel:#f6d38a; --mp-geel-zacht:#fcf0d6; --mp-navy:#2e4057;
+  --ok:#1d7f80; --ok-soft:#dff3f3; --warn:#8a6100; --warn-soft:#fcf0d6;
+  --geel:#8a6100; --geel-soft:#fcf0d6; --geel-rand:#efb13c;
+  --bad:#b3394a; --bad-soft:#fbe5e9; --info:#2e4057; --info-soft:#e6eaf0;
+  --blok:#ffffff; --blok-rand:#e2e5ea; --zweef:0 12px 30px rgba(43,45,48,.12);
+  --r:6px;
+}
+:root[data-theme="light"] body{background:#f4f5f7}
+:root[data-theme="light"] .papier-kop h1,:root[data-theme="light"] .lk-naam,:root[data-theme="light"] .rapport .paneel h2{
+  font-family:var(--display);font-weight:800;letter-spacing:-.02em}
+:root[data-theme="light"] .papier-kop h1{font-size:1.4rem}
+:root[data-theme="light"] .lk-naam{font-size:1.15rem}
+
+/* kop */
+:root[data-theme="light"] header.papier-kop{background:#fff;border-bottom:1px solid var(--line)}
+:root[data-theme="light"] .ikoon-knop[aria-pressed="true"],:root[data-theme="light"] .tabbar.ikoon-nav button[aria-pressed="true"]{background:var(--mp-teal-zacht);color:var(--mp-teal-donker)}
+:root[data-theme="light"] .tabbar.ikoon-nav button[aria-pressed="true"] svg{color:var(--mp-teal-donker)}
+
+/* gekleurde vlakken */
+.kaartblokken{display:grid;grid-template-columns:1fr;gap:12px;margin-top:16px}
+@media (min-width:640px){.kaartblokken{grid-template-columns:1fr 1fr}}
+.kaartblok{position:relative;border-radius:6px;padding:22px 20px 20px;overflow:hidden;display:flex;align-items:center;gap:12px;min-height:150px}
+.kb-teal{background:#67c7c8}
+.kb-roze{background:#f7d4da}
+.kb-tekst{position:relative;z-index:1;flex:1 1 auto;min-width:0}
+.kaartblok h2{margin:0 0 6px;font-family:var(--display);font-weight:800;font-size:1.55rem;letter-spacing:-.02em;line-height:1.1;color:#2b2d30}
+.kaartblok p{margin:0 0 16px;font-size:.92rem;line-height:1.5;color:#2b2d30;max-width:30ch}
+.kb-illu{flex:0 0 auto;width:118px;height:auto;opacity:.95}
+.pil-knop{border:0;background:#fff;color:#2b2d30;border-radius:999px;padding:11px 20px;font-family:var(--display);font-weight:700;font-size:.92rem;cursor:pointer;
+  box-shadow:0 1px 0 rgba(0,0,0,.04)}
+.pil-knop:hover{background:#2b2d30;color:#fff}
+@media (max-width:420px){
+  .kaartblok{padding:18px 16px;min-height:0}
+  .kaartblok h2{font-size:1.35rem}
+  .kb-illu{width:84px;position:absolute;right:12px;top:14px;opacity:.9}
+  .kaartblok p{max-width:none;padding-right:70px}
+}
+
+/* zoeken, chips, lijstkop */
+:root[data-theme="light"] .zoekveld input{background:#fff;border:1px solid var(--line);border-radius:6px}
+:root[data-theme="light"] .zoekveld input:focus{border-color:#2b2d30;box-shadow:none}
+:root[data-theme="light"] .chip{background:#fff;border-color:var(--line);font-weight:600}
+:root[data-theme="light"] .chip[aria-selected="true"]{background:#2b2d30;border-color:#2b2d30;color:#fff}
+:root[data-theme="light"] .chip[aria-selected="true"] b{color:#fff}
+:root[data-theme="light"] .lk-periode.aan{color:var(--mp-teal-donker)}
+
+/* rijen */
+:root[data-theme="light"] .blok.rij{border-radius:6px;border:1px solid transparent;box-shadow:0 1px 2px rgba(43,45,48,.06)}
+:root[data-theme="light"] .blok.rij:hover{border-color:var(--line)}
+:root[data-theme="light"] .blok.rij.k-laat{border-color:transparent;box-shadow:inset 4px 0 0 #f0a3ae,0 1px 2px rgba(43,45,48,.06)}
+:root[data-theme="light"] .blok-wrap{border-radius:6px}
+:root[data-theme="light"] .blok.rij .blok-icoon{border-radius:6px;box-shadow:none;background:var(--mp-teal-zacht);color:var(--mp-teal-donker)}
+.label{font-family:var(--body);font-weight:700;font-size:.72rem;letter-spacing:0}
+:root[data-theme="light"] .label-rood{background:#f7d4da;color:#7d2232}
+:root[data-theme="light"] .label-geel{background:#fcebc4;color:#6e4d00}
+:root[data-theme="light"] .label-groen{background:#d3efef;color:#155f60}
+:root[data-theme="light"] .label-grijs{background:#eceef1;color:#4b525a}
+:root[data-theme="light"] .groepkop{color:#5d646d}
+
+/* knoppen */
+:root[data-theme="light"] .fab{background:#2b2d30;border-radius:999px;box-shadow:0 10px 26px rgba(43,45,48,.28);padding:14px 22px}
+:root[data-theme="light"] .fab:hover{background:#000}
+:root[data-theme="light"] .btn{border-radius:999px}
+:root[data-theme="light"] .btn-primary{background:#2b2d30;border-color:#2b2d30;color:#fff}
+:root[data-theme="light"] .icon-btn{border-radius:999px}
+:root[data-theme="light"] .icon-btn.ok{background:#1d7f80;border-color:#1d7f80;color:#fff}
+:root[data-theme="light"] .sheet{border-radius:12px 12px 0 0}
+@media (min-width:640px){:root[data-theme="light"] .sheet{border-radius:8px}}
+:root[data-theme="light"] label input,:root[data-theme="light"] label select,:root[data-theme="light"] label textarea{border-radius:6px}
+:root[data-theme="light"] .va-ok{background:#1d7f80}
+:root[data-theme="light"] .va-bad{background:#b3394a}
+:root[data-theme="light"] .va-info{background:#2e4057}
+
+/* rapportage: gekleurde vlakken zoals op de site */
+:root[data-theme="light"] .rapport .stat{border:0!important;border-radius:6px}
+:root[data-theme="light"] .rapport .vlak-groen{background:#67c7c8!important;color:#2b2d30!important}
+:root[data-theme="light"] .rapport .vlak-blauw{background:#2e4057!important;color:#fff!important}
+:root[data-theme="light"] .rapport .vlak-zwart{background:#f7d4da!important;color:#2b2d30!important}
+:root[data-theme="light"] .rapport .vlak-geel{background:#f6d38a!important;color:#2b2d30!important}
+:root[data-theme="light"] .rapport .stat dd{color:inherit!important}
+:root[data-theme="light"] .rapport .stat dt,:root[data-theme="light"] .rapport .stat .sub{color:inherit!important;opacity:.8}
+:root[data-theme="light"] .paneel,:root[data-theme="light"] .progress{border-radius:6px;border-color:transparent;box-shadow:0 1px 2px rgba(43,45,48,.06)}
+
+/* inlogscherm in dezelfde stijl */
+:root[data-theme="light"] #gate{--g-bg:#f4f5f7;--g-kaart:#fff;--g-lijn:#d9dde3;--g-tekst:#2b2d30;--g-zacht:#5d646d;
+  background:linear-gradient(#67c7c8 0 300px,#f4f5f7 300px);color:#2b2d30;color-scheme:light}
+:root[data-theme="light"] #gate .merk{color:#e8382b}
+:root[data-theme="light"] #gate h1{color:#2b2d30;font-weight:800}
+:root[data-theme="light"] #gate .gate-vest{color:#2b2d30;opacity:.75}
+:root[data-theme="light"] #gate .gate-embleem{filter:drop-shadow(0 10px 22px rgba(0,0,0,.18))}
+:root[data-theme="light"] #gate .gate-kaart{background:#fff;border-radius:6px;padding:22px 18px;box-shadow:0 2px 10px rgba(43,45,48,.08)}
+:root[data-theme="light"] #gate .gate-veld input{background:#fff;color:#2b2d30;border:1.5px solid #d9dde3;border-radius:6px}
+:root[data-theme="light"] #gate .gate-veld input:focus{border-color:#2b2d30;box-shadow:none}
+:root[data-theme="light"] #gate .gate-knop{background:#2b2d30;border-radius:999px;box-shadow:none}
+:root[data-theme="light"] #gate .gate-knop:hover{background:#000}
+:root[data-theme="light"] #gate .gate-tweede{background:#fff;border:1.5px solid #d9dde3;color:#2b2d30;border-radius:999px}
+:root[data-theme="light"] #gate .gate-vergeten{color:#5d646d}
+:root[data-theme="light"] #gate .gate-tip{background:#f4f5f7;border-color:#e2e5ea;color:#5d646d}
+:root[data-theme="light"] #gate .fout{background:#fbe5e9;color:#7d2232}
+:root[data-theme="light"] #gate .gate-voet{color:#5d646d}
+:root[data-theme="light"] #gate .gate-oog[aria-pressed="true"]{color:#1d7f80}
+
+/* donker thema: gekleurde vlakken iets gedempt */
+:root[data-theme="dark"] .kb-teal{background:#2f6f70}
+:root[data-theme="dark"] .kb-roze{background:#6e3a43}
+:root[data-theme="dark"] .kaartblok h2,:root[data-theme="dark"] .kaartblok p{color:#fff}
+
+@media (max-width:420px){
+  .kb-illu{width:70px;opacity:.85}
+  .kaartblok p{padding-right:84px;margin-bottom:12px}
+  .kaartblok h2{padding-right:70px}
+}
 </style>
 </head>
 <body>
@@ -1262,7 +1384,27 @@ body.alleen-kijken [data-menu="terugzetten"],body.alleen-kijken [data-menu="inst
 
 <main class="gutter app">
   <p class="printkop" id="printkop"></p>
-  <div id="dashboard"><div id="dagmelding"></div></div>
+  <div id="dashboard">
+    <div id="dagmelding"></div>
+    <div class="kaartblokken">
+      <section class="kaartblok kb-teal">
+        <div class="kb-tekst"><h2 id="kbOpenKop">Openstaand</h2><p id="kbOpenTekst"></p>
+          <button type="button" class="pil-knop" data-blok="open">Bekijk open claims</button></div>
+        <svg class="kb-illu" viewBox="0 0 160 140" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M118 12h22"/><path d="M118 12v38"/><path d="M48 40h56v34"/><path d="M48 40v52h70"/>
+        <circle cx="104" cy="96" r="34"/><circle cx="104" cy="96" r="6" fill="#fff"/>
+        <path d="M48 92 30 120h-14"/><circle cx="52" cy="124" r="8"/></svg>
+      </section>
+      <section class="kaartblok kb-roze">
+        <div class="kb-tekst"><h2 id="kbLaatKop">Over termijn</h2><p id="kbLaatTekst"></p>
+          <button type="button" class="pil-knop" id="kbLaatKnop" data-blok="rappel">Stuur een rappel</button></div>
+        <svg class="kb-illu" viewBox="0 0 170 110" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 10v84"/><path d="M12 70h150"/><path d="M12 54h150"/><path d="M162 54v22"/>
+        <path d="M30 54 44 30l40 16h70v8" fill="rgba(255,255,255,.45)"/>
+        <circle cx="26" cy="96" r="7"/><circle cx="150" cy="86" r="7"/></svg>
+      </section>
+    </div>
+  </div>
   <div class="zoekveld">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
     <input type="search" id="q" placeholder="Leverancier, type, inkoopnummer, storing…" aria-label="Zoek op nummer, type, onderdeel, storing of leverancier">
@@ -2135,7 +2277,8 @@ body.alleen-kijken [data-menu="terugzetten"],body.alleen-kijken [data-menu="inst
     el("selectBtn").setAttribute("aria-pressed", String(state.selecteren));
     el("selectBtn").textContent = state.selecteren ? "Klaar" : "Selecteren";
     renderTeller();
-    el("dagmelding").innerHTML = dagmeldingHtml();
+    el("dagmelding").innerHTML = "";
+    renderBlokken();
     const rows = visible();
     const somRows = rows.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
     el("lijstTitel").innerHTML = `<span class="lk-naam">${esc(TABNAAM[state.status] || "Claims")}</span>
@@ -2738,6 +2881,10 @@ body.alleen-kijken [data-menu="terugzetten"],body.alleen-kijken [data-menu="inst
 
   /* ---------- uitleg en updates ---------- */
   const UPDATES = [
+    ["7 november 2026 — Medipoint-stijl", [
+      "De app heeft de stijl van medipoint.nl: lichte achtergrond, witte kaarten, vette koppen en gekleurde vlakken.",
+      "Bovenaan een turquoise vlak <b>Openstaand</b> en een roze vlak <b>Over termijn</b>, met knoppen om direct te kijken of een rappel te sturen."
+    ]],
     ["7 november 2026 — rustige stijl", [
       "Nieuwe, rustige stijl op een warme lichte achtergrond. Donker kan nog via Menu → Thema.",
       "Bovenaan: titel met de knoppen <b>Vereist aandacht</b> (bel), <b>Rappel</b> (envelop) en <b>Claims / Rapportage</b>.",
@@ -2944,6 +3091,22 @@ body.alleen-kijken [data-menu="terugzetten"],body.alleen-kijken [data-menu="inst
     const nieuw = laat.filter(id => !gezien.has(id)).length;
     state.dagmelding = {n:laat.length, nieuw};
     render();
+  }
+  function renderBlokken(){
+    const alle = actief();
+    const open = alle.filter(isOpen), laat = alle.filter(vereistAandacht);
+    const som = l => l.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
+    el("kbOpenKop").textContent = open.length ? "Openstaand" : "Alles afgehandeld";
+    el("kbOpenTekst").textContent = open.length
+      ? meervoud(open.length, "claim", "claims") + " · " + euro(som(open)) + " nog niet gehonoreerd"
+      : "Er staan geen garantieclaims meer open.";
+    el("kbLaatKop").textContent = laat.length ? "Over termijn" : "Alles op tijd";
+    el("kbLaatTekst").textContent = laat.length
+      ? meervoud(laat.length, "claim staat", "claims staan") + " langer dan " + INST.dagen + " dagen open." + (state.dagmelding && state.dagmelding.nieuw ? " " + state.dagmelding.nieuw + " nieuw sinds je vorige bezoek." : "")
+      : "Geen claims langer dan " + INST.dagen + " dagen open.";
+    const knop = el("kbLaatKnop");
+    knop.textContent = laat.length ? "Stuur een rappel" : "Bekijk afgehandeld";
+    knop.dataset.blok = laat.length ? "rappel" : "afgehandeld";
   }
   function dagmeldingHtml(){
     const m = state.dagmelding;
@@ -3304,6 +3467,13 @@ body.alleen-kijken [data-menu="terugzetten"],body.alleen-kijken [data-menu="inst
     if(!b) return;
     if(b.dataset.dag === "bekijk"){ Object.assign(state, {status:"aandacht", period:"all", trash:false}); bewaarWeergave(); }
     state.dagmelding = null; render();
+  });
+  el("dashboard").addEventListener("click", e => {
+    const b = e.target.closest("[data-blok]");
+    if(!b) return;
+    if(b.dataset.blok === "rappel"){ kiesRappel(); return; }
+    Object.assign(state, {status: b.dataset.blok, period:"all"}); bewaarWeergave(); render();
+    el("lijstkop").scrollIntoView({behavior:"smooth", block:"start"});
   });
   el("belBtn").addEventListener("click", () => {
     Object.assign(state, {view:"lijst", trash:false, period:"all", status: state.status === "aandacht" && state.view === "lijst" ? "open" : "aandacht"});
