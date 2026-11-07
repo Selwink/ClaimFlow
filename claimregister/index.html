@@ -2825,11 +2825,14 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
     </form>`, {focus:"#i_vest"});
     q("#i_testmail").onclick = async () => {
       const b = q("#i_testmail"); b.disabled = true; b.textContent = "Versturen…";
-      const gelukt = await stuurMelding({_subject:"Test: e-mail van het garantieclaimregister", _template:"table", _captcha:"false",
+      const uitkomst = await stuurMeldingUitleg({_subject:"Test: e-mail van het garantieclaimregister", _template:"table", _captcha:"false",
         "Bericht":"Dit is een testmail. Vanaf nu krijg je hier een e-mail bij elke nieuwe garantieclaim.", "Verstuurd door": wie() || "onbekend",
         "Register": location.origin + location.pathname});
       b.disabled = false; b.textContent = "Testmail sturen";
-      toast(gelukt ? "Testmail verstuurd naar " + MELDING_EMAIL : "Verstuurd — kijk in de mailbox van " + MELDING_EMAIL + " (eerste keer: bevestig via de activatiemail)");
+      const rij = (ls.json(SLEUTEL_MAILRIJ) || []).length;
+      toast(uitkomst.activatie ? "Bijna klaar: bevestig de activatiemail in de mailbox van " + MELDING_EMAIL
+        : uitkomst.ok ? "Testmail verstuurd naar " + MELDING_EMAIL
+        : "Niet gelukt: " + uitkomst.bericht + (rij ? " · " + rij + " mail(s) wachten nog" : ""));
     };
     const pw = q("#i_pw");
     if(pw) pw.addEventListener("input", async () => {
@@ -2979,15 +2982,39 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
       "Register": location.origin + location.pathname
     };
   }
-  function stuurMelding(velden){
-    if(!MELDING_EMAIL) return Promise.resolve(false);
-    return fetch("https://formsubmit.co/ajax/" + encodeURIComponent(MELDING_EMAIL), {
-      method:"POST", headers:{"Content-Type":"application/json", "Accept":"application/json"}, body:JSON.stringify(velden)
-    }).then(r => r.json().catch(() => ({}))).then(j => j && (j.success === true || j.success === "true")).catch(() => false);
+  /* Verstuurt via FormSubmit. Geeft {ok, bericht}. */
+  async function stuurMeldingUitleg(velden){
+    if(!MELDING_EMAIL) return {ok:false, bericht:"Geen e-mailadres ingesteld"};
+    try{
+      const ctrl = new AbortController(); const t = setTimeout(() => ctrl.abort(), 25000);
+      const r = await fetch("https://formsubmit.co/ajax/" + encodeURIComponent(MELDING_EMAIL), {
+        method:"POST", headers:{"Content-Type":"application/json", "Accept":"application/json"}, body:JSON.stringify(velden),
+        referrerPolicy:"strict-origin-when-cross-origin", signal:ctrl.signal});
+      clearTimeout(t);
+      const j = await r.json().catch(() => ({}));
+      if(j && (j.success === true || j.success === "true")) return {ok:true, bericht:j.message || "Verstuurd"};
+      if(j && /activat/i.test(j.message || "")) return {ok:true, activatie:true, bericht:j.message};
+      return {ok:false, bericht:(j && j.message) || ("FormSubmit antwoordt met fout " + r.status)};
+    }catch(e){ return {ok:false, bericht:"FormSubmit is niet bereikbaar"}; }
   }
-  function mailNieuweClaim(c, bron){
+  const stuurMelding = async velden => (await stuurMeldingUitleg(velden)).ok;
+  const SLEUTEL_MAILRIJ = "claimregister-mailwachtrij";
+  async function verstuurWachtrij(){
+    const rij = ls.json(SLEUTEL_MAILRIJ) || [];
+    if(!rij.length) return;
+    const over = [];
+    for(const v of rij){ const r = await stuurMeldingUitleg(v); if(!r.ok) over.push(v); }
+    if(over.length) ls.set(SLEUTEL_MAILRIJ, JSON.stringify(over.slice(-50))); else ls.del(SLEUTEL_MAILRIJ);
+    if(over.length < rij.length) toast(meervoud(rij.length - over.length, "uitgestelde e-mail", "uitgestelde e-mails") + " alsnog verstuurd");
+  }
+  async function mailNieuweClaim(c, bron){
     if(!/^https:$/.test(location.protocol) || /localhost|127\.0\.0\.1/.test(location.hostname)) return;
-    stuurMelding(mailVelden(c, bron));
+    const velden = mailVelden(c, bron);
+    const r = await stuurMeldingUitleg(velden);
+    if(!r.ok){
+      const rij = ls.json(SLEUTEL_MAILRIJ) || []; rij.push(velden);
+      ls.set(SLEUTEL_MAILRIJ, JSON.stringify(rij.slice(-50)));
+    }
   }
 
   /* ---------- export, back-up, afdrukken ---------- */
@@ -3769,6 +3796,7 @@ header.sl-kop > .rol-label,header.sl-kop > .sync{display:none!important}
     gate.hidden = true; gate.innerHTML = "";
     setTimeout(lgarTerug, 800);
     setTimeout(vraagNaam, 1200);
+    setTimeout(() => { if(/^https:$/.test(location.protocol)) verstuurWachtrij(); }, 4000);
     el("uitlogItem").hidden = el("uitlogScheiding").hidden = !(CONFIG.ACCOUNTS || CONFIG.WACHTWOORD_HASH);
     if(REMOTE){
       const cache = ls.json(SLEUTEL_CACHE);
