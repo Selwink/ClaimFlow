@@ -1,6 +1,6 @@
 # Garantieclaims Medipoint — versie 2
 
-Het claimregister bestaat uit één bestand: `index.html`. Het gebruikt dezelfde Supabase-tabel `claims` als versie 1. Alle bestaande claims, notities en instellingen blijven dus gewoon staan.
+Het claimregister is `index.html`, met daarnaast de app-bestanden (`manifest.webmanifest`, `sw.js` en de iconen) om het als app te installeren. Zet altijd de hele map online. Het gebruikt dezelfde Supabase-tabel `claims` als versie 1. Alle bestaande claims, notities en instellingen blijven dus gewoon staan.
 
 ## Online zetten op Netlify
 
@@ -22,6 +22,7 @@ Open in Supabase **SQL Editor** → **New query**, plak **deel 1** uit `supabase
 - **Selecteren**: meerdere claims tegelijk op ingediend, gehonoreerd of afgewezen zetten, of naar de prullenbak verplaatsen.
 - **Rappel**: een kant-en-klare e-mail per leverancier met alle openstaande claims.
 - **Ongedaan maken**, een waarschuwing bij een **dubbele claim**, **dupliceren**, filteren op **leverancier**, **back-up** downloaden en terugzetten, **afdrukken** en een **donker thema**.
+- **Herinneringen in je agenda** (alarm op de termijndatum), een **dagelijkse melding** van claims over de termijn, **installeren als app**, **vegen** voor snelle acties en **namen in de tijdlijn**.
 - **Overzichtelijk**: het claimscherm toont alleen wat je dagelijks nodig hebt, met een vaste zoekbalk. Cijfers en grafieken staan bij Rapportage, en het Menu is ingedeeld in Exporteren, Gegevens en App.
 
 ## Beveiliging
