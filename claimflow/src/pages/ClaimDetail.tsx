@@ -9,6 +9,7 @@ import { agendaBestand } from "../lib/export";
 import { Icon } from "../components/Icon";
 import { Bovenschrift, Leeg, Sheet, StatusPil } from "../components/ui";
 import { TermRing } from "../components/TermRing";
+import { Fotos } from "../components/Fotos";
 
 const VOLGENDE: Record<Status, Status | null> = { nieuw: "ingediend", ingediend: "gehonoreerd", gehonoreerd: null, afgewezen: null };
 
@@ -71,6 +72,8 @@ export function ClaimDetail() {
           </section>
 
           {c.storing && <section className="kaart"><h2 className="sectiekop">Storing</h2><p className="doorlopend">{c.storing}</p></section>}
+
+          <Fotos claim={c} />
 
           <section className="kaart">
             <h2 className="sectiekop">Gegevens</h2>

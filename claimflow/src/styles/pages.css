@@ -154,6 +154,8 @@
 .inlezen { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; padding: 60px 20px; }
 .inlezen b { font-family: var(--display); font-size: 1.3rem; }
 .inlezen span { color: var(--inkt-2); }
+.inlezen-balk { width: min(260px, 80%); height: 6px; border-radius: 6px; background: var(--zand-2); overflow: hidden; margin: 6px 0; }
+.inlezen-balk i { display: block; height: 100%; background: var(--rood); transition: width .3s; }
 .spinner { width: 46px; height: 46px; border-radius: 50%; border: 4px solid var(--zand-2); border-top-color: var(--rood); animation: draai .8s linear infinite; margin-bottom: 8px; }
 @keyframes draai { to { transform: rotate(360deg); } }
 .bestandkaart { border: 2px dashed #F3B9B1; border-radius: 20px; padding: 18px; text-align: center; display: flex; flex-direction: column; gap: 4px; margin-bottom: 14px; background: #fff8f6; }
@@ -233,3 +235,23 @@ button.instelrij:hover, a.instelrij:hover { background: #fbf6ee; }
 .prijzen { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
 .prijsrij { display: grid; grid-template-columns: 1fr 130px 40px; gap: 8px; width: 100%; align-items: center; }
 .beheerblok .formulier-voet { margin-top: 16px; }
+
+/* ============ Foto's ============ */
+.fotos-kop { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+.fotos-kop .sectiekop { margin: 0; }
+.fotos-raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 8px; }
+.foto { aspect-ratio: 1; border: 0; padding: 0; border-radius: 14px; overflow: hidden; background: var(--zand-2); }
+.foto img { width: 100%; height: 100%; object-fit: cover; transition: transform .2s; }
+.foto:hover img { transform: scale(1.04); }
+.foto-laden { aspect-ratio: 1; border-radius: 14px; background: linear-gradient(90deg, var(--zand-2), var(--zand), var(--zand-2)); background-size: 200% 100%; animation: glans 1.2s linear infinite; }
+@keyframes glans { to { background-position: -200% 0; } }
+.fotos-leeg { width: 100%; display: flex; align-items: center; gap: 12px; border: 2px dashed var(--lijn); background: none; border-radius: 16px; padding: 16px; color: var(--inkt-2); text-align: left; font-size: .86rem; }
+.fotos-leeg:not(:disabled):hover { border-color: var(--lijn-2); color: var(--inkt); }
+.fotos-leeg:disabled { opacity: 1; cursor: default; }
+.foto-groot { width: 100%; max-height: 62dvh; object-fit: contain; border-radius: 14px; background: var(--zand-2); }
+.schakelrij { cursor: pointer; }
+.schakelaar { appearance: none; width: 46px; height: 28px; border-radius: 99px; background: var(--lijn-2); position: relative; flex: 0 0 auto; cursor: pointer; transition: background .15s; margin: 0; }
+.schakelaar::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .2); transition: transform .15s; }
+.schakelaar:checked { background: var(--turk); }
+.schakelaar:checked::after { transform: translateX(18px); }
+.schakelaar:disabled { opacity: .5; cursor: not-allowed; }

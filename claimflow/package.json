@@ -7,13 +7,17 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "typecheck": "tsc -b --noEmit"
+    "typecheck": "tsc -b --noEmit",
+    "predev": "node scripts/ocr-bestanden.mjs",
+    "prebuild": "node scripts/ocr-bestanden.mjs"
   },
   "dependencies": {
+    "@tesseract.js-data/nld": "^1.0.0",
     "pdfjs-dist": "3.11.174",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-router-dom": "6.28.0"
+    "react-router-dom": "6.28.0",
+    "tesseract.js": "^6.0.1"
   },
   "devDependencies": {
     "@types/react": "18.3.12",

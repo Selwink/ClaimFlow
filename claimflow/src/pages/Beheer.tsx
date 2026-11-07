@@ -6,6 +6,7 @@ import { useStore } from "../state/Store";
 import { useToast } from "../state/Toast";
 import { agendaBestand, download, naarCsv } from "../lib/export";
 import { stuur, verstuurWachtrij, wachtrijLengte } from "../lib/mail";
+import { weekOverzicht } from "../lib/overzicht";
 import { dezeMaand, euro, geleden, meervoud, parseBedrag, vandaag } from "../lib/format";
 import { Icon, type IconNaam } from "../components/Icon";
 import { PaginaKop } from "../components/ui";
@@ -37,6 +38,7 @@ export function Beheer() {
   const [beheerPw, setBeheerPw] = useState("");
   const [mailStatus, setMailStatus] = useState("");
   const [wachtrij, setWachtrij] = useState(wachtrijLengte());
+  const [weekStatus, setWeekStatus] = useState("");
 
   useEffect(() => {
     setI(s.inst); setLevTekst(lijstNaarTekst(s.inst.leveranciers)); setUitTekst(lijstNaarTekst(s.inst.uitbesteedLev));
@@ -53,6 +55,11 @@ export function Beheer() {
     setMailStatus("Versturen…");
     const r = await stuur({ _subject: "Testmelding ClaimFlow Medipoint", Bericht: `Testmelding vanuit ${s.inst.vestiging}`, Door: s.naam || "onbekend" });
     setMailStatus(r.ok ? (r.activatie ? "Activeer FormSubmit via de mail in je inbox." : "Verstuurd — kijk in je inbox.") : `Niet gelukt: ${r.bericht}`);
+  };
+  const stuurWeek = async () => {
+    setWeekStatus("Versturen…");
+    const r = await stuur(weekOverzicht(s.claims, s.inst, location.origin).velden);
+    setWeekStatus(r.ok ? "Verstuurd — kijk in je inbox." : `Niet gelukt: ${r.bericht}`);
   };
   const backup = () => download(`claimflow-backup-${vandaag()}.json`, JSON.stringify({ gemaakt: new Date().toISOString(), instellingen: s.inst, claims: s.claims }, null, 2), "application/json");
   const agenda = () => { const n = agendaBestand(s.actief, s.inst); toast(n ? `${meervoud(n, "herinnering", "herinneringen")} gedownload` : "Geen open claims met een termijn"); };
@@ -90,6 +97,13 @@ export function Beheer() {
 
       <Blok titel="E-mailmeldingen" uitleg={`Bij elke nieuwe claim gaat er een mail naar ${CONFIG.MELDING_EMAIL || "niemand"}.`}>
         <Rij icoon="mail" titel="Testmail sturen" tekst={mailStatus || "Controleer of de meldingen aankomen"} onClick={testMail} />
+        <label className="instelrij schakelrij">
+          <span className="rij-ic"><Icon naam="agenda" maat={18} /></span>
+          <span className="rij-t"><b>Weekoverzicht op maandag</b><span>Elke maandagochtend: wat open staat, wat over termijn is en wie je moet bellen.</span></span>
+          <input type="checkbox" role="switch" className="schakelaar" checked={s.inst.weekmail} disabled={uit}
+            onChange={(e) => void s.bewaarInst({ ...s.inst, weekmail: e.target.checked })} />
+        </label>
+        <Rij icoon="bericht" titel="Weekoverzicht nu sturen" tekst={weekStatus || "Stuur de samenvatting van vandaag meteen"} onClick={stuurWeek} />
         {wachtrij > 0 && <Rij icoon="klok" titel={`${meervoud(wachtrij, "mail wacht", "mails wachten")} op verzending`} tekst="Worden automatisch opnieuw geprobeerd"
           onClick={async () => { const n = await verstuurWachtrij(); setWachtrij(wachtrijLengte()); toast(n ? `${n} verstuurd` : "Nog niet bereikbaar"); }} />}
       </Blok>

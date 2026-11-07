@@ -47,6 +47,8 @@ export interface Instellingen {
   uitbesteedLev: string[];
   levMail: Record<string, string>;
   autoInvoer: boolean;
+  /** Send the Monday summary e-mail. */
+  weekmail: boolean;
   prijzen: VastBedrag[];
 }
 
