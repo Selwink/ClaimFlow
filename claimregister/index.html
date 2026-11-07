@@ -913,7 +913,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
 
 /* ===================== computer: zijbalk en tabel ===================== */
 .claimtabel{width:100%;border-collapse:separate;border-spacing:0;font-size:.88rem}
-.tabelkader{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.tabelkader{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow-x:auto}
 .claimtabel th{position:sticky;top:0;z-index:2;background:var(--surface-2);text-align:left;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
   color:var(--ink-soft);padding:11px 12px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none;white-space:nowrap}
 .claimtabel th i{font-style:normal;margin-left:5px;opacity:.45;font-size:.7rem}
@@ -976,6 +976,36 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
   .toast{left:calc(var(--zij) + (100% - var(--zij)) / 2)}
 }
 @media print{.claimtabel th i,.t-pijl{display:none}}
+
+/* ===== computer en telefoon gelijk + verbeteringen ===== */
+.sorteer-rij{display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0 4px;margin-bottom:-6px}
+.sorteer-rij::-webkit-scrollbar{display:none}
+.sorteer-rij > span{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);flex:0 0 auto;margin-right:2px}
+.sorteer-chip{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);border-radius:999px;padding:5px 11px;font-size:.76rem;font-weight:700;cursor:pointer;white-space:nowrap}
+.sorteer-chip.actief{background:var(--donker);border-color:var(--donker);color:var(--op-donker)}
+/* rijen op de telefoon in dezelfde stijl als de tabel */
+.blok{border-radius:14px}
+.claimtabel tfoot td{background:var(--surface-2);padding:11px 12px;font-size:.84rem;color:var(--ink-soft);border-top:1px solid var(--line)}
+.claimtabel tfoot b{color:var(--ink)}
+.claimtabel .t-acties{white-space:nowrap;text-align:right;width:1%}
+.claimtabel .ta{opacity:0;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;height:28px;min-width:28px;padding:0 9px;
+  font-size:.74rem;font-weight:800;cursor:pointer;margin-left:4px;transition:opacity .12s ease}
+.claimtabel tr[data-card]:hover .ta,.claimtabel tr[data-card]:focus-within .ta{opacity:1}
+.claimtabel .ta-ok:hover{background:var(--ok);border-color:var(--ok);color:#fff}
+.claimtabel .ta-bad:hover{background:var(--bad);border-color:var(--bad);color:#fff}
+.claimtabel .ta-info:hover{background:var(--info);border-color:var(--info);color:#fff}
+.claimtabel .t-pijl{display:inline-block;margin-left:8px;color:var(--ink-soft)}
+.claimtabel tr.k-open-detail td{background:color-mix(in srgb,var(--rood) 8%,var(--surface))}
+@media (hover:none){.claimtabel .ta{opacity:1}}
+@media (min-width:1100px){
+  .overlay.zijpaneel{background:transparent;justify-content:flex-end;align-items:stretch;pointer-events:none}
+  .overlay.zijpaneel .sheet{pointer-events:auto}
+  body:has(.overlay.zijpaneel) main.app{margin-right:480px}
+  .overlay.zijpaneel .sheet{max-width:480px;width:480px;height:100%;max-height:none;border-radius:0;border-width:0 0 0 1px;
+    box-shadow:-18px 0 40px rgba(0,0,0,.12);animation:paneelin .22s cubic-bezier(.2,.7,.3,1)}
+  .sorteer-rij{display:none}
+}
+@keyframes paneelin{from{transform:translateX(30px);opacity:0}to{transform:none;opacity:1}}
 </style>
 </head>
 <body>
@@ -1652,7 +1682,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
     const sel = state.geselecteerd.has(c.id);
     const bedrag = geenBedrag(c) ? "bedrag volgt" : euro(c.bedrag);
     const dagen = isOpen(c) && a ? (laat ? `<span class="laat">${a.dagen} d</span>` : a.dagen + " d") : "";
-    const tweede = c.inkoopnummer ? esc(c.inkoopnummer) : (isOpen(c) ? `<span class="wacht">wacht op inkoopnummer</span>` : "");
+    const tweede = (c.inkoopnummer ? esc(c.inkoopnummer) : (isOpen(c) ? `<span class="wacht">wacht op nr</span>` : "")) + (state.groep === "maand" ? "" : (c.inkoopnummer || isOpen(c) ? " · " : "") + esc(periodShort(c.periode)));
     const id = esc(c.id), st = statusVan(c);
     const acties = state.selecteren ? "" : (isOpen(c)
       ? (st === "nieuw" ? `<button type="button" class="va va-info" data-act="ingediend" data-id="${id}">Ingediend</button>` : "") +
@@ -1685,8 +1715,17 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
       <td class="num mono">${geenBedrag(c) ? `<span class="wacht">volgt</span>` : esc(euro(c.bedrag))}</td>
       <td>${statusPil(c)}</td>
       <td class="num">${dagen}</td>
-      <td class="t-pijl" aria-hidden="true">›</td>
+      <td class="t-acties">${state.selecteren ? "" : (isOpen(c)
+        ? (statusVan(c) === "nieuw" ? `<button type="button" class="ta ta-info" data-act="ingediend" data-id="${esc(c.id)}" title="Ingediend">Ingediend</button>` : "") +
+          `<button type="button" class="ta ta-ok" data-act="gehonoreerd" data-id="${esc(c.id)}" title="Gehonoreerd">✓</button><button type="button" class="ta ta-bad" data-act="afgewezen" data-id="${esc(c.id)}" title="Afwijzen">✕</button>`
+        : `<button type="button" class="ta" data-act="heropenen" data-id="${esc(c.id)}" title="Heropenen">↺</button>`)}<span class="t-pijl" aria-hidden="true">›</span></td>
     </tr>`;
+  }
+  function sorteerChips(){
+    return `<div class="sorteer-rij" role="group" aria-label="Sorteren"><span>Sorteer</span>${KOLOMMEN_T.map(([k, label]) => {
+      const actief = state.sort === k;
+      return `<button type="button" class="sorteer-chip${actief ? " actief" : ""}" data-sorteer="${k}">${label.replace(" / onderdeel", "")}${actief ? (state.sortOm ? " ▲" : " ▼") : ""}</button>`;
+    }).join("")}</div>`;
   }
   function tabelHtml(groepen){
     const kop = `<tr>${state.selecteren ? `<th class="t-vink"></th>` : ""}${KOLOMMEN_T.map(([k, label, cls]) => {
@@ -1699,7 +1738,10 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
       const nOpen = lijst.filter(isOpen).length;
       return (titel ? `<tr class="t-groep"><td colspan="${kol}"><span>${esc(titel)} · ${lijst.length}</span><span>${nOpen ? `<b class="mo">${nOpen} open</b> · ` : ""}${esc(euro(som))}</span></td></tr>` : "") + lijst.map(tabelRij).join("");
     }).join("");
-    return `<div class="tabelkader"><table class="claimtabel"><thead>${kop}</thead><tbody>${body}</tbody></table></div>`;
+    const alle = groepen.flatMap(g => g[1]);
+    const totaal = alle.reduce((t, c) => t + (Number(c.bedrag) || 0), 0);
+    const voet = `<tr>${state.selecteren ? "<td></td>" : ""}<td colspan="4"><b>Totaal</b> · ${meervoud(alle.length, "claim", "claims")}</td><td class="num mono"><b>${esc(euro(totaal))}</b></td><td colspan="3"></td></tr>`;
+    return `<div class="tabelkader"><table class="claimtabel"><thead>${kop}</thead><tbody>${body}</tbody><tfoot>${voet}</tfoot></table></div>`;
   }
 
   function groepBlok(lijst, titel){
@@ -1773,12 +1815,18 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
         <button class="btn btn-primary" data-act="bevestig" data-id="${id}">Verwijderen</button></div>` : ""}
       <div class="sheet-actions"><button type="button" class="btn btn-ghost" data-sluit="1">Sluiten</button></div>`;
   }
+  function markeerOpen(id){
+    document.querySelectorAll(".claimtabel tr.k-open-detail").forEach(t => t.classList.remove("k-open-detail"));
+    if(id){ const tr = document.querySelector(`.claimtabel tr[data-card="${CSS.escape(id)}"]`); if(tr) tr.classList.add("k-open-detail"); }
+  }
   function openDetail(id){
     const c = state.claims.find(x => x.id === id);
     if(!c) return;
     state.confirmId = null;
+    document.querySelectorAll(".overlay.zijpaneel").forEach(o => o.remove());
     const v = openSheet(`<div class="sheet detail" data-detail="${esc(id)}">${detailHtml(c)}</div>`,
-      {focus:"button[data-act]", naSluiten: () => { detailVenster = null; state.confirmId = null; }});
+      {paneel:true, focus:"button[data-act]", naSluiten: () => { detailVenster = null; state.confirmId = null; markeerOpen(); }});
+    markeerOpen(id);
     detailVenster = {id, ...v};
     v.ov.addEventListener("click", async e => {
       const t = e.target.closest("button[data-act]");
@@ -1898,8 +1946,8 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
         groepen = keys.map(k => [perLev ? k : periodLabel(k), m.get(k)]);
       }
       list.innerHTML = tabelHtml(groepen);
-    } else if(state.groep === "geen"){
-      list.innerHTML = groepBlok(rows, TABNAAM[state.status] || "Claims");
+    } else if(state.groep === "geen" || ["onderdeel","leverancier","inkoop","bedrag","status","ouderdom"].includes(state.sort)){
+      list.innerHTML = sorteerChips() + groepBlok(rows, TABNAAM[state.status] || "Claims");
     } else {
       const perLev = state.groep === "leverancier";
       const groepen = new Map();
@@ -1911,7 +1959,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
       let sleutels = [...groepen.keys()];
       if(perLev) sleutels.sort((a, b) => groepen.get(b).length - groepen.get(a).length || a.localeCompare(b, "nl"));
       else sleutels.sort().reverse();
-      list.innerHTML = sleutels.map(k => groepBlok(groepen.get(k), perLev ? k : periodLabel(k))).join("");
+      list.innerHTML = sorteerChips() + sleutels.map(k => groepBlok(groepen.get(k), perLev ? k : periodLabel(k))).join("");
     }
     renderBulk();
     if(detailVenster && detailVenster.ververs) detailVenster.ververs();
@@ -2154,7 +2202,7 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
      ====================================================================== */
   function openSheet(html, opties){
     const ov = document.createElement("div");
-    ov.className = "overlay";
+    ov.className = "overlay" + (opties && opties.paneel ? " zijpaneel" : "");
     ov.innerHTML = html;
     document.body.appendChild(ov);
     const vorigeFocus = document.activeElement;
@@ -2488,6 +2536,12 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
 
   /* ---------- uitleg en updates ---------- */
   const UPDATES = [
+    ["7 november 2026 — computer en telefoon gelijk", [
+      "Telefoon en computer sorteren nu op dezelfde manier: op de telefoon met knoppen <b>Sorteer</b> (type, leverancier, inkoopnummer, periode, bedrag, status, dagen open), op de computer met de kolomkoppen.",
+      "Op de computer: <b>snelle knoppen</b> ✓ (gehonoreerd) en ✕ (afwijzen) als je met de muis over een regel gaat, net als vegen op de telefoon.",
+      "Op de computer opent een claim in een <b>paneel rechts</b>, zodat je de lijst blijft zien; de geopende regel is gemarkeerd.",
+      "Onder de tabel staat het <b>totaal</b> van de getoonde claims."
+    ]],
     ["7 november 2026 — website op de computer", [
       "Op de computer staat het menu nu links in een <b>zijbalk</b> en zie je de claims in een <b>brede tabel</b> met kolommen voor type, leverancier, inkoopnummer, periode, bedrag, status en dagen open.",
       "Klik op een kolomkop om te sorteren; nog een keer klikken draait de volgorde om. Klik op een regel voor alle details.",
@@ -3025,12 +3079,14 @@ body.met-bulk .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
   });
   el("list").addEventListener("click", async e => {
     if(Date.now() < geenKlikTot){ e.preventDefault(); return; }
-    const th = e.target.closest("th[data-sorteer]");
+    const th = e.target.closest("[data-sorteer]");
     if(th){
       const k = th.dataset.sorteer;
       if(state.sort === k) state.sortOm = !state.sortOm; else { state.sort = k; state.sortOm = false; }
       el("fSort").value = state.sort; bewaarWeergave(); render(); return;
     }
+    const snel = e.target.closest("tr[data-card] button[data-act]");
+    if(snel){ await voerUit(snel.dataset.act, snel.dataset.id); return; }
     const blok = e.target.closest("[data-card]");
     if(blok && blok === openVeeg){ sluitVeeg(); return; }
     if(blok){
