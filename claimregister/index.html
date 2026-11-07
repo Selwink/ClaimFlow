@@ -1141,9 +1141,59 @@ main.app,#lijstweergave,#list,.groep,.blok-wrap,.lijstkop,.groepkop{min-width:0;
 .list{gap:22px}
 .groep{gap:10px}
 .claimtabel td{padding-top:14px;padding-bottom:14px}
+
+/* ===== laadscherm ===== */
+.splash{position:fixed;inset:0;z-index:100000;display:grid;place-items:center;overflow:hidden;color:#eef0f1;
+  background:radial-gradient(circle at 50% 46%,#262b30 0%,#16191c 62%,#101214 100%)}
+.splash.uit{animation:sp-uit .7s cubic-bezier(.7,0,.3,1) forwards;pointer-events:none}
+@keyframes sp-uit{to{opacity:0;transform:scale(1.14);filter:blur(10px)}}
+.splash-gloed{position:absolute;width:64vmin;height:64vmin;border-radius:50%;background:radial-gradient(circle,rgba(232,56,43,.42),transparent 65%);
+  filter:blur(30px);animation:sp-adem 2.2s ease-in-out infinite}
+@keyframes sp-adem{50%{transform:scale(1.12);opacity:.8}}
+.splash-ringen{position:absolute;display:grid;place-items:center}
+.splash-ringen i{position:absolute;width:190px;height:190px;border-radius:50%;border:1.5px solid rgba(232,56,43,.65);opacity:0;animation:sp-ring 2s cubic-bezier(.2,.8,.2,1) infinite}
+.splash-ringen i:nth-child(2){animation-delay:.5s}
+.splash-ringen i:nth-child(3){animation-delay:1s}
+@keyframes sp-ring{0%{opacity:.8;transform:scale(.6)}100%{opacity:0;transform:scale(2.4)}}
+.splash-kern{position:relative;display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 20px}
+.splash-merk{width:124px;height:124px;overflow:visible;filter:drop-shadow(0 0 26px rgba(232,56,43,.65));animation:sp-merk .9s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes sp-merk{0%{opacity:0;transform:scale(.4) rotate(-90deg)}100%{opacity:1;transform:none}}
+.sp-ring{stroke-dasharray:0 100;transform:rotate(-90deg);transform-origin:60px 60px;animation:sp-teken-ring .9s .1s cubic-bezier(.6,0,.2,1) forwards}
+@keyframes sp-teken-ring{to{stroke-dasharray:86 14}}
+.sp-schild{transform-origin:60px 60px;transform:scale(0);animation:sp-pop .5s .45s cubic-bezier(.34,1.8,.64,1) forwards}
+@keyframes sp-pop{to{transform:scale(1)}}
+.sp-vink{stroke-dasharray:100;stroke-dashoffset:100;animation:sp-vink .45s .85s cubic-bezier(.6,0,.2,1) forwards}
+@keyframes sp-vink{to{stroke-dashoffset:0}}
+.splash-naam{margin:4px 0 0;display:flex;font-family:var(--display);font-size:clamp(26px,8.5vw,40px);font-weight:800;letter-spacing:.28em;line-height:1;padding-left:.28em}
+.splash-naam span{display:inline-block;opacity:0;animation:sp-letter .6s cubic-bezier(.2,.9,.3,1.3) forwards}
+.splash-naam span:nth-child(n+5){color:#ff5a4c;text-shadow:0 0 22px rgba(232,56,43,.75)}
+@keyframes sp-letter{0%{opacity:0;transform:translateY(24px) scale(.6) rotateX(80deg);filter:blur(8px)}100%{opacity:1;transform:none;filter:none}}
+.splash-sub{margin:-6px 0 0;font-size:.78rem;letter-spacing:.32em;text-transform:uppercase;color:#9aa3ab;opacity:0;animation:sp-fade .4s 1s forwards}
+.splash-balk{width:220px;height:4px;border-radius:4px;overflow:hidden;background:rgba(255,255,255,.1);opacity:0;animation:sp-fade .3s .9s forwards}
+.splash-balk i{display:block;height:100%;width:100%;transform-origin:left;transform:scaleX(0);
+  background:linear-gradient(90deg,#f7cbd1,#5fc4c0 30%,#efb13c 60%,#e8382b);box-shadow:0 0 12px rgba(232,56,43,.8);
+  animation:sp-laad .9s .95s cubic-bezier(.6,0,.2,1) forwards}
+@keyframes sp-laad{to{transform:scaleX(1)}}
+@keyframes sp-fade{to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.splash{display:none!important}}
+@media print{.splash{display:none!important}}
 </style>
 </head>
 <body>
+<div id="splash" class="splash" role="status" aria-label="Garantieclaims wordt geladen">
+  <div class="splash-gloed"></div>
+  <div class="splash-ringen" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="splash-kern">
+    <svg class="splash-merk" viewBox="0 0 120 120" aria-hidden="true">
+      <circle class="sp-ring" cx="60" cy="60" r="52" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" pathLength="100"/>
+      <path class="sp-schild" d="M60 30 36 39v18c0 15 10.4 27.6 24 31.5 13.6-3.9 24-16.5 24-31.5V39z" fill="#e8382b"/>
+      <path class="sp-vink" d="m48.5 59.5 8 8 15-16" fill="none" stroke="#fff" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" pathLength="100"/>
+    </svg>
+    <p class="splash-naam" aria-hidden="true"><span style="animation-delay:0.45s">M</span><span style="animation-delay:0.51s">E</span><span style="animation-delay:0.57s">D</span><span style="animation-delay:0.63s">I</span><span style="animation-delay:0.69s">P</span><span style="animation-delay:0.75s">O</span><span style="animation-delay:0.81s">I</span><span style="animation-delay:0.87s">N</span><span style="animation-delay:0.93s">T</span></p>
+    <p class="splash-sub">garantieclaims</p>
+    <div class="splash-balk" aria-hidden="true"><i></i></div>
+  </div>
+</div>
 
 <div id="gate" hidden></div>
 
@@ -3567,6 +3617,25 @@ main.app,#lijstweergave,#list,.groep,.blok-wrap,.lijstkop,.groepkop{min-width:0;
     const zet = () => document.documentElement.style.setProperty("--kophoogte", kopEl.offsetHeight + "px");
     zet();
     if(window.ResizeObserver) new ResizeObserver(zet).observe(kopEl);
+  })();
+
+
+  /* laadscherm: minstens de animatie laten zien, dan overvloeien naar de app */
+  (function splash(){
+    const sp = document.getElementById("splash");
+    if(!sp) return;
+    if(/[?&]snel\b/.test(location.search)){ sp.remove(); return; }
+    const start = performance.now();
+    let weg = false;
+    const sluit = () => {
+      if(weg) return; weg = true;
+      sp.classList.add("uit");
+      setTimeout(() => sp.remove(), 750);
+    };
+    const klaar = () => setTimeout(sluit, Math.max(0, 1950 - (performance.now() - start)));
+    if(document.readyState === "complete") klaar(); else window.addEventListener("load", klaar);
+    sp.addEventListener("click", sluit);
+    setTimeout(sluit, 5000);
   })();
 
   // Start
