@@ -125,7 +125,14 @@ function StatCard({
         <Icon className="size-5" />
       </div>
       <div className="min-w-0">
-        <p className="truncate text-2xl font-semibold tabular-nums">{value}</p>
+        <p
+          className={cn(
+            'font-semibold tabular-nums',
+            String(value).length > 8 ? 'text-xl' : 'text-2xl',
+          )}
+        >
+          {value}
+        </p>
         <p className="text-sm leading-tight text-muted-foreground">{label}</p>
       </div>
     </button>
