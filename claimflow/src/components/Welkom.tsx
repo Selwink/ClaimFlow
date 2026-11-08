@@ -21,7 +21,7 @@ function stappen(voornaam: string, magBewerken: boolean): Stap[] {
       punten: [["klok", "Elke claim heeft 42 dagen; de app telt mee"], ["persoon", "Je naam staat bij alles wat je doet"], ["slot", "Je blijft 30 dagen ingelogd op dit apparaat"]] },
     { icoon: "huis", toon: "aub", titel: "Vandaag",
       tekst: "Je startscherm. Hier zie je in één oogopslag wat er moet gebeuren.",
-      punten: [["waarschuwing", "Rood = over de termijn: tijd om te bellen"], ["document", "Oker = inkoopnummer ontbreekt of nog niet ingediend"], ["vink", "Turkoois = gehonoreerd, geld is binnen"]] },
+      punten: [["waarschuwing", "Rood = over de termijn: tijd om informatie bij de VAM op te vragen"], ["document", "Oker = inkoopnummer ontbreekt of nog niet ingediend"], ["vink", "Turkoois = gehonoreerd, geld is binnen"]] },
     magBewerken
       ? { icoon: "plus", toon: "rood", titel: "Claim toevoegen",
           tekst: "Tik op de rode + onderin. Kies hoe je begint:",

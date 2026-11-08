@@ -35,7 +35,7 @@ export function ClaimDetail() {
   const ringTekst = !isOpen(c) ? (st === "gehonoreerd" ? `Gehonoreerd${doorlooptijd(c) != null ? ` na ${doorlooptijd(c)} dagen` : ""}.` : "Afgewezen door de leverancier.")
     : c.uitbesteed ? "Uitbesteed — de leverancier handelt dit zelf af."
     : !d ? "Nog geen datum: vul ‘ingediend op’ in om de termijn te volgen."
-    : laat ? `${d.dagen - inst.dagen} dagen over de termijn van ${inst.dagen} dagen. Tijd om te bellen.`
+    : laat ? `${d.dagen - inst.dagen} dagen over de termijn van ${inst.dagen} dagen. Tijd om informatie bij de VAM op te vragen.`
     : `Nog ${inst.dagen - d.dagen} dagen binnen de termijn van ${inst.dagen} dagen.`;
   const mailBody = encodeURIComponent(`Beste ${c.leverancier},\n\nGraag horen wij de stand van zaken van onze garantieclaim:\n\n${titelVan(c)}\nInkoopnummer: ${c.inkoopnummer || "-"}\nFramenummer: ${c.frame || "-"}\nIngediend: ${c.datum ? datum(c.datum) : periodLabel(c.periode)}\n\nMet vriendelijke groet,\nMedipoint ${inst.vestiging.replace(/^Vestiging /, "")}`);
 

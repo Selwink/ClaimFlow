@@ -49,7 +49,7 @@ export function Sheet({ titel, open, sluit, children, voet }: { titel: string; o
         <h2>{titel}</h2>
         <button type="button" className="icoonknop" onClick={sluit} aria-label="Sluiten"><Icon naam="kruis" /></button>
       </div>
-      <div className="sheet-inhoud">{children}</div>
+      <div className="sheet-inhoud" tabIndex={0}>{children}</div>
       {voet && <div className="sheet-voet">{voet}</div>}
     </dialog>
   );

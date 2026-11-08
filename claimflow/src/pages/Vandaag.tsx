@@ -6,6 +6,7 @@ import { aandachtVan, ClaimTabel } from "../components/ClaimLijst";
 import { Icon } from "../components/Icon";
 import { Bovenschrift, Kpi, Leeg, Voortgang } from "../components/ui";
 import { useBreed } from "../lib/useBreed";
+import { LevelKaart } from "../components/Level";
 
 function groet() {
   const u = new Date().getHours();
@@ -62,6 +63,8 @@ export function Vandaag() {
         <Link to="/claims?tab=aandacht" className="kpi-link alleen-desktop"><Kpi label="Over termijn" waarde={laat.length} toon={laat.length ? "rood" : undefined} sub={`termijn ${inst.dagen} dagen`} /></Link>
         <Link to="/rapportage" className="kpi-link alleen-desktop"><Kpi label="Honorering" waarde={honorering == null ? "—" : `${honorering}%`} sub={`${terug.length} van ${terug.length + afgewezen.length} beoordeeld`} /></Link>
       </section>
+
+      <LevelKaart />
 
       <div className="vandaag-raster">
         <section aria-labelledby="kop-taken">

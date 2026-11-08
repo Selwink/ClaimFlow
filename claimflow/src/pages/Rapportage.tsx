@@ -7,6 +7,7 @@ import { download, naarCsv } from "../lib/export";
 import { Icon } from "../components/Icon";
 import { Kpi, Leeg, PaginaKop, Voortgang } from "../components/ui";
 import { LevAvatar } from "./Leveranciers";
+import { Ranglijst } from "../components/Level";
 
 export function Rapportage() {
   const { actief, inst } = useStore();
@@ -101,6 +102,11 @@ export function Rapportage() {
               ))}
             </div>
             <div className="legenda"><span><i className="s-terug" />Teruggehaald</span><span><i className="s-open" />Open</span><span><i className="s-af" />Afgewezen</span></div>
+          </section>
+
+          <section className="kaart ranglijst-kaart">
+            <h2 className="sectiekop">Ranglijst</h2>
+            <Ranglijst />
           </section>
 
           <div className="rapport-raster">
