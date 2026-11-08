@@ -33,7 +33,8 @@ export async function verzend(velden: Velden, site: string): Promise<{ ok: boole
       body: JSON.stringify({ _template: "table", _captcha: "false", ...velden }),
     });
     const j = (await r.json().catch(() => ({}))) as { success?: string | boolean; message?: string };
-    if (j.success === true || j.success === "true") return { ok: true, dienst: "formsubmit", bericht: "Verstuurd via reserve (FormSubmit)" };
+    if (j.success === true || j.success === "true") return { ok: true, dienst: "formsubmit", bericht: "Verstuurd via FormSubmit" };
+    if (/activat/i.test(j.message || "")) return { ok: true, dienst: "formsubmit", bericht: "Activeer FormSubmit via de mail in je inbox" };
     return { ok: false, dienst: "formsubmit", bericht: j.message || `FormSubmit fout ${r.status}` };
   } catch {
     return { ok: false, dienst: "formsubmit", bericht: "Maildienst niet bereikbaar" };

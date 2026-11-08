@@ -37,7 +37,11 @@ export async function stuur(velden: Velden): Promise<Resultaat> {
   try {
     const p = pas.get();
     const r = await fetch(FUNCTIE, { method: "POST", headers: { "Content-Type": "application/json", ...(p ? { Authorization: `Bearer ${p.token}` } : {}) }, body: JSON.stringify({ velden }) });
-    if (r.status !== 404 && (r.headers.get("content-type") || "").includes("json")) return (await r.json()) as Resultaat;
+    if (r.status !== 404 && (r.headers.get("content-type") || "").includes("json")) {
+      const j = (await r.json()) as Resultaat;
+      // FormSubmit often refuses requests from cloud servers; then send from this browser instead.
+      if (j.ok || j.dienst === "resend") return j;
+    }
   } catch { /* function unreachable (offline or local dev): try FormSubmit directly */ }
   return viaFormSubmit(velden);
 }
