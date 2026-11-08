@@ -20,7 +20,7 @@ function AppRoutes() {
   const { rol, geladen } = useStore();
   return (
     <>
-      <Splash klaar={!rol || geladen} />
+      <Splash klaar={!rol || geladen} kort={!!rol} />
       {!rol ? <Login /> : (
         <Routes>
           <Route element={<Layout />}>

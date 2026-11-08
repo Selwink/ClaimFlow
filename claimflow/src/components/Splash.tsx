@@ -3,17 +3,15 @@ import { useEffect, useState } from "react";
 /**
  * Opening screen: glowing emblem in an open ring, letter-spaced wordmark whose "FLOW" letters light up
  * one by one, and a loading bar. When data is ready it flows over into the next screen (login or app).
- * Shown once per browser session.
+ * Shown on every page load, a little shorter when the user is already logged in.
  */
-const GEZIEN = "claimflow-splash";
-const alGezien = () => { try { return !!sessionStorage.getItem(GEZIEN); } catch { return false; } };
-const MIN_MS = 2400;
 const UIT_MS = 750;
 
-export function Splash({ klaar }: { klaar: boolean }) {
+export function Splash({ klaar, kort }: { klaar: boolean; kort?: boolean }) {
   const [min, setMin] = useState(false);
-  const [weg, setWeg] = useState(alGezien);
-  useEffect(() => { const t = setTimeout(() => setMin(true), MIN_MS); return () => clearTimeout(t); }, []);
+  const [weg, setWeg] = useState(false);
+  const [duur] = useState(() => (kort ? 1600 : 2400));
+  useEffect(() => { const t = setTimeout(() => setMin(true), duur); return () => clearTimeout(t); }, [duur]);
   const sluit = klaar && min;
   // While the splash covers the page, the screen behind it holds its entrance animation.
   useEffect(() => {
@@ -23,14 +21,13 @@ export function Splash({ klaar }: { klaar: boolean }) {
   }, [weg, sluit]);
   useEffect(() => {
     if (!sluit) return;
-    try { sessionStorage.setItem(GEZIEN, "1"); } catch { /* privémodus */ }
     const t = setTimeout(() => setWeg(true), UIT_MS);
     return () => clearTimeout(t);
   }, [sluit]);
   if (weg) return null;
 
   return (
-    <div className={`splash${sluit ? " splash-weg" : ""}${klaar ? " splash-klaar" : ""}`} role="status" aria-live="polite" aria-label="ClaimFlow Medipoint wordt geladen">
+    <div className={`splash${sluit ? " splash-weg" : ""}${kort ? " splash-kort" : ""}`} role="status" aria-live="polite" aria-label="ClaimFlow Medipoint wordt geladen">
       <div className="splash-ringen" aria-hidden="true"><i /><i /><i /></div>
       <div className="splash-inhoud">
         <div className="splash-embleem" aria-hidden="true">
