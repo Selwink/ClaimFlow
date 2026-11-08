@@ -47,6 +47,8 @@ export function Vandaag() {
         {magBewerken && <Link to="/nieuw" className="knop knop-rood alleen-desktop"><Icon naam="plus" maat={18} /> Nieuwe claim</Link>}
       </header>
 
+      {magBewerken && <Link to="/nieuw" className="grootknop grootknop-boven alleen-mobiel"><span aria-hidden="true">+</span> Nieuwe claim</Link>}
+
       <section className="kpi-rij" aria-label="Kerncijfers">
         <div className="geldkaart">
           <Bovenschrift>Nog terug te halen</Bovenschrift>
@@ -108,7 +110,6 @@ export function Vandaag() {
         </section>
       </div>
 
-      {magBewerken && <Link to="/nieuw" className="grootknop alleen-mobiel"><span aria-hidden="true">+</span> Nieuwe claim</Link>}
     </div>
   );
 }
