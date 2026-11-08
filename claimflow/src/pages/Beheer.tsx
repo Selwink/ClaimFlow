@@ -115,7 +115,7 @@ export function Beheer() {
         <Rij icoon="mail" titel="Testmail sturen" tekst={mailStatus || "Controleer of de meldingen aankomen"} onClick={testMail} />
         <label className="instelrij schakelrij">
           <span className="rij-ic"><Icon naam="agenda" maat={18} /></span>
-          <span className="rij-t"><b>Weekoverzicht op maandag</b><span>Elke maandagochtend: wat open staat, wat over termijn is en wie je moet bellen.</span></span>
+          <span className="rij-t"><b>Weekoverzicht op maandag</b><span>Elke maandagochtend: wat open staat, wat over termijn is en waarvoor je informatie bij de VAM opvraagt.</span></span>
           <input type="checkbox" role="switch" className="schakelaar" checked={s.inst.weekmail} disabled={uit}
             onChange={(e) => void s.bewaarInst({ ...s.inst, weekmail: e.target.checked })} />
         </label>

@@ -11,6 +11,9 @@ import { Bovenschrift, Leeg, Sheet, StatusPil } from "../components/ui";
 import { TermRing } from "../components/TermRing";
 import { Fotos } from "../components/Fotos";
 
+/** The VAM e-mails what may be done with the part; these record it in one tap. */
+const VAM_SNEL = ["VAM: onderdeel retour sturen", "VAM: onderdeel vernietigen", "VAM: onderdeel bewaren", "VAM: informatie opgevraagd"];
+
 const VOLGENDE: Record<Status, Status | null> = { nieuw: "ingediend", ingediend: "gehonoreerd", gehonoreerd: null, afgewezen: null };
 
 export function ClaimDetail() {
@@ -127,8 +130,13 @@ export function ClaimDetail() {
       <Sheet titel="Notitie toevoegen" open={notitieOpen} sluit={() => setNotitieOpen(false)}
         voet={<><button type="button" className="knop knop-zacht" onClick={() => setNotitieOpen(false)}>Annuleren</button>
           <button type="button" className="knop knop-rood" disabled={!tekst.trim() && !naarStatus} onClick={bewaarNotitie}>Opslaan</button></>}>
+        <div className="veld"><span className="veld-label">Mail van de VAM</span>
+          <div className="chiprij chiprij-wrap">
+            {VAM_SNEL.map((t) => <button key={t} type="button" className="pil" aria-pressed={tekst === t} onClick={() => setTekst(t)}>{t.replace(/^VAM: /, "")}</button>)}
+          </div>
+        </div>
         <label className="veld"><span className="veld-label">Wat is er gebeurd?</span>
-          <textarea rows={4} value={tekst} onChange={(e) => setTekst(e.target.value)} placeholder={`Bijv. Gebeld met ${c.leverancier || "leverancier"} — creditnota volgt`} autoFocus /></label>
+          <textarea rows={4} value={tekst} onChange={(e) => setTekst(e.target.value)} placeholder="Bijv. Mail van de VAM: onderdeel retour sturen" autoFocus /></label>
         <div className="veld"><span className="veld-label">Status meteen aanpassen (optioneel)</span>
           <div className="chiprij">
             {(Object.keys(STATUS_LABEL) as Status[]).filter((s) => s !== st).map((s) => (

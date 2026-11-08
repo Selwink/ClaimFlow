@@ -29,7 +29,7 @@ export function weekOverzicht(claims: Claim[], inst: Instellingen, adres: string
 
   const perLev = new Map<string, Claim[]>();
   for (const c of laat) perLev.set(c.leverancier || "Onbekend", [...(perLev.get(c.leverancier || "Onbekend") || []), c]);
-  const bellen = [...perLev.entries()].sort((a, b) => som(b[1]) - som(a[1]))
+  const opvragen = [...perLev.entries()].sort((a, b) => som(b[1]) - som(a[1]))
     .map(([l, lijst]) => `• ${l}: ${meervoud(lijst.length, "claim", "claims")}, ${euroKort(som(lijst))}${inst.levMail[l] ? ` — ${inst.levMail[l]}` : ""}`).join("\n");
 
   const onderwerp = laat.length
@@ -43,7 +43,7 @@ export function weekOverzicht(claims: Claim[], inst: Instellingen, adres: string
       Week: `t/m ${datum(vandaag())} · ${inst.vestiging}`,
       "Nog terug te halen": `${euro(som(open))} (${meervoud(open.length, "open claim", "open claims")})`,
       [`Over termijn (> ${inst.dagen} dagen)`]: regels(laat, (c) => `${dagenOpen(c)?.dagen} dagen${geenBedrag(c) ? "" : `, ${euroKort(c.bedrag)}`}`),
-      "Deze week bellen": bellen || "Niemand — alles loopt binnen de termijn",
+      "Informatie opvragen bij de VAM": opvragen || "Niets — alles loopt binnen de termijn",
       "Termijn verloopt binnen 7 dagen": regels(binnenkort, (c) => `nog ${inst.dagen - (dagenOpen(c)?.dagen ?? 0)} dagen`),
       "Nog niet ingediend": regels(nietIngediend, (c) => `${dagenOpen(c)?.dagen ?? "?"} dagen oud`),
       "Inkoopnummer ontbreekt": regels(zonderInkoop, (c) => periodLabel(c.periode)),

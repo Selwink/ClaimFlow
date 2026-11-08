@@ -382,3 +382,4 @@ button.taak:active { transform: scale(.99); }
 @keyframes val { to { transform: translateY(110vh) rotate(calc(var(--i) * 70deg)); opacity: .9; } }
 @media (prefers-reduced-motion: reduce) { .confetti { display: none; } .feest-kaart, .feest-kaart .lvl-badge { animation: none; } }
 .grootknop-boven { margin: 0 0 20px; }
+.chiprij-wrap { flex-wrap: wrap; overflow: visible; margin: 0; padding: 0; }
