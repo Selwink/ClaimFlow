@@ -5,7 +5,7 @@ import { aanzetten, isIOS, ondersteund, opBeginscherm, status, testmelding, uitz
 import { Icon } from "./Icon";
 
 const SOORTEN: Array<{ id: PushSoort; titel: string; tekst: string; beheer?: boolean }> = [
-  { id: "termijn", titel: "Claim over de termijn", tekst: "Op de dag dat een claim de 42 dagen passeert." },
+  { id: "termijn", titel: "Claim over de termijn", tekst: "3 dagen vooraf en op de dag dat een claim de termijn passeert." },
   { id: "accounts", titel: "Nieuw account wacht op goedkeuring", tekst: "Zodra iemand zich aanmeldt.", beheer: true },
 ];
 
