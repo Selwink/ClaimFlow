@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useStore } from "../state/Store";
 import { metRegel } from "../lib/claims";
@@ -32,6 +32,11 @@ export function Logistiek() {
   const items = useMemo(() => logItems(actief), [actief]);
   const perTab = (t: Tab) => items.filter((i) => tabVan(i) === t);
   const lijst = perTab(tab);
+  useEffect(() => {
+    const oud = document.title;
+    document.title = "Logistiek Flow Medipoint";
+    return () => { document.title = oud; };
+  }, []);
 
   const zet = async (i: LogItem, status: Exclude<LogStatus, "open">, v?: string, code?: string) => {
     setBezig(true);
@@ -46,8 +51,8 @@ export function Logistiek() {
         <div className="toegang-gloed" aria-hidden="true"><i /><i /><i /></div>
         <div className="start-binnen">
           <Link to="/" className="terugknop"><Icon naam="terug" maat={18} /> Terug naar start</Link>
-          <Logo />
-          <h1>Logistiek<br /><span>{perTab("tedoen").length ? `${meervoud(perTab("tedoen").length, "onderdeel", "onderdelen")} te doen.` : "Alles is afgehandeld."}</span></h1>
+          <Logo logistiek />
+          <h1>Logistiek Flow<br /><span>{perTab("tedoen").length ? `${meervoud(perTab("tedoen").length, "onderdeel", "onderdelen")} te doen.` : "Alles is afgehandeld."}</span></h1>
         </div>
       </div>
 

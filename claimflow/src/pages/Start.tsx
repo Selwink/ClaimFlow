@@ -45,7 +45,7 @@ export function Start() {
         <Link to="/logistiek" className="start-knop start-logistiek">
           <span className="start-ic" aria-hidden="true"><Icon naam="vrachtwagen" maat={30} /></span>
           <span className="start-t">
-            <b>Logistiek</b>
+            <b>Logistiek Flow</b>
             <span>Onderdelen retour sturen, vernietigen of bewaren</span>
             <span className="start-chips">{logistiek > 0 ? <span className="chip chip-oker">{meervoud(logistiek, "onderdeel", "onderdelen")} te doen</span> : <span className="chip chip-turk">Alles afgehandeld</span>}</span>
           </span>
