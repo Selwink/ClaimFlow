@@ -33,7 +33,7 @@ export function TeamKaart() {
         <div><b><Optel waarde={week.team.ingediend} /></b><span>ingediend</span></div>
         <div><b className="t-turk"><Optel waarde={week.team.gehonoreerd} /></b><span>gehonoreerd</span></div>
       </div>
-      <p className="team-ik"><Icon naam="persoon" maat={14} /> {mijn.length ? <>Jouw week: {mijn.join(", ")}. Dank je!</> : <>Deze week nog niets van jou. Elke claim telt mee voor het team.</>}</p>
+      <p className="team-ik"><Icon naam="persoon" maat={14} /> {mijn.length ? <>Jouw week: {mijn.join(", ")}. Dank je!</> : <>Deze week nog niets van jou. Elke claim telt mee voor het bedrijf.</>}</p>
     </section>
   );
 }
