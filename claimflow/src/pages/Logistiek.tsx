@@ -3,7 +3,12 @@ import { Link } from "react-router-dom";
 import { Icon } from "../components/Icon";
 import { Logo } from "../components/ui";
 
-/** Logistiek Flow: reserved for keeping track of the codes Logistiek processes. Intentionally empty for now. */
+/** The codes from our logistics systems that Logistiek Flow will process. Each gets its own card. */
+const CODES = [
+  { code: "53", naam: "Werkvoorbereiding", tekst: "Verwerking van code 53 voor de werkvoorbereiding." },
+];
+
+/** Logistiek Flow: processing of codes from our logistics systems. The first one, code 53, is being set up. */
 export function Logistiek() {
   useEffect(() => {
     const oud = document.title;
@@ -22,12 +27,17 @@ export function Logistiek() {
         </div>
       </div>
       <div className="start-keuzes">
-        <div className="start-leeg">
-          <span className="start-ic" aria-hidden="true"><Icon naam="vrachtwagen" maat={30} /></span>
-          <b>Hier komt de codeverwerking</b>
-          <p>In Logistiek Flow komt de codeverwerking vanuit onze logistieke systemen. Dit deel wordt nog ingericht.</p>
-          <Link to="/" className="knop knop-zacht knop-vol"><Icon naam="terug" maat={18} /> Terug naar start</Link>
-        </div>
+        {CODES.map((c) => (
+          <section key={c.code} className="code-kaart" aria-labelledby={`code-${c.code}`}>
+            <span className="code-nr" aria-hidden="true"><small>Code</small>{c.code}</span>
+            <div className="code-t">
+              <h2 id={`code-${c.code}`}>{c.naam}</h2>
+              <p>{c.tekst}</p>
+              <span className="chip chip-oker">Wordt ingericht</span>
+            </div>
+          </section>
+        ))}
+        <Link to="/" className="knop knop-zacht knop-vol code-terug"><Icon naam="terug" maat={18} /> Terug naar start</Link>
       </div>
     </main>
   );
