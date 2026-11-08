@@ -53,29 +53,42 @@
 @keyframes letter { from { transform: translateY(14px); opacity: 0; } }
 
 /* login and app slide in as the splash leaves */
-.toegang-band > * , .toegang-kaart { animation: binnen .7s cubic-bezier(.2, .8, .3, 1) both; }
-.toegang-kaart { animation-delay: .12s; }
+.toegang-band-binnen { animation: binnen .7s cubic-bezier(.2, .8, .3, 1) both; }
+.toegang-plek { animation: binnen .7s .12s cubic-bezier(.2, .8, .3, 1) both; }
 @keyframes binnen { from { opacity: 0; transform: translateY(26px); } }
-:root[data-splash="aan"] .toegang-band > *, :root[data-splash="aan"] .toegang-kaart, :root[data-splash="aan"] .inhoud > .pagina { animation-play-state: paused; }
+:root[data-splash="aan"] .toegang-band-binnen { animation-play-state: paused; }
+:root[data-splash="aan"] .toegang-plek { animation-play-state: paused; }
+:root[data-splash="aan"] .inhoud > .pagina { animation-play-state: paused; }
 .inhoud > .pagina { animation: binnen .6s .05s cubic-bezier(.2, .8, .3, 1) both; }
 
 /* ============ Login ============ */
-.toegang { min-height: 100dvh; background: var(--zand); padding: 0 0 40px; }
-.toegang-band { background: var(--aub); color: #fff; padding: calc(env(safe-area-inset-top) + 28px) max(var(--gutter), calc((100% - 440px) / 2)) 96px; }
+/* Width comes from padded wrappers instead of calc()s, so the card can never be wider than the screen. */
+.toegang { min-height: 100dvh; background: var(--zand); padding-bottom: 40px; overflow-x: clip; }
+.toegang-band { background: var(--aub); color: #fff; padding: calc(env(safe-area-inset-top) + 28px) max(var(--gutter), env(safe-area-inset-right, 0px)) 96px max(var(--gutter), env(safe-area-inset-left, 0px)); }
+.toegang-band-binnen { max-width: 440px; margin: 0 auto; }
 .toegang-band h1 { font-weight: 800; font-size: clamp(32px, 8vw, 44px); letter-spacing: -.045em; margin: 30px 0 8px; }
 .toegang-band h1 span { color: var(--rood); }
 .toegang-band p { color: rgba(255, 255, 255, .65); }
- .toegang-kaart { max-width: 440px; margin: -70px auto 0; width: calc(100% - 2 * var(--gutter)); position: relative; background: var(--papier); border-radius: var(--r-xl); padding: 24px 20px; box-shadow: 0 24px 60px rgba(42, 16, 36, .18); display: flex; flex-direction: column; gap: 14px; }
+.toegang-plek { margin-top: -70px; padding: 0 max(var(--gutter), env(safe-area-inset-right, 0px)) 0 max(var(--gutter), env(safe-area-inset-left, 0px)); }
+.toegang-kaart { box-sizing: border-box; width: 100%; max-width: 440px; min-width: 0; margin: 0 auto; position: relative; background: var(--papier); border-radius: var(--r-xl); padding: 24px 20px; box-shadow: 0 24px 60px rgba(42, 16, 36, .18); display: flex; flex-direction: column; gap: 14px; }
+.toegang-kaart > * { min-width: 0; }
 .toegang-kaart h2 { font-weight: 800; font-size: 1.5rem; }
 .toegang-tip { display: flex; gap: 8px; align-items: center; justify-content: center; color: var(--inkt-2); font-size: .78rem; }
+.toegang .met-na { display: flex; }
+.toegang .met-na input { flex: 1 1 auto; width: auto; min-width: 0; }
+.oogknop { flex: 0 0 auto; width: 40px; height: 36px; display: grid; place-items: center; padding: 0 !important; color: var(--inkt-2); }
+.veld-hint svg { display: inline; vertical-align: -2px; }
+.mini-spinner { width: 16px; height: 16px; border-radius: 50%; border: 2.5px solid rgba(255, 255, 255, .35); border-top-color: #fff; animation: draai .7s linear infinite; }
+.schud { animation: schud .4s cubic-bezier(.36, .07, .19, .97) both; }
+@keyframes schud { 20%, 60% { transform: translateX(-7px); } 40%, 80% { transform: translateX(7px); } }
 @media (min-width: 900px) {
-  .toegang { display: grid; grid-template-columns: 1fr 1fr; padding: 0; background: var(--zand); }
-  .toegang-kaart { margin: 0 auto; }
-  .toegang-band { max-width: none; margin: 0; padding: 48px 56px; background: var(--aub); display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
+  .toegang { display: grid; grid-template-columns: 1fr 1fr; padding: 0; }
+  .toegang-band { display: flex; flex-direction: column; justify-content: center; padding: 48px 56px; position: relative; overflow: hidden; }
+  .toegang-band-binnen { margin: 0; max-width: 520px; }
   .toegang-band::after { content: ""; position: absolute; right: -120px; bottom: -120px; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(232, 56, 43, .45), transparent 65%); }
   .toegang-band .logo { position: absolute; top: 40px; left: 56px; }
   .toegang-band h1 { font-size: 64px; }
-  .toegang-kaart { align-self: center; width: 100%; }
+  .toegang-plek { margin: 0; align-self: center; padding: 40px; }
 }
 
 /* ============ Vandaag ============ */
