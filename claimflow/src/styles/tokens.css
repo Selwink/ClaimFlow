@@ -5,6 +5,7 @@
   --aub-3: #4a1d40;
   --rood: #E8382B;
   --rood-2: #B8231A;
+  --rood-knop: #DB3325; /* button fill: white text reaches 4.6:1 */
   --rood-zacht: #FFE3DF;
   --zand: #F6F2EB;
   --zand-2: #ECE5D9;
@@ -12,7 +13,7 @@
   --inkt: #1C1418;
   --inkt-2: #6E6268;
   --turk: #3FB7B2;
-  --turk-2: #1d7f7a;
+  --turk-2: #18716d; /* turquoise for text and filled buttons on light grounds (≥5:1) */
   --turk-zacht: #DDF3F2;
   --oker: #EFB13C;
   --oker-2: #7a5200;

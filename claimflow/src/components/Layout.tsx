@@ -29,9 +29,9 @@ export function Layout() {
 
   return (
     <div className="frame">
-      <aside className="zijbalk">
+      <aside className="zijbalk" aria-label="Navigatie">
         <NavLink to="/" className="zijbalk-logo" aria-label="ClaimFlow Medipoint — naar Vandaag"><Logo /></NavLink>
-        <nav aria-label="Hoofdmenu">
+        <nav aria-label="Hoofdmenu zijbalk">
           {NAV.map((n) => (
             <NavLink key={n.naar} to={n.naar} end={n.einde} className="zij-link">
               <Icon naam={n.icoon} maat={18} /><span>{n.label}</span>{badge(n)}
@@ -65,7 +65,7 @@ export function Layout() {
         <Outlet />
       </main>
 
-      <nav className="tabbalk" aria-label="Hoofdmenu">
+      <nav className="tabbalk" aria-label="Hoofdmenu onderbalk">
         {onder.slice(0, 2).map((n) => (
           <NavLink key={n.naar} to={n.naar} end={n.einde} className="tab">
             <Icon naam={n.icoon} /><span>{n.kort || n.label}</span>{badge(n)}

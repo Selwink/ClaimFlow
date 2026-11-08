@@ -13,9 +13,11 @@ button:disabled { cursor: not-allowed; opacity: .55; }
 img, svg { display: block; }
 :focus-visible { outline: 3px solid rgba(232, 56, 43, .45); outline-offset: 2px; border-radius: 6px; }
 ::selection { background: var(--roze); }
+@media (max-width: 759px) { input, select, textarea { font-size: 16px !important; } } /* iOS zooms into fields under 16px */
+.sr { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .mono { font-family: var(--mono); font-size: .92em; }
 .rechts { text-align: right; }
-.t-rood { color: var(--rood); }
+.t-rood { color: var(--rood-2); }
 .t-turk { color: var(--turk-2); }
 .t-oker { color: var(--oker-2); }
 .t-zacht { color: var(--inkt-2); }

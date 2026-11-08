@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useStore } from "../state/Store";
 import { metRegel, titelVan, wijzigingTekst } from "../lib/claims";
 import { ClaimForm } from "../components/ClaimForm";
@@ -8,6 +8,7 @@ import { Leeg, PaginaKop } from "../components/ui";
 export function Bewerken() {
   const { id } = useParams();
   const nav = useNavigate();
+  const loc = useLocation();
   const { claims, bewaar, naam, magBewerken } = useStore();
   const [bezig, setBezig] = useState(false);
   const c = claims.find((x) => x.id === id);
@@ -16,7 +17,7 @@ export function Bewerken() {
   return (
     <div className="pagina pagina-smal">
       <PaginaKop boven="Bewerken" titel={titelVan(c)} />
-      <ClaimForm start={c} knop="Wijzigingen opslaan" bezig={bezig} onAnnuleer={() => nav(-1)}
+      <ClaimForm start={c} knop="Wijzigingen opslaan" bezig={bezig} onAnnuleer={() => (loc.key !== "default" ? nav(-1) : nav(`/claims/${c.id}`))}
         onBewaar={async (n) => {
           const t = wijzigingTekst(c, n);
           if (!t) { nav(`/claims/${c.id}`); return; }

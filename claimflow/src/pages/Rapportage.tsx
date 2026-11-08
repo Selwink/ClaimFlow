@@ -56,7 +56,7 @@ export function Rapportage() {
           <option value="">Alle jaren</option>
           {jaren.map((j) => <option key={j} value={j}>{j}</option>)}
         </select>
-        <button type="button" className="knop knop-zacht" onClick={() => download(`garantieclaims-${jaar || "alles"}-${dezeMaand()}.csv`, naarCsv(lijst), "text/csv;charset=utf-8")}>
+        <button type="button" className="knop knop-zacht" aria-label="Exporteren als CSV" onClick={() => download(`garantieclaims-${jaar || "alles"}-${dezeMaand()}.csv`, naarCsv(lijst), "text/csv;charset=utf-8")}>
           <Icon naam="download" maat={18} /> <span className="alleen-desktop">CSV</span>
         </button>
       </PaginaKop>
@@ -68,7 +68,7 @@ export function Rapportage() {
               <div><small className="bovenschrift">Teruggehaald</small><b>{euroKort(terug)}</b></div>
               <div className="rechts"><small className="bovenschrift">Nog open</small><b className="t-rood">{euroKort(nog)}</b></div>
             </div>
-            <Voortgang deel={terug + nog ? terug / (terug + nog) : 0} licht />
+            <Voortgang deel={terug + nog ? terug / (terug + nog) : 0} licht label="Teruggehaald van het totaal" />
             <p className="t-zacht mono">{terug + nog ? Math.round((terug / (terug + nog)) * 100) : 0}% van {euroKort(terug + nog)} is binnen · {euroKort(som(afg))} afgewezen</p>
           </section>
 

@@ -8,6 +8,7 @@ import { download, naarCsv } from "../lib/export";
 import { ClaimKaarten, ClaimTabel, sorteer, type Sortering, type SorteerVeld } from "../components/ClaimLijst";
 import { Icon } from "../components/Icon";
 import { Leeg, PaginaKop } from "../components/ui";
+import { useBreed } from "../lib/useBreed";
 
 const TABS = [
   { id: "alle", label: "Alle" },
@@ -33,6 +34,9 @@ export function Claims() {
   const [sortering, setSortering] = useState<Sortering>({ veld: "dagen", omhoog: false });
   const [groep, setGroep] = useState<Groep>("geen");
   const [gekozen, setGekozen] = useState<Set<string>>(new Set());
+  const [kiesModus, setKiesModus] = useState(false);
+  const breed = useBreed();
+  const stopKiezen = () => { setGekozen(new Set()); setKiesModus(false); };
 
   const zetParam = (k: string, v: string) => {
     const p = new URLSearchParams(params);
@@ -73,12 +77,12 @@ export function Claims() {
   const wissel = (id: string) => setGekozen((s) => { const n = new Set(s); if (n.has(id)) n.delete(id); else n.add(id); return n; });
   const alles = (aan: boolean) => setGekozen(aan ? new Set(lijst.map((c) => c.id)) : new Set());
   const ids = [...gekozen];
-  const bulk = async (naar: Status) => { await zetStatus(ids, naar); setGekozen(new Set()); };
+  const bulk = async (naar: Status) => { await zetStatus(ids, naar); stopKiezen(); };
 
   return (
     <div className="pagina">
       <PaginaKop boven={`${meervoud(actief.length, "claim", "claims")} · ${euroKort(som(actief))}`} titel="Claims">
-        <button type="button" className="knop knop-zacht" onClick={() => download(`garantieclaims-${dezeMaand()}.csv`, naarCsv(lijst), "text/csv;charset=utf-8")}>
+        <button type="button" className="knop knop-zacht" aria-label="Exporteren als CSV" onClick={() => download(`garantieclaims-${dezeMaand()}.csv`, naarCsv(lijst), "text/csv;charset=utf-8")}>
           <Icon naam="download" maat={18} /> <span className="alleen-desktop">Exporteren</span>
         </button>
         {magBewerken && <Link to="/nieuw" className="knop knop-rood alleen-desktop"><Icon naam="plus" maat={18} /> Nieuwe claim</Link>}
@@ -119,6 +123,11 @@ export function Claims() {
             </button>
           ))}
         </div>
+        {magBewerken && !breed && (
+          <button type="button" className="pil" aria-pressed={kiesModus} onClick={() => (kiesModus ? stopKiezen() : setKiesModus(true))}>
+            {kiesModus ? "Klaar" : "Selecteren"}
+          </button>
+        )}
         <div className="segment segment-klein" role="radiogroup" aria-label="Groeperen">
           {([["geen", "Lijst"], ["maand", "Per maand"], ["leverancier", "Per leverancier"]] as const).map(([g, l]) => (
             <button key={g} type="button" role="radio" aria-checked={groep === g} onClick={() => setGroep(g)}>{l}</button>
@@ -133,16 +142,14 @@ export function Claims() {
       ) : groepen.map((g) => (
         <section key={g.kop || "alles"} className="claimgroep">
           {g.kop && <h2 className="groepkop"><span>{g.kop}</span><span className="mono">{g.claims.length} · {euroKort(som(g.claims))}</span></h2>}
-          <div className="alleen-desktop">
+          {breed ? (
             <ClaimTabel claims={g.claims} termijn={inst.dagen} sortering={sortering} setSortering={setSortering}
               geselecteerd={magBewerken ? gekozen : undefined} wissel={magBewerken ? wissel : undefined} alles={alles} />
-          </div>
-          <div className="alleen-mobiel">
-            <ClaimKaarten claims={g.claims} termijn={inst.dagen} geselecteerd={gekozen} wissel={magBewerken ? wissel : undefined} />
-          </div>
+          ) : (
+            <ClaimKaarten claims={g.claims} termijn={inst.dagen} geselecteerd={gekozen} wissel={magBewerken ? wissel : undefined} kiesModus={kiesModus} />
+          )}
         </section>
       ))}
-      {magBewerken && lijst.length > 0 && <p className="hint alleen-mobiel">Tip: houd een claim ingedrukt om er meerdere te selecteren.</p>}
       {prullenbak.length > 0 && <Link to="/prullenbak" className="meer-link"><Icon naam="prullenbak" maat={16} /> Prullenbak ({prullenbak.length})</Link>}
 
       {gekozen.size > 0 && (
@@ -151,8 +158,8 @@ export function Claims() {
           <button type="button" onClick={() => bulk("ingediend")}>Ingediend</button>
           <button type="button" onClick={() => bulk("gehonoreerd")}>Gehonoreerd</button>
           <button type="button" onClick={() => bulk("afgewezen")}>Afgewezen</button>
-          <button type="button" className="bulk-rood" onClick={async () => { await naarPrullenbak(ids); setGekozen(new Set()); }} aria-label="Naar prullenbak"><Icon naam="prullenbak" maat={18} /></button>
-          <button type="button" onClick={() => setGekozen(new Set())} aria-label="Selectie wissen"><Icon naam="kruis" maat={18} /></button>
+          <button type="button" className="bulk-rood" onClick={async () => { await naarPrullenbak(ids); stopKiezen(); }} aria-label="Naar prullenbak"><Icon naam="prullenbak" maat={18} /></button>
+          <button type="button" className="bulk-sluit" onClick={stopKiezen} aria-label="Selectie wissen"><Icon naam="kruis" maat={18} /></button>
         </div>
       )}
     </div>

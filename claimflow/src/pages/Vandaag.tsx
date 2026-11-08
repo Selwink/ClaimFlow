@@ -5,6 +5,7 @@ import { datum, euroKort, meervoud } from "../lib/format";
 import { aandachtVan, ClaimTabel } from "../components/ClaimLijst";
 import { Icon } from "../components/Icon";
 import { Bovenschrift, Kpi, Leeg, Voortgang } from "../components/ui";
+import { useBreed } from "../lib/useBreed";
 
 function groet() {
   const u = new Date().getHours();
@@ -15,6 +16,7 @@ function groet() {
 export function Vandaag() {
   const { actief, inst, naam, magBewerken } = useStore();
   const nav = useNavigate();
+  const breed = useBreed();
   const open = actief.filter(isOpen);
   const terug = actief.filter((c) => statusVan(c) === "gehonoreerd");
   const afgewezen = actief.filter((c) => statusVan(c) === "afgewezen");
@@ -48,7 +50,7 @@ export function Vandaag() {
         <div className="geldkaart">
           <Bovenschrift>Nog terug te halen</Bovenschrift>
           <b className="geld">{euroKort(nogTerug)}</b>
-          <Voortgang deel={deel} />
+          <Voortgang deel={deel} label="Deel van het claimbedrag dat is teruggehaald" />
           <div className="geld-r"><span>{euroKort(teruggehaald)} terug</span><span>{Math.round(deel * 100)}%</span></div>
           <div className="geld-mini alleen-mobiel">
             <button type="button" onClick={() => nav("/claims?tab=aandacht")}><b className={laat.length ? "rood" : ""}>{laat.length}</b><span>over termijn</span></button>
@@ -68,7 +70,7 @@ export function Vandaag() {
             <Leeg titel="Niets te doen" tekst="Alle open claims zijn ingediend en binnen de termijn." />
           ) : (
             <>
-              <ul className="kaartlijst alleen-mobiel">
+              {!breed && <ul className="kaartlijst">
                 {taken.slice(0, 5).map(({ c, a }) => (
                   <li key={c.id}>
                     <button type="button" className={`taak${a!.toon === "rood" ? " taak-laat" : ""}`} onClick={() => nav(`/claims/${c.id}`)}>
@@ -78,9 +80,9 @@ export function Vandaag() {
                     </button>
                   </li>
                 ))}
-              </ul>
-              <div className="alleen-desktop"><ClaimTabel claims={taken.slice(0, 8).map((x) => x.c)} termijn={inst.dagen} /></div>
-              {taken.length > 5 && <Link className="meer-link" to="/claims?tab=open">Alle {taken.length} bekijken <Icon naam="verder" maat={16} /></Link>}
+              </ul>}
+              {breed && <ClaimTabel claims={taken.slice(0, 8).map((x) => x.c)} termijn={inst.dagen} />}
+              {taken.length > (breed ? 8 : 5) && <Link className="meer-link" to="/claims?tab=open">Alle {taken.length} bekijken <Icon naam="verder" maat={16} /></Link>}
             </>
           )}
         </section>

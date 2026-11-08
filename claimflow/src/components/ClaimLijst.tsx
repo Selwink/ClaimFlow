@@ -38,7 +38,7 @@ export function aandachtVan(c: Claim, termijn: number): { toon: "rood" | "oker" 
 }
 
 function DagenCel({ c, termijn }: { c: Claim; termijn: number }) {
-  if (!isOpen(c)) return <span className="t-turk" aria-label="Afgehandeld"><Icon naam="vink" maat={16} /></span>;
+  if (!isOpen(c)) return <span className="t-turk"><Icon naam="vink" maat={16} /><span className="sr">Afgehandeld</span></span>;
   if (c.uitbesteed) return <span className="t-zacht">—</span>;
   const d = dagenOpen(c);
   if (!d) return <span className="t-zacht">—</span>;
@@ -53,6 +53,8 @@ interface LijstProps {
   alles?: (aan: boolean) => void;
   sortering?: Sortering;
   setSortering?: (s: Sortering) => void;
+  /** Phone: tapping a card toggles it instead of opening it. */
+  kiesModus?: boolean;
 }
 
 /** Desktop table, matching the "werkplek coördinator" screen in the concept. */
@@ -118,17 +120,18 @@ export function ClaimTabel({ claims, termijn, geselecteerd, wissel, alles, sorte
 }
 
 /** Phone card list, matching the "Vandaag" task items in the concept. */
-export function ClaimKaarten({ claims, termijn, geselecteerd, wissel }: LijstProps) {
+export function ClaimKaarten({ claims, termijn, geselecteerd, wissel, kiesModus }: LijstProps) {
   const nav = useNavigate();
   return (
     <ul className="kaartlijst">
       {claims.map((c) => {
         const l = labelVan(c, termijn);
         const d = dagenOpen(c);
-        const kies = !!geselecteerd?.size;
+        const kies = !!wissel && (kiesModus || !!geselecteerd?.size);
         return (
           <li key={c.id}>
             <button type="button" className={`taak${overTermijn(c, termijn) ? " taak-laat" : ""}${geselecteerd?.has(c.id) ? " taak-gekozen" : ""}`}
+              aria-pressed={kies ? !!geselecteerd?.has(c.id) : undefined}
               onClick={() => (kies && wissel ? wissel(c.id) : nav(`/claims/${c.id}`))}
               onContextMenu={(e) => { if (wissel) { e.preventDefault(); wissel(c.id); } }}>
               <span className={`taak-ic ic-${l.toon}`}>{geselecteerd?.has(c.id) ? <Icon naam="vink" /> : isOpen(c) && d && !c.uitbesteed ? `${d.dagen}d` : <Icon naam={isOpen(c) ? "klok" : "vink"} maat={18} />}</span>

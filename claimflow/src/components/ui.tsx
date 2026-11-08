@@ -23,10 +23,11 @@ export const Chip = ({ toon, children }: { toon: Toon; children: ReactNode }) =>
 const STATUS_TOON: Record<Status, Toon> = { nieuw: "grijs", ingediend: "oker", gehonoreerd: "turk", afgewezen: "rood" };
 export const StatusPil = ({ status }: { status: Status }) => <Chip toon={STATUS_TOON[status]}>{STATUS_LABEL[status]}</Chip>;
 
-export function Leeg({ titel, tekst, children }: { titel: string; tekst?: string; children?: ReactNode }) {
+export function Leeg({ titel, tekst, children, kop }: { titel: string; tekst?: string; children?: ReactNode; kop?: "h1" | "h2" }) {
+  const Kop = kop || "b";
   return (
     <div className="leeg">
-      <b>{titel}</b>
+      <Kop className="leeg-titel">{titel}</Kop>
       {tekst && <span>{tekst}</span>}
       {children}
     </div>
@@ -67,10 +68,10 @@ export function Kpi({ label, waarde, toon, sub, donker, children }: {
   );
 }
 
-export function Voortgang({ deel, licht }: { deel: number; licht?: boolean }) {
+export function Voortgang({ deel, licht, label }: { deel: number; licht?: boolean; label: string }) {
   const pct = Math.max(0, Math.min(100, Math.round(deel * 100)));
   return (
-    <div className={`balk${licht ? " balk-licht" : ""}`} role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100}>
+    <div className={`balk${licht ? " balk-licht" : ""}`} role="progressbar" aria-label={label} aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100}>
       <i style={{ width: `${pct}%` }} />
     </div>
   );

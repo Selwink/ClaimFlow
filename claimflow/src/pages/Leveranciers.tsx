@@ -6,6 +6,7 @@ import { euroKort, meervoud } from "../lib/format";
 import { ClaimKaarten, ClaimTabel, sorteer } from "../components/ClaimLijst";
 import { Icon } from "../components/Icon";
 import { Kpi, Leeg, PaginaKop, Voortgang } from "../components/ui";
+import { useBreed } from "../lib/useBreed";
 
 export const LevAvatar = ({ naam, groot }: { naam: string; groot?: boolean }) => (
   <span className={`levavatar${groot ? " levavatar-groot" : ""}`} style={{ background: levKleur(naam) }} aria-hidden="true">{levLetters(naam)}</span>
@@ -25,7 +26,7 @@ export function Leveranciers() {
               <Link key={s.naam} to={`/leveranciers/${encodeURIComponent(s.naam)}`} className="levkaart">
                 <div className="levkaart-kop"><LevAvatar naam={s.naam} /><b>{s.naam}</b><Icon naam="verder" maat={18} /></div>
                 <div className="levkaart-geld"><span>Open</span><b className={s.open ? "t-rood" : undefined}>{euroKort(s.open)}</b></div>
-                <Voortgang deel={s.totaal ? (s.totaal - s.open) / s.totaal : 0} licht />
+                <Voortgang deel={s.totaal ? (s.totaal - s.open) / s.totaal : 0} licht label={`${s.naam}: afgehandeld deel`} />
                 <dl className="levkaart-cijfers">
                   <div><dt>Claims</dt><dd>{s.n}</dd></div>
                   <div><dt>Open</dt><dd>{s.openN}</dd></div>
@@ -44,6 +45,7 @@ export function Leveranciers() {
 export function LeverancierDetail() {
   const { naam = "" } = useParams();
   const { actief, inst } = useStore();
+  const breed = useBreed();
   const lijst = useMemo(() => actief.filter((c) => ((c.leverancier || "").trim() || "Zonder leverancier") === naam), [actief, naam]);
   const s = perLeverancier(lijst)[0];
   const mail = inst.levMail[naam];
@@ -63,8 +65,7 @@ export function LeverancierDetail() {
         <Kpi label="Honorering" waarde={beoordeeld ? `${Math.round((s.gehN / beoordeeld) * 100)}%` : "—"} toon="turk" sub={`${s.gehN} gehonoreerd · ${s.afgN} afgewezen`} />
         <Kpi label="Doorlooptijd" waarde={s.doorloop != null ? `${s.doorloop} d` : "—"} sub={s.oudste ? `oudste open: ${s.oudste} d` : "geen open claims"} toon={s.oudste >= inst.dagen ? "rood" : undefined} />
       </section>
-      <div className="alleen-desktop"><ClaimTabel claims={gesorteerd} termijn={inst.dagen} /></div>
-      <div className="alleen-mobiel"><ClaimKaarten claims={gesorteerd} termijn={inst.dagen} /></div>
+      {breed ? <ClaimTabel claims={gesorteerd} termijn={inst.dagen} /> : <ClaimKaarten claims={gesorteerd} termijn={inst.dagen} />}
     </div>
   );
 }

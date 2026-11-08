@@ -113,7 +113,9 @@ export async function haalFotos(claimId: string): Promise<Foto[]> {
   const r = await fetch(`${API}?select=id,nummer,bijzonderheden,bijgewerkt,type&id=like.${encodeURIComponent(`${FOTO}${claimId}:*`)}`, { headers: kop() });
   if (!r.ok) throw new Error(`GET ${r.status}`);
   const rows = (await r.json()) as Array<Record<string, string>>;
-  return rows.map((x) => ({ id: x.id, claim: x.nummer, data: x.bijzonderheden, datum: x.bijgewerkt || "", wie: x.type || "" }))
+  return rows
+    .filter((x) => x.id?.startsWith(`${FOTO}${claimId}:`) && /^data:image\//.test(x.bijzonderheden || ""))
+    .map((x) => ({ id: x.id, claim: x.nummer, data: x.bijzonderheden, datum: x.bijgewerkt || "", wie: x.type || "" }))
     .sort((a, b) => a.datum.localeCompare(b.datum) || a.id.localeCompare(b.id));
 }
 

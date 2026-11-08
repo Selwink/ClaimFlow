@@ -22,7 +22,7 @@ export function Login() {
   };
 
   return (
-    <div className="toegang">
+    <main className="toegang">
       <div className="toegang-band">
         <Logo />
         <h1>Elke claim terug.<br /><span>Op tijd.</span></h1>
@@ -47,6 +47,6 @@ export function Login() {
         <button className="knop knop-rood knop-groot knop-vol" disabled={bezig}>{bezig ? "Controleren…" : "Open het register"} <Icon naam="pijl" maat={18} /></button>
         <p className="toegang-tip"><Icon naam="slot" maat={14} /> Je blijft ingelogd op dit apparaat tot je uitlogt.</p>
       </form>
-    </div>
+    </main>
   );
 }

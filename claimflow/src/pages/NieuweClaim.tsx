@@ -82,7 +82,7 @@ export function NieuweClaim() {
 
   return (
     <div className="pagina pagina-smal nieuw" onDragOver={(e) => { e.preventDefault(); setSleep(true); }} onDragLeave={() => setSleep(false)} onDrop={drop}>
-      <div className="stappen" aria-label={`Stap ${stapNr} van 3`}>{[1, 2, 3].map((n) => <i key={n} className={n <= stapNr ? "aan" : ""} />)}</div>
+      <div className="stappen" role="img" aria-label={`Stap ${stapNr} van 3`}>{[1, 2, 3].map((n) => <i key={n} className={n <= stapNr ? "aan" : ""} />)}</div>
       <Bovenschrift rood>Stap {stapNr} van 3 · {stap === "controle" ? "LGAR" : stap === "zelf" ? "Zelf invullen" : "Nieuwe claim"}</Bovenschrift>
 
       {(stap === "kies" || stap === "formulier-uit") && (

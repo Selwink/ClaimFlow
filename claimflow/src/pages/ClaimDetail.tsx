@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import type { Status } from "../lib/types";
 import { STATUS_LABEL } from "../lib/types";
 import { useStore } from "../state/Store";
@@ -16,6 +16,7 @@ const VOLGENDE: Record<Status, Status | null> = { nieuw: "ingediend", ingediend:
 export function ClaimDetail() {
   const { id } = useParams();
   const nav = useNavigate();
+  const loc = useLocation();
   const { claims, inst, magBewerken, zetStatus, notitie, naarPrullenbak, terugzetten } = useStore();
   const [notitieOpen, setNotitieOpen] = useState(false);
   const [tekst, setTekst] = useState("");
@@ -23,7 +24,7 @@ export function ClaimDetail() {
   const c = claims.find((x) => x.id === id);
 
   if (!c) return (
-    <div className="pagina"><Leeg titel="Claim niet gevonden" tekst="Misschien is hij verwijderd of nog niet geladen."><Link className="knop knop-zacht" to="/claims">Naar alle claims</Link></Leeg></div>
+    <div className="pagina"><Leeg kop="h1" titel="Claim niet gevonden" tekst="Misschien is hij verwijderd of nog niet geladen."><Link className="knop knop-zacht" to="/claims">Naar alle claims</Link></Leeg></div>
   );
 
   const st = statusVan(c);
@@ -53,7 +54,7 @@ export function ClaimDetail() {
     <div className="detail">
       <header className="detail-kop">
         <div className="detail-kop-binnen">
-          <button type="button" className="terugknop" onClick={() => (history.length > 1 ? nav(-1) : nav("/claims"))}><Icon naam="terug" maat={18} /> Claims</button>
+          <button type="button" className="terugknop" onClick={() => (loc.key !== "default" ? nav(-1) : nav("/claims"))}><Icon naam="terug" maat={18} /> Claims</button>
           <Bovenschrift>{[c.inkoopnummer ? `INK ${c.inkoopnummer}` : "Geen inkoopnummer", c.leverancier].filter(Boolean).join(" · ")}</Bovenschrift>
           <h1>{titelVan(c)}</h1>
           <p>{c.locatie === "buiten" ? "Buitenmonteur" : "Binnenmonteur"} · {periodLabel(c.periode)}{c.verwijderd ? " · in de prullenbak" : ""}</p>
@@ -84,7 +85,7 @@ export function ClaimDetail() {
           </section>
         </div>
 
-        <aside className="detail-zij">
+        <div className="detail-zij">
           <section className="kaart">
             <h2 className="sectiekop">Tijdlijn</h2>
             {(c.notities || []).length === 0 ? <p className="t-zacht">Nog geen notities.</p> : (
@@ -109,7 +110,7 @@ export function ClaimDetail() {
             {magBewerken && st !== "afgewezen" && isOpen(c) && <button type="button" className="actie" onClick={() => zetStatus([c.id], "afgewezen")}><Icon naam="kruis" maat={18} /> Afgewezen</button>}
             {magBewerken && !isOpen(c) && <button type="button" className="actie" onClick={() => zetStatus([c.id], "ingediend")}><Icon naam="ongedaan" maat={18} /> Weer openzetten</button>}
           </section>
-        </aside>
+        </div>
       </div>
 
       {magBewerken && !c.verwijderd && (
