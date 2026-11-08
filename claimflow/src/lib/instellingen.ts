@@ -11,6 +11,7 @@ export const INST_STANDAARD: Instellingen = {
   levMail: {},
   autoInvoer: true,
   weekmail: true,
+  maanddoel: 3000,
   prijzen: [
     { woord: "speling", bedrag: 780 }, { woord: "beremd wiel", bedrag: 114 },
     { woord: "seatsupport", bedrag: 507 }, { woord: "seat support", bedrag: 507 }, { woord: "jukmotor", bedrag: 351 },
@@ -27,6 +28,7 @@ export function leesInstellingen(o: unknown): Instellingen {
     levMail: x.levMail && typeof x.levMail === "object" ? x.levMail : {},
     autoInvoer: x.autoInvoer !== false,
     weekmail: x.weekmail !== false,
+    maanddoel: Number(x.maanddoel) > 0 ? Math.round(Number(x.maanddoel)) : INST_STANDAARD.maanddoel,
     prijzen: Array.isArray(x.prijzen) ? x.prijzen.filter((r) => r?.woord && Number(r.bedrag) > 0) : INST_STANDAARD.prijzen,
   };
 }

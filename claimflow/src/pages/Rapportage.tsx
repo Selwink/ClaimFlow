@@ -7,7 +7,7 @@ import { download, naarCsv } from "../lib/export";
 import { Icon } from "../components/Icon";
 import { Kpi, Leeg, PaginaKop, Voortgang } from "../components/ui";
 import { LevAvatar } from "./Leveranciers";
-import { Ranglijst } from "../components/Level";
+import { TeamPerMaand } from "../components/Team";
 import { Optel } from "../components/Optel";
 
 export function Rapportage() {
@@ -106,8 +106,8 @@ export function Rapportage() {
           </section>
 
           <section className="kaart ranglijst-kaart">
-            <h2 className="sectiekop">Ranglijst</h2>
-            <Ranglijst />
+            <h2 className="sectiekop">Teamresultaat per maand</h2>
+            <TeamPerMaand />
           </section>
 
           <div className="rapport-raster">

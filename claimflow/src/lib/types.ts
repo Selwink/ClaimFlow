@@ -49,6 +49,8 @@ export interface Instellingen {
   autoInvoer: boolean;
   /** Send the Monday summary e-mail. */
   weekmail: boolean;
+  /** Monthly team goal: euros to get back. */
+  maanddoel: number;
   prijzen: VastBedrag[];
 }
 

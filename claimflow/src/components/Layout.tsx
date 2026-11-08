@@ -6,7 +6,7 @@ import { geleden } from "../lib/format";
 import { Icon, type IconNaam } from "./Icon";
 import { Logo } from "./ui";
 import { Welkom } from "./Welkom";
-import { LevelOmhoog, useMijnLevel } from "./Level";
+import { DoelGehaald } from "./Team";
 
 interface NavItem { naar: string; label: string; kort?: string; icoon: IconNaam; einde?: boolean }
 const NAV: NavItem[] = [
@@ -28,7 +28,6 @@ export function Layout() {
   const badge = (n: NavItem) => (n.naar === "/claims" && aandacht ? <em className="nav-badge" aria-label={`${aandacht} over termijn`}>{aandacht}</em> : null);
   const initialen = (naam || "?").split(/\s+/).map((d) => d[0]).join("").slice(0, 2).toUpperCase();
   const onder = NAV.filter((n) => n.naar !== "/leveranciers");
-  const { level } = useMijnLevel();
 
   return (
     <div className="frame">
@@ -51,7 +50,6 @@ export function Layout() {
             <i className={online ? "aan" : "uit"} />{online ? "Verbonden" : "Offline"} · {inst.vestiging}
           </button>
           <span>{naam || "Naam niet ingesteld"} · {rol === "beheer" ? "beheerder" : "alleen kijken"}</span>
-          <span>Level {level.nr} · {level.naam}</span>
           {syncTijd && <span className="mono">Bijgewerkt {geleden(syncTijd)}</span>}
         </div>
       </aside>
@@ -60,12 +58,12 @@ export function Layout() {
         <NavLink to="/" aria-label="ClaimFlow Medipoint — naar Vandaag"><Logo /></NavLink>
         <div className="topbalk-rechts">
           <i className={`stip ${online ? "aan" : "uit"}`} title={online ? "Verbonden" : "Offline"} />
-          <NavLink to="/beheer" className="avatar" aria-label={`Beheer en profiel, level ${level.nr} ${level.naam}`}>{initialen}<em className="avatar-lvl" aria-hidden="true">{level.nr}</em></NavLink>
+          <NavLink to="/beheer" className="avatar" aria-label="Beheer en profiel">{initialen}</NavLink>
         </div>
       </header>
 
       <Welkom />
-      <LevelOmhoog />
+      <DoelGehaald />
       <main className="inhoud" id="inhoud">
         {!online && <div className="offline-band">Geen verbinding — je ziet de laatst opgehaalde gegevens.</div>}
         <Outlet />

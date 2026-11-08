@@ -55,7 +55,7 @@ export function Beheer() {
   const bewaarInst = (e: FormEvent) => {
     e.preventDefault();
     const vast: VastBedrag[] = prijzen.map((p) => ({ woord: p.woord.trim(), bedrag: parseBedrag(p.bedrag) || 0 })).filter((p) => p.woord && p.bedrag > 0);
-    void s.bewaarInst({ ...i, dagen: Math.max(1, Math.round(i.dagen) || 42), leveranciers: levs, uitbesteedLev: tekstNaarLijst(uitTekst), prijzen: vast });
+    void s.bewaarInst({ ...i, dagen: Math.max(1, Math.round(i.dagen) || 42), maanddoel: Math.max(100, Math.round(i.maanddoel) || 3000), leveranciers: levs, uitbesteedLev: tekstNaarLijst(uitTekst), prijzen: vast });
   };
   const testMail = async () => {
     setMailStatus("Versturen…");
@@ -134,6 +134,8 @@ export function Beheer() {
           <fieldset disabled={uit} className="velden">
             <label className="veld"><span className="veld-label">Vestiging</span><input value={i.vestiging} onChange={(e) => setI({ ...i, vestiging: e.target.value })} /></label>
             <label className="veld"><span className="veld-label">Termijn (dagen)</span><input type="number" min={1} value={i.dagen} onChange={(e) => setI({ ...i, dagen: Number(e.target.value) })} /></label>
+            <label className="veld"><span className="veld-label">Maanddoel teruggehaald (€)</span><input type="number" min={100} step={100} inputMode="numeric" value={i.maanddoel} onChange={(e) => setI({ ...i, maanddoel: Number(e.target.value) })} />
+              <span className="veld-hint">Het team ziet op Vandaag hoe ver jullie zijn; bij het halen volgt een felicitatie.</span></label>
             <label className="veld"><span className="veld-label">Leveranciers (één per regel)</span><textarea rows={6} value={levTekst} onChange={(e) => setLevTekst(e.target.value)} /></label>
             <label className="veld"><span className="veld-label">Altijd uitbesteed</span><textarea rows={6} value={uitTekst} onChange={(e) => setUitTekst(e.target.value)} /></label>
             <div className="veld veld-breed"><span className="veld-label">E-mailadres per leverancier</span>

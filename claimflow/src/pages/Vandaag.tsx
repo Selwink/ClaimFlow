@@ -6,7 +6,7 @@ import { aandachtVan, ClaimTabel } from "../components/ClaimLijst";
 import { Icon } from "../components/Icon";
 import { Bovenschrift, Kpi, Leeg, Voortgang } from "../components/ui";
 import { useBreed } from "../lib/useBreed";
-import { LevelKaart } from "../components/Level";
+import { TeamKaart } from "../components/Team";
 import { Optel } from "../components/Optel";
 
 function groet() {
@@ -67,7 +67,7 @@ export function Vandaag() {
         <Link to="/rapportage" className="kpi-link alleen-desktop"><Kpi label="Honorering" waarde={honorering == null ? "—" : <Optel waarde={honorering} opmaak={(n) => `${Math.round(n)}%`} />} sub={`${terug.length} van ${terug.length + afgewezen.length} beoordeeld`} /></Link>
       </section>
 
-      <LevelKaart />
+      <TeamKaart />
 
       <div className="vandaag-raster">
         <section aria-labelledby="kop-taken">

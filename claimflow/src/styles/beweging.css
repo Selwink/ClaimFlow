@@ -64,10 +64,6 @@
 .tab-plus { animation: adem-knop 3.2s ease-in-out infinite; }
 @keyframes adem-knop { 50% { box-shadow: 0 12px 28px rgba(232, 56, 43, .35), 0 0 0 8px rgba(232, 56, 43, .08); } }
 
-/* level bar shimmers */
-.levelkaart .balk i { background-size: 200% 100%; background-image: linear-gradient(90deg, var(--rood), #f39a3c, var(--rood)); animation: groei 1.1s cubic-bezier(.2, .8, .3, 1) .25s both, glans-lvl 3s linear 1.4s infinite; }
-@keyframes glans-lvl { to { background-position: -200% 0; } }
-
 /* status chips pop in when they change */
 .chip { animation: pop .35s cubic-bezier(.2, 1.4, .4, 1) backwards; }
 :root[data-splash="aan"] .chip { animation-play-state: paused; }
@@ -76,5 +72,9 @@
 .confetti-scherm { position: fixed; inset: 0; z-index: 170; pointer-events: none; overflow: hidden; }
 
 /* counting numbers keep the size of the text they replace */
-.optel, .optel > span { font: inherit; color: inherit; opacity: 1; letter-spacing: inherit; }
+span.optel, span.optel > span { font: inherit; color: inherit; opacity: 1; letter-spacing: inherit; } /* wins over list rules such as ".x span" */
 .geld-mini b .optel, .geld-mini b .optel > span[aria-hidden] { font-size: inherit; opacity: 1; }
+
+/* the team bar shimmers while working toward the goal */
+.team-balk i { background-size: 200% 100%; background-image: linear-gradient(90deg, var(--turk-2), var(--turk), var(--turk-2)); animation: groei 1.1s cubic-bezier(.2, .8, .3, 1) .25s both, glans-team 3s linear 1.4s infinite; }
+@keyframes glans-team { to { background-position: -200% 0; } }
