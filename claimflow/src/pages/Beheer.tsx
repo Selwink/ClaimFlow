@@ -12,6 +12,7 @@ import { Icon, type IconNaam } from "../components/Icon";
 import { PaginaKop } from "../components/ui";
 import { Backups } from "../components/Backups";
 import { Gebruikers, WachtwoordWijzigen } from "../components/Gebruikers";
+import { toonWelkom } from "../components/Welkom";
 import { Beveiliging } from "../components/Beveiliging";
 import { datumOntbreekt } from "../lib/claims";
 
@@ -76,6 +77,7 @@ export function Beheer() {
       <Blok titel="Jij">
         <Rij icoon="persoon" titel={s.naam || "Je account"} tekst={s.rol === "beheer" ? "Je kunt claims toevoegen en wijzigen. Je naam komt in de tijdlijn." : "Je kunt alles zien maar niets wijzigen. Vraag een beheerder om meer rechten."} />
         <WachtwoordWijzigen />
+        <Rij icoon="bericht" titel="Uitleg bekijken" tekst="De rondleiding van de eerste keer, nog een keer." onClick={toonWelkom} />
         <Rij icoon="uitloggen" titel="Uitloggen" tekst="Wist ook de opgeslagen gegevens op dit apparaat." onClick={s.uitloggen} />
       </Blok>
 

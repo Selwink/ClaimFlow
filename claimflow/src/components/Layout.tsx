@@ -5,6 +5,7 @@ import { overTermijn } from "../lib/claims";
 import { geleden } from "../lib/format";
 import { Icon, type IconNaam } from "./Icon";
 import { Logo } from "./ui";
+import { Welkom } from "./Welkom";
 
 interface NavItem { naar: string; label: string; kort?: string; icoon: IconNaam; einde?: boolean }
 const NAV: NavItem[] = [
@@ -60,6 +61,7 @@ export function Layout() {
         </div>
       </header>
 
+      <Welkom />
       <main className="inhoud" id="inhoud">
         {!online && <div className="offline-band">Geen verbinding — je ziet de laatst opgehaalde gegevens.</div>}
         <Outlet />
