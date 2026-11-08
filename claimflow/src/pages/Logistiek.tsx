@@ -18,14 +18,14 @@ export function Logistiek() {
         <div className="start-binnen">
           <Link to="/" className="terugknop"><Icon naam="terug" maat={18} /> Terug naar start</Link>
           <Logo logistiek />
-          <h1>Logistiek Flow<br /><span>Codeverwerking van Logistiek.</span></h1>
+          <h1>Logistiek Flow<br /><span>Codeverwerking vanuit onze logistieke systemen.</span></h1>
         </div>
       </div>
       <div className="start-keuzes">
         <div className="start-leeg">
           <span className="start-ic" aria-hidden="true"><Icon naam="vrachtwagen" maat={30} /></span>
           <b>Hier komt de codeverwerking</b>
-          <p>In Logistiek Flow ga je bijhouden welke codes Logistiek verwerkt. Dit deel wordt nog ingericht.</p>
+          <p>In Logistiek Flow komt de codeverwerking vanuit onze logistieke systemen. Dit deel wordt nog ingericht.</p>
           <Link to="/" className="knop knop-zacht knop-vol"><Icon naam="terug" maat={18} /> Terug naar start</Link>
         </div>
       </div>

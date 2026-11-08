@@ -44,7 +44,7 @@ export function Start() {
           <span className="start-ic" aria-hidden="true"><Icon naam="vrachtwagen" maat={30} /></span>
           <span className="start-t">
             <b>Logistiek Flow</b>
-            <span>Codeverwerking van Logistiek bijhouden</span>
+            <span>Codeverwerking vanuit onze logistieke systemen</span>
             <span className="start-chips"><span className="chip chip-oker">Wordt ingericht</span></span>
           </span>
           <Icon naam="verder" maat={22} className="start-pijl" />
