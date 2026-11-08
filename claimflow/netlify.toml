@@ -14,3 +14,7 @@
 [functions."backup"]
   # Every night 01:00 UTC.
   schedule = "0 1 * * *"
+
+[functions."meldingen"]
+  # Every morning 06:15 UTC (07:15 winter / 08:15 summer): claims that cross the term today.
+  schedule = "15 6 * * *"

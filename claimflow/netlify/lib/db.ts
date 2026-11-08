@@ -1,5 +1,6 @@
 // Server-side access to the Supabase `claims` table. Only the Netlify functions use this.
 // With SUPABASE_SERVICE_KEY set (and row level security on), the browser has no way into the table.
+import { createHash } from "node:crypto";
 import type { Claim, Instellingen } from "../../src/lib/types";
 import { INST_ID, leesInstellingen } from "../../src/lib/instellingen";
 
@@ -17,7 +18,8 @@ const q = (s: string) => encodeURIComponent(s);
 export const FOTO = "_foto:";
 export const BACKUP = "_backup:";
 export const GEBRUIKER = "_gebruiker:";
-const GEEN_BIJLAGEN = `id=not.like.${q(`${FOTO}*`)}&id=not.like.${q(`${BACKUP}*`)}&id=not.like.${q(`${GEBRUIKER}*`)}`;
+export const PUSH = "_push:";
+const GEEN_BIJLAGEN = `id=not.like.${q(`${FOTO}*`)}&id=not.like.${q(`${BACKUP}*`)}&id=not.like.${q(`${GEBRUIKER}*`)}&id=not.like.${q(`${PUSH}*`)}`;
 
 const KOLOMMEN = ["id", "nummer", "onderdeel", "voorziening", "type", "frame", "storing", "inkoopnummer", "leverancier", "aankoop",
   "bouwjaar", "bedrag", "datum", "periode", "status", "locatie", "uitbesteed", "bijzonderheden", "notities", "bijgewerkt", "verwijderd"] as const;
@@ -157,3 +159,25 @@ export async function bewaarGebruiker(g: Gebruiker): Promise<void> {
 }
 
 export const verwijderGebruiker = (sleutel: string) => verwijder(GEBRUIKER + sleutel);
+
+// ---- push subscriptions: rows `_push:<account>:<device>`; account key in `nummer`, details as JSON
+export interface PushAbonnement {
+  id: string; gebruiker: string; sub: { endpoint: string; keys: { p256dh: string; auth: string } };
+  soorten: Array<"termijn" | "accounts">; apparaat: string; gemaakt: string;
+}
+
+export async function pushAbonnementen(gebruiker?: string): Promise<PushAbonnement[]> {
+  const rows = await haal(`select=id,nummer,bijzonderheden&id=like.${q(`${PUSH}${gebruiker ? `${gebruiker}:` : ""}*`)}`);
+  return rows.flatMap((x) => {
+    try { return [{ ...(JSON.parse(String(x.bijzonderheden)) as Omit<PushAbonnement, "id" | "gebruiker">), id: String(x.id), gebruiker: String(x.nummer) }]; }
+    catch { return []; }
+  });
+}
+
+export async function bewaarPush(a: Omit<PushAbonnement, "id">): Promise<string> {
+  const apparaat = createHash("sha256").update(a.sub.endpoint).digest("hex").slice(0, 16);
+  const id = `${PUSH}${a.gebruiker}:${apparaat}`;
+  const { gebruiker, ...rest } = a;
+  await bewaar([{ id, nummer: gebruiker, onderdeel: "push", leverancier: "", status: "nieuw", locatie: "binnen", periode: "", bijzonderheden: JSON.stringify(rest) } as Claim]);
+  return id;
+}

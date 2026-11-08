@@ -13,6 +13,7 @@ import { PaginaKop } from "../components/ui";
 import { Backups } from "../components/Backups";
 import { Gebruikers, WachtwoordWijzigen } from "../components/Gebruikers";
 import { toonWelkom } from "../components/Welkom";
+import { PushMeldingen } from "../components/PushMeldingen";
 import { Beveiliging } from "../components/Beveiliging";
 import { datumOntbreekt } from "../lib/claims";
 
@@ -79,6 +80,10 @@ export function Beheer() {
         <WachtwoordWijzigen />
         <Rij icoon="bericht" titel="Uitleg bekijken" tekst="De rondleiding van de eerste keer, nog een keer." onClick={toonWelkom} />
         <Rij icoon="uitloggen" titel="Uitloggen" tekst="Wist ook de opgeslagen gegevens op dit apparaat." onClick={s.uitloggen} />
+      </Blok>
+
+      <Blok titel="Meldingen op je telefoon" uitleg="Krijg een melding als een claim over de termijn gaat. Stel het per apparaat in.">
+        <PushMeldingen />
       </Blok>
 
       {!uit && (

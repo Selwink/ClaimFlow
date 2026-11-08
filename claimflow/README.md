@@ -33,6 +33,7 @@ De browser praat nooit rechtstreeks met de database. Alles loopt via `/.netlify/
 - **Inloggen**: naam + wachtwoord worden op de server gecontroleerd (`netlify/lib/toegang.ts`); de app krijgt een ondertekende pas (30 dagen). Blokkeren, een reset of een nieuw wachtwoord maakt alle passen van dat account ongeldig.
 - **Rollen**: per account *Wijzigen* of *Alleen kijken*, in te stellen in Beheer → Gebruikers. Er blijft altijd minstens één beheerder. Met `BEHEER_HASH` gezet krijgen nieuwe accounts met de gewone code alleen leesrechten.
 - **Wachtwoord vergeten**: de beheerder staat in Beheer een nieuw wachtwoord toe; daarna kiest de persoon zelf een nieuw wachtwoord met de vestigingscode.
+- **Meldingen op je telefoon** (Web Push): aan te zetten in Beheer, per apparaat. `netlify/functions/meldingen.ts` meldt elke ochtend claims die die dag over de termijn gaan; beheerders krijgen ook een melding bij een nieuw account. iPhone: alleen vanaf het beginscherm. De VAPID-sleutels worden afgeleid van de sleutel voor de inlogpassen.
 - **Back-ups**: `netlify/functions/backup.ts` draait elke nacht en bewaart 30 dagen in Netlify Blobs (reserve: rijen `_backup:` in de tabel). Terugzetten kan in Beheer.
 
 Omgevingsvariabelen in Netlify (Site configuration → Environment variables):

@@ -6,6 +6,7 @@ import type { Claim, Instellingen } from "../../src/lib/types";
 import * as db from "../lib/db";
 import { haalBackup, herstel, lijst, maakBackup } from "../lib/backup";
 import { verzend } from "../lib/verzend";
+import * as push from "../lib/push";
 
 const SITE = process.env.URL || "https://garantieclaims-meppel.netlify.app";
 import { geheim, klopt, leesPas, maakPas, MIN_LENGTE, rolVoorCode, sleutelVoor, versleutel } from "../lib/toegang";
@@ -46,7 +47,10 @@ export const handler = async (e: Verzoek) => {
         gemaakt: new Date().toISOString(), laatst: eerste ? new Date().toISOString() : undefined, wacht: !eerste };
       await db.bewaarGebruiker(g);
       if (eerste) return pasVoor(g);
-      await verzend({ _subject: `Nieuw account wacht op goedkeuring: ${naam}`, Naam: naam, Wat: "Keur het account goed of verwijder het in Beheer → Gebruikers.", Register: `${SITE}/beheer` }, SITE).catch(() => undefined);
+      await Promise.all([
+        verzend({ _subject: `Nieuw account wacht op goedkeuring: ${naam}`, Naam: naam, Wat: "Keur het account goed of verwijder het in Beheer → Gebruikers.", Register: `${SITE}/beheer` }, SITE).catch(() => undefined),
+        push.ontvangers("accounts", true).then((o) => push.stuur(o, { titel: "Nieuw account wacht op goedkeuring", tekst: `${naam} wil ClaimFlow gebruiken. Tik om goed te keuren.`, url: "/beheer", tag: "account" })).catch(() => undefined),
+      ]);
       return json(202, { wacht: true, naam });
     }
     if (actie === "login") {
@@ -83,6 +87,31 @@ export const handler = async (e: Verzoek) => {
         const nieuw = { ...ik, hash: await versleutel(tekst("nieuw")), v: ik.v + 1 };
         await db.bewaarGebruiker(nieuw);
         return pasVoor(nieuw);
+      }
+      case "pushsleutel": return json(200, { sleutel: await push.publiekeSleutel() });
+      case "pushstatus": {
+        const mijn = await db.pushAbonnementen(ik.sleutel);
+        const endpoint = tekst("endpoint", 1000) || e.queryStringParameters?.endpoint || "";
+        const dit = mijn.find((a) => a.sub.endpoint === endpoint);
+        return json(200, { aan: !!dit, soorten: dit?.soorten || [], apparaten: mijn.length });
+      }
+      case "pushaan": {
+        const sub = body.sub as db.PushAbonnement["sub"] | undefined;
+        if (!sub?.endpoint || !/^https:\/\//.test(sub.endpoint) || !sub.keys?.p256dh || !sub.keys?.auth || sub.endpoint.length > 1000) return fout(400, "Ongeldige aanmelding");
+        const gevraagd = Array.isArray(body.soorten) ? (body.soorten as string[]) : ["termijn", "accounts"];
+        const soorten = gevraagd.filter((s): s is "termijn" | "accounts" => s === "termijn" || (s === "accounts" && rol === "beheer"));
+        await db.bewaarPush({ gebruiker: ik.sleutel, sub: { endpoint: sub.endpoint, keys: { p256dh: sub.keys.p256dh, auth: sub.keys.auth } }, soorten, apparaat: tekst("apparaat", 80), gemaakt: new Date().toISOString() });
+        return json(200, { ok: true, soorten });
+      }
+      case "pushuit": {
+        const endpoint = tekst("endpoint", 1000);
+        for (const a of await db.pushAbonnementen(ik.sleutel)) if (!endpoint || a.sub.endpoint === endpoint) await db.verwijder(a.id);
+        return json(200, { ok: true });
+      }
+      case "pushtest": {
+        const mijn = (await db.pushAbonnementen(ik.sleutel)).filter((a) => !tekst("endpoint", 1000) || a.sub.endpoint === tekst("endpoint", 1000));
+        const r = await push.stuur(mijn, { titel: "ClaimFlow werkt!", tekst: `Hoi ${ik.naam.split(" ")[0]}, zo zien je meldingen eruit.`, url: "/", tag: "test" });
+        return json(200, r);
       }
       case "gebruikers": {
         if (!beheer()) return alleenBeheer();
