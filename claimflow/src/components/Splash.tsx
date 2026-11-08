@@ -1,29 +1,52 @@
 import { useEffect, useState } from "react";
-import { Icon } from "./Icon";
 
-/** Opening screen with a loading bar; fades out once data is ready and the minimum time has passed. */
+/**
+ * Opening screen: glowing emblem in an open ring, letter-spaced wordmark whose "FLOW" letters light up
+ * one by one, and a loading bar. When data is ready it flows over into the next screen (login or app).
+ * Shown once per browser session.
+ */
 const GEZIEN = "claimflow-splash";
 const alGezien = () => { try { return !!sessionStorage.getItem(GEZIEN); } catch { return false; } };
+const MIN_MS = 2400;
+const UIT_MS = 750;
 
 export function Splash({ klaar }: { klaar: boolean }) {
   const [min, setMin] = useState(false);
   const [weg, setWeg] = useState(alGezien);
-  useEffect(() => { const t = setTimeout(() => setMin(true), 1100); return () => clearTimeout(t); }, []);
+  useEffect(() => { const t = setTimeout(() => setMin(true), MIN_MS); return () => clearTimeout(t); }, []);
   const sluit = klaar && min;
+  // While the splash covers the page, the screen behind it holds its entrance animation.
+  useEffect(() => {
+    const root = document.documentElement;
+    if (!weg && !sluit) root.dataset.splash = "aan"; else delete root.dataset.splash;
+    return () => { delete root.dataset.splash; };
+  }, [weg, sluit]);
   useEffect(() => {
     if (!sluit) return;
     try { sessionStorage.setItem(GEZIEN, "1"); } catch { /* privémodus */ }
-    const t = setTimeout(() => setWeg(true), 450);
+    const t = setTimeout(() => setWeg(true), UIT_MS);
     return () => clearTimeout(t);
   }, [sluit]);
   if (weg) return null;
+
   return (
-    <div className={`splash${sluit ? " splash-weg" : ""}`} aria-hidden={sluit} role="status" aria-label="ClaimFlow Medipoint wordt geladen">
-      <div className="splash-merk"><Icon naam="vink" maat={34} /></div>
-      <div className="splash-naam">{"ClaimFlow".split("").map((l, i) => <span key={i} style={{ animationDelay: `${i * 45}ms` }}>{l}</span>)}</div>
-      <div className="splash-balk"><i /></div>
-      <div className="splash-mp">Medipoint</div>
-      <small>Garantieclaims</small>
+    <div className={`splash${sluit ? " splash-weg" : ""}${klaar ? " splash-klaar" : ""}`} role="status" aria-live="polite" aria-label="ClaimFlow Medipoint wordt geladen">
+      <div className="splash-ringen" aria-hidden="true"><i /><i /><i /></div>
+      <div className="splash-inhoud">
+        <div className="splash-embleem" aria-hidden="true">
+          <svg viewBox="0 0 120 120" width="132" height="132">
+            <circle className="emb-ring" cx="60" cy="60" r="50" pathLength="100" />
+            <circle className="emb-punt" cx="96" cy="26" r="7" />
+            <path className="emb-vink" d="M36 62 L53 79 L86 40" pathLength="100" />
+          </svg>
+        </div>
+        <div className="splash-woord" aria-hidden="true">
+          <span className="sw-claim">{"CLAIM".split("").map((l, i) => <b key={i} style={{ animationDelay: `${120 + i * 70}ms` }}>{l}</b>)}</span>
+          <span className="sw-flow">{"FLOW".split("").map((l, i) => <b key={i} style={{ animationDelay: `${560 + i * 140}ms` }}>{l}</b>)}</span>
+        </div>
+        <div className="splash-balk" aria-hidden="true"><i /></div>
+        <small className="splash-onder">Medipoint · Garantieclaims</small>
+      </div>
     </div>
   );
 }
