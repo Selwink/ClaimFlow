@@ -2,9 +2,25 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useStore } from "../state/Store";
 import { dezeMaand, euroKort, ls, periodLabel } from "../lib/format";
-import { dezeMaandTerug, dezeWeek, teruggehaaldPerMaand } from "../lib/team";
+import { dezeMaandTerug, dezeWeek, teruggehaaldPerMaand, totaalTerug } from "../lib/team";
 import { Icon } from "./Icon";
 import { Optel } from "./Optel";
+
+/** Start page: the total the claims have brought in so far. */
+export function TotaalKaart() {
+  const { actief } = useStore();
+  const t = useMemo(() => totaalTerug(actief), [actief]);
+  return (
+    <section className="totaalkaart" aria-labelledby="totaal-kop">
+      <span className="totaal-ic" aria-hidden="true"><Icon naam="vink" maat={22} /></span>
+      <div>
+        <small className="bovenschrift" id="totaal-kop">Totaal teruggehaald</small>
+        <b className="totaal-bedrag"><Optel waarde={t.bedrag} opmaak={euroKort} ms={1300} /></b>
+        <span className="totaal-sub">{t.aantal === 1 ? "1 claim" : `${t.aantal} claims`} gehonoreerd · geld is binnen</span>
+      </div>
+    </section>
+  );
+}
 
 /** Vandaag card: the team's progress toward this month's goal, and what everyone did together this week. */
 export function TeamKaart() {

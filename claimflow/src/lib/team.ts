@@ -60,3 +60,13 @@ export function dezeWeek(claims: Claim[], naam: string): { team: WeekTelling; ik
   }
   return { team, ik };
 }
+
+/** Everything the claims have brought in so far: all honoured claims, whatever month. */
+export function totaalTerug(claims: Claim[]): { bedrag: number; aantal: number } {
+  let bedrag = 0, aantal = 0;
+  for (const c of claims) {
+    if (c.verwijderd || statusVan(c) !== "gehonoreerd") continue;
+    bedrag += Number(c.bedrag) || 0; aantal++;
+  }
+  return { bedrag, aantal };
+}

@@ -7,7 +7,7 @@ import { datum, meervoud } from "../lib/format";
 import { GROEP, laterDatum, laterTekst, VAM_GEVRAAGD, WEER_OPGEPAKT, werkbak, type Bak, type Taak } from "../lib/werkbak";
 import { Icon } from "../components/Icon";
 import { Leeg, Sheet } from "../components/ui";
-import { TeamKaart } from "../components/Team";
+import { TeamKaart, TotaalKaart } from "../components/Team";
 
 const BAKKEN: Array<{ id: Bak; label: string }> = [{ id: "nu", label: "Nu doen" }, { id: "week", label: "Deze week" }, { id: "wacht", label: "Wacht op lev." }];
 const CHIP: Record<Taak["reden"], { toon: string; tekst: string }> = {
@@ -81,7 +81,7 @@ export function Werkbak() {
       </header>
 
       <div className="werkbak-inhoud">
-        <div className="werkbak-doel"><TeamKaart /></div>
+        <div className="werkbak-doel"><TotaalKaart /><TeamKaart /></div>
         {lijst.length === 0 ? (
           <Leeg titel={bak === "nu" ? "Werkbalk leeg" : bak === "week" ? "Niets voor deze week" : "Nergens op wachten"}
             tekst={bak === "nu" ? "Alles wat nu moest, is gedaan. Mooi werk." : undefined}>

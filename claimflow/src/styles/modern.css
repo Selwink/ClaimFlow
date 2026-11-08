@@ -84,3 +84,14 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 /* ---- monthly goal on the Werkbak ---- */
 .werkbak-doel { margin: 0 0 22px; }
 .werkbak-doel .teamkaart { margin-bottom: 0; }
+.werkbak-doel { display: grid; gap: 12px; }
+
+/* ---- total brought in, on the start page ---- */
+.totaalkaart { position: relative; overflow: hidden; display: flex; align-items: center; gap: 16px; padding: 20px; border-radius: 22px; color: #fff;
+  background: radial-gradient(120% 160% at 100% 0%, rgba(63, 183, 178, .35), transparent 55%), linear-gradient(160deg, #1E2030, #12131B);
+  box-shadow: 0 14px 34px -14px rgba(17, 18, 26, .55); }
+.totaal-ic { width: 52px; height: 52px; border-radius: 17px; flex: 0 0 auto; display: grid; place-items: center; color: #fff;
+  background: linear-gradient(145deg, #3FB7B2, #18716d); box-shadow: 0 10px 22px -8px rgba(63, 183, 178, .7); }
+.totaalkaart .bovenschrift { color: rgba(255, 255, 255, .62); }
+.totaal-bedrag { display: block; font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 8vw, 2.6rem); letter-spacing: -.045em; line-height: 1.05; margin: 2px 0; }
+.totaal-sub { font-size: .82rem; color: rgba(255, 255, 255, .7); }
