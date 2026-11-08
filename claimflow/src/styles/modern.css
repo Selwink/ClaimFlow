@@ -87,7 +87,7 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 .werkbak-doel { display: grid; gap: 12px; }
 
 /* ---- total brought in, on the start page ---- */
-.totaalkaart { position: relative; overflow: hidden; display: flex; align-items: center; gap: 16px; padding: 20px; border-radius: 22px; color: #fff;
+.totaalkaart { position: relative; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; isolation: isolate; display: flex; align-items: center; gap: 16px; padding: 20px; border-radius: 22px; color: #fff;
   background: radial-gradient(120% 160% at 100% 0%, rgba(63, 183, 178, .35), transparent 55%), linear-gradient(160deg, #1E2030, #12131B);
   box-shadow: 0 14px 34px -14px rgba(17, 18, 26, .55); }
 .totaal-ic { width: 52px; height: 52px; border-radius: 17px; flex: 0 0 auto; display: grid; place-items: center; color: #fff;

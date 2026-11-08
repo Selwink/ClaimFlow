@@ -19,6 +19,6 @@ export function Optel({ waarde, opmaak = (n) => String(Math.round(n)), ms = 900 
     raf = requestAnimationFrame(stap);
     return () => cancelAnimationFrame(raf);
   }, [waarde, ms]);
-  // screen readers and copy/paste get the final value, not every intermediate frame
-  return <span className="optel"><span aria-hidden="true">{opmaak(getoond)}</span><span className="sr">{opmaak(waarde)}</span></span>;
+  // one text only: screen readers get the final value via the label, copy/paste gets the visible number
+  return <span className="optel" role="img" aria-label={opmaak(waarde)}><span aria-hidden="true">{opmaak(getoond)}</span></span>;
 }

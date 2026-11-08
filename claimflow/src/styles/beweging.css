@@ -80,5 +80,5 @@ span.optel, span.optel > span { font: inherit; color: inherit; opacity: 1; lette
 /* ============ Werkbalk ============ */
 /* one-time entrance only: nothing keeps moving, so the phone stays smooth */
 .werkbak-lijsten { display: grid; gap: 6px; }
-.totaalkaart, .werkbak-doel .teamkaart { animation: lijstIn .45s cubic-bezier(.2, .8, .3, 1) both; }
+.werkbak-doel .teamkaart { animation: lijstIn .45s cubic-bezier(.2, .8, .3, 1) both; }
 :root[data-splash="aan"] .werktaak, :root[data-splash="aan"] .totaalkaart, :root[data-splash="aan"] .werkbak-doel .teamkaart { animation-play-state: paused; }
