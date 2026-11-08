@@ -11,6 +11,7 @@ import { dezeMaand, euro, geleden, meervoud, parseBedrag, vandaag } from "../lib
 import { Icon, type IconNaam } from "../components/Icon";
 import { PaginaKop } from "../components/ui";
 import { Backups } from "../components/Backups";
+import { Gebruikers, WachtwoordWijzigen } from "../components/Gebruikers";
 import { Beveiliging } from "../components/Beveiliging";
 import { datumOntbreekt } from "../lib/claims";
 
@@ -33,12 +34,10 @@ const tekstNaarLijst = (t: string) => [...new Set(t.split(/[\n,]/).map((s) => s.
 export function Beheer() {
   const s = useStore();
   const toast = useToast();
-  const [naam, setNaam] = useState(s.naam);
   const [i, setI] = useState<Instellingen>(s.inst);
   const [levTekst, setLevTekst] = useState(lijstNaarTekst(s.inst.leveranciers));
   const [uitTekst, setUitTekst] = useState(lijstNaarTekst(s.inst.uitbesteedLev));
   const [prijzen, setPrijzen] = useState<Array<{ woord: string; bedrag: string }>>(s.inst.prijzen.map((p) => ({ woord: p.woord, bedrag: String(p.bedrag) })));
-  const [beheerPw, setBeheerPw] = useState("");
   const [mailStatus, setMailStatus] = useState("");
   const [wachtrij, setWachtrij] = useState(wachtrijLengte());
   const [weekStatus, setWeekStatus] = useState("");
@@ -75,20 +74,16 @@ export function Beheer() {
       <PaginaKop boven={s.inst.vestiging} titel="Beheer" />
 
       <Blok titel="Jij">
-        <form className="inline-form" onSubmit={(e) => { e.preventDefault(); s.setNaam(naam.trim()); toast("Naam opgeslagen"); }}>
-          <label className="veld"><span className="veld-label">Naam in de tijdlijn</span><input value={naam} onChange={(e) => setNaam(e.target.value)} placeholder="Bijv. Selwin" /></label>
-          <button className="knop knop-zacht" disabled={naam.trim() === s.naam}>Opslaan</button>
-        </form>
-        <Rij icoon="slot" titel={s.rol === "beheer" ? "Beheerder" : "Alleen kijken"} tekst={s.rol === "beheer" ? "Je kunt claims toevoegen en wijzigen." : "Je kunt alles zien maar niets wijzigen."}>
-        </Rij>
-        {uit && (
-          <form className="inline-form" onSubmit={async (e) => { e.preventDefault(); if (!(await s.loginBeheer(beheerPw))) toast("Onjuist beheerderswachtwoord"); setBeheerPw(""); }}>
-            <label className="veld"><span className="veld-label">Beheerderswachtwoord</span><input type="password" value={beheerPw} onChange={(e) => setBeheerPw(e.target.value)} autoComplete="current-password" /></label>
-            <button className="knop knop-rood">Ontgrendel</button>
-          </form>
-        )}
+        <Rij icoon="persoon" titel={s.naam || "Je account"} tekst={s.rol === "beheer" ? "Je kunt claims toevoegen en wijzigen. Je naam komt in de tijdlijn." : "Je kunt alles zien maar niets wijzigen. Vraag een beheerder om meer rechten."} />
+        <WachtwoordWijzigen />
         <Rij icoon="uitloggen" titel="Uitloggen" tekst="Wist ook de opgeslagen gegevens op dit apparaat." onClick={s.uitloggen} />
       </Blok>
+
+      {!uit && (
+        <Blok titel="Gebruikers">
+          <Gebruikers />
+        </Blok>
+      )}
 
       <Blok titel="Beveiliging">
         <Beveiliging />

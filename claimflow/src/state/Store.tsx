@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { Claim, Instellingen, Rol, Status } from "../lib/types";
 import { STATUS_LABEL } from "../lib/types";
-import { bewaarClaims, bewaarInstellingen, haalAlles, login as apiLogin, pas, REMOTE, Uitgelogd, verwijderClaim } from "../lib/api";
+import { bewaarClaims, bewaarInstellingen, haalAlles, pas, REMOTE, Uitgelogd, verwijderClaim, type PasInfo } from "../lib/api";
 import { INST_STANDAARD, leesInstellingen } from "../lib/instellingen";
 import { metRegel, metStatus, statusVan } from "../lib/claims";
 import { ls, meervoud, vandaag } from "../lib/format";
@@ -24,10 +24,10 @@ function geldigeRol(): Rol | null {
 interface StoreWaarde {
   rol: Rol | null;
   magBewerken: boolean;
+  /** Name of the logged-in account; used in the timeline. */
   naam: string;
-  setNaam: (n: string) => void;
-  login: (wachtwoord: string) => Promise<boolean>;
-  loginBeheer: (wachtwoord: string) => Promise<boolean>;
+  /** Call after a successful login, sign-up or password change. */
+  naInloggen: (p: PasInfo) => void;
   uitloggen: () => void;
 
   claims: Claim[];
@@ -61,7 +61,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const toast = useToast();
   const [rol, setRol] = useState<Rol | null>(() => { ls.del(OUDE_SLEUTEL); ls.del(OUDE_TELLER); return geldigeRol(); });
   const magBewerken = rol === "beheer";
-  const [naam, setNaamState] = useState(() => ls.get(SLEUTEL_NAAM) || "");
+  const [naam, setNaam] = useState(() => pas.get()?.naam || "");
   const cache = ls.json<{ claims: Claim[]; inst: Instellingen; tijd: number }>(SLEUTEL_CACHE);
   const [claims, setClaims] = useState<Claim[]>(cache?.claims || []);
   const [inst, setInst] = useState<Instellingen>(cache?.inst ? leesInstellingen(cache.inst) : INST_STANDAARD);
@@ -76,8 +76,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const vernieuw = useCallback(async () => {
     if (!REMOTE) { setGeladen(true); return; }
     try {
-      const { claims: c, inst: i, rol: r } = await haalAlles();
+      const { claims: c, inst: i, rol: r, naam: n } = await haalAlles();
       setRol(r);
+      setNaam(n);
+      const p = pas.get();
+      if (p && (p.rol !== r || p.naam !== n)) pas.zet({ ...p, rol: r, naam: n });
       setClaims(c);
       const nieuweInst = i || INST_STANDAARD;
       setInst(nieuweInst);
@@ -180,24 +183,14 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     catch { toast("Opslaan mislukt"); }
   }, [magBewerken, toast]);
 
-  const login = useCallback(async (pw: string) => {
-    const r = await apiLogin(pw);
-    if (r) setRol(r);
-    return !!r;
-  }, []);
-  const loginBeheer = useCallback(async (pw: string) => {
-    const r = await apiLogin(pw);
-    if (r) setRol(r);
-    return r === "beheer";
-  }, []);
+  const naInloggen = useCallback((p: PasInfo) => { setRol(p.rol); setNaam(p.naam); ls.del(SLEUTEL_NAAM); }, []);
   const uitloggen = useCallback(() => { pas.wis(); ls.del(SLEUTEL_CACHE); setRol(null); setClaims([]); }, []);
-  const setNaam = useCallback((n: string) => { setNaamState(n); if (n) ls.set(SLEUTEL_NAAM, n); else ls.del(SLEUTEL_NAAM); }, []);
 
   const actief = useMemo(() => claims.filter((c) => !c.verwijderd), [claims]);
   const prullenbak = useMemo(() => claims.filter((c) => c.verwijderd), [claims]);
 
   const waarde: StoreWaarde = {
-    rol, magBewerken, naam, setNaam, login, loginBeheer, uitloggen,
+    rol, magBewerken, naam, naInloggen, uitloggen,
     claims, actief, prullenbak, inst, geladen, online: online && REMOTE, syncTijd, vernieuw,
     bewaar, zetStatus, notitie, naarPrullenbak, terugzetten, definitiefWeg: (id) => definitiefWeg(id), bewaarInst,
   };

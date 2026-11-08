@@ -29,8 +29,10 @@ Netlify: `public/_redirects` regelt de SPA-routes.
 
 De browser praat nooit rechtstreeks met de database. Alles loopt via `/.netlify/functions/data`:
 
-- **Inloggen**: het wachtwoord wordt op de server gecontroleerd (`netlify/lib/toegang.ts`); de app krijgt een ondertekende pas die 30 dagen geldig is.
-- **Rollen**: met `BEHEER_HASH` gezet krijgt het gewone wachtwoord alleen leesrechten. Een wachtwoordwijziging maakt alle passen ongeldig.
+- **Eigen accounts**: iedereen maakt een account met naam + eigen wachtwoord. Daarvoor is één keer de vestigingscode nodig (het oude gedeelde wachtwoord). Wachtwoorden staan alleen als gezouten scrypt-hash in de database (rijen `_gebruiker:`); niemand kan ze teruglezen.
+- **Inloggen**: naam + wachtwoord worden op de server gecontroleerd (`netlify/lib/toegang.ts`); de app krijgt een ondertekende pas (30 dagen). Blokkeren, een reset of een nieuw wachtwoord maakt alle passen van dat account ongeldig.
+- **Rollen**: per account *Wijzigen* of *Alleen kijken*, in te stellen in Beheer → Gebruikers. Er blijft altijd minstens één beheerder. Met `BEHEER_HASH` gezet krijgen nieuwe accounts met de gewone code alleen leesrechten.
+- **Wachtwoord vergeten**: de beheerder staat in Beheer een nieuw wachtwoord toe; daarna kiest de persoon zelf een nieuw wachtwoord met de vestigingscode.
 - **Back-ups**: `netlify/functions/backup.ts` draait elke nacht en bewaart 30 dagen in Netlify Blobs (reserve: rijen `_backup:` in de tabel). Terugzetten kan in Beheer.
 
 Omgevingsvariabelen in Netlify (Site configuration → Environment variables):
@@ -40,4 +42,4 @@ Omgevingsvariabelen in Netlify (Site configuration → Environment variables):
 | `TOKEN_GEHEIM` | ja | Ondertekent de toegangspassen (willekeurig, minstens 32 tekens) |
 | `SUPABASE_SERVICE_KEY` | sterk aangeraden | Service-sleutel uit Supabase → Project Settings → API. Daarna `supabase-afschermen.sql` uitvoeren |
 | `RESEND_API_KEY` | optioneel | Betrouwbare mail via Resend; zonder valt hij terug op FormSubmit |
-| `WACHTWOORD_HASH`, `BEHEER_HASH` | optioneel | sha256(wachtwoord + "medipoint-meppel") om wachtwoorden te wijzigen zonder code |
+| `WACHTWOORD_HASH`, `BEHEER_HASH` | optioneel | sha256(code + "medipoint-meppel"): de vestigingscode(s) waarmee accounts worden aangemaakt |

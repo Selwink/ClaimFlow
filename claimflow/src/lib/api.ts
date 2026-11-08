@@ -13,11 +13,13 @@ export const REMOTE = true;
 /** Thrown when the pass is missing or expired: the app returns to the login screen. */
 export class Uitgelogd extends Error {}
 
+export interface PasInfo { token: string; rol: Rol; naam: string; verloopt: number }
 export const pas = {
-  get: () => ls.json<{ token: string; rol: Rol; verloopt: number }>(SLEUTEL_PAS),
-  zet: (p: { token: string; rol: Rol; verloopt: number }) => ls.set(SLEUTEL_PAS, JSON.stringify(p)),
+  get: () => ls.json<PasInfo>(SLEUTEL_PAS),
+  zet: (p: PasInfo) => ls.set(SLEUTEL_PAS, JSON.stringify(p)),
   wis: () => ls.del(SLEUTEL_PAS),
 };
+const OPEN = new Set(["login", "aanmelden", "herstel"]);
 
 async function vraag<T>(actie: string, opties: { body?: unknown; query?: Record<string, string> } = {}): Promise<T> {
   const p = pas.get();
@@ -28,23 +30,28 @@ async function vraag<T>(actie: string, opties: { body?: unknown; query?: Record<
     body: opties.body === undefined ? undefined : JSON.stringify(opties.body),
   });
   const j = (await r.json().catch(() => ({}))) as T & { fout?: string };
-  if (r.status === 401 && actie !== "login") { pas.wis(); throw new Uitgelogd(j.fout || "Log opnieuw in"); }
+  if (r.status === 401 && !OPEN.has(actie) && actie !== "wachtwoord") { pas.wis(); throw new Uitgelogd(j.fout || "Log opnieuw in"); }
   if (!r.ok) throw new Error(j.fout || `Fout ${r.status}`);
   return j;
 }
 
-export async function login(wachtwoord: string): Promise<Rol | null> {
-  try {
-    const r = await vraag<{ token: string; rol: Rol; verloopt: number }>("login", { body: { wachtwoord } });
-    pas.zet(r);
-    return r.rol;
-  } catch (e) {
-    if (e instanceof Error && /wachtwoord klopt niet/i.test(e.message)) return null;
-    throw e;
-  }
+/** Log in, create an account, or set a new password after a reset. Throws an Error with a readable message. */
+async function metPas(actie: "login" | "aanmelden" | "herstel" | "wachtwoord", body: Record<string, string>): Promise<PasInfo> {
+  const r = await vraag<PasInfo>(actie, { body });
+  pas.zet(r);
+  return r;
 }
+export const login = (naam: string, wachtwoord: string) => metPas("login", { naam, wachtwoord });
+export const aanmelden = (naam: string, wachtwoord: string, code: string) => metPas("aanmelden", { naam, wachtwoord, code });
+export const herstelWachtwoord = (naam: string, code: string, wachtwoord: string) => metPas("herstel", { naam, code, wachtwoord });
+export const wijzigWachtwoord = (oud: string, nieuw: string) => metPas("wachtwoord", { oud, nieuw });
 
-export const haalAlles = () => vraag<{ rol: Rol; claims: Claim[]; inst: Instellingen | null }>("alles");
+export interface Account { sleutel: string; naam: string; rol: Rol; actief: boolean; gemaakt: string; laatst?: string; reset?: boolean; ikzelf: boolean }
+export const haalGebruikers = () => vraag<{ gebruikers: Account[] }>("gebruikers").then((r) => r.gebruikers);
+export const wijzigGebruiker = (sleutel: string, wat: "rol" | "blokkeer" | "activeer" | "reset" | "verwijder", rol?: Rol) =>
+  vraag("gebruiker", { body: { sleutel, wat, rol: rol || "" } }).then(() => undefined);
+
+export const haalAlles = () => vraag<{ rol: Rol; naam: string; claims: Claim[]; inst: Instellingen | null }>("alles");
 export const bewaarClaims = (claims: Claim[]) => vraag("bewaar", { body: { claims } }).then(() => undefined);
 export const verwijderClaim = (id: string) => vraag("verwijder", { body: { id } }).then(() => undefined);
 export const bewaarInstellingen = (inst: Instellingen) => vraag("instellingen", { body: { inst } }).then(() => undefined);

@@ -16,7 +16,8 @@ const q = (s: string) => encodeURIComponent(s);
 
 export const FOTO = "_foto:";
 export const BACKUP = "_backup:";
-const GEEN_BIJLAGEN = `id=not.like.${q(`${FOTO}*`)}&id=not.like.${q(`${BACKUP}*`)}`;
+export const GEBRUIKER = "_gebruiker:";
+const GEEN_BIJLAGEN = `id=not.like.${q(`${FOTO}*`)}&id=not.like.${q(`${BACKUP}*`)}&id=not.like.${q(`${GEBRUIKER}*`)}`;
 
 const KOLOMMEN = ["id", "nummer", "onderdeel", "voorziening", "type", "frame", "storing", "inkoopnummer", "leverancier", "aankoop",
   "bouwjaar", "bedrag", "datum", "periode", "status", "locatie", "uitbesteed", "bijzonderheden", "notities", "bijgewerkt", "verwijderd"] as const;
@@ -124,3 +125,33 @@ export async function tabelOpen(): Promise<boolean> {
     return ((await r.json()) as unknown[]).length > 0;
   } catch { return false; }
 }
+
+// ---- accounts: rows `_gebruiker:<key>`; display name in `nummer`, the rest as JSON in `bijzonderheden`
+export interface Gebruiker {
+  sleutel: string; naam: string; hash: string; rol: "beheer" | "kijken"; actief: boolean; v: number;
+  gemaakt: string; laatst?: string; reset?: boolean;
+}
+
+function naarGebruiker(x: Record<string, unknown>): Gebruiker | null {
+  try {
+    const d = JSON.parse(String(x.bijzonderheden || "{}")) as Omit<Gebruiker, "sleutel" | "naam">;
+    return { ...d, sleutel: String(x.id).slice(GEBRUIKER.length), naam: String(x.nummer || "") };
+  } catch { return null; }
+}
+
+export async function gebruiker(sleutel: string): Promise<Gebruiker | null> {
+  const rows = await haal(`select=id,nummer,bijzonderheden&id=eq.${q(GEBRUIKER + sleutel)}`);
+  return rows[0] ? naarGebruiker(rows[0]) : null;
+}
+
+export async function alleGebruikers(): Promise<Gebruiker[]> {
+  const rows = await haal(`select=id,nummer,bijzonderheden&id=like.${q(`${GEBRUIKER}*`)}`);
+  return rows.map(naarGebruiker).filter((g): g is Gebruiker => !!g).sort((a, b) => a.naam.localeCompare(b.naam));
+}
+
+export async function bewaarGebruiker(g: Gebruiker): Promise<void> {
+  const { sleutel, naam, ...rest } = g;
+  await bewaar([{ id: GEBRUIKER + sleutel, nummer: naam, onderdeel: "gebruiker", leverancier: "", status: "nieuw", locatie: "binnen", periode: "", bijzonderheden: JSON.stringify(rest) } as Claim]);
+}
+
+export const verwijderGebruiker = (sleutel: string) => verwijder(GEBRUIKER + sleutel);

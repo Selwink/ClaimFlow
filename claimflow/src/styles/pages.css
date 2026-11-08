@@ -153,6 +153,15 @@
 .toegang-kaart > * { min-width: 0; }
 .greep { width: 44px; height: 5px; border-radius: 5px; background: var(--zand-2); align-self: center; margin-bottom: 4px; }
 .toegang-kaart h2 { font-weight: 800; font-size: 1.6rem; }
+.toegang-tabs { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
+.toegang-tabs button { padding: 10px 12px; font-size: .92rem; }
+.toegang-uitleg { font-size: .86rem; color: var(--inkt-2); margin-top: -2px; }
+.knop-link { background: none; border: 0; color: var(--rood-2); font-weight: 600; font-size: .88rem; padding: 6px; align-self: center; text-decoration: underline; text-underline-offset: 3px; }
+.sterkte { display: flex; align-items: center; gap: 10px; font-size: .76rem; color: var(--inkt-2); }
+.sterkte-balk { display: grid; grid-template-columns: repeat(4, 22px); gap: 4px; }
+.sterkte-balk i { height: 5px; border-radius: 4px; background: var(--zand-2); }
+.sterkte-balk i.aan.s1 { background: var(--oker); } .sterkte-balk i.aan.s2 { background: #b6c44a; }
+.sterkte-balk i.aan.s3, .sterkte-balk i.aan.s4 { background: var(--turk); }
 .toegang-tip { display: flex; gap: 8px; align-items: center; justify-content: center; color: var(--inkt-2); font-size: .78rem; }
 .toegang .met-na { display: flex; }
 .toegang .met-na input { flex: 1 1 auto; width: auto; min-width: 0; }
@@ -432,3 +441,15 @@ button.instelrij:hover, a.instelrij:hover { background: #fbf6ee; }
 .datumrij-velden input.voorstel { background: var(--oker-zacht); border-color: #f1d48f; color: var(--oker-2); }
 .datumrij-ok { height: 46px; width: 46px; background: var(--turk-zacht); color: var(--turk-2); }
 .datumrij-ok:disabled { background: var(--zand-2); color: var(--inkt-2); }
+
+/* gebruikers */
+.gebruikers-uitleg { font-size: .86rem; margin-bottom: 8px; }
+.gebruikers { list-style: none; margin: 0; padding: 0; }
+.gebruikers li { display: flex; align-items: center; gap: 10px; padding: 12px 2px; border-top: 1px solid var(--zand-2); flex-wrap: wrap; }
+.gebruikers li.geblokkeerd .rij-t b { color: var(--inkt-2); }
+.gebruikers .rij-t { flex: 1 1 160px; }
+.gebruikers .rij-t b { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.gebruikers select { min-height: 38px; border: 1px solid var(--lijn); border-radius: 11px; padding: 0 10px; background: #fff; }
+.gebruiker-acties { display: flex; gap: 6px; }
+.avatar-klein { width: 36px; height: 36px; border-radius: 50%; background: var(--aub); color: #fff; display: grid; place-items: center; font-family: var(--display); font-weight: 800; font-size: .76rem; flex: 0 0 auto; }
+.formulier-los { display: flex; flex-direction: column; gap: 14px; }

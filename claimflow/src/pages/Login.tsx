@@ -1,4 +1,5 @@
 import { useRef, useState, type CSSProperties, type FormEvent, type KeyboardEvent } from "react";
+import { aanmelden, herstelWachtwoord, login } from "../lib/api";
 import { useStore } from "../state/Store";
 import { Icon, type IconNaam } from "../components/Icon";
 import { Logo } from "../components/ui";
@@ -19,33 +20,55 @@ function DemoClaim() {
   );
 }
 
+type Stand = "inloggen" | "aanmelden" | "herstel";
+const MIN = 8;
+const KOP: Record<Stand, string> = { inloggen: "Inloggen", aanmelden: "Account maken", herstel: "Nieuw wachtwoord" };
+const KNOP: Record<Stand, string> = { inloggen: "Inloggen", aanmelden: "Account maken", herstel: "Wachtwoord opslaan" };
+
+/** Rough strength hint for a new password; the server only enforces the minimum length. */
+function sterkte(pw: string): { score: number; tekst: string } {
+  if (!pw) return { score: 0, tekst: "" };
+  let s = pw.length >= MIN ? 1 : 0;
+  if (pw.length >= 12) s++;
+  if (/[a-z]/.test(pw) && /[A-Z]/.test(pw)) s++;
+  if (/\d/.test(pw) && /[^A-Za-z0-9]/.test(pw)) s++;
+  return { score: s, tekst: pw.length < MIN ? `Nog ${MIN - pw.length} tekens` : ["Zwak", "Redelijk", "Goed", "Sterk", "Sterk"][s] };
+}
+
 export function Login() {
-  const { login, naam, setNaam } = useStore();
+  const { naInloggen } = useStore();
+  const [stand, setStand] = useState<Stand>("inloggen");
+  const [naam, setNaam] = useState("");
   const [pw, setPw] = useState("");
-  const [wie, setWie] = useState(naam);
+  const [code, setCode] = useState("");
   const [zien, setZien] = useState(false);
   const [fout, setFout] = useState("");
   const [bezig, setBezig] = useState(false);
   const [hoofdletters, setHoofdletters] = useState(false);
   const [schud, setSchud] = useState(0);
   const pwVeld = useRef<HTMLInputElement>(null);
+  const nieuwWachtwoord = stand !== "inloggen";
+  const st = sterkte(pw);
 
-  const mis = (tekst: string) => { setFout(tekst); setSchud((n) => n + 1); pwVeld.current?.focus(); };
+  const wissel = (s: Stand) => { setStand(s); setFout(""); setPw(""); setCode(""); setZien(false); };
+  const mis = (tekst: string) => { setFout(tekst); setSchud((n) => n + 1); };
 
   const verstuur = async (e: FormEvent) => {
     e.preventDefault();
-    if (!pw) { mis("Vul het wachtwoord in."); return; }
+    if (naam.trim().length < 2) { mis("Vul je naam in."); return; }
+    if (!pw) { mis("Vul je wachtwoord in."); pwVeld.current?.focus(); return; }
+    if (nieuwWachtwoord && pw.length < MIN) { mis(`Kies een wachtwoord van minstens ${MIN} tekens.`); pwVeld.current?.focus(); return; }
+    if (nieuwWachtwoord && !code) { mis("Vul de vestigingscode in."); return; }
     setBezig(true);
-    let ok = false;
-    try { ok = await login(pw); }
-    catch (err) {
+    try {
+      const r = stand === "inloggen" ? await login(naam.trim(), pw) : stand === "aanmelden" ? await aanmelden(naam.trim(), pw, code) : await herstelWachtwoord(naam.trim(), code, pw);
+      naInloggen(r);
+    } catch (err) {
       setBezig(false);
-      mis(err instanceof Error && /TOKEN_GEHEIM/.test(err.message) ? err.message : "Geen verbinding met het register. Controleer je internet en probeer het opnieuw.");
-      return;
+      const m = err instanceof Error ? err.message : "";
+      if (stand === "inloggen") setPw("");
+      mis(m && !/^Fout \d/.test(m) && !/fetch|network/i.test(m) ? m : "Geen verbinding met het register. Controleer je internet en probeer het opnieuw.");
     }
-    setBezig(false);
-    if (!ok) { setPw(""); mis("Dat wachtwoord klopt niet."); return; }
-    if (wie.trim()) setNaam(wie.trim());
   };
   const kijkToetsen = (e: KeyboardEvent<HTMLInputElement>) => setHoofdletters(e.getModifierState?.("CapsLock") ?? false);
 
@@ -74,32 +97,56 @@ export function Login() {
         </div>
       </div>
       <div className="toegang-plek">
-        <form className={`toegang-kaart${schud ? " schud" : ""}`} key={schud} onSubmit={verstuur} noValidate>
+        <form className={`toegang-kaart${schud ? " schud" : ""}`} key={`${stand}-${schud}`} onSubmit={verstuur} noValidate>
           <span className="greep" aria-hidden="true" />
-          <h2>Inloggen</h2>
-          {/* name + password let iPhone and browser password managers save the login and fill it with Face ID */}
+          {stand === "herstel" ? <h2>{KOP.herstel}</h2> : (
+            <div className="segment toegang-tabs" role="tablist" aria-label="Inloggen of account maken">
+              {(["inloggen", "aanmelden"] as const).map((s) => (
+                <button key={s} type="button" role="tab" aria-selected={stand === s} aria-checked={stand === s} onClick={() => wissel(s)}>{KOP[s]}</button>
+              ))}
+            </div>
+          )}
+          {stand === "aanmelden" && <p className="toegang-uitleg">Kies je eigen wachtwoord. Niemand anders kan het zien, ook de beheerder niet.</p>}
+          {stand === "herstel" && <p className="toegang-uitleg">Dit werkt nadat de beheerder een nieuw wachtwoord voor je heeft toegestaan in Beheer.</p>}
+
           <label className="veld">
-            <span className="veld-label">Je naam</span>
-            <input name="username" value={wie} onChange={(e) => setWie(e.target.value)} autoComplete="username" autoCapitalize="words"
-              placeholder="Komt in de tijdlijn bij je wijzigingen" enterKeyHint="next" />
+            <span className="veld-label">Naam</span>
+            <input name="username" value={naam} onChange={(e) => { setNaam(e.target.value); setFout(""); }} autoComplete="username" autoCapitalize="words"
+              placeholder={stand === "aanmelden" ? "Voor- en achternaam" : "Je naam"} enterKeyHint="next" maxLength={40} />
           </label>
           <label className="veld">
-            <span className="veld-label">Wachtwoord</span>
+            <span className="veld-label">{nieuwWachtwoord ? "Kies een wachtwoord" : "Wachtwoord"}</span>
             <span className="met-na">
-              <input ref={pwVeld} name="password" type={zien ? "text" : "password"} value={pw} enterKeyHint="go"
+              <input ref={pwVeld} name="password" type={zien ? "text" : "password"} value={pw} enterKeyHint={nieuwWachtwoord ? "next" : "go"}
                 onChange={(e) => { setPw(e.target.value); setFout(""); }} onKeyUp={kijkToetsen} onKeyDown={kijkToetsen}
-                autoComplete="current-password" autoCapitalize="off" autoCorrect="off" spellCheck={false}
-                aria-invalid={!!fout} aria-describedby={fout ? "pw-fout" : hoofdletters ? "pw-caps" : undefined} />
+                autoComplete={nieuwWachtwoord ? "new-password" : "current-password"} autoCapitalize="off" autoCorrect="off" spellCheck={false}
+                aria-invalid={!!fout} aria-describedby={nieuwWachtwoord ? "pw-sterkte" : hoofdletters ? "pw-caps" : undefined} />
               <button type="button" className="oogknop" onClick={() => setZien(!zien)} aria-label={zien ? "Wachtwoord verbergen" : "Wachtwoord tonen"} aria-pressed={zien}>
                 <Icon naam={zien ? "oogDicht" : "oog"} maat={20} />
               </button>
             </span>
+            {nieuwWachtwoord && (
+              <span className="sterkte" id="pw-sterkte" aria-live="polite">
+                <span className="sterkte-balk" aria-hidden="true">{[1, 2, 3, 4].map((n) => <i key={n} className={pw.length >= MIN && st.score >= n ? `aan s${st.score}` : ""} />)}</span>
+                <span>{st.tekst || `Minstens ${MIN} tekens`}</span>
+              </span>
+            )}
           </label>
+          {nieuwWachtwoord && (
+            <label className="veld">
+              <span className="veld-label">Vestigingscode</span>
+              <input type="password" value={code} onChange={(e) => { setCode(e.target.value); setFout(""); }} autoComplete="off" autoCapitalize="off" autoCorrect="off"
+                spellCheck={false} enterKeyHint="go" aria-describedby="code-uitleg" />
+              <span className="veld-hint" id="code-uitleg">Het wachtwoord dat jullie tot nu toe samen gebruikten. Vraag het aan je leidinggevende.</span>
+            </label>
+          )}
           {hoofdletters && !fout && <p className="veld-hint" id="pw-caps"><Icon naam="waarschuwing" maat={14} /> Caps Lock staat aan</p>}
-          {fout && <p className="veld-fout" id="pw-fout" role="alert">{fout}</p>}
+          {fout && <p className="veld-fout" role="alert">{fout}</p>}
           <button className="knop knop-rood knop-groot knop-vol" disabled={bezig}>
-            {bezig ? <><span className="mini-spinner" aria-hidden="true" /> Controleren…</> : <>Open het register <Icon naam="pijl" maat={18} /></>}
+            {bezig ? <><span className="mini-spinner" aria-hidden="true" /> Even geduld…</> : <>{KNOP[stand]} <Icon naam="pijl" maat={18} /></>}
           </button>
+          {stand === "inloggen" && <button type="button" className="knop-link" onClick={() => wissel("herstel")}>Wachtwoord vergeten?</button>}
+          {stand === "herstel" && <button type="button" className="knop-link" onClick={() => wissel("inloggen")}>Terug naar inloggen</button>}
           <p className="toegang-tip"><Icon naam="slot" maat={14} /> Je blijft 30 dagen ingelogd op dit apparaat.</p>
         </form>
       </div>

@@ -1,18 +1,48 @@
-// Password check and signed access passes. Lives on the server only.
-import { createHash, createHmac, timingSafeEqual } from "node:crypto";
+// Accounts, password hashing and signed passes. Server only.
+// Passwords are stored as salted scrypt hashes: nobody, including administrators, can read them back.
+import { createHash, createHmac, randomBytes, scrypt as scryptCb, timingSafeEqual } from "node:crypto";
+import { promisify } from "node:util";
 import type { Rol } from "../../src/lib/types";
 
+const scrypt = promisify(scryptCb) as (pw: string, salt: Buffer, len: number) => Promise<Buffer>;
 const ZOUT = "medipoint-meppel";
-/** sha256(password + ZOUT). Override with env vars to change passwords without a code change. */
-const WACHTWOORD_HASH = process.env.WACHTWOORD_HASH || "1360561d88563bcbd4716c3e1dc928fc6275afe52d64e830ef5c025446d567a9";
-const BEHEER_HASH = process.env.BEHEER_HASH || "";
+/** The shared branch password, now only used as the code needed to create an account. sha256(code + ZOUT). */
+const CODE_HASH = process.env.WACHTWOORD_HASH || "1360561d88563bcbd4716c3e1dc928fc6275afe52d64e830ef5c025446d567a9";
+/** Optional separate code that creates accounts with edit rights; without it every new account may edit. */
+const BEHEER_CODE_HASH = process.env.BEHEER_HASH || "";
 const GELDIG_DAGEN = 30;
+export const MIN_LENGTE = 8;
 
-const hash = (pw: string) => createHash("sha256").update(pw + ZOUT).digest("hex");
-const gelijk = (a: string, b: string) => a.length === b.length && timingSafeEqual(Buffer.from(a), Buffer.from(b));
-const b64 = (s: string) => Buffer.from(s).toString("base64url");
-/** Changes whenever a password changes, which invalidates every pass issued before. */
-const versie = () => createHash("sha256").update(WACHTWOORD_HASH + "|" + BEHEER_HASH).digest("hex").slice(0, 10);
+const gelijk = (a: string | Buffer, b: string | Buffer) => {
+  const x = Buffer.isBuffer(a) ? a : Buffer.from(a);
+  const y = Buffer.isBuffer(b) ? b : Buffer.from(b);
+  return x.length === y.length && timingSafeEqual(x, y);
+};
+
+/** Role a new account gets for this branch code, or null when the code is wrong. */
+export function rolVoorCode(code: string): Rol | null {
+  const h = createHash("sha256").update(code + ZOUT).digest("hex");
+  if (BEHEER_CODE_HASH && gelijk(h, BEHEER_CODE_HASH)) return "beheer";
+  if (gelijk(h, CODE_HASH)) return BEHEER_CODE_HASH ? "kijken" : "beheer";
+  return null;
+}
+
+export async function versleutel(pw: string): Promise<string> {
+  const zout = randomBytes(16);
+  const h = await scrypt(pw.normalize("NFC"), zout, 64);
+  return `scrypt$${zout.toString("base64")}$${h.toString("base64")}`;
+}
+
+export async function klopt(pw: string, opgeslagen: string): Promise<boolean> {
+  const [soort, zout, hash] = opgeslagen.split("$");
+  if (soort !== "scrypt" || !zout || !hash) return false;
+  const h = await scrypt(pw.normalize("NFC"), Buffer.from(zout, "base64"), 64);
+  return gelijk(h, Buffer.from(hash, "base64"));
+}
+
+/** Stable key for a display name: "Selwin Kok" → "selwin-kok". */
+export const sleutelVoor = (naam: string) =>
+  naam.trim().toLowerCase().normalize("NFKD").replace(/\p{M}/gu, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40);
 
 function geheim(): string {
   const g = process.env.TOKEN_GEHEIM;
@@ -20,29 +50,24 @@ function geheim(): string {
   return g;
 }
 
-export function rolVoorWachtwoord(pw: string): Rol | null {
-  const h = hash(pw);
-  if (BEHEER_HASH && gelijk(h, BEHEER_HASH)) return "beheer";
-  if (gelijk(h, WACHTWOORD_HASH)) return BEHEER_HASH ? "kijken" : "beheer";
-  return null;
-}
+/** A pass names the account and its version; bumping the version (block, reset, new password) ends every session. */
+export interface Pas { s: string; v: number }
 
-export function maakPas(rol: Rol): { token: string; verloopt: number } {
+export function maakPas(p: Pas): { token: string; verloopt: number } {
   const verloopt = Date.now() + GELDIG_DAGEN * 864e5;
-  const inhoud = b64(JSON.stringify({ r: rol, e: verloopt, v: versie() }));
-  const sig = createHmac("sha256", geheim()).update(inhoud).digest("base64url");
-  return { token: `${inhoud}.${sig}`, verloopt };
+  const inhoud = Buffer.from(JSON.stringify({ ...p, e: verloopt })).toString("base64url");
+  return { token: `${inhoud}.${createHmac("sha256", geheim()).update(inhoud).digest("base64url")}`, verloopt };
 }
 
-export function leesPas(kopwaarde?: string): Rol | null {
+export function leesPas(kopwaarde?: string): Pas | null {
   const token = (kopwaarde || "").replace(/^Bearer\s+/i, "").trim();
   const [inhoud, sig] = token.split(".");
   if (!inhoud || !sig) return null;
-  const verwacht = createHmac("sha256", geheim()).update(inhoud).digest("base64url");
-  if (!gelijk(sig, verwacht)) return null;
+  if (!gelijk(sig, createHmac("sha256", geheim()).update(inhoud).digest("base64url"))) return null;
   try {
-    const { r, e, v } = JSON.parse(Buffer.from(inhoud, "base64url").toString()) as { r: Rol; e: number; v: string };
-    if (Date.now() > e || v !== versie() || (r !== "beheer" && r !== "kijken")) return null;
-    return r;
-  } catch { return null; }
+    const { s, v, e } = JSON.parse(Buffer.from(inhoud, "base64url").toString()) as Pas & { e: number };
+    return typeof s === "string" && typeof v === "number" && Date.now() < e ? { s, v } : null;
+  } catch {
+    return null;
+  }
 }

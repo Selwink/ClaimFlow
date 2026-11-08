@@ -1,10 +1,11 @@
 // /.netlify/functions/data — the only way into the register.
-// Every call needs a signed pass from `login`; changes need the "beheer" role.
+// Personal accounts: create one with the branch code, then log in with your own name and password.
+// Every other call needs a signed pass; changes need the "beheer" role.
 import { connectLambda } from "@netlify/blobs";
 import type { Claim, Instellingen } from "../../src/lib/types";
 import * as db from "../lib/db";
 import { haalBackup, herstel, lijst, maakBackup } from "../lib/backup";
-import { leesPas, maakPas, rolVoorWachtwoord } from "../lib/toegang";
+import { klopt, leesPas, maakPas, MIN_LENGTE, rolVoorCode, sleutelVoor, versleutel } from "../lib/toegang";
 
 interface Verzoek { httpMethod: string; headers: Record<string, string | undefined>; body: string | null; isBase64Encoded?: boolean; queryStringParameters?: Record<string, string | undefined> | null; blobs?: string }
 const json = (statusCode: number, body: unknown) => ({ statusCode, headers: { "Content-Type": "application/json", "Cache-Control": "no-store" }, body: JSON.stringify(body) });
@@ -22,19 +23,86 @@ export const handler = async (e: Verzoek) => {
   }
 
   try {
+    const tekst = (k: string, max = 200) => (typeof body[k] === "string" ? (body[k] as string).slice(0, max) : "");
+    const naamOk = (n: string) => n.trim().length >= 2 && n.trim().length <= 40 && sleutelVoor(n).length >= 2;
+    const pasVoor = (g: db.Gebruiker) => json(200, { naam: g.naam, rol: g.rol, ...maakPas({ s: g.sleutel, v: g.v }) });
+
+    // ---- open to everyone: create an account, log in, set a new password after a reset
+    if (actie === "aanmelden") {
+      const naam = tekst("naam", 40).trim().replace(/\s+/g, " "), wachtwoord = tekst("wachtwoord"), code = tekst("code");
+      if (!naamOk(naam)) return fout(400, "Vul je naam in (2 tot 40 tekens).");
+      if (wachtwoord.length < MIN_LENGTE) return fout(400, `Kies een wachtwoord van minstens ${MIN_LENGTE} tekens.`);
+      const rolNieuw = rolVoorCode(code);
+      if (!rolNieuw) { await wacht(700); return fout(401, "De vestigingscode klopt niet."); }
+      const sleutel = sleutelVoor(naam);
+      if (await db.gebruiker(sleutel)) return fout(409, "Er is al een account met deze naam. Log in, of kies een andere naam.");
+      const g: db.Gebruiker = { sleutel, naam, hash: await versleutel(wachtwoord), rol: rolNieuw, actief: true, v: 1, gemaakt: new Date().toISOString(), laatst: new Date().toISOString() };
+      await db.bewaarGebruiker(g);
+      return pasVoor(g);
+    }
     if (actie === "login") {
-      const rol = typeof body.wachtwoord === "string" ? rolVoorWachtwoord(body.wachtwoord) : null;
-      if (!rol) { await wacht(700); return fout(401, "Dat wachtwoord klopt niet"); }
-      return json(200, { rol, ...maakPas(rol) });
+      const g = await db.gebruiker(sleutelVoor(tekst("naam", 40)));
+      if (!g || !(await klopt(tekst("wachtwoord"), g.hash))) { await wacht(700); return fout(401, "Naam of wachtwoord klopt niet."); }
+      if (!g.actief) return fout(403, "Dit account is geblokkeerd. Vraag de beheerder om het weer te openen.");
+      await db.bewaarGebruiker({ ...g, laatst: new Date().toISOString() }).catch(() => undefined);
+      return pasVoor(g);
+    }
+    if (actie === "herstel") {
+      const g = await db.gebruiker(sleutelVoor(tekst("naam", 40)));
+      const wachtwoord = tekst("wachtwoord");
+      if (!g || !g.reset || !rolVoorCode(tekst("code"))) { await wacht(700); return fout(403, "Dit lukt alleen als de beheerder een nieuw wachtwoord voor je heeft toegestaan, en met de juiste vestigingscode."); }
+      if (wachtwoord.length < MIN_LENGTE) return fout(400, `Kies een wachtwoord van minstens ${MIN_LENGTE} tekens.`);
+      const nieuw = { ...g, hash: await versleutel(wachtwoord), reset: false, actief: true, v: g.v + 1, laatst: new Date().toISOString() };
+      await db.bewaarGebruiker(nieuw);
+      return pasVoor(nieuw);
     }
 
-    const rol = leesPas(e.headers.authorization || e.headers.Authorization);
-    if (!rol) return fout(401, "Log opnieuw in");
+    // ---- everything else needs a valid pass for an active account; the role is read live from the account
+    const pas = leesPas(e.headers.authorization || e.headers.Authorization);
+    const ik = pas ? await db.gebruiker(pas.s) : null;
+    if (!pas || !ik || !ik.actief || ik.v !== pas.v) return fout(401, "Log opnieuw in");
+    const rol = ik.rol;
     const beheer = () => rol === "beheer";
     const alleenBeheer = () => fout(403, "Alleen een beheerder kan dit wijzigen");
 
     switch (actie) {
-      case "alles": return json(200, { rol, ...(await db.claimsEnInstellingen()) });
+      case "alles": return json(200, { rol, naam: ik.naam, ...(await db.claimsEnInstellingen()) });
+      case "wachtwoord": {
+        if (!(await klopt(tekst("oud"), ik.hash))) { await wacht(500); return fout(401, "Je huidige wachtwoord klopt niet."); }
+        if (tekst("nieuw").length < MIN_LENGTE) return fout(400, `Kies een wachtwoord van minstens ${MIN_LENGTE} tekens.`);
+        const nieuw = { ...ik, hash: await versleutel(tekst("nieuw")), v: ik.v + 1 };
+        await db.bewaarGebruiker(nieuw);
+        return pasVoor(nieuw);
+      }
+      case "gebruikers": {
+        if (!beheer()) return alleenBeheer();
+        const lijst_ = await db.alleGebruikers();
+        return json(200, { gebruikers: lijst_.map(({ hash: _h, v: _v, ...g }) => ({ ...g, ikzelf: g.sleutel === ik.sleutel })) });
+      }
+      case "gebruiker": {
+        if (!beheer()) return alleenBeheer();
+        const doel = await db.gebruiker(tekst("sleutel", 60));
+        if (!doel) return fout(404, "Account niet gevonden");
+        const actieG = tekst("wat", 20);
+        const beheerders = (await db.alleGebruikers()).filter((g) => g.rol === "beheer" && g.actief);
+        const laatsteBeheerder = doel.rol === "beheer" && doel.actief && beheerders.length <= 1;
+        if (actieG === "rol") {
+          const nieuweRol = tekst("rol", 10) === "kijken" ? "kijken" : "beheer";
+          if (nieuweRol === "kijken" && laatsteBeheerder) return fout(400, "Er moet minstens één beheerder overblijven.");
+          await db.bewaarGebruiker({ ...doel, rol: nieuweRol });
+        } else if (actieG === "blokkeer") {
+          if (laatsteBeheerder) return fout(400, "Er moet minstens één beheerder overblijven.");
+          await db.bewaarGebruiker({ ...doel, actief: false, v: doel.v + 1 });
+        } else if (actieG === "activeer") {
+          await db.bewaarGebruiker({ ...doel, actief: true });
+        } else if (actieG === "reset") {
+          await db.bewaarGebruiker({ ...doel, reset: true, v: doel.v + 1 });
+        } else if (actieG === "verwijder") {
+          if (laatsteBeheerder) return fout(400, "Er moet minstens één beheerder overblijven.");
+          await db.verwijderGebruiker(doel.sleutel);
+        } else return fout(400, "Onbekende actie");
+        return json(200, { ok: true });
+      }
       case "bewaar": {
         if (!beheer()) return alleenBeheer();
         const claims = (Array.isArray(body.claims) ? body.claims : []) as Claim[];
