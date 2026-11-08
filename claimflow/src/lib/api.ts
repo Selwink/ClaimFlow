@@ -71,4 +71,4 @@ export const haalBackups = () => vraag<{ backups: BackupInfo[] }>("backups").the
 export const maakBackup = () => vraag<{ backup: BackupInfo }>("backup", { body: {} }).then((r) => r.backup);
 export const backupInhoud = (id: string) => vraag<{ gemaakt: string; aantal: number; rijen: unknown[] }>("backupinhoud", { query: { id } });
 export const herstelBackup = (id: string) => vraag<{ teruggezet: number }>("herstel", { body: { id } }).then((r) => r.teruggezet);
-export const beveiliging = () => vraag<{ serviceSleutel: boolean; tabelOpen: boolean }>("beveiliging");
+export const beveiliging = () => vraag<{ serviceSleutel: boolean; tabelOpen: boolean; sleutel: "variabele" | "server" | "nood" }>("beveiliging");

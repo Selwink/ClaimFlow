@@ -2,6 +2,7 @@
 // Passwords are stored as salted scrypt hashes: nobody, including administrators, can read them back.
 import { createHash, createHmac, randomBytes, scrypt as scryptCb, timingSafeEqual } from "node:crypto";
 import { promisify } from "node:util";
+import { getStore } from "@netlify/blobs";
 import type { Rol } from "../../src/lib/types";
 
 const scrypt = promisify(scryptCb) as (pw: string, salt: Buffer, len: number) => Promise<Buffer>;
@@ -44,26 +45,49 @@ export async function klopt(pw: string, opgeslagen: string): Promise<boolean> {
 export const sleutelVoor = (naam: string) =>
   naam.trim().toLowerCase().normalize("NFKD").replace(/\p{M}/gu, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40);
 
-function geheim(): string {
-  const g = process.env.TOKEN_GEHEIM;
-  if (!g || g.length < 32) throw new Error("TOKEN_GEHEIM ontbreekt");
-  return g;
+/**
+ * Signing key for passes, in order of preference:
+ * 1. the TOKEN_GEHEIM environment variable;
+ * 2. a random key the server creates once and keeps in Netlify Blobs (never leaves the server);
+ * 3. an emergency key derived from server-side constants, so nobody is ever locked out.
+ *    Beheer → Beveiliging warns while this one is in use.
+ */
+export type SleutelBron = "variabele" | "server" | "nood";
+let cache: { sleutel: string; bron: SleutelBron } | null = null;
+
+export async function geheim(): Promise<{ sleutel: string; bron: SleutelBron }> {
+  if (cache) return cache;
+  const env = process.env.TOKEN_GEHEIM;
+  if (env && env.length >= 32) return (cache = { sleutel: env, bron: "variabele" });
+  try {
+    const w = getStore({ name: "claimflow-sleutels", consistency: "strong" });
+    let s = (await w.get("pas-sleutel")) as string | null;
+    if (!s) {
+      await w.set("pas-sleutel", randomBytes(48).toString("base64url"));
+      s = (await w.get("pas-sleutel")) as string | null; // re-read: if two servers raced, both use the stored one
+    }
+    if (s && s.length >= 32) return (cache = { sleutel: s, bron: "server" });
+  } catch (e) { console.error("pas-sleutel niet in Blobs", e); }
+  const nood = createHash("sha256").update(`claimflow|${process.env.SITE_ID || ""}|${CODE_HASH}|${process.env.SUPABASE_SERVICE_KEY || ""}`).digest("base64url");
+  return (cache = { sleutel: nood, bron: "nood" });
 }
 
 /** A pass names the account and its version; bumping the version (block, reset, new password) ends every session. */
 export interface Pas { s: string; v: number }
 
-export function maakPas(p: Pas): { token: string; verloopt: number } {
+export async function maakPas(p: Pas): Promise<{ token: string; verloopt: number }> {
   const verloopt = Date.now() + GELDIG_DAGEN * 864e5;
   const inhoud = Buffer.from(JSON.stringify({ ...p, e: verloopt })).toString("base64url");
-  return { token: `${inhoud}.${createHmac("sha256", geheim()).update(inhoud).digest("base64url")}`, verloopt };
+  const { sleutel } = await geheim();
+  return { token: `${inhoud}.${createHmac("sha256", sleutel).update(inhoud).digest("base64url")}`, verloopt };
 }
 
-export function leesPas(kopwaarde?: string): Pas | null {
+export async function leesPas(kopwaarde?: string): Promise<Pas | null> {
   const token = (kopwaarde || "").replace(/^Bearer\s+/i, "").trim();
   const [inhoud, sig] = token.split(".");
   if (!inhoud || !sig) return null;
-  if (!gelijk(sig, createHmac("sha256", geheim()).update(inhoud).digest("base64url"))) return null;
+  const { sleutel } = await geheim();
+  if (!gelijk(sig, createHmac("sha256", sleutel).update(inhoud).digest("base64url"))) return null;
   try {
     const { s, v, e } = JSON.parse(Buffer.from(inhoud, "base64url").toString()) as Pas & { e: number };
     return typeof s === "string" && typeof v === "number" && Date.now() < e ? { s, v } : null;

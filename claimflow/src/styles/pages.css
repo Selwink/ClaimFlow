@@ -456,3 +456,9 @@ button.instelrij:hover, a.instelrij:hover { background: #fbf6ee; }
 .toegang-wacht { align-items: flex-start; }
 .toegang-wacht p { color: var(--inkt-2); }
 .wacht-ic { width: 52px; height: 52px; border-radius: 16px; background: var(--oker-zacht); color: var(--oker-2); display: grid; place-items: center; }
+.beveiliging-punten { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; font-size: .84rem; }
+.beveiliging-punten li { display: flex; gap: 10px; align-items: flex-start; }
+.beveiliging-punten li > span:first-child { width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: .72rem; flex: 0 0 auto; }
+.beveiliging-punten li.ok > span:first-child { background: var(--turk-zacht); color: var(--turk-2); }
+.beveiliging-punten li.open > span:first-child { background: var(--oker-zacht); color: var(--oker-2); }
+.beveiliging-punten code { font-family: var(--mono); font-size: .78rem; background: var(--zand-2); padding: 1px 5px; border-radius: 5px; }

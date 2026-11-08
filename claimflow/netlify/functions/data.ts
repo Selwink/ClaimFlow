@@ -8,7 +8,7 @@ import { haalBackup, herstel, lijst, maakBackup } from "../lib/backup";
 import { verzend } from "../lib/verzend";
 
 const SITE = process.env.URL || "https://garantieclaims-meppel.netlify.app";
-import { klopt, leesPas, maakPas, MIN_LENGTE, rolVoorCode, sleutelVoor, versleutel } from "../lib/toegang";
+import { geheim, klopt, leesPas, maakPas, MIN_LENGTE, rolVoorCode, sleutelVoor, versleutel } from "../lib/toegang";
 
 interface Verzoek { httpMethod: string; headers: Record<string, string | undefined>; body: string | null; isBase64Encoded?: boolean; queryStringParameters?: Record<string, string | undefined> | null; blobs?: string }
 const json = (statusCode: number, body: unknown) => ({ statusCode, headers: { "Content-Type": "application/json", "Cache-Control": "no-store" }, body: JSON.stringify(body) });
@@ -28,7 +28,7 @@ export const handler = async (e: Verzoek) => {
   try {
     const tekst = (k: string, max = 200) => (typeof body[k] === "string" ? (body[k] as string).slice(0, max) : "");
     const naamOk = (n: string) => n.trim().length >= 2 && n.trim().length <= 40 && sleutelVoor(n).length >= 2;
-    const pasVoor = (g: db.Gebruiker) => json(200, { naam: g.naam, rol: g.rol, ...maakPas({ s: g.sleutel, v: g.v }) });
+    const pasVoor = async (g: db.Gebruiker) => json(200, { naam: g.naam, rol: g.rol, ...(await maakPas({ s: g.sleutel, v: g.v })) });
 
     // ---- open to everyone: create an account, log in, set a new password after a reset
     if (actie === "aanmelden") {
@@ -68,7 +68,7 @@ export const handler = async (e: Verzoek) => {
     }
 
     // ---- everything else needs a valid pass for an active account; the role is read live from the account
-    const pas = leesPas(e.headers.authorization || e.headers.Authorization);
+    const pas = await leesPas(e.headers.authorization || e.headers.Authorization);
     const ik = pas ? await db.gebruiker(pas.s) : null;
     if (!pas || !ik || !ik.actief || ik.wacht || ik.v !== pas.v) return fout(401, "Log opnieuw in");
     const rol = ik.rol;
@@ -166,7 +166,7 @@ export const handler = async (e: Verzoek) => {
         if (!isId(body.id)) return fout(400, "Geen back-up");
         return json(200, { teruggezet: await herstel(body.id) });
       }
-      case "beveiliging": return json(200, { serviceSleutel: db.heeftServiceSleutel(), tabelOpen: await db.tabelOpen() });
+      case "beveiliging": return json(200, { serviceSleutel: db.heeftServiceSleutel(), tabelOpen: await db.tabelOpen(), sleutel: (await geheim()).bron });
       default: return fout(404, "Onbekende actie");
     }
   } catch (err) {
