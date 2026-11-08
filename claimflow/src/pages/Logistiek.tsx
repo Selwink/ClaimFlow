@@ -5,7 +5,7 @@ import { Logo } from "../components/ui";
 
 /** The codes from our logistics systems that Logistiek Flow will process. Each gets its own card. */
 const CODES = [
-  { code: "53", naam: "Werkvoorbereiding", tekst: "Verwerking van code 53 voor de werkvoorbereiding." },
+  { code: "53", naam: "Werkvoorbereiding", tekst: "Alle orders komen binnen met code 53. Hier verwerkt de werkvoorbereiding ze." },
 ];
 
 /** Logistiek Flow: processing of codes from our logistics systems. The first one, code 53, is being set up. */
