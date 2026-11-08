@@ -91,7 +91,7 @@ export function Claims() {
 
       <div className="zoekbalk">
         <Icon naam="zoek" maat={18} />
-        <input type="search" value={zoek} onChange={(e) => setZoek(e.target.value)} placeholder="Zoek op type, leverancier, inkoop- of framenummer" aria-label="Zoeken" />
+        <input type="search" value={zoek} onChange={(e) => setZoek(e.target.value)} placeholder="Zoek op naam, leverancier of nummer" aria-label="Zoeken" />
       </div>
 
       <div className="chiprij" role="group" aria-label="Maand">
