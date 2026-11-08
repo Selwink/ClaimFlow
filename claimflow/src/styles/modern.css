@@ -118,3 +118,34 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
   .werkbak-doel { grid-template-columns: 1fr 1fr; align-items: stretch; }
   .werkbak-doel .teamkaart { height: 100%; }
 }
+
+/* ---- login: a calmer, more polished sheet ---- */
+.toegang-band { padding-top: calc(env(safe-area-inset-top) + 34px); }
+.toegang-slogan h1 { font-size: clamp(2.7rem, 12vw, 3.7rem); letter-spacing: -.055em; line-height: .95; }
+.toegang-slogan p { color: rgba(255, 255, 255, .72); max-width: 32ch; }
+.toegang-band-kenmerken li { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .14); }
+
+.toegang-plek { border-radius: 36px 36px 0 0; box-shadow: 0 -24px 60px -20px rgba(0, 0, 0, .5); }
+.toegang-kaart { gap: 16px; padding-top: 6px; }
+.toegang-tabs { padding: 5px; border-radius: 18px; background: #E9EBF1; }
+.toegang-tabs button { font-weight: 600; border-radius: 14px; min-height: 42px; }
+.toegang-tabs button[aria-checked="true"] { box-shadow: 0 4px 12px -4px rgba(17, 18, 26, .18); }
+
+.toegang-kaart label { font-size: .84rem; font-weight: 600; color: #3E4456; letter-spacing: -.005em; }
+.toegang-kaart input:not([type="checkbox"]) { border-radius: 16px; min-height: 52px; border: 1.5px solid #E5E7EE; background: #FBFBFD; padding: 0 16px;
+  transition: border-color .15s, box-shadow .15s, background .15s; }
+.toegang-kaart input:not([type="checkbox"]):hover { border-color: #D3D7E1; }
+.toegang-kaart input:not([type="checkbox"]):focus { outline: none; border-color: #E8382B; background: #fff; box-shadow: 0 0 0 4px rgba(232, 56, 43, .14); }
+.toegang-kaart .veld-fout { font-weight: 600; }
+
+.toegang-kaart form button.knop-rood, .toegang-kaart .knop-rood { min-height: 56px; border-radius: 18px; font-size: 1.02rem; letter-spacing: -.01em;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .25) inset, 0 14px 28px -10px rgba(232, 56, 43, .65); }
+
+.toegang-tip { background: #F4F6FA; border-radius: 99px; padding: 9px 14px; color: #4A5163; margin: 2px auto 0; font-weight: 500; }
+.toegang-tip svg { color: #1A7F50; }
+/* password: the field and the eye share one frame, so there is only one border */
+.toegang-kaart .met-na { display: flex; align-items: center; gap: 6px; border: 1.5px solid #E5E7EE; border-radius: 16px; background: #FBFBFD; padding-right: 6px; transition: border-color .15s, box-shadow .15s, background .15s; }
+.toegang-kaart .met-na:hover { border-color: #D3D7E1; }
+.toegang-kaart .met-na:focus-within { border-color: #E8382B; background: #fff; box-shadow: 0 0 0 4px rgba(232, 56, 43, .14); }
+.toegang-kaart .met-na input { flex: 1; min-width: 0; border: 0 !important; box-shadow: none !important; background: transparent !important; min-height: 50px; }
+.toegang-kaart .met-na .oogknop { border-radius: 12px; width: 40px; height: 40px; }
