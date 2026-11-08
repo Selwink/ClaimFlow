@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useStore } from "../state/Store";
 import { isOpen, overTermijn } from "../lib/claims";
+import { teDoen } from "../lib/logistiek";
 import { meervoud } from "../lib/format";
 import { Icon } from "../components/Icon";
 import { Logo } from "../components/ui";
@@ -17,6 +18,7 @@ export function Start() {
   const laat = useMemo(() => actief.filter((c) => overTermijn(c, inst.dagen)).length, [actief, inst.dagen]);
   const open = useMemo(() => actief.filter(isOpen).length, [actief]);
   const voornaam = (naam || "").split(" ")[0];
+  const logistiek = useMemo(() => teDoen(actief), [actief]);
 
   return (
     <main className="start">
@@ -44,8 +46,8 @@ export function Start() {
           <span className="start-ic" aria-hidden="true"><Icon naam="vrachtwagen" maat={30} /></span>
           <span className="start-t">
             <b>Logistiek</b>
-            <span>Nieuw onderdeel, wordt binnenkort ingericht</span>
-            <span className="start-chips"><span className="chip chip-oker">Binnenkort</span></span>
+            <span>Onderdelen retour sturen, vernietigen of bewaren</span>
+            <span className="start-chips">{logistiek > 0 ? <span className="chip chip-oker">{meervoud(logistiek, "onderdeel", "onderdelen")} te doen</span> : <span className="chip chip-turk">Alles afgehandeld</span>}</span>
           </span>
           <Icon naam="verder" maat={22} className="start-pijl" />
         </Link>
@@ -54,30 +56,6 @@ export function Start() {
         <Link to="/beheer" className="knop-link">Beheer</Link>
         <span aria-hidden="true">·</span>
         <button type="button" className="knop-link" onClick={uitloggen}>Uitloggen</button>
-      </div>
-    </main>
-  );
-}
-
-/** Logistiek: a new area, to be filled in. */
-export function Logistiek() {
-  return (
-    <main className="start">
-      <div className="start-band">
-        <div className="toegang-gloed" aria-hidden="true"><i /><i /><i /></div>
-        <div className="start-binnen">
-          <Link to="/" className="terugknop"><Icon naam="terug" maat={18} /> Terug naar start</Link>
-          <Logo />
-          <h1>Logistiek<br /><span>wordt binnenkort ingericht.</span></h1>
-        </div>
-      </div>
-      <div className="start-keuzes">
-        <div className="start-leeg">
-          <span className="start-ic" aria-hidden="true"><Icon naam="vrachtwagen" maat={30} /></span>
-          <b>Hier komt iets nieuws</b>
-          <p>Dit deel van ClaimFlow is nog leeg. Zodra duidelijk is wat Logistiek moet kunnen, verschijnt het hier.</p>
-          <Link to="/" className="knop knop-zacht knop-vol"><Icon naam="terug" maat={18} /> Terug naar start</Link>
-        </div>
       </div>
     </main>
   );

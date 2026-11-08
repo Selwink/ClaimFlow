@@ -500,3 +500,26 @@ button.instelrij:hover, a.instelrij:hover { background: #fbf6ee; }
 .start-leeg { grid-column: 1 / -1; background: var(--papier); border: 1px solid var(--lijn); border-radius: 26px; padding: 24px 20px; display: grid; gap: 10px; justify-items: start; box-shadow: 0 18px 40px rgba(42, 16, 36, .12); }
 .start-leeg b { font-family: var(--display); font-weight: 800; font-size: 1.4rem; letter-spacing: -.03em; }
 .start-leeg p { color: var(--inkt-2); }
+
+/* ============ Logistiek ============ */
+.log-inhoud { position: relative; margin-top: -44px; padding: 0 max(var(--gutter), env(safe-area-inset-right, 0px)) 40px max(var(--gutter), env(safe-area-inset-left, 0px)); max-width: 820px; width: 100%; align-self: center; display: grid; gap: 14px; }
+.log-teller { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; margin: 0; box-shadow: 0 18px 40px rgba(42, 16, 36, .12); }
+.log-teller .teller-vak { grid-column: auto !important; border-bottom: 0 !important; }
+.log-teller .teller-vak:nth-child(3) { border-right: 1px solid var(--zand-2); }
+.vak-tedoen b { color: var(--oker-2); }
+.log-lijst { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.log-kaart { background: var(--papier); border: 1px solid var(--lijn); border-radius: 20px; padding: 14px; display: grid; gap: 8px; animation: lijstIn .45s cubic-bezier(.2, .8, .3, 1) both; }
+.log-kop { display: flex; align-items: center; gap: 12px; }
+.log-ic { width: 42px; height: 42px; border-radius: 13px; display: grid; place-items: center; flex: 0 0 auto; color: #fff; }
+.log-retour .log-ic { background: var(--nacht); }
+.log-vernietigen .log-ic { background: var(--rood-knop); }
+.log-bewaren .log-ic { background: #c98a12; }
+.log-t { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.log-t b { font-family: var(--display); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.log-t span { font-size: .8rem; color: var(--inkt-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.log-sub { font-size: .82rem; color: var(--inkt-2); }
+.log-sub b { color: var(--inkt); }
+.log-sub a { color: var(--rood-2); text-decoration: underline; font-family: var(--mono); }
+.log-acties { display: flex; gap: 8px; flex-wrap: wrap; }
+.logistiek .leeg { background: var(--papier); }
+@media (max-width: 400px) { .log-teller .teller-label { font-size: .56rem; } }

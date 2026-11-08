@@ -14,7 +14,8 @@ import { Rapportage } from "./pages/Rapportage";
 import { Beheer } from "./pages/Beheer";
 import { Prullenbak } from "./pages/Prullenbak";
 import { Datums } from "./pages/Datums";
-import { Logistiek, Start } from "./pages/Start";
+import { Start } from "./pages/Start";
+import { Logistiek } from "./pages/Logistiek";
 import { NietGevonden } from "./pages/NietGevonden";
 
 function AppRoutes() {
