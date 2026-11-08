@@ -7,6 +7,7 @@ import { Icon } from "../components/Icon";
 import { Bovenschrift, Kpi, Leeg, Voortgang } from "../components/ui";
 import { useBreed } from "../lib/useBreed";
 import { LevelKaart } from "../components/Level";
+import { Optel } from "../components/Optel";
 
 function groet() {
   const u = new Date().getHours();
@@ -52,18 +53,18 @@ export function Vandaag() {
       <section className="kpi-rij" aria-label="Kerncijfers">
         <div className="geldkaart">
           <Bovenschrift>Nog terug te halen</Bovenschrift>
-          <b className="geld">{euroKort(nogTerug)}</b>
+          <b className="geld"><Optel waarde={nogTerug} opmaak={euroKort} ms={1100} /></b>
           <Voortgang deel={deel} label="Deel van het claimbedrag dat is teruggehaald" />
           <div className="geld-r"><span>{euroKort(teruggehaald)} terug</span><span>{Math.round(deel * 100)}%</span></div>
           <div className="geld-mini alleen-mobiel">
-            <button type="button" onClick={() => nav("/claims?tab=aandacht")}><b className={laat.length ? "rood" : ""}>{laat.length}</b><span>over termijn</span></button>
-            <button type="button" onClick={() => nav("/claims?tab=open")}><b>{open.length}</b><span>open</span></button>
-            <button type="button" onClick={() => nav("/claims?tab=gehonoreerd")}><b>{terug.length}</b><span>gehonoreerd</span></button>
+            <button type="button" onClick={() => nav("/claims?tab=aandacht")}><b className={laat.length ? "rood" : ""}><Optel waarde={laat.length} /></b><span>over termijn</span></button>
+            <button type="button" onClick={() => nav("/claims?tab=open")}><b><Optel waarde={open.length} /></b><span>open</span></button>
+            <button type="button" onClick={() => nav("/claims?tab=gehonoreerd")}><b><Optel waarde={terug.length} /></b><span>gehonoreerd</span></button>
           </div>
         </div>
-        <Link to="/claims?tab=gehonoreerd" className="kpi-link alleen-desktop"><Kpi label="Teruggehaald" waarde={euroKort(teruggehaald)} toon="turk" sub={meervoud(terug.length, "claim", "claims")} /></Link>
-        <Link to="/claims?tab=aandacht" className="kpi-link alleen-desktop"><Kpi label="Over termijn" waarde={laat.length} toon={laat.length ? "rood" : undefined} sub={`termijn ${inst.dagen} dagen`} /></Link>
-        <Link to="/rapportage" className="kpi-link alleen-desktop"><Kpi label="Honorering" waarde={honorering == null ? "—" : `${honorering}%`} sub={`${terug.length} van ${terug.length + afgewezen.length} beoordeeld`} /></Link>
+        <Link to="/claims?tab=gehonoreerd" className="kpi-link alleen-desktop"><Kpi label="Teruggehaald" waarde={<Optel waarde={teruggehaald} opmaak={euroKort} ms={1100} />} toon="turk" sub={meervoud(terug.length, "claim", "claims")} /></Link>
+        <Link to="/claims?tab=aandacht" className="kpi-link alleen-desktop"><Kpi label="Over termijn" waarde={<Optel waarde={laat.length} />} toon={laat.length ? "rood" : undefined} sub={`termijn ${inst.dagen} dagen`} /></Link>
+        <Link to="/rapportage" className="kpi-link alleen-desktop"><Kpi label="Honorering" waarde={honorering == null ? "—" : <Optel waarde={honorering} opmaak={(n) => `${Math.round(n)}%`} />} sub={`${terug.length} van ${terug.length + afgewezen.length} beoordeeld`} /></Link>
       </section>
 
       <LevelKaart />

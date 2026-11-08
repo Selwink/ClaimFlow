@@ -24,6 +24,11 @@ export function ClaimDetail() {
   const [notitieOpen, setNotitieOpen] = useState(false);
   const [tekst, setTekst] = useState("");
   const [naarStatus, setNaarStatus] = useState<Status | "">("");
+  const [feest, setFeest] = useState(0);
+  const naar = async (st: Status) => {
+    await zetStatus([id!], st);
+    if (st === "gehonoreerd") { setFeest(Date.now()); setTimeout(() => setFeest(0), 2600); }
+  };
   const c = claims.find((x) => x.id === id);
 
   if (!c) return (
@@ -120,12 +125,14 @@ export function ClaimDetail() {
         <div className="actiebalk">
           <button type="button" className="knop knop-zacht" onClick={() => setNotitieOpen(true)}><Icon naam="bericht" maat={18} /> Notitie</button>
           {volgende ? (
-            <button type="button" className={`knop ${volgende === "gehonoreerd" ? "knop-turk" : "knop-rood"}`} onClick={() => zetStatus([c.id], volgende)}>
+            <button type="button" className={`knop ${volgende === "gehonoreerd" ? "knop-turk" : "knop-rood"}`} onClick={() => naar(volgende)}>
               <Icon naam="vink" maat={18} /> {STATUS_LABEL[volgende]}
             </button>
           ) : <span className="actiebalk-klaar"><Icon naam="vink" maat={18} /> Afgehandeld</span>}
         </div>
       )}
+
+      {feest > 0 && <div className="confetti confetti-scherm" key={feest} aria-hidden="true">{Array.from({ length: 30 }, (_, i) => <i key={i} style={{ ["--i" as string]: i }} />)}</div>}
 
       <Sheet titel="Notitie toevoegen" open={notitieOpen} sluit={() => setNotitieOpen(false)}
         voet={<><button type="button" className="knop knop-zacht" onClick={() => setNotitieOpen(false)}>Annuleren</button>

@@ -8,6 +8,7 @@ import { Icon } from "../components/Icon";
 import { Kpi, Leeg, PaginaKop, Voortgang } from "../components/ui";
 import { LevAvatar } from "./Leveranciers";
 import { Ranglijst } from "../components/Level";
+import { Optel } from "../components/Optel";
 
 export function Rapportage() {
   const { actief, inst } = useStore();
@@ -73,15 +74,15 @@ export function Rapportage() {
         <>
           <section className="voortgangkaart">
             <div className="voortgang-kop">
-              <div><small className="bovenschrift">Teruggehaald</small><b>{euroKort(terug)}</b></div>
-              <div className="rechts"><small className="bovenschrift">Nog open</small><b className="t-rood">{euroKort(nog)}</b></div>
+              <div><small className="bovenschrift">Teruggehaald</small><b><Optel waarde={terug} opmaak={euroKort} ms={1100} /></b></div>
+              <div className="rechts"><small className="bovenschrift">Nog open</small><b className="t-rood"><Optel waarde={nog} opmaak={euroKort} ms={1100} /></b></div>
             </div>
             <Voortgang deel={terug + nog ? terug / (terug + nog) : 0} licht label="Teruggehaald van het totaal" />
             <p className="t-zacht mono">{terug + nog ? Math.round((terug / (terug + nog)) * 100) : 0}% van {euroKort(terug + nog)} is binnen · {euroKort(som(afg))} afgewezen</p>
           </section>
 
           <section className="kpi-rij kpi-rij-4">
-            <Kpi label="Claims" waarde={lijst.length} sub={euroKort(totaal)} />
+            <Kpi label="Claims" waarde={<Optel waarde={lijst.length} />} sub={euroKort(totaal)} />
             <Kpi label="Honorering" waarde={beoordeeld ? `${Math.round((geh.length / beoordeeld) * 100)}%` : "—"} toon="turk" sub={`${geh.length} van ${beoordeeld}`} />
             <Kpi label="Over termijn" waarde={open.filter((c) => overTermijn(c, inst.dagen)).length} toon="rood" sub={`van ${meervoud(open.length, "open claim", "open claims")}`} />
             <Kpi label="Doorlooptijd" waarde={gemDoorloop != null ? `${gemDoorloop} d` : "—"} sub="gemiddeld tot besluit" />

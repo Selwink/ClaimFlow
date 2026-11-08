@@ -9,6 +9,7 @@ import { ClaimKaarten, ClaimTabel, sorteer, type Sortering, type SorteerVeld } f
 import { Icon } from "../components/Icon";
 import { Leeg, PaginaKop } from "../components/ui";
 import { useBreed } from "../lib/useBreed";
+import { Optel } from "../components/Optel";
 
 const TABS = [
   { id: "alle", label: "Alle" },
@@ -104,7 +105,7 @@ export function Claims() {
         {tellers.map((t) => (
           <button key={t.id} type="button" role="tab" aria-selected={tab === t.id} className={`teller-vak vak-${t.id}${t.n ? " heeft" : ""}`} onClick={() => zetParam("tab", t.id === "alle" ? "" : t.id)}>
             <span className="teller-label">{t.label}</span>
-            <b>{t.n}</b>
+            <b><Optel waarde={t.n} ms={700} /></b>
             <span className="teller-sub">{euroKort(t.bedrag)}</span>
           </button>
         ))}
