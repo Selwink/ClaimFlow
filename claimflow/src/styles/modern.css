@@ -95,3 +95,8 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 .totaalkaart .bovenschrift { color: rgba(255, 255, 255, .62); }
 .totaal-bedrag { display: block; font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 8vw, 2.6rem); letter-spacing: -.045em; line-height: 1.05; margin: 2px 0; }
 .totaal-sub { font-size: .82rem; color: rgba(255, 255, 255, .7); }
+
+/* ---- slogan under the Werkbalk title ---- */
+.werkbak-slogan { margin-top: 4px; font-family: var(--display); font-weight: 700; font-size: clamp(1rem, 3.6vw, 1.15rem); letter-spacing: -.02em; color: #fff; }
+.werkbak-slogan .kapot { display: inline-flex; }
+.werkbak-slogan .sl-terug { display: inline-block; }

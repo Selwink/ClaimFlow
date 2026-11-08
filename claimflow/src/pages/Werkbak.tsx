@@ -67,7 +67,13 @@ export function Werkbak() {
       <header className="werkbak-kop">
         <div className="werkbak-kop-binnen">
           <div className="werkbak-titel">
-            <h1>Werkbalk</h1>
+            <div>
+              <h1>Werkbalk</h1>
+              <p className="werkbak-slogan" aria-label="Wat kapot gaat, komt terug.">
+                <span aria-hidden="true">Wat <span className="kapot">{"kapot".split("").map((l, i) => <i key={i}>{l}</i>)}</span> gaat, </span>
+                <span className="sl-terug" aria-hidden="true">komt terug.</span>
+              </p>
+            </div>
             {magBewerken && <Link to="/nieuw" className="knop knop-rood knop-klein alleen-desktop"><Icon naam="plus" maat={16} /> Nieuwe claim</Link>}
           </div>
           <div className="werkbak-tabs" role="tablist" aria-label="Werkbalk">
