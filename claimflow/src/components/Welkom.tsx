@@ -1,15 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../state/Store";
-import { ls } from "../lib/format";
 import { Icon, type IconNaam } from "./Icon";
 
 /**
- * Unfolding welcome tour, shown once per account after the first login (per device).
+ * Unfolding welcome tour, shown after every login (also after creating an account or a new password).
  * Can be reopened from Beheer with `toonWelkom()`.
  */
-const sleutel = (naam: string) => `claimflow-welkom-${naam.trim().toLowerCase()}`;
+const NA_INLOGGEN = "claimflow-welkom-tonen";
 const OPNIEUW = "claimflow-welkom-opnieuw";
+/** Called right after a successful login; the tour opens once the register has loaded. */
+export const welkomNaInloggen = () => { try { sessionStorage.setItem(NA_INLOGGEN, "1"); } catch { /* private mode */ } };
 export const toonWelkom = () => window.dispatchEvent(new Event(OPNIEUW));
 
 interface Stap { icoon: IconNaam; toon: "rood" | "turk" | "oker" | "nacht" | "aub"; titel: string; tekst: string; punten: Array<[IconNaam, string]> }
@@ -49,10 +50,13 @@ export function Welkom() {
   const laatste = stap === lijst.length - 1;
 
   useEffect(() => {
-    if (!rol || !geladen || !naam || ls.get(sleutel(naam))) return;
+    let net = false;
+    try { net = sessionStorage.getItem(NA_INLOGGEN) === "1"; } catch { /* private mode */ }
+    if (!rol || !geladen || !net) return;
+    try { sessionStorage.removeItem(NA_INLOGGEN); } catch { /* private mode */ }
     const t = setTimeout(() => { setStap(0); setOpen(true); }, 500);
     return () => clearTimeout(t);
-  }, [rol, geladen, naam]);
+  }, [rol, geladen]);
   useEffect(() => {
     const opnieuw = () => { setStap(0); setOpen(true); };
     window.addEventListener(OPNIEUW, opnieuw);
@@ -61,7 +65,6 @@ export function Welkom() {
   useEffect(() => { if (open) knop.current?.focus(); }, [open, stap]);
 
   const sluit = (naar?: string) => {
-    if (naam) ls.set(sleutel(naam), "1");
     setOpen(false);
     if (naar) nav(naar);
   };

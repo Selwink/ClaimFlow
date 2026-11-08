@@ -3,6 +3,7 @@ import { aanmelden, herstelWachtwoord, login } from "../lib/api";
 import { useStore } from "../state/Store";
 import { Icon, type IconNaam } from "../components/Icon";
 import { Logo } from "../components/ui";
+import { welkomNaInloggen } from "../components/Welkom";
 
 const KENMERKEN: Array<[IconNaam, string]> = [
   ["klok", "42 dagen bewaakt"], ["camera", "LGAR scannen"], ["afbeelding", "Foto’s als bewijs"],
@@ -64,6 +65,7 @@ export function Login() {
     try {
       const r = stand === "inloggen" ? await login(naam.trim(), pw) : stand === "aanmelden" ? await aanmelden(naam.trim(), pw, code) : await herstelWachtwoord(naam.trim(), code, pw);
       if ("wacht" in r) { setBezig(false); setWachtOp(r.naam); setPw(""); setCode(""); return; }
+      welkomNaInloggen();
       naInloggen(r);
     } catch (err) {
       setBezig(false);
