@@ -14,6 +14,7 @@ import { Rapportage } from "./pages/Rapportage";
 import { Beheer } from "./pages/Beheer";
 import { Prullenbak } from "./pages/Prullenbak";
 import { Datums } from "./pages/Datums";
+import { Logistiek, Start } from "./pages/Start";
 import { NietGevonden } from "./pages/NietGevonden";
 
 function AppRoutes() {
@@ -23,8 +24,10 @@ function AppRoutes() {
       <Splash klaar={!rol || geladen} kort={!!rol} />
       {!rol ? <Login /> : (
         <Routes>
+          <Route index element={<Start />} />
+          <Route path="logistiek" element={<Logistiek />} />
           <Route element={<Layout />}>
-            <Route index element={<Vandaag />} />
+            <Route path="vandaag" element={<Vandaag />} />
             <Route path="claims" element={<Claims />} />
             <Route path="claims/:id" element={<ClaimDetail />} />
             <Route path="claims/:id/bewerken" element={<Bewerken />} />

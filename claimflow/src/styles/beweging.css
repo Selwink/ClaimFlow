@@ -78,3 +78,5 @@ span.optel, span.optel > span { font: inherit; color: inherit; opacity: 1; lette
 /* the team bar shimmers while working toward the goal */
 .team-balk i { background-size: 200% 100%; background-image: linear-gradient(90deg, var(--turk-2), var(--turk), var(--turk-2)); animation: groei 1.1s cubic-bezier(.2, .8, .3, 1) .25s both, glans-team 3s linear 1.4s infinite; }
 @keyframes glans-team { to { background-position: -200% 0; } }
+
+:root[data-splash="aan"] .start-binnen, :root[data-splash="aan"] .start-knop { animation-play-state: paused; }

@@ -10,7 +10,7 @@ import { DoelGehaald } from "./Team";
 
 interface NavItem { naar: string; label: string; kort?: string; icoon: IconNaam; einde?: boolean }
 const NAV: NavItem[] = [
-  { naar: "/", label: "Vandaag", icoon: "huis", einde: true },
+  { naar: "/vandaag", label: "Vandaag", icoon: "huis", einde: true },
   { naar: "/claims", label: "Claims", icoon: "lijst" },
   { naar: "/leveranciers", label: "Leveranciers", icoon: "fabriek" },
   { naar: "/rapportage", label: "Rapportage", kort: "Cijfers", icoon: "grafiek" },
@@ -32,7 +32,7 @@ export function Layout() {
   return (
     <div className="frame">
       <aside className="zijbalk" aria-label="Navigatie">
-        <NavLink to="/" className="zijbalk-logo" aria-label="ClaimFlow Medipoint — naar Vandaag"><Logo /></NavLink>
+        <NavLink to="/" end className="zijbalk-logo" aria-label="ClaimFlow Medipoint — terug naar start (LGAR of Logistiek)"><Logo /></NavLink>
         <nav aria-label="Hoofdmenu zijbalk">
           {NAV.map((n) => (
             <NavLink key={n.naar} to={n.naar} end={n.einde} className="zij-link">
@@ -55,7 +55,7 @@ export function Layout() {
       </aside>
 
       <header className="topbalk">
-        <NavLink to="/" aria-label="ClaimFlow Medipoint — naar Vandaag"><Logo /></NavLink>
+        <NavLink to="/" end aria-label="ClaimFlow Medipoint — terug naar start (LGAR of Logistiek)"><Logo /></NavLink>
         <div className="topbalk-rechts">
           <i className={`stip ${online ? "aan" : "uit"}`} title={online ? "Verbonden" : "Offline"} />
           <NavLink to="/beheer" className="avatar" aria-label="Beheer en profiel">{initialen}</NavLink>

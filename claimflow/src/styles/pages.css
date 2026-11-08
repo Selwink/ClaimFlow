@@ -472,3 +472,31 @@ button.instelrij:hover, a.instelrij:hover { background: #fbf6ee; }
 .push-ios li { display: flex; align-items: center; gap: 10px; }
 .push-ios li svg { display: inline; vertical-align: -3px; }
 .push-stap { width: 24px; height: 24px; border-radius: 50%; background: var(--aub); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: .75rem; flex: 0 0 auto; }
+
+/* ============ Start: LGAR of Logistiek ============ */
+.start { min-height: 100dvh; display: flex; flex-direction: column; background: var(--zand); overflow-x: clip; }
+.start-band { position: relative; overflow: hidden; background: var(--aub); color: #fff;
+  padding: calc(env(safe-area-inset-top) + 26px) max(var(--gutter), env(safe-area-inset-right, 0px)) 70px max(var(--gutter), env(safe-area-inset-left, 0px)); }
+.start-binnen { position: relative; max-width: 620px; margin: 0 auto; display: grid; gap: 26px; animation: binnen .6s cubic-bezier(.2, .8, .3, 1) both; }
+.start-binnen .terugknop { margin: 0 0 -10px; }
+.start h1 { font-weight: 800; font-size: clamp(2rem, 8vw, 2.8rem); letter-spacing: -.045em; line-height: 1.04; }
+.start h1 span { color: rgba(255, 255, 255, .62); }
+.start-keuzes { position: relative; margin-top: -44px; padding: 0 max(var(--gutter), env(safe-area-inset-right, 0px)) 0 max(var(--gutter), env(safe-area-inset-left, 0px)); display: grid; gap: 14px; max-width: 652px; width: 100%; align-self: center; }
+@media (min-width: 760px) { .start-keuzes { grid-template-columns: 1fr 1fr; max-width: 900px; } }
+.start-knop { display: flex; align-items: center; gap: 16px; background: var(--papier); border: 1px solid var(--lijn); border-radius: 26px; padding: 22px 20px; color: var(--inkt);
+  box-shadow: 0 18px 40px rgba(42, 16, 36, .12); transition: transform .18s ease, box-shadow .18s ease; animation: lijstIn .55s cubic-bezier(.2, .8, .3, 1) both; }
+.start-knop:nth-child(2) { animation-delay: .1s; }
+.start-knop:hover { transform: translateY(-3px); box-shadow: 0 24px 50px rgba(42, 16, 36, .16); }
+.start-knop:active { transform: scale(.99); }
+.start-ic { width: 62px; height: 62px; border-radius: 20px; display: grid; place-items: center; color: #fff; flex: 0 0 auto; }
+.start-lgar .start-ic { background: var(--rood-knop); box-shadow: 0 10px 22px rgba(232, 56, 43, .35); }
+.start-logistiek .start-ic, .start-leeg .start-ic { background: var(--nacht); box-shadow: 0 10px 22px rgba(46, 64, 87, .3); }
+.start-t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.start-t b { font-family: var(--display); font-weight: 800; font-size: 1.6rem; letter-spacing: -.035em; line-height: 1.05; }
+.start-t > span { color: var(--inkt-2); font-size: .88rem; }
+.start-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.start-pijl { color: var(--inkt-2); flex: 0 0 auto; }
+.start-voet { display: flex; justify-content: center; align-items: center; gap: 10px; padding: 26px 16px calc(env(safe-area-inset-bottom) + 26px); color: var(--inkt-2); margin-top: auto; }
+.start-leeg { grid-column: 1 / -1; background: var(--papier); border: 1px solid var(--lijn); border-radius: 26px; padding: 24px 20px; display: grid; gap: 10px; justify-items: start; box-shadow: 0 18px 40px rgba(42, 16, 36, .12); }
+.start-leeg b { font-family: var(--display); font-weight: 800; font-size: 1.4rem; letter-spacing: -.03em; }
+.start-leeg p { color: var(--inkt-2); }
