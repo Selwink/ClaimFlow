@@ -110,7 +110,14 @@ export function Beheer() {
         <Link to="/leveranciers" className="instelrij alleen-mobiel"><span className="rij-ic"><Icon naam="fabriek" maat={18} /></span><span className="rij-t"><b>Leveranciers</b><span>Cijfers per leverancier</span></span><Icon naam="verder" maat={16} /></Link>
       </Blok>
 
-      <Blok titel="E-mailmeldingen" uitleg={`Bij elke nieuwe claim gaat er een mail naar ${CONFIG.MELDING_EMAIL || "niemand"}.`}>
+      <Blok titel="E-mailmeldingen" uitleg={s.inst.mail ? `Bij elke nieuwe claim gaat er een mail naar ${CONFIG.MELDING_EMAIL || "niemand"}.` : "Staat uit: wat er moet gebeuren zie je in een pop-up zodra je de app opent."}>
+        <label className="instelrij schakelrij">
+          <span className="rij-ic"><Icon naam="mail" maat={18} /></span>
+          <span className="rij-t"><b>Ook mailen</b><span>Uit: alleen de pop-up in de app. Aan: ook een mail bij een nieuwe claim en op maandag.</span></span>
+          <input type="checkbox" role="switch" className="schakelaar" checked={s.inst.mail} disabled={uit}
+            onChange={(e) => void s.bewaarInst({ ...s.inst, mail: e.target.checked })} />
+        </label>
+        {s.inst.mail && <>
         <div className={`mailstatus ${dienst === "resend" ? "ms-ok" : dienst === "formsubmit" ? "ms-reserve" : "ms-onbekend"}`}>
           <i />
           {dienst === "resend" ? <span><b>Verstuurd via Resend</b> — betrouwbare maildienst actief.</span>
@@ -127,6 +134,7 @@ export function Beheer() {
         <Rij icoon="bericht" titel="Weekoverzicht nu sturen" tekst={weekStatus || "Stuur de samenvatting van vandaag meteen"} onClick={stuurWeek} />
         {wachtrij > 0 && <Rij icoon="klok" titel={`${meervoud(wachtrij, "mail wacht", "mails wachten")} op verzending`} tekst="Worden automatisch opnieuw geprobeerd"
           onClick={async () => { const n = await verstuurWachtrij(); setWachtrij(wachtrijLengte()); toast(n ? `${n} verstuurd` : "Nog niet bereikbaar"); }} />}
+        </>}
       </Blok>
 
       <form onSubmit={bewaarInst}>

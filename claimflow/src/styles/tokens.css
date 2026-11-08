@@ -1,29 +1,29 @@
 /* Claimflow design tokens — from the approved concept (06 · identiteit). */
 :root {
-  --aub: #2A1024;
-  --aub-2: #3D1A35;
-  --aub-3: #4a1d40;
+  --aub: #14151F;
+  --aub-2: #1E2030;
+  --aub-3: #2A2D42;
   --rood: #E8382B;
   --rood-2: #B8231A;
   --rood-knop: #DB3325; /* button fill: white text reaches 4.6:1 */
   --rood-zacht: #FFE3DF;
-  --zand: #F6F2EB;
-  --zand-2: #ECE5D9;
-  --papier: #FFFCF7;
-  --inkt: #1C1418;
-  --inkt-2: #6E6268;
+  --zand: #F3F4F8;
+  --zand-2: #E9EBF1;
+  --papier: #FFFFFF;
+  --inkt: #11121A;
+  --inkt-2: #5E6272;
   --turk: #3FB7B2;
   --turk-2: #18716d; /* turquoise for text and filled buttons on light grounds (≥5:1) */
   --turk-zacht: #DDF3F2;
   --oker: #EFB13C;
   --oker-2: #7a5200;
   --oker-zacht: #FCEBC6;
-  --nacht: #2E4057;
+  --nacht: #33427A;
   --roze: #F7CBD1;
-  --lijn: #E6DED1;
-  --lijn-2: #d6c9b6;
+  --lijn: #E5E7EE;
+  --lijn-2: #D3D7E1;
 
-  --display: "Bricolage Grotesque", system-ui, sans-serif;
+  --display: "Plus Jakarta Sans", system-ui, sans-serif;
   --body: "Inter", system-ui, -apple-system, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
@@ -31,7 +31,7 @@
   --r-m: 16px;
   --r-l: 20px;
   --r-xl: 28px;
-  --schaduw: 0 1px 2px rgba(42, 16, 36, .04), 0 8px 24px rgba(42, 16, 36, .06);
+  --schaduw: 0 1px 2px rgba(17, 18, 26, .04), 0 10px 30px -8px rgba(17, 18, 26, .10);
   --schaduw-rood: 0 12px 28px rgba(232, 56, 43, .35);
   --zijbalk: 248px;
   --tabbalk-h: 76px;

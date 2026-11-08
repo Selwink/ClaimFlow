@@ -4,13 +4,10 @@ import { useStore } from "../state/Store";
 import { Icon, type IconNaam } from "./Icon";
 
 /**
- * Unfolding welcome tour, shown every time the app opens (and after logging in), once the opening screen is gone.
- * Can be reopened from Beheer with `toonWelkom()`.
+ * Unfolding explanation of the app. It no longer opens by itself (the Taken pop-up does that now);
+ * it opens from Ik → Uitleg bekijken with `toonWelkom()`.
  */
-const NA_INLOGGEN = "claimflow-welkom-tonen";
 const OPNIEUW = "claimflow-welkom-opnieuw";
-/** Called right after a successful login; the tour opens once the register has loaded. */
-export const welkomNaInloggen = () => { try { sessionStorage.setItem(NA_INLOGGEN, "1"); } catch { /* private mode */ } };
 export const toonWelkom = () => window.dispatchEvent(new Event(OPNIEUW));
 
 interface Stap { icoon: IconNaam; toon: "rood" | "turk" | "oker" | "nacht" | "aub"; titel: string; tekst: string; punten: Array<[IconNaam, string]> }
@@ -20,7 +17,7 @@ function stappen(voornaam: string, magBewerken: boolean): Stap[] {
     { icoon: "vink", toon: "rood", titel: `Welkom${voornaam ? `, ${voornaam}` : ""}!`,
       tekst: "ClaimFlow houdt alle garantieclaims van Meppel bij, zodat er geen claim meer over de termijn gaat.",
       punten: [["klok", "Elke claim heeft 42 dagen; de app telt mee"], ["persoon", "Je naam staat bij alles wat je doet"], ["slot", "Je blijft 30 dagen ingelogd op dit apparaat"]] },
-    { icoon: "huis", toon: "aub", titel: "Werkbak",
+    { icoon: "huis", toon: "aub", titel: "Werkbalk",
       tekst: "Je startscherm: alles wat er moet gebeuren, met de knop erbij.",
       punten: [["waarschuwing", "Rood = over de termijn: tijd om informatie bij de VAM op te vragen"], ["vink", "Tik op VAM gevraagd, Indienen of Inkoopnr invullen en de taak is klaar"], ["klok", "Later schuift een taak een week op"]] },
     magBewerken
@@ -35,12 +32,12 @@ function stappen(voornaam: string, magBewerken: boolean): Stap[] {
       punten: [["klok", "De ring toont hoeveel dagen er nog over zijn"], ["vink", magBewerken ? "Met één tik naar Ingediend of Gehonoreerd" : "De status en de hele tijdlijn"], ["camera", "Foto’s en notities als bewijs voor de leverancier"]] },
     { icoon: "grafiek", toon: "oker", titel: "Overzicht houden",
       tekst: "Je hoeft niets bij te houden in Excel.",
-      punten: [["mail", "Elke maandag een weekoverzicht per mail"], ["grafiek", "Cijfers: het teamdoel, wat terugkomt en per leverancier"], ["persoon", "Ik: je account, wachtwoord en instellingen"]] },
+      punten: [["lijst", "Bij het openen een pop-up met wat er moet gebeuren"], ["grafiek", "Cijfers: het teamdoel, wat terugkomt en per leverancier"], ["persoon", "Ik: je account, wachtwoord en instellingen"]] },
   ];
 }
 
 export function Welkom() {
-  const { naam, rol, geladen, magBewerken } = useStore();
+  const { naam, magBewerken } = useStore();
   const nav = useNavigate();
   const [open, setOpen] = useState(false);
   const [stap, setStap] = useState(0);
@@ -49,19 +46,6 @@ export function Welkom() {
   const lijst = stappen((naam || "").split(" ")[0], magBewerken);
   const laatste = stap === lijst.length - 1;
 
-  const getoond = useRef(false);
-  useEffect(() => {
-    if (!rol || !geladen || getoond.current) return;
-    try { sessionStorage.removeItem(NA_INLOGGEN); } catch { /* private mode */ }
-    // wait until the opening screen has gone, so the card visibly unfolds
-    const t = setInterval(() => {
-      if (document.documentElement.dataset.splash || document.querySelector(".splash")) return;
-      clearInterval(t);
-      getoond.current = true;
-      setTimeout(() => { setStap(0); setOpen(true); }, 250);
-    }, 150);
-    return () => clearInterval(t);
-  }, [rol, geladen]);
   useEffect(() => {
     const opnieuw = () => { setStap(0); setOpen(true); };
     window.addEventListener(OPNIEUW, opnieuw);
@@ -103,7 +87,7 @@ export function Welkom() {
             ? <button ref={knop} type="button" className="knop knop-rood" onClick={() => sluit(magBewerken ? "/nieuw" : "/claims")}>{magBewerken ? "Eerste claim toevoegen" : "Bekijk de claims"} <Icon naam="pijl" maat={18} /></button>
             : <button ref={knop} type="button" className="knop knop-rood" onClick={() => ga(stap + 1)}>Volgende <Icon naam="pijl" maat={18} /></button>}
         </div>
-        {laatste && <button type="button" className="knop-link welkom-later" onClick={() => sluit()}>Naar Vandaag</button>}
+        {laatste && <button type="button" className="knop-link welkom-later" onClick={() => sluit()}>Naar de Werkbalk</button>}
       </div>
     </div>
   );

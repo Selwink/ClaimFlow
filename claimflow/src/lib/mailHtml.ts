@@ -13,7 +13,7 @@ export function mailInhoud(velden: Velden): { onderwerp: string; html: string; t
   const html = `<!doctype html><html lang="nl"><body style="margin:0;background:#F6F2EB;font-family:Inter,Segoe UI,Arial,sans-serif;color:#1C1418">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F6F2EB;padding:24px 12px"><tr><td align="center">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:620px;background:#FFFCF7;border-radius:20px;overflow:hidden;border:1px solid #E6DED1">
-<tr><td style="background:#2A1024;padding:20px 24px">
+<tr><td style="background:#14151F;padding:20px 24px">
   <span style="display:inline-block;width:22px;height:22px;border-radius:7px;background:#E8382B;color:#fff;text-align:center;font-weight:800;line-height:22px;font-size:13px">&#10003;</span>
   <span style="color:#fff;font-weight:800;font-size:18px;letter-spacing:-.3px;vertical-align:middle;margin-left:8px">ClaimFlow</span>
   <span style="color:rgba(255,255,255,.7);font-size:18px;vertical-align:middle"> Medipoint</span>

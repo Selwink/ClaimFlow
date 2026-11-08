@@ -9,7 +9,7 @@ const SITE = process.env.URL || "https://garantieclaims-meppel.netlify.app";
 export const handler = async () => {
   const { claims, inst } = await claimsEnInstellingen();
   const instellingen = inst || INST_STANDAARD;
-  if (!instellingen.weekmail) return { statusCode: 200, body: "weekmail staat uit" };
+  if (!instellingen.mail || !instellingen.weekmail) return { statusCode: 200, body: "mail staat uit" };
   const r = await verzend(weekOverzicht(claims, instellingen, SITE).velden, SITE);
   console.log(`weekoverzicht via ${r.dienst}: ${r.bericht}`);
   return { statusCode: r.ok ? 200 : 502, body: r.bericht };

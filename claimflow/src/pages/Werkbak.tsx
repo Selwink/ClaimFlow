@@ -7,6 +7,7 @@ import { datum, meervoud } from "../lib/format";
 import { GROEP, laterDatum, laterTekst, VAM_GEVRAAGD, WEER_OPGEPAKT, werkbak, type Bak, type Taak } from "../lib/werkbak";
 import { Icon } from "../components/Icon";
 import { Leeg, Sheet } from "../components/ui";
+import { TeamKaart } from "../components/Team";
 
 const BAKKEN: Array<{ id: Bak; label: string }> = [{ id: "nu", label: "Nu doen" }, { id: "week", label: "Deze week" }, { id: "wacht", label: "Wacht op lev." }];
 const CHIP: Record<Taak["reden"], { toon: string; tekst: string }> = {
@@ -57,7 +58,7 @@ export function Werkbak() {
         return <><button type="button" className="knopje" disabled={uit} onClick={() => status(c, "ingediend")}><Icon naam="upload" maat={14} /> Indienen</button>{notitieKnop}{later}</>;
       default:
         return <><button type="button" className="knopje knopje-turk" disabled={uit} onClick={() => status(c, "gehonoreerd")}><Icon naam="vink" maat={14} /> Gehonoreerd</button>{notitieKnop}
-          <button type="button" className="knopje knopje-z" disabled={uit} onClick={() => notitie(c, WEER_OPGEPAKT, `${titelVan(c)} staat weer in de werkbak`)}>Weer oppakken</button></>;
+          <button type="button" className="knopje knopje-z" disabled={uit} onClick={() => notitie(c, WEER_OPGEPAKT, `${titelVan(c)} staat weer in de Werkbalk`)}>Weer oppakken</button></>;
     }
   };
 
@@ -66,10 +67,10 @@ export function Werkbak() {
       <header className="werkbak-kop">
         <div className="werkbak-kop-binnen">
           <div className="werkbak-titel">
-            <h1>Werkbak</h1>
+            <h1>Werkbalk</h1>
             {magBewerken && <Link to="/nieuw" className="knop knop-rood knop-klein alleen-desktop"><Icon naam="plus" maat={16} /> Nieuwe claim</Link>}
           </div>
-          <div className="werkbak-tabs" role="tablist" aria-label="Werkbak">
+          <div className="werkbak-tabs" role="tablist" aria-label="Werkbalk">
             {BAKKEN.map((b) => (
               <button key={b.id} type="button" role="tab" aria-selected={bak === b.id} onClick={() => setBak(b.id)}>
                 <b className={b.id === "nu" && tel("nu") ? "rood" : undefined}>{tel(b.id)}</b>{b.label}
@@ -80,8 +81,9 @@ export function Werkbak() {
       </header>
 
       <div className="werkbak-inhoud">
+        <div className="werkbak-doel"><TeamKaart /></div>
         {lijst.length === 0 ? (
-          <Leeg titel={bak === "nu" ? "Werkbak leeg" : bak === "week" ? "Niets voor deze week" : "Nergens op wachten"}
+          <Leeg titel={bak === "nu" ? "Werkbalk leeg" : bak === "week" ? "Niets voor deze week" : "Nergens op wachten"}
             tekst={bak === "nu" ? "Alles wat nu moest, is gedaan. Mooi werk." : undefined}>
             {bak === "nu" && magBewerken && <Link to="/nieuw" className="knop knop-rood"><Icon naam="plus" maat={18} /> Nieuwe claim</Link>}
           </Leeg>

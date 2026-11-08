@@ -6,11 +6,12 @@ import { geleden } from "../lib/format";
 import { Icon, type IconNaam } from "./Icon";
 import { Logo } from "./ui";
 import { Welkom } from "./Welkom";
+import { TakenPopup } from "./Taken";
 import { DoelGehaald } from "./Team";
 
 interface NavItem { naar: string; label: string; kort?: string; icoon: IconNaam; einde?: boolean }
 const NAV: NavItem[] = [
-  { naar: "/", label: "Werkbak", icoon: "huis", einde: true },
+  { naar: "/", label: "Werkbalk", icoon: "huis", einde: true },
   { naar: "/claims", label: "Claims", icoon: "lijst" },
   { naar: "/leveranciers", label: "Leveranciers", icoon: "fabriek" },
   { naar: "/rapportage", label: "Rapportage", kort: "Cijfers", icoon: "grafiek" },
@@ -32,7 +33,7 @@ export function Layout() {
   return (
     <div className="frame">
       <aside className="zijbalk" aria-label="Navigatie">
-        <NavLink to="/" className="zijbalk-logo" aria-label="ClaimFlow Medipoint — naar de Werkbak"><Logo /></NavLink>
+        <NavLink to="/" className="zijbalk-logo" aria-label="ClaimFlow Medipoint — naar de Werkbalk"><Logo /></NavLink>
         <nav aria-label="Hoofdmenu zijbalk">
           {NAV.map((n) => (
             <NavLink key={n.naar} to={n.naar} end={n.einde} className="zij-link">
@@ -55,7 +56,7 @@ export function Layout() {
       </aside>
 
       <header className="topbalk">
-        <NavLink to="/" aria-label="ClaimFlow Medipoint — naar de Werkbak"><Logo /></NavLink>
+        <NavLink to="/" aria-label="ClaimFlow Medipoint — naar de Werkbalk"><Logo /></NavLink>
         <div className="topbalk-rechts">
           <i className={`stip ${online ? "aan" : "uit"}`} title={online ? "Verbonden" : "Offline"} />
           <NavLink to="/beheer" className="avatar" aria-label="Beheer en profiel">{initialen}</NavLink>
@@ -63,6 +64,7 @@ export function Layout() {
       </header>
 
       <Welkom />
+      <TakenPopup />
       <DoelGehaald />
       <main className="inhoud" id="inhoud">
         {!online && <div className="offline-band">Geen verbinding — je ziet de laatst opgehaalde gegevens.</div>}

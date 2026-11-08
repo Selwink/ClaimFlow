@@ -37,7 +37,7 @@
 /* cards lift a little under the pointer */
 @media (hover: hover) {
   button.taak, .levkaart, .kpi-link .kpi, .optie { transition: transform .18s ease, box-shadow .18s ease, border-color .12s; }
-  button.taak:hover, .optie:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(42, 16, 36, .08); }
+  button.taak:hover, .optie:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(17, 18, 26, .08); }
 }
 
 /* bars grow, chart columns rise, the term ring draws itself */

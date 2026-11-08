@@ -49,6 +49,8 @@ export interface Instellingen {
   autoInvoer: boolean;
   /** Send the Monday summary e-mail. */
   weekmail: boolean;
+  /** E-mails on at all (new claim + weekly overview). Off: only the in-app pop-up. */
+  mail: boolean;
   /** Monthly team goal: euros to get back. */
   maanddoel: number;
   prijzen: VastBedrag[];

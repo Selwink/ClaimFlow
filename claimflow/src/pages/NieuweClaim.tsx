@@ -65,7 +65,7 @@ export function NieuweClaim() {
     const ok = await bewaar([nieuw], "Claim vastgelegd", { verwijder: c.id });
     setBezig(false);
     if (!ok) return;
-    void mailNieuweClaim(nieuw, bronTekst, naam);
+    if (inst.mail) void mailNieuweClaim(nieuw, bronTekst, naam);
     nav(`/claims/${c.id}`, { replace: true });
   };
 
