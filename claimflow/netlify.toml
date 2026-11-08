@@ -10,3 +10,7 @@
 [functions."weekoverzicht"]
   # Every Monday 06:00 UTC (07:00 winter / 08:00 summer in the Netherlands).
   schedule = "0 6 * * 1"
+
+[functions."backup"]
+  # Every night 01:00 UTC.
+  schedule = "0 1 * * *"

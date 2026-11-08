@@ -24,3 +24,20 @@ npm run preview    # build lokaal bekijken
 
 Breekpunten: telefoon < 760px (kaarten + tabbalk), tablet 760–1023px (tabellen + tabbalk), computer ≥ 1024px (zijbalk).
 Netlify: `public/_redirects` regelt de SPA-routes.
+
+## Beveiliging en back-ups
+
+De browser praat nooit rechtstreeks met de database. Alles loopt via `/.netlify/functions/data`:
+
+- **Inloggen**: het wachtwoord wordt op de server gecontroleerd (`netlify/lib/toegang.ts`); de app krijgt een ondertekende pas die 30 dagen geldig is.
+- **Rollen**: met `BEHEER_HASH` gezet krijgt het gewone wachtwoord alleen leesrechten. Een wachtwoordwijziging maakt alle passen ongeldig.
+- **Back-ups**: `netlify/functions/backup.ts` draait elke nacht en bewaart 30 dagen in Netlify Blobs (reserve: rijen `_backup:` in de tabel). Terugzetten kan in Beheer.
+
+Omgevingsvariabelen in Netlify (Site configuration → Environment variables):
+
+| Naam | Nodig | Waarvoor |
+| --- | --- | --- |
+| `TOKEN_GEHEIM` | ja | Ondertekent de toegangspassen (willekeurig, minstens 32 tekens) |
+| `SUPABASE_SERVICE_KEY` | sterk aangeraden | Service-sleutel uit Supabase → Project Settings → API. Daarna `supabase-afschermen.sql` uitvoeren |
+| `RESEND_API_KEY` | optioneel | Betrouwbare mail via Resend; zonder valt hij terug op FormSubmit |
+| `WACHTWOORD_HASH`, `BEHEER_HASH` | optioneel | sha256(wachtwoord + "medipoint-meppel") om wachtwoorden te wijzigen zonder code |

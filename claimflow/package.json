@@ -12,6 +12,7 @@
     "prebuild": "node scripts/ocr-bestanden.mjs"
   },
   "dependencies": {
+    "@netlify/blobs": "^8.1.0",
     "@tesseract.js-data/nld": "^1.0.0",
     "pdfjs-dist": "3.11.174",
     "react": "18.3.1",

@@ -10,6 +10,9 @@ import { weekOverzicht } from "../lib/overzicht";
 import { dezeMaand, euro, geleden, meervoud, parseBedrag, vandaag } from "../lib/format";
 import { Icon, type IconNaam } from "../components/Icon";
 import { PaginaKop } from "../components/ui";
+import { Backups } from "../components/Backups";
+import { Beveiliging } from "../components/Beveiliging";
+import { datumOntbreekt } from "../lib/claims";
 
 function Blok({ titel, uitleg, children }: { titel: string; uitleg?: string; children: ReactNode }) {
   return (
@@ -77,9 +80,8 @@ export function Beheer() {
           <button className="knop knop-zacht" disabled={naam.trim() === s.naam}>Opslaan</button>
         </form>
         <Rij icoon="slot" titel={s.rol === "beheer" ? "Beheerder" : "Alleen kijken"} tekst={s.rol === "beheer" ? "Je kunt claims toevoegen en wijzigen." : "Je kunt alles zien maar niets wijzigen."}>
-          {s.rol === "beheer" && CONFIG.BEHEER_HASH && <button type="button" className="knop knop-zacht knop-klein" onClick={s.naarKijken}>Naar kijken</button>}
         </Rij>
-        {uit && CONFIG.BEHEER_HASH && (
+        {uit && (
           <form className="inline-form" onSubmit={async (e) => { e.preventDefault(); if (!(await s.loginBeheer(beheerPw))) toast("Onjuist beheerderswachtwoord"); setBeheerPw(""); }}>
             <label className="veld"><span className="veld-label">Beheerderswachtwoord</span><input type="password" value={beheerPw} onChange={(e) => setBeheerPw(e.target.value)} autoComplete="current-password" /></label>
             <button className="knop knop-rood">Ontgrendel</button>
@@ -88,10 +90,19 @@ export function Beheer() {
         <Rij icoon="uitloggen" titel="Uitloggen" tekst="Wist ook de opgeslagen gegevens op dit apparaat." onClick={s.uitloggen} />
       </Blok>
 
+      <Blok titel="Beveiliging">
+        <Beveiliging />
+      </Blok>
+
+      <Blok titel="Back-ups">
+        <Backups />
+      </Blok>
+
       <Blok titel="Gegevens" uitleg={`${meervoud(s.actief.length, "claim", "claims")} · ${s.online ? `bijgewerkt ${geleden(s.syncTijd)}` : "offline"}`}>
         <Rij icoon="download" titel="Exporteren naar Excel" tekst="CSV met alle claims en tijdlijnen" onClick={() => download(`garantieclaims-${dezeMaand()}.csv`, naarCsv(s.actief), "text/csv;charset=utf-8")} />
         <Rij icoon="agenda" titel="Herinneringen in je agenda" tekst="Eén afspraak per open claim op de termijndatum" onClick={agenda} />
-        <Rij icoon="kopie" titel="Back-up downloaden" tekst="Alles als JSON-bestand" onClick={backup} />
+        {!uit && <Link to="/datums" className="instelrij"><span className="rij-ic"><Icon naam="agenda" maat={18} /></span><span className="rij-t"><b>Datums aanvullen</b><span>{meervoud(s.actief.filter((c) => datumOntbreekt(c)).length, "claim mist", "claims missen")} een datum</span></span><Icon naam="verder" maat={16} /></Link>}
+        <Rij icoon="kopie" titel="Alles downloaden" tekst="De huidige stand als JSON-bestand" onClick={backup} />
         <Rij icoon="vernieuw" titel="Nu verversen" tekst="Haal de laatste stand op" onClick={() => void s.vernieuw().then(() => toast("Bijgewerkt"))} />
         <Link to="/prullenbak" className="instelrij"><span className="rij-ic"><Icon naam="prullenbak" maat={18} /></span><span className="rij-t"><b>Prullenbak</b><span>{meervoud(s.prullenbak.length, "claim", "claims")}</span></span><Icon naam="verder" maat={16} /></Link>
         <Link to="/leveranciers" className="instelrij alleen-mobiel"><span className="rij-ic"><Icon naam="fabriek" maat={18} /></span><span className="rij-t"><b>Leveranciers</b><span>Cijfers per leverancier</span></span><Icon naam="verder" maat={16} /></Link>

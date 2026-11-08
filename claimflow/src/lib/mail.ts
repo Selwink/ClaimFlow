@@ -3,6 +3,7 @@ import type { Claim } from "./types";
 import { STATUS_LABEL } from "./types";
 import { geenBedrag, statusVan, titelVan } from "./claims";
 import { euro, ls, periodLabel } from "./format";
+import { pas } from "./api";
 
 /** E-mail notifications. Sent through our Netlify function (Resend), falling back to FormSubmit; failed mails are queued and retried. */
 
@@ -34,7 +35,8 @@ async function viaFormSubmit(velden: Velden): Promise<Resultaat> {
 export async function stuur(velden: Velden): Promise<Resultaat> {
   if (!CONFIG.MELDING_EMAIL) return { ok: false, bericht: "Geen e-mailadres ingesteld" };
   try {
-    const r = await fetch(FUNCTIE, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ velden }) });
+    const p = pas.get();
+    const r = await fetch(FUNCTIE, { method: "POST", headers: { "Content-Type": "application/json", ...(p ? { Authorization: `Bearer ${p.token}` } : {}) }, body: JSON.stringify({ velden }) });
     if (r.status !== 404 && (r.headers.get("content-type") || "").includes("json")) return (await r.json()) as Resultaat;
   } catch { /* function unreachable (offline or local dev): try FormSubmit directly */ }
   return viaFormSubmit(velden);

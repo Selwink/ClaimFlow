@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useStore } from "../state/Store";
-import { doorlooptijd, isOpen, overTermijn, perLeverancier, som, statusVan } from "../lib/claims";
+import { datumOntbreekt, doorlooptijd, isOpen, overTermijn, perLeverancier, som, statusVan } from "../lib/claims";
 import { dezeMaand, euroKort, isPeriode, meervoud, periodKort } from "../lib/format";
 import { download, naarCsv } from "../lib/export";
 import { Icon } from "../components/Icon";
@@ -60,6 +60,13 @@ export function Rapportage() {
           <Icon naam="download" maat={18} /> <span className="alleen-desktop">CSV</span>
         </button>
       </PaginaKop>
+
+      {lijst.some(datumOntbreekt) && (
+        <Link to="/datums" className="melding melding-oker melding-link">
+          <Icon naam="agenda" />
+          <div><b>{meervoud(lijst.filter(datumOntbreekt).length, "claim mist", "claims missen")} een datum</b><span>Daardoor kloppen de doorlooptijd en de termijnen niet helemaal. Vul ze aan →</span></div>
+        </Link>
+      )}
 
       {lijst.length === 0 ? <Leeg titel="Nog geen cijfers" tekst="Zodra er claims zijn, verschijnt hier het overzicht." /> : (
         <>

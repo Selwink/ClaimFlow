@@ -15,7 +15,13 @@ export function Login() {
     e.preventDefault();
     if (!pw) { setFout("Vul het wachtwoord in."); return; }
     setBezig(true);
-    const ok = await login(pw);
+    let ok = false;
+    try { ok = await login(pw); }
+    catch (err) {
+      setBezig(false);
+      setFout(err instanceof Error && /TOKEN_GEHEIM/.test(err.message) ? err.message : "Geen verbinding met het register. Controleer je internet en probeer het opnieuw.");
+      return;
+    }
     setBezig(false);
     if (!ok) { setFout("Dat wachtwoord klopt niet."); setPw(""); return; }
     if (wie.trim()) setNaam(wie.trim());

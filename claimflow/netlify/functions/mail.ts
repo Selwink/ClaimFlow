@@ -1,6 +1,7 @@
 // POST /.netlify/functions/mail — sends a notification to the fixed register address.
 // The recipient is never taken from the request, so this cannot be used to mail anyone else.
 import { dienst, verzend } from "../lib/verzend";
+import { leesPas } from "../lib/toegang";
 
 const SITE = process.env.URL || "https://garantieclaims-meppel.netlify.app";
 const toegestaan = (o: string) => !o || o === SITE || /^https:\/\/[a-z0-9-]+--garantieclaims-meppel\.netlify\.app$/.test(o) || /^http:\/\/localhost(:\d+)?$/.test(o);
@@ -12,6 +13,7 @@ export const handler = async (e: Verzoek) => {
   if (e.httpMethod === "GET") return json(200, { dienst: dienst() });
   if (e.httpMethod !== "POST") return json(405, { ok: false, bericht: "Alleen POST" });
   if (!toegestaan(e.headers.origin || "")) return json(403, { ok: false, bericht: "Niet toegestaan" });
+  if (!leesPas(e.headers.authorization)) return json(401, { ok: false, bericht: "Log opnieuw in" });
 
   let velden: Record<string, string>;
   try {

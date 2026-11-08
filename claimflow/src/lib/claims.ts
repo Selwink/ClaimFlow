@@ -147,3 +147,23 @@ export function perLeverancier(lijst: Claim[]): LevStat[] {
     .map(({ _d, ...e }) => ({ ...e, doorloop: _d.length ? Math.round(_d.reduce((a, b) => a + b, 0) / _d.length) : null }))
     .sort((a, b) => b.open - a.open || b.totaal - a.totaal);
 }
+
+/** Old claims often lack the dates the term ring and turnaround time depend on. */
+export const missendeDatums = (c: Claim) => ({ ingediend: !c.datum, afgehandeld: !isOpen(c) && !afgehandeldOp(c) });
+export const datumOntbreekt = (c: Claim) => { const m = missendeDatums(c); return m.ingediend || m.afgehandeld; };
+
+/** Records when a closed claim was decided, as a status entry dated on that day. */
+export function metAfgehandeld(c: Claim, op: string, wie: string): Claim {
+  const st = statusVan(c);
+  const n: Notitie = { d: op, t: `${STATUS_LABEL[st]} op ${op} (datum aangevuld)`, soort: "status", naar: st };
+  if (wie) n.w = wie;
+  return { ...c, notities: [...(c.notities || []), n] };
+}
+
+/**
+ * Suggestion for a missing submission date: the first day of the claim's month.
+ * No suggestion for the decision date: nothing stored reliably points to it, and a guess would distort turnaround times.
+ */
+export function voorstelDatums(c: Claim): { ingediend: string; afgehandeld: string } {
+  return { ingediend: c.datum || (isPeriode(c.periode) ? `${c.periode}-01` : ""), afgehandeld: "" };
+}

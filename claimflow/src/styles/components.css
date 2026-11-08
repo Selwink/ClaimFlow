@@ -280,3 +280,5 @@ button.taak:active { transform: scale(.99); }
   .zijbalk .logo-woord { display: flex; flex-direction: column; line-height: 1.05; }
   .zijbalk .logo-mp { font-size: .86rem; letter-spacing: 0; }
 }
+.melding-link { margin-bottom: 12px; text-decoration: none; }
+.melding-link:hover { filter: brightness(.97); }
