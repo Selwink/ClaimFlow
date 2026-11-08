@@ -54,7 +54,9 @@
 
 /* login and app slide in as the splash leaves */
 .toegang-band-binnen { animation: binnen .7s cubic-bezier(.2, .8, .3, 1) both; }
-.toegang-plek { animation: binnen .7s .12s cubic-bezier(.2, .8, .3, 1) both; }
+.toegang-plek { animation: opschuiven .75s .1s cubic-bezier(.2, .8, .3, 1) both; }
+@keyframes opschuiven { from { transform: translateY(70%); } }
+@media (min-width: 900px) { @keyframes opschuiven { from { transform: translateX(40%); opacity: 0; } } }
 @keyframes binnen { from { opacity: 0; transform: translateY(26px); } }
 :root[data-splash="aan"] .toegang-band-binnen { animation-play-state: paused; }
 :root[data-splash="aan"] .toegang-plek { animation-play-state: paused; }
@@ -62,17 +64,26 @@
 .inhoud > .pagina { animation: binnen .6s .05s cubic-bezier(.2, .8, .3, 1) both; }
 
 /* ============ Login ============ */
-/* Width comes from padded wrappers instead of calc()s, so the card can never be wider than the screen. */
-.toegang { min-height: 100dvh; background: var(--zand); padding-bottom: 40px; overflow-x: clip; }
-.toegang-band { background: var(--aub); color: #fff; padding: calc(env(safe-area-inset-top) + 28px) max(var(--gutter), env(safe-area-inset-right, 0px)) 96px max(var(--gutter), env(safe-area-inset-left, 0px)); }
-.toegang-band-binnen { max-width: 440px; margin: 0 auto; }
-.toegang-band h1 { font-weight: 800; font-size: clamp(32px, 8vw, 44px); letter-spacing: -.045em; margin: 30px 0 8px; }
-.toegang-band h1 span { color: var(--rood); }
-.toegang-band p { color: rgba(255, 255, 255, .65); }
-.toegang-plek { margin-top: -70px; padding: 0 max(var(--gutter), env(safe-area-inset-right, 0px)) 0 max(var(--gutter), env(safe-area-inset-left, 0px)); }
-.toegang-kaart { box-sizing: border-box; width: 100%; max-width: 440px; min-width: 0; margin: 0 auto; position: relative; background: var(--papier); border-radius: var(--r-xl); padding: 24px 20px; box-shadow: 0 24px 60px rgba(42, 16, 36, .18); display: flex; flex-direction: column; gap: 14px; }
+/* Layout D: headline figure on aubergine, the login form as a sheet that rises from the bottom.
+   Widths come from padding, so nothing can be wider than the screen. */
+.toegang { min-height: 100dvh; display: flex; flex-direction: column; background: var(--aub); overflow-x: clip; position: relative; }
+.toegang::before { content: ""; position: absolute; right: -150px; top: -130px; width: 440px; height: 440px; border-radius: 50%; background: radial-gradient(circle, rgba(232, 56, 43, .5), transparent 65%); pointer-events: none; }
+.toegang-band { position: relative; color: #fff; padding: calc(env(safe-area-inset-top) + 26px) max(var(--gutter), env(safe-area-inset-right, 0px)) 34px max(var(--gutter), env(safe-area-inset-left, 0px)); }
+.toegang-band-binnen { max-width: 480px; margin: 0 auto; display: grid; gap: 28px; }
+.toegang-teller { display: grid; gap: 6px; }
+.toegang-teller small { font-family: var(--mono); font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(255, 255, 255, .62); }
+.toegang-teller b { font-family: var(--display); font-weight: 800; font-size: clamp(3rem, 15vw, 4.2rem); letter-spacing: -.05em; line-height: 1; color: var(--turk); font-variant-numeric: tabular-nums; }
+.toegang-teller .balk { margin-top: 8px; }
+.toegang-teller span { font-size: .86rem; color: rgba(255, 255, 255, .7); }
+.toegang-slogan h1 { font-weight: 800; font-size: clamp(32px, 9vw, 46px); letter-spacing: -.045em; margin: 0 0 8px; }
+.toegang-slogan h1 span { color: var(--rood); }
+.toegang-slogan p { color: rgba(255, 255, 255, .65); }
+.toegang-plek { flex: 1; display: flex; flex-direction: column; background: var(--papier); border-radius: 32px 32px 0 0; box-shadow: 0 -20px 50px rgba(0, 0, 0, .25); position: relative;
+  padding: 12px max(var(--gutter), env(safe-area-inset-right, 0px)) calc(env(safe-area-inset-bottom) + 28px) max(var(--gutter), env(safe-area-inset-left, 0px)); }
+.toegang-kaart { box-sizing: border-box; width: 100%; max-width: 480px; min-width: 0; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
 .toegang-kaart > * { min-width: 0; }
-.toegang-kaart h2 { font-weight: 800; font-size: 1.5rem; }
+.greep { width: 44px; height: 5px; border-radius: 5px; background: var(--zand-2); align-self: center; margin-bottom: 4px; }
+.toegang-kaart h2 { font-weight: 800; font-size: 1.6rem; }
 .toegang-tip { display: flex; gap: 8px; align-items: center; justify-content: center; color: var(--inkt-2); font-size: .78rem; }
 .toegang .met-na { display: flex; }
 .toegang .met-na input { flex: 1 1 auto; width: auto; min-width: 0; }
@@ -82,13 +93,12 @@
 .schud { animation: schud .4s cubic-bezier(.36, .07, .19, .97) both; }
 @keyframes schud { 20%, 60% { transform: translateX(-7px); } 40%, 80% { transform: translateX(7px); } }
 @media (min-width: 900px) {
-  .toegang { display: grid; grid-template-columns: 1fr 1fr; padding: 0; }
-  .toegang-band { display: flex; flex-direction: column; justify-content: center; padding: 48px 56px; position: relative; overflow: hidden; }
-  .toegang-band-binnen { margin: 0; max-width: 520px; }
-  .toegang-band::after { content: ""; position: absolute; right: -120px; bottom: -120px; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(232, 56, 43, .45), transparent 65%); }
-  .toegang-band .logo { position: absolute; top: 40px; left: 56px; }
-  .toegang-band h1 { font-size: 64px; }
-  .toegang-plek { margin: 0; align-self: center; padding: 40px; }
+  .toegang { display: grid; grid-template-columns: 1.1fr 1fr; }
+  .toegang-band { display: flex; align-items: center; padding: 56px; }
+  .toegang-band-binnen { margin: 0; max-width: 520px; gap: 48px; }
+  .toegang-teller b { font-size: 5.6rem; }
+  .toegang-plek { border-radius: 36px 0 0 36px; justify-content: center; padding: 56px; box-shadow: -20px 0 50px rgba(0, 0, 0, .25); }
+  .greep { display: none; }
 }
 
 /* ============ Vandaag ============ */
