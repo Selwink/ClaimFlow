@@ -11,7 +11,7 @@
 
 /* faint concentric rings that breathe outwards */
 .splash-ringen { position: absolute; inset: 0; display: grid; place-items: center; transition: transform .8s ease, opacity .6s ease; pointer-events: none; }
-.splash-ringen i { grid-area: 1 / 1; border-radius: 50%; border: 1px solid rgba(232, 56, 43, .16); animation: adem 3.6s ease-in-out infinite; }
+.splash-ringen i { grid-area: 1 / 1; border-radius: 50%; border: 1px solid rgba(232, 56, 43, .16); }
 .splash-ringen i:nth-child(1) { width: min(92vw, 560px); aspect-ratio: 1; }
 .splash-ringen i:nth-child(2) { width: min(124vw, 760px); aspect-ratio: 1; border-color: rgba(232, 56, 43, .1); animation-delay: .5s; }
 .splash-ringen i:nth-child(3) { width: min(160vw, 980px); aspect-ratio: 1; border-color: rgba(232, 56, 43, .06); animation-delay: 1s; }
@@ -19,7 +19,7 @@
 
 /* emblem: open white ring, red tick, red glow */
 .splash-embleem { position: relative; display: grid; place-items: center; animation: pop .7s cubic-bezier(.2, 1.3, .4, 1) both; }
-.splash-embleem::before { content: ""; position: absolute; inset: -60px; border-radius: 50%; background: radial-gradient(circle, rgba(232, 56, 43, .5) 0%, rgba(232, 56, 43, .16) 38%, transparent 66%); animation: gloei 2.4s ease-in-out infinite; }
+.splash-embleem::before { content: ""; position: absolute; inset: -60px; border-radius: 50%; background: radial-gradient(circle, rgba(232, 56, 43, .5) 0%, rgba(232, 56, 43, .16) 38%, transparent 66%); }
 .splash-embleem svg { position: relative; overflow: visible; }
 .emb-ring { fill: none; stroke: #F2EEF0; stroke-width: 7; stroke-linecap: round; stroke-dasharray: 84 16; stroke-dashoffset: -8; transform: rotate(-90deg); transform-origin: 60px 60px; animation: ringteken 1s .1s cubic-bezier(.5, 0, .2, 1) both; }
 .emb-punt { fill: var(--rood); animation: pop .4s .9s cubic-bezier(.2, 1.6, .4, 1) both; transform-origin: 96px 26px; }
@@ -78,7 +78,7 @@
 /* feature ticker: endless, fades at the edges, pauses on hover */
 .toegang-band-kenmerken { overflow: hidden; margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter);
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-.kenmerken-loop { list-style: none; margin: 0; padding: 0; display: flex; gap: 8px; width: max-content; animation: loop 32s linear infinite; }
+.kenmerken-loop { list-style: none; margin: 0; padding: 0; display: flex; gap: 8px; width: max-content; }
 .toegang-band-kenmerken:hover .kenmerken-loop { animation-play-state: paused; }
 .kenmerken-loop li { display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px; border-radius: 99px; font-size: .78rem; font-weight: 500; white-space: nowrap;
   background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .12); color: rgba(255, 255, 255, .88); backdrop-filter: blur(6px); }
@@ -105,9 +105,9 @@
 /* drifting glow behind everything */
 .toegang-gloed { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .toegang-gloed i { position: absolute; border-radius: 50%; filter: blur(50px); opacity: .55; }
-.toegang-gloed i:nth-child(1) { width: 300px; height: 300px; background: #E8382B; right: -90px; top: -80px; animation: drijf1 14s ease-in-out infinite alternate; }
-.toegang-gloed i:nth-child(2) { width: 240px; height: 240px; background: #4b3fbf; left: -110px; top: 40%; opacity: .35; animation: drijf2 18s ease-in-out infinite alternate; }
-.toegang-gloed i:nth-child(3) { width: 180px; height: 180px; background: #ff7a5c; right: 20%; bottom: -90px; opacity: .25; animation: drijf3 16s ease-in-out infinite alternate; }
+.toegang-gloed i:nth-child(1) { width: 300px; height: 300px; background: #E8382B; right: -90px; top: -80px; }
+.toegang-gloed i:nth-child(2) { width: 240px; height: 240px; background: #4b3fbf; left: -110px; top: 40%; opacity: .35; }
+.toegang-gloed i:nth-child(3) { width: 180px; height: 180px; background: #ff7a5c; right: 20%; bottom: -90px; opacity: .25; }
 @keyframes drijf1 { to { transform: translate(-70px, 60px) scale(1.15); } }
 @keyframes drijf2 { to { transform: translate(90px, -50px) scale(.9); } }
 @keyframes drijf3 { to { transform: translate(-60px, -40px) scale(1.2); } }
@@ -116,17 +116,17 @@
 /* looping example claim, only where there is room */
 .demo-claim { display: none; }
 @media (min-width: 900px) {
-  .demo-claim { display: flex; align-items: center; gap: 14px; max-width: 440px; padding: 14px 16px; border-radius: 22px; background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .12); backdrop-filter: blur(10px); animation: zweef 6s ease-in-out infinite; }
+  .demo-claim { display: flex; align-items: center; gap: 14px; max-width: 440px; padding: 14px 16px; border-radius: 22px; background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .12); backdrop-filter: blur(10px); }
   .demo-ring { width: 54px; height: 54px; flex: 0 0 auto; }
   .dr-bodem { fill: none; stroke: rgba(255, 255, 255, .14); stroke-width: 7; }
-  .dr-boog { fill: none; stroke: var(--turk); stroke-width: 7; stroke-linecap: round; stroke-dasharray: 100; animation: ringloop 7s ease-in-out infinite; }
+  .dr-boog { fill: none; stroke: var(--turk); stroke-width: 7; stroke-linecap: round; stroke-dasharray: 100; }
   .demo-t { flex: 1; min-width: 0; display: flex; flex-direction: column; }
   .demo-t b { font-family: var(--display); font-weight: 700; }
   .demo-t span { font-size: .8rem; color: rgba(255, 255, 255, .6); }
   .demo-status { display: grid; font-family: var(--mono); font-size: .72rem; font-weight: 600; }
   .demo-status span { grid-area: 1 / 1; padding: 5px 10px; border-radius: 99px; text-align: center; }
-  .ds-in { background: rgba(239, 177, 60, .18); color: #f3c66d; animation: statusUit 7s infinite; }
-  .ds-ok { background: rgba(63, 183, 178, .2); color: #7fe0db; animation: statusIn 7s infinite; }
+  .ds-in { background: rgba(239, 177, 60, .18); color: #f3c66d; }
+  .ds-ok { background: rgba(63, 183, 178, .2); color: #7fe0db; }
 }
 @keyframes zweef { 50% { transform: translateY(-6px); } }
 @keyframes ringloop { 0% { stroke-dashoffset: 100; stroke: var(--oker); } 55% { stroke-dashoffset: 8; stroke: var(--oker); } 62%, 90% { stroke-dashoffset: 0; stroke: var(--turk); } 100% { stroke-dashoffset: 100; stroke: var(--turk); } }
@@ -142,7 +142,7 @@
 
 /* the faint rings of the opening screen carry on behind the headline */
 .toegang-ringen { position: absolute; right: -170px; top: -150px; width: 520px; height: 520px; display: grid; place-items: center; pointer-events: none; }
-.toegang-ringen i { grid-area: 1 / 1; border-radius: 50%; border: 1px solid rgba(232, 56, 43, .16); animation: adem 3.6s ease-in-out infinite; }
+.toegang-ringen i { grid-area: 1 / 1; border-radius: 50%; border: 1px solid rgba(232, 56, 43, .16); }
 .toegang-ringen i:nth-child(1) { width: 260px; height: 260px; }
 .toegang-ringen i:nth-child(2) { width: 390px; height: 390px; border-color: rgba(232, 56, 43, .1); animation-delay: .5s; }
 .toegang-ringen i:nth-child(3) { width: 520px; height: 520px; border-color: rgba(232, 56, 43, .06); animation-delay: 1s; }
