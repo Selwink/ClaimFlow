@@ -22,6 +22,12 @@ export function Werkbak() {
   const [inkoop, setInkoop] = useState<Claim | null>(null);
   const [nummer, setNummer] = useState("");
   const [bezig, setBezig] = useState("");
+  const [klaar, setKlaar] = useState("");
+  /** Let the card tick itself off and slide away before the task leaves the list. */
+  const afvinken = async (id: string) => {
+    setKlaar(id);
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) await new Promise((r) => setTimeout(r, 520));
+  };
   const taken = useMemo(() => werkbak(actief, inst.dagen), [actief, inst.dagen]);
   const tel = (b: Bak) => taken.filter((t) => t.bak === b).length;
   const lijst = taken.filter((t) => t.bak === bak);
@@ -33,16 +39,18 @@ export function Werkbak() {
 
   const notitie = async (c: Claim, tekst: string, melding: string) => {
     setBezig(c.id);
+    await afvinken(c.id);
     await bewaar([metRegel(c, tekst, naam)], melding, [c]);
-    setBezig("");
+    setBezig(""); setKlaar("");
   };
-  const status = async (c: Claim, naar: "ingediend" | "gehonoreerd") => { setBezig(c.id); await zetStatus([c.id], naar); setBezig(""); };
+  const status = async (c: Claim, naar: "ingediend" | "gehonoreerd") => { setBezig(c.id); await afvinken(c.id); await zetStatus([c.id], naar); setBezig(""); setKlaar(""); };
   const bewaarInkoop = async () => {
     if (!inkoop || !nummer.trim()) return;
     const c = inkoop;
-    setBezig(c.id);
+    setBezig(c.id); setInkoop(null);
+    await afvinken(c.id);
     await bewaar([metRegel({ ...c, inkoopnummer: nummer.trim() }, `Bewerkt: inkoopnummer ${nummer.trim()}`, naam)], "Inkoopnummer opgeslagen", [c]);
-    setBezig(""); setInkoop(null); setNummer("");
+    setBezig(""); setKlaar(""); setNummer("");
   };
 
   const acties = (t: Taak) => {
@@ -88,6 +96,7 @@ export function Werkbak() {
 
       <div className="werkbak-inhoud">
         <div className="werkbak-doel"><TotaalKaart /><TeamKaart /></div>
+        <div className="werkbak-lijsten" key={bak}>
         {lijst.length === 0 ? (
           <Leeg titel={bak === "nu" ? "Werkbalk leeg" : bak === "week" ? "Niets voor deze week" : "Nergens op wachten"}
             tekst={bak === "nu" ? "Alles wat nu moest, is gedaan. Mooi werk." : undefined}>
@@ -98,7 +107,8 @@ export function Werkbak() {
             <h2 className="werkbak-groep" id={`groep-${g.reden}`}><span>{GROEP[g.reden]}</span><span className={`chip ${CHIP[g.reden].toon}`}>{g.taken.length}</span></h2>
             <ul className="werkbak-lijst">
               {g.taken.map((t) => (
-                <li key={t.claim.id} className={`werktaak${t.reden === "termijn" ? " werktaak-laat" : ""}`}>
+                <li key={t.claim.id} className={`werktaak${t.reden === "termijn" ? " werktaak-laat" : ""}${klaar === t.claim.id ? " werktaak-klaar" : ""}`}>
+                  {klaar === t.claim.id && <span className="werktaak-vink" aria-hidden="true"><Icon naam="vink" maat={26} /></span>}
                   <div className="werktaak-boven">
                     <Link to={`/claims/${t.claim.id}`} className="werktaak-t">
                       <b>{titelVan(t.claim)}</b>
@@ -112,6 +122,7 @@ export function Werkbak() {
             </ul>
           </section>
         ))}
+        </div>
         {taken.length > 0 && <p className="hint">{meervoud(taken.length, "taak", "taken")} in totaal · claims binnen de termijn staan in <Link to="/claims">Claims</Link></p>}
       </div>
 
