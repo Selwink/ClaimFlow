@@ -114,7 +114,7 @@ export function Beheer() {
         <div className={`mailstatus ${dienst === "resend" ? "ms-ok" : dienst === "formsubmit" ? "ms-reserve" : "ms-onbekend"}`}>
           <i />
           {dienst === "resend" ? <span><b>Verstuurd via Resend</b> — betrouwbare maildienst actief.</span>
-            : dienst === "formsubmit" ? <span><b>Reserve: FormSubmit</b> — zet <code>RESEND_API_KEY</code> in Netlify voor betrouwbare mail.</span>
+            : dienst === "formsubmit" ? <span><b>Mail gaat via FormSubmit.</b> Eerste keer? Tik op <b>Testmail sturen</b> en klik in de mail van FormSubmit op <b>Activate Form</b> (kijk ook in de spam).</span>
             : dienst === null ? <span>Maildienst niet bereikbaar vanaf hier.</span> : <span>Maildienst controleren…</span>}
         </div>
         <Rij icoon="mail" titel="Testmail sturen" tekst={mailStatus || "Controleer of de meldingen aankomen"} onClick={testMail} />
