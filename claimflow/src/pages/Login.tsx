@@ -61,7 +61,7 @@ export function Login() {
               <span className="sl-regel" aria-hidden="true">Wat <span className="kapot">{"kapot".split("").map((l, i) => <i key={i} style={{ "--i": i } as CSSProperties}>{l}</i>)}</span> gaat,</span>
               <span className="sl-terug" aria-hidden="true">komt terug.</span>
             </h1>
-            <p>Garantieclaims van Medipoint Meppel, van melding tot creditnota.</p>
+            <p>Garantieclaims van Medipoint Meppel.</p>
           </div>
           <div className="toegang-band-kenmerken" aria-label="Wat ClaimFlow doet">
             <ul className="kenmerken-loop">
@@ -84,7 +84,7 @@ export function Login() {
               placeholder="Komt in de tijdlijn bij je wijzigingen" enterKeyHint="next" />
           </label>
           <label className="veld">
-            <span className="veld-label">Wachtwoord van de vestiging</span>
+            <span className="veld-label">Wachtwoord</span>
             <span className="met-na">
               <input ref={pwVeld} name="password" type={zien ? "text" : "password"} value={pw} enterKeyHint="go"
                 onChange={(e) => { setPw(e.target.value); setFout(""); }} onKeyUp={kijkToetsen} onKeyDown={kijkToetsen}
