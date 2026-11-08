@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../state/Store";
 import { titelVan } from "../lib/claims";
-import { meervoud } from "../lib/format";
 import { GROEP, werkbak, type Reden } from "../lib/werkbak";
 import { Icon, type IconNaam } from "./Icon";
 
@@ -52,25 +51,33 @@ export function TakenPopup() {
     <div className="welkom-achter" onClick={(e) => { if (e.target === e.currentTarget) sluit(); }} onKeyDown={(e) => { if (e.key === "Escape") sluit(); }}>
       <div className="welkom taken-pop" role="dialog" aria-modal="true" aria-labelledby="taken-titel">
         <button type="button" className="welkom-sluit" onClick={() => sluit()} aria-label="Sluiten"><Icon naam="kruis" maat={18} /></button>
-        <span className={`welkom-ic ${laat ? "wic-rood" : "wic-aub"}`} aria-hidden="true"><Icon naam={laat ? "waarschuwing" : "lijst"} maat={32} /></span>
-        <p className="welkom-teller">{voornaam ? `Hoi ${voornaam}` : "Vandaag"}</p>
-        <h2 id="taken-titel">Dit moet er gebeuren</h2>
-        <p className="welkom-tekst">{meervoud(taken.length, "taak staat", "taken staan")} klaar in de Werkbalk.</p>
+        <div className="taken-kop">
+          <span className={`taken-hoofd ${laat ? "wic-rood" : "wic-aub"}`} aria-hidden="true"><Icon naam={laat ? "waarschuwing" : "lijst"} maat={26} /></span>
+          <div>
+            <p className="taken-hoi">{voornaam ? `Hoi ${voornaam}` : "Vandaag"}</p>
+            <h2 id="taken-titel">Dit moet er gebeuren</h2>
+          </div>
+        </div>
+        <p className="taken-samenvatting"><b>{taken.length}</b> {taken.length === 1 ? "taak staat" : "taken staan"} klaar in de Werkbalk</p>
         <ul className="taken-groepen">
           {groepen.map(([reden, titels], i) => {
             const s = SOORT[reden] || { icoon: "lijst" as IconNaam, toon: "wic-aub" };
+            const meer = titels.length - 2;
             return (
               <li key={reden} style={{ animationDelay: `${150 + i * 80}ms` }}>
                 <span className={`taken-ic ${s.toon}`} aria-hidden="true"><Icon naam={s.icoon} maat={18} /></span>
-                <span className="taken-t"><b>{GROEP[reden]}</b><span>{titels.slice(0, 3).join(", ")}{titels.length > 3 ? ` en ${titels.length - 3} meer` : ""}</span></span>
-                <b className="taken-n">{titels.length}</b>
+                <span className="taken-t">
+                  <b>{GROEP[reden]}</b>
+                  <span>{titels.slice(0, 2).join(", ")}{meer > 0 ? ` en nog ${meer}` : ""}</span>
+                </span>
+                <span className="taken-n" aria-label={`${titels.length} taken`}>{titels.length}</span>
               </li>
             );
           })}
         </ul>
-        <div className="welkom-voet">
-          <button type="button" className="knop knop-zacht" onClick={() => sluit()}>Later</button>
-          <button ref={knop} type="button" className="knop knop-rood" onClick={() => sluit("/")}>Naar de Werkbalk <Icon naam="pijl" maat={18} /></button>
+        <div className="taken-acties">
+          <button ref={knop} type="button" className="knop knop-rood knop-groot-vol" onClick={() => sluit("/")}>Naar de Werkbalk <Icon naam="pijl" maat={18} /></button>
+          <button type="button" className="taken-later" onClick={() => sluit()}>Later</button>
         </div>
       </div>
     </div>
