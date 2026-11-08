@@ -453,3 +453,6 @@ button.instelrij:hover, a.instelrij:hover { background: #fbf6ee; }
 .gebruiker-acties { display: flex; gap: 6px; }
 .avatar-klein { width: 36px; height: 36px; border-radius: 50%; background: var(--aub); color: #fff; display: grid; place-items: center; font-family: var(--display); font-weight: 800; font-size: .76rem; flex: 0 0 auto; }
 .formulier-los { display: flex; flex-direction: column; gap: 14px; }
+.toegang-wacht { align-items: flex-start; }
+.toegang-wacht p { color: var(--inkt-2); }
+.wacht-ic { width: 52px; height: 52px; border-radius: 16px; background: var(--oker-zacht); color: var(--oker-2); display: grid; place-items: center; }

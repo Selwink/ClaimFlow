@@ -6,8 +6,8 @@ import type { Rol } from "../../src/lib/types";
 
 const scrypt = promisify(scryptCb) as (pw: string, salt: Buffer, len: number) => Promise<Buffer>;
 const ZOUT = "medipoint-meppel";
-/** The shared branch password, now only used as the code needed to create an account. sha256(code + ZOUT). */
-const CODE_HASH = process.env.WACHTWOORD_HASH || "1360561d88563bcbd4716c3e1dc928fc6275afe52d64e830ef5c025446d567a9";
+/** Branch code needed to create an account (default "Meppel", case-insensitive). sha256(lowercase code + ZOUT). */
+const CODE_HASH = process.env.WACHTWOORD_HASH || "79d1949b172777a305a8fa238414b0c2c561bb8f1ff29b4c4af6279da0a8be62";
 /** Optional separate code that creates accounts with edit rights; without it every new account may edit. */
 const BEHEER_CODE_HASH = process.env.BEHEER_HASH || "";
 const GELDIG_DAGEN = 30;
@@ -21,7 +21,7 @@ const gelijk = (a: string | Buffer, b: string | Buffer) => {
 
 /** Role a new account gets for this branch code, or null when the code is wrong. */
 export function rolVoorCode(code: string): Rol | null {
-  const h = createHash("sha256").update(code + ZOUT).digest("hex");
+  const h = createHash("sha256").update(code.trim().toLowerCase() + ZOUT).digest("hex");
   if (BEHEER_CODE_HASH && gelijk(h, BEHEER_CODE_HASH)) return "beheer";
   if (gelijk(h, CODE_HASH)) return BEHEER_CODE_HASH ? "kijken" : "beheer";
   return null;

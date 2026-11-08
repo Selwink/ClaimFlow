@@ -5,6 +5,9 @@ import { connectLambda } from "@netlify/blobs";
 import type { Claim, Instellingen } from "../../src/lib/types";
 import * as db from "../lib/db";
 import { haalBackup, herstel, lijst, maakBackup } from "../lib/backup";
+import { verzend } from "../lib/verzend";
+
+const SITE = process.env.URL || "https://garantieclaims-meppel.netlify.app";
 import { klopt, leesPas, maakPas, MIN_LENGTE, rolVoorCode, sleutelVoor, versleutel } from "../lib/toegang";
 
 interface Verzoek { httpMethod: string; headers: Record<string, string | undefined>; body: string | null; isBase64Encoded?: boolean; queryStringParameters?: Record<string, string | undefined> | null; blobs?: string }
@@ -36,13 +39,20 @@ export const handler = async (e: Verzoek) => {
       if (!rolNieuw) { await wacht(700); return fout(401, "De vestigingscode klopt niet."); }
       const sleutel = sleutelVoor(naam);
       if (await db.gebruiker(sleutel)) return fout(409, "Er is al een account met deze naam. Log in, of kies een andere naam.");
-      const g: db.Gebruiker = { sleutel, naam, hash: await versleutel(wachtwoord), rol: rolNieuw, actief: true, v: 1, gemaakt: new Date().toISOString(), laatst: new Date().toISOString() };
+      // The very first account becomes the administrator; every later one waits for approval,
+      // because a branch code like "Meppel" is easy to guess.
+      const eerste = (await db.alleGebruikers()).length === 0;
+      const g: db.Gebruiker = { sleutel, naam, hash: await versleutel(wachtwoord), rol: eerste ? "beheer" : rolNieuw, actief: true, v: 1,
+        gemaakt: new Date().toISOString(), laatst: eerste ? new Date().toISOString() : undefined, wacht: !eerste };
       await db.bewaarGebruiker(g);
-      return pasVoor(g);
+      if (eerste) return pasVoor(g);
+      await verzend({ _subject: `Nieuw account wacht op goedkeuring: ${naam}`, Naam: naam, Wat: "Keur het account goed of verwijder het in Beheer → Gebruikers.", Register: `${SITE}/beheer` }, SITE).catch(() => undefined);
+      return json(202, { wacht: true, naam });
     }
     if (actie === "login") {
       const g = await db.gebruiker(sleutelVoor(tekst("naam", 40)));
       if (!g || !(await klopt(tekst("wachtwoord"), g.hash))) { await wacht(700); return fout(401, "Naam of wachtwoord klopt niet."); }
+      if (g.wacht) return fout(403, "Je account wacht nog op goedkeuring van een beheerder.");
       if (!g.actief) return fout(403, "Dit account is geblokkeerd. Vraag de beheerder om het weer te openen.");
       await db.bewaarGebruiker({ ...g, laatst: new Date().toISOString() }).catch(() => undefined);
       return pasVoor(g);
@@ -60,7 +70,7 @@ export const handler = async (e: Verzoek) => {
     // ---- everything else needs a valid pass for an active account; the role is read live from the account
     const pas = leesPas(e.headers.authorization || e.headers.Authorization);
     const ik = pas ? await db.gebruiker(pas.s) : null;
-    if (!pas || !ik || !ik.actief || ik.v !== pas.v) return fout(401, "Log opnieuw in");
+    if (!pas || !ik || !ik.actief || ik.wacht || ik.v !== pas.v) return fout(401, "Log opnieuw in");
     const rol = ik.rol;
     const beheer = () => rol === "beheer";
     const alleenBeheer = () => fout(403, "Alleen een beheerder kan dit wijzigen");
@@ -84,8 +94,8 @@ export const handler = async (e: Verzoek) => {
         const doel = await db.gebruiker(tekst("sleutel", 60));
         if (!doel) return fout(404, "Account niet gevonden");
         const actieG = tekst("wat", 20);
-        const beheerders = (await db.alleGebruikers()).filter((g) => g.rol === "beheer" && g.actief);
-        const laatsteBeheerder = doel.rol === "beheer" && doel.actief && beheerders.length <= 1;
+        const beheerders = (await db.alleGebruikers()).filter((g) => g.rol === "beheer" && g.actief && !g.wacht);
+        const laatsteBeheerder = doel.rol === "beheer" && doel.actief && !doel.wacht && beheerders.length <= 1;
         if (actieG === "rol") {
           const nieuweRol = tekst("rol", 10) === "kijken" ? "kijken" : "beheer";
           if (nieuweRol === "kijken" && laatsteBeheerder) return fout(400, "Er moet minstens één beheerder overblijven.");
@@ -93,6 +103,8 @@ export const handler = async (e: Verzoek) => {
         } else if (actieG === "blokkeer") {
           if (laatsteBeheerder) return fout(400, "Er moet minstens één beheerder overblijven.");
           await db.bewaarGebruiker({ ...doel, actief: false, v: doel.v + 1 });
+        } else if (actieG === "keur") {
+          await db.bewaarGebruiker({ ...doel, wacht: false });
         } else if (actieG === "activeer") {
           await db.bewaarGebruiker({ ...doel, actief: true });
         } else if (actieG === "reset") {

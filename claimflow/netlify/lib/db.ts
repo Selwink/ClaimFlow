@@ -130,6 +130,8 @@ export async function tabelOpen(): Promise<boolean> {
 export interface Gebruiker {
   sleutel: string; naam: string; hash: string; rol: "beheer" | "kijken"; actief: boolean; v: number;
   gemaakt: string; laatst?: string; reset?: boolean;
+  /** New account waiting for a beheerder to approve it. */
+  wacht?: boolean;
 }
 
 function naarGebruiker(x: Record<string, unknown>): Gebruiker | null {

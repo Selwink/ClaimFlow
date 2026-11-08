@@ -46,6 +46,7 @@ export function Login() {
   const [bezig, setBezig] = useState(false);
   const [hoofdletters, setHoofdletters] = useState(false);
   const [schud, setSchud] = useState(0);
+  const [wachtOp, setWachtOp] = useState("");
   const pwVeld = useRef<HTMLInputElement>(null);
   const nieuwWachtwoord = stand !== "inloggen";
   const st = sterkte(pw);
@@ -62,6 +63,7 @@ export function Login() {
     setBezig(true);
     try {
       const r = stand === "inloggen" ? await login(naam.trim(), pw) : stand === "aanmelden" ? await aanmelden(naam.trim(), pw, code) : await herstelWachtwoord(naam.trim(), code, pw);
+      if ("wacht" in r) { setBezig(false); setWachtOp(r.naam); setPw(""); setCode(""); return; }
       naInloggen(r);
     } catch (err) {
       setBezig(false);
@@ -97,6 +99,15 @@ export function Login() {
         </div>
       </div>
       <div className="toegang-plek">
+        {wachtOp ? (
+          <div className="toegang-kaart toegang-wacht" role="status">
+            <span className="greep" aria-hidden="true" />
+            <span className="wacht-ic"><Icon naam="klok" maat={26} /></span>
+            <h2>Account aangemaakt</h2>
+            <p>Bedankt, {wachtOp.split(" ")[0]}. Een beheerder krijgt een melding en moet je account nog goedkeuren. Daarna log je in met je naam en wachtwoord.</p>
+            <button type="button" className="knop knop-zacht knop-vol" onClick={() => { setWachtOp(""); wissel("inloggen"); }}>Naar inloggen</button>
+          </div>
+        ) : (
         <form className={`toegang-kaart${schud ? " schud" : ""}`} key={`${stand}-${schud}`} onSubmit={verstuur} noValidate>
           <span className="greep" aria-hidden="true" />
           {stand === "herstel" ? <h2>{KOP.herstel}</h2> : (
@@ -137,7 +148,7 @@ export function Login() {
               <span className="veld-label">Vestigingscode</span>
               <input type="password" value={code} onChange={(e) => { setCode(e.target.value); setFout(""); }} autoComplete="off" autoCapitalize="off" autoCorrect="off"
                 spellCheck={false} enterKeyHint="go" aria-describedby="code-uitleg" />
-              <span className="veld-hint" id="code-uitleg">Het wachtwoord dat jullie tot nu toe samen gebruikten. Vraag het aan je leidinggevende.</span>
+              <span className="veld-hint" id="code-uitleg">De code van je vestiging. Vraag hem aan je leidinggevende.</span>
             </label>
           )}
           {hoofdletters && !fout && <p className="veld-hint" id="pw-caps"><Icon naam="waarschuwing" maat={14} /> Caps Lock staat aan</p>}
@@ -149,6 +160,7 @@ export function Login() {
           {stand === "herstel" && <button type="button" className="knop-link" onClick={() => wissel("inloggen")}>Terug naar inloggen</button>}
           <p className="toegang-tip"><Icon naam="slot" maat={14} /> Je blijft 30 dagen ingelogd op dit apparaat.</p>
         </form>
+        )}
       </div>
     </main>
   );

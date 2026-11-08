@@ -70,11 +70,11 @@ export function Gebruikers() {
   const laad = () => haalGebruikers().then((l) => { setLijst(l); setFout(""); }).catch(() => { setLijst([]); setFout("Accounts konden niet worden opgehaald."); });
   useEffect(() => { void laad(); }, []);
 
-  const doe = async (a: Account, wat: "rol" | "activeer" | "blokkeer" | "reset" | "verwijder", rol?: Account["rol"]) => {
+  const doe = async (a: Account, wat: "rol" | "keur" | "activeer" | "blokkeer" | "reset" | "verwijder", rol?: Account["rol"]) => {
     setBezig(true);
     try {
       await wijzigGebruiker(a.sleutel, wat, rol);
-      toast({ rol: `${a.naam} kan nu ${rol === "beheer" ? "wijzigen" : "alleen kijken"}`, activeer: `${a.naam} kan weer inloggen`, blokkeer: `${a.naam} is geblokkeerd`, reset: `${a.naam} kan een nieuw wachtwoord kiezen`, verwijder: `Account van ${a.naam} verwijderd` }[wat]);
+      toast({ rol: `${a.naam} kan nu ${rol === "beheer" ? "wijzigen" : "alleen kijken"}`, keur: `${a.naam} is goedgekeurd en kan nu inloggen`, activeer: `${a.naam} kan weer inloggen`, blokkeer: `${a.naam} is geblokkeerd`, reset: `${a.naam} kan een nieuw wachtwoord kiezen`, verwijder: `Account van ${a.naam} verwijderd` }[wat]);
       setBevestig(null);
       await laad();
     } catch (e) { toast(e instanceof Error ? e.message : "Dat lukte niet"); }
@@ -83,7 +83,7 @@ export function Gebruikers() {
 
   return (
     <>
-      <p className="t-zacht gebruikers-uitleg">Iedereen maakt zelf een account met de vestigingscode. Wachtwoorden worden versleuteld opgeslagen: niemand kan ze zien, ook jij niet.</p>
+      <p className="t-zacht gebruikers-uitleg">Iedereen maakt zelf een account met de vestigingscode; jij keurt nieuwe accounts goed. Wachtwoorden worden versleuteld opgeslagen: niemand kan ze zien, ook jij niet.</p>
       {fout && <p className="veld-fout">{fout}</p>}
       {lijst === null ? <p className="t-zacht">Laden…</p> : (
         <ul className="gebruikers">
@@ -91,13 +91,14 @@ export function Gebruikers() {
             <li key={a.sleutel} className={a.actief ? undefined : "geblokkeerd"}>
               <span className="avatar-klein" aria-hidden="true">{a.naam.split(/\s+/).map((d) => d[0]).join("").slice(0, 2).toUpperCase()}</span>
               <span className="rij-t">
-                <b>{a.naam}{a.ikzelf && <span className="chip chip-grijs">jij</span>}{!a.actief && <span className="chip chip-rood">geblokkeerd</span>}{a.reset && <span className="chip chip-oker">mag nieuw wachtwoord kiezen</span>}</b>
+                <b>{a.naam}{a.ikzelf && <span className="chip chip-grijs">jij</span>}{!a.actief && <span className="chip chip-rood">geblokkeerd</span>}{a.reset && <span className="chip chip-oker">mag nieuw wachtwoord kiezen</span>}{a.wacht && <span className="chip chip-oker">wacht op goedkeuring</span>}</b>
                 <span>{a.laatst ? `Laatst ingelogd ${datum(a.laatst)}` : `Aangemaakt ${datum(a.gemaakt)}`}</span>
               </span>
               <select aria-label={`Rechten van ${a.naam}`} value={a.rol} disabled={bezig} onChange={(e) => doe(a, "rol", e.target.value as Account["rol"])}>
                 <option value="beheer">Wijzigen</option>
                 <option value="kijken">Alleen kijken</option>
               </select>
+              {a.wacht && <button type="button" className="knop knop-turk knop-klein" disabled={bezig} onClick={() => doe(a, "keur")}><Icon naam="vink" maat={16} /> Goedkeuren</button>}
               {!a.ikzelf && (
                 <span className="gebruiker-acties">
                   <button type="button" className="icoonknop" title="Nieuw wachtwoord toestaan" aria-label={`Nieuw wachtwoord toestaan voor ${a.naam}`} disabled={bezig} onClick={() => setBevestig({ account: a, wat: "reset" })}><Icon naam="slot" maat={16} /></button>

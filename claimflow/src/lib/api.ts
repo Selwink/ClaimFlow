@@ -42,13 +42,18 @@ async function metPas(actie: "login" | "aanmelden" | "herstel" | "wachtwoord", b
   return r;
 }
 export const login = (naam: string, wachtwoord: string) => metPas("login", { naam, wachtwoord });
-export const aanmelden = (naam: string, wachtwoord: string, code: string) => metPas("aanmelden", { naam, wachtwoord, code });
+/** Creates an account. The first account logs straight in; later ones wait for approval and get `{ wacht: true }`. */
+export async function aanmelden(naam: string, wachtwoord: string, code: string): Promise<PasInfo | { wacht: true; naam: string }> {
+  const r = await vraag<PasInfo | { wacht: true; naam: string }>("aanmelden", { body: { naam, wachtwoord, code } });
+  if ("token" in r) pas.zet(r);
+  return r;
+}
 export const herstelWachtwoord = (naam: string, code: string, wachtwoord: string) => metPas("herstel", { naam, code, wachtwoord });
 export const wijzigWachtwoord = (oud: string, nieuw: string) => metPas("wachtwoord", { oud, nieuw });
 
-export interface Account { sleutel: string; naam: string; rol: Rol; actief: boolean; gemaakt: string; laatst?: string; reset?: boolean; ikzelf: boolean }
+export interface Account { sleutel: string; naam: string; rol: Rol; actief: boolean; gemaakt: string; laatst?: string; reset?: boolean; wacht?: boolean; ikzelf: boolean }
 export const haalGebruikers = () => vraag<{ gebruikers: Account[] }>("gebruikers").then((r) => r.gebruikers);
-export const wijzigGebruiker = (sleutel: string, wat: "rol" | "blokkeer" | "activeer" | "reset" | "verwijder", rol?: Rol) =>
+export const wijzigGebruiker = (sleutel: string, wat: "rol" | "keur" | "blokkeer" | "activeer" | "reset" | "verwijder", rol?: Rol) =>
   vraag("gebruiker", { body: { sleutel, wat, rol: rol || "" } }).then(() => undefined);
 
 export const haalAlles = () => vraag<{ rol: Rol; naam: string; claims: Claim[]; inst: Instellingen | null }>("alles");
