@@ -12,7 +12,7 @@ import { TermRing } from "../components/TermRing";
 import { Fotos } from "../components/Fotos";
 
 /** The VAM e-mails what may be done with the part; these record it in one tap. */
-const VAM_SNEL = ["VAM: onderdeel retour sturen", "VAM: onderdeel vernietigen", "VAM: onderdeel bewaren", "VAM: informatie opgevraagd"];
+const VAM_SNEL = ["VAM: Onderdeel retour sturen", "VAM: Onderdeel vernietigen", "VAM: Onderdeel bewaren", "VAM: Informatie opgevraagd"];
 
 const VOLGENDE: Record<Status, Status | null> = { nieuw: "ingediend", ingediend: "gehonoreerd", gehonoreerd: null, afgewezen: null };
 
@@ -136,7 +136,7 @@ export function ClaimDetail() {
           </div>
         </div>
         <label className="veld"><span className="veld-label">Wat is er gebeurd?</span>
-          <textarea rows={4} value={tekst} onChange={(e) => setTekst(e.target.value)} placeholder="Bijv. Mail van de VAM: onderdeel retour sturen" autoFocus /></label>
+          <textarea rows={4} value={tekst} onChange={(e) => setTekst(e.target.value)} placeholder="Bijv. Mail van de VAM: Onderdeel retour sturen" autoFocus /></label>
         <div className="veld"><span className="veld-label">Status meteen aanpassen (optioneel)</span>
           <div className="chiprij">
             {(Object.keys(STATUS_LABEL) as Status[]).filter((s) => s !== st).map((s) => (

@@ -31,9 +31,9 @@ export function aandachtVan(c: Claim, termijn: number): { toon: "rood" | "oker" 
   if (!isOpen(c) || c.uitbesteed) return null;
   const d = dagenOpen(c)?.dagen;
   if (overTermijn(c, termijn)) return { toon: "rood", tekst: `${c.leverancier || "Leverancier onbekend"} · ${d! - termijn} dagen over termijn`, actie: "VAM vragen" };
-  if (!c.inkoopnummer) return { toon: "oker", tekst: `${c.leverancier || "Leverancier onbekend"} · inkoopnummer ontbreekt`, actie: "aanvullen" };
-  if (statusVan(c) === "nieuw") return { toon: "oker", tekst: `${c.leverancier || "Leverancier onbekend"} · nog niet ingediend`, actie: "indienen" };
-  if (d != null && d >= termijn * 0.75) return { toon: "oker", tekst: `${c.leverancier} · nog ${termijn - d} dagen`, actie: "opvolgen" };
+  if (!c.inkoopnummer) return { toon: "oker", tekst: `${c.leverancier || "Leverancier onbekend"} · inkoopnummer ontbreekt`, actie: "Aanvullen" };
+  if (statusVan(c) === "nieuw") return { toon: "oker", tekst: `${c.leverancier || "Leverancier onbekend"} · nog niet ingediend`, actie: "Indienen" };
+  if (d != null && d >= termijn * 0.75) return { toon: "oker", tekst: `${c.leverancier} · nog ${termijn - d} dagen`, actie: "Opvolgen" };
   return null;
 }
 
