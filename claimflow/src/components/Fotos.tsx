@@ -65,7 +65,7 @@ export function Fotos({ claim }: { claim: Claim }) {
         : aantal === 0 && !bezig ? (
           <button type="button" className="fotos-leeg" onClick={() => magBewerken && kies.current?.click()} disabled={!magBewerken}>
             <Icon naam="afbeelding" maat={22} />
-            <span>{magBewerken ? "Leg het defect vast — handig als bewijs voor de leverancier." : "Nog geen foto’s."}</span>
+            <span>{magBewerken ? "Handig als bewijs voor jezelf." : "Nog geen foto’s."}</span>
           </button>
         ) : (
           <div className="fotos-raster">
