@@ -60,6 +60,8 @@
 @keyframes binnen { from { opacity: 0; transform: translateY(26px); } }
 :root[data-splash="aan"] .toegang-band-binnen { animation-play-state: paused; }
 :root[data-splash="aan"] .toegang-plek { animation-play-state: paused; }
+:root[data-splash="aan"] .kapot i { animation-play-state: paused; }
+:root[data-splash="aan"] .sl-terug { animation-play-state: paused; }
 :root[data-splash="aan"] .inhoud > .pagina { animation-play-state: paused; }
 .inhoud > .pagina { animation: binnen .6s .05s cubic-bezier(.2, .8, .3, 1) both; }
 
@@ -71,12 +73,72 @@
 .toegang-band { position: relative; color: #fff; padding: calc(env(safe-area-inset-top) + 26px) max(var(--gutter), env(safe-area-inset-right, 0px)) 34px max(var(--gutter), env(safe-area-inset-left, 0px)); }
 .toegang-band-binnen { max-width: 480px; margin: 0 auto; display: grid; gap: 28px; }
 .toegang-slogan h1 { font-weight: 800; font-size: clamp(2.6rem, 12.5vw, 3.6rem); line-height: .98; letter-spacing: -.05em; margin: 0 0 14px; }
-.toegang-slogan h1 span { color: var(--rood); text-shadow: 0 0 28px rgba(232, 56, 43, .45); }
 .toegang-slogan p { color: rgba(255, 255, 255, .68); font-size: .98rem; max-width: 30ch; }
-.toegang-kenmerken { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
-.toegang-kenmerken li { display: inline-flex; align-items: center; gap: 7px; padding: 8px 12px; border-radius: 99px; font-size: .8rem; font-weight: 500;
+/* feature ticker: endless, fades at the edges, pauses on hover */
+.toegang-band-kenmerken { overflow: hidden; margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.kenmerken-loop { list-style: none; margin: 0; padding: 0; display: flex; gap: 8px; width: max-content; animation: loop 32s linear infinite; }
+.toegang-band-kenmerken:hover .kenmerken-loop { animation-play-state: paused; }
+.kenmerken-loop li { display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px; border-radius: 99px; font-size: .78rem; font-weight: 500; white-space: nowrap;
   background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .12); color: rgba(255, 255, 255, .88); backdrop-filter: blur(6px); }
-.toegang-kenmerken svg { color: var(--rood); }
+.kenmerken-loop svg { color: var(--rood); }
+@keyframes loop { to { transform: translateX(calc(-50% - 4px)); } }
+
+/* slogan: "kapot" starts broken, snaps straight, then "komt terug." rises */
+.toegang-slogan h1 { display: grid; }
+.kapot { display: inline-flex; }
+.kapot i { font-style: normal; display: inline-block; animation: breuk 1.6s cubic-bezier(.3, 1.4, .5, 1) both; animation-delay: .25s; }
+.kapot i:nth-child(1) { --r: -14deg; --y: 6px; --x: -2px; }
+.kapot i:nth-child(2) { --r: 11deg; --y: -7px; --x: 1px; }
+.kapot i:nth-child(3) { --r: -7deg; --y: 9px; --x: 3px; }
+.kapot i:nth-child(4) { --r: 16deg; --y: -4px; --x: -1px; }
+.kapot i:nth-child(5) { --r: -10deg; --y: 7px; --x: 2px; }
+@keyframes breuk {
+  0% { transform: translate(var(--x), var(--y)) rotate(var(--r)); color: rgba(255, 255, 255, .55); }
+  55% { transform: translate(var(--x), var(--y)) rotate(var(--r)); color: rgba(255, 255, 255, .55); }
+  100% { transform: none; color: #fff; }
+}
+.sl-terug { color: var(--rood); text-shadow: 0 0 28px rgba(232, 56, 43, .45); animation: terugkomen .8s cubic-bezier(.2, .8, .3, 1) 1.15s both; }
+@keyframes terugkomen { from { opacity: 0; transform: translateY(18px); filter: blur(6px); } }
+
+/* drifting glow behind everything */
+.toegang-gloed { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.toegang-gloed i { position: absolute; border-radius: 50%; filter: blur(50px); opacity: .55; }
+.toegang-gloed i:nth-child(1) { width: 300px; height: 300px; background: #E8382B; right: -90px; top: -80px; animation: drijf1 14s ease-in-out infinite alternate; }
+.toegang-gloed i:nth-child(2) { width: 240px; height: 240px; background: #7b2a8c; left: -110px; top: 40%; opacity: .35; animation: drijf2 18s ease-in-out infinite alternate; }
+.toegang-gloed i:nth-child(3) { width: 180px; height: 180px; background: #ff7a5c; right: 20%; bottom: -90px; opacity: .25; animation: drijf3 16s ease-in-out infinite alternate; }
+@keyframes drijf1 { to { transform: translate(-70px, 60px) scale(1.15); } }
+@keyframes drijf2 { to { transform: translate(90px, -50px) scale(.9); } }
+@keyframes drijf3 { to { transform: translate(-60px, -40px) scale(1.2); } }
+.toegang::before { display: none; }
+
+/* looping example claim, only where there is room */
+.demo-claim { display: none; }
+@media (min-width: 900px) {
+  .demo-claim { display: flex; align-items: center; gap: 14px; max-width: 440px; padding: 14px 16px; border-radius: 22px; background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .12); backdrop-filter: blur(10px); animation: zweef 6s ease-in-out infinite; }
+  .demo-ring { width: 54px; height: 54px; flex: 0 0 auto; }
+  .dr-bodem { fill: none; stroke: rgba(255, 255, 255, .14); stroke-width: 7; }
+  .dr-boog { fill: none; stroke: var(--turk); stroke-width: 7; stroke-linecap: round; stroke-dasharray: 100; animation: ringloop 7s ease-in-out infinite; }
+  .demo-t { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .demo-t b { font-family: var(--display); font-weight: 700; }
+  .demo-t span { font-size: .8rem; color: rgba(255, 255, 255, .6); }
+  .demo-status { display: grid; font-family: var(--mono); font-size: .72rem; font-weight: 600; }
+  .demo-status span { grid-area: 1 / 1; padding: 5px 10px; border-radius: 99px; text-align: center; }
+  .ds-in { background: rgba(239, 177, 60, .18); color: #f3c66d; animation: statusUit 7s infinite; }
+  .ds-ok { background: rgba(63, 183, 178, .2); color: #7fe0db; animation: statusIn 7s infinite; }
+}
+@keyframes zweef { 50% { transform: translateY(-6px); } }
+@keyframes ringloop { 0% { stroke-dashoffset: 100; stroke: var(--oker); } 55% { stroke-dashoffset: 8; stroke: var(--oker); } 62%, 90% { stroke-dashoffset: 0; stroke: var(--turk); } 100% { stroke-dashoffset: 100; stroke: var(--turk); } }
+@keyframes statusUit { 0%, 58% { opacity: 1; transform: none; } 63%, 92% { opacity: 0; transform: translateY(-6px); } 100% { opacity: 1; } }
+@keyframes statusIn { 0%, 58% { opacity: 0; transform: translateY(6px) scale(.9); } 63%, 92% { opacity: 1; transform: none; } 97%, 100% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .kenmerken-loop { animation: none; flex-wrap: wrap; width: auto; }
+  .kenmerken-loop li[aria-hidden] { display: none; }
+  .toegang-gloed i, .demo-claim, .dr-boog, .ds-in, .ds-ok { animation: none !important; }
+  .ds-ok { opacity: 0; }
+}
+
 /* the faint rings of the opening screen carry on behind the headline */
 .toegang-ringen { position: absolute; right: -170px; top: -150px; width: 520px; height: 520px; display: grid; place-items: center; pointer-events: none; }
 .toegang-ringen i { grid-area: 1 / 1; border-radius: 50%; border: 1px solid rgba(232, 56, 43, .16); animation: adem 3.6s ease-in-out infinite; }
@@ -103,13 +165,11 @@
   .toegang-band-binnen { gap: 18px; }
   .toegang-slogan h1 { font-size: clamp(2.2rem, 10.5vw, 3rem); margin-bottom: 10px; }
   .toegang-slogan p { font-size: .9rem; }
-  .toegang-kenmerken { flex-wrap: nowrap; gap: 6px; }
-  .toegang-kenmerken li { padding: 6px 10px; font-size: .74rem; gap: 6px; white-space: nowrap; }
+  .kenmerken-loop li { padding: 6px 10px; font-size: .74rem; gap: 6px; }
   .toegang-kaart { gap: 12px; }
   .toegang-kaart h2 { font-size: 1.4rem; }
   .toegang-kaart .knop-groot { min-height: 52px; }
 }
-@media (max-width: 479px) { .toegang-kenmerken li:nth-child(3) { display: none; } }
 @media (max-height: 600px) and (max-width: 899px) { .toegang-slogan p { display: none; } }
 @media (min-width: 900px) {
   .toegang { display: grid; grid-template-columns: 1.1fr 1fr; }

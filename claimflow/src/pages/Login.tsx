@@ -1,7 +1,23 @@
-import { useRef, useState, type FormEvent, type KeyboardEvent } from "react";
+import { useRef, useState, type CSSProperties, type FormEvent, type KeyboardEvent } from "react";
 import { useStore } from "../state/Store";
-import { Icon } from "../components/Icon";
+import { Icon, type IconNaam } from "../components/Icon";
 import { Logo } from "../components/ui";
+
+const KENMERKEN: Array<[IconNaam, string]> = [
+  ["klok", "42 dagen bewaakt"], ["camera", "LGAR scannen"], ["afbeelding", "Foto’s als bewijs"],
+  ["mail", "Weekoverzicht op maandag"], ["vink", "Vaste bedragen"], ["grafiek", "Rapportage per leverancier"],
+];
+
+/** Looping example claim (desktop only): the term ring fills, then the status flips to honoured. No amounts. */
+function DemoClaim() {
+  return (
+    <div className="demo-claim" aria-hidden="true">
+      <svg viewBox="0 0 76 76" className="demo-ring"><circle cx="38" cy="38" r="30" className="dr-bodem" /><circle cx="38" cy="38" r="30" className="dr-boog" pathLength="100" transform="rotate(-90 38 38)" /></svg>
+      <div className="demo-t"><b>Speling kolom 700E</b><span>Eureva · ink 2455457</span></div>
+      <span className="demo-status"><span className="ds-in">Ingediend</span><span className="ds-ok">Gehonoreerd ✓</span></span>
+    </div>
+  );
+}
 
 export function Login() {
   const { login, naam, setNaam } = useStore();
@@ -36,18 +52,25 @@ export function Login() {
   return (
     <main className="toegang">
       <div className="toegang-band">
+        <div className="toegang-gloed" aria-hidden="true"><i /><i /><i /></div>
         <div className="toegang-ringen" aria-hidden="true"><i /><i /><i /></div>
         <div className="toegang-band-binnen">
           <Logo />
           <div className="toegang-slogan">
-            <h1>Wat kapot gaat,<br /><span>komt terug.</span></h1>
+            <h1 aria-label="Wat kapot gaat, komt terug.">
+              <span className="sl-regel" aria-hidden="true">Wat <span className="kapot">{"kapot".split("").map((l, i) => <i key={i} style={{ "--i": i } as CSSProperties}>{l}</i>)}</span> gaat,</span>
+              <span className="sl-terug" aria-hidden="true">komt terug.</span>
+            </h1>
             <p>Garantieclaims van Medipoint Meppel, van melding tot creditnota.</p>
           </div>
-          <ul className="toegang-kenmerken" aria-label="Wat ClaimFlow doet">
-            <li><Icon naam="klok" maat={15} /> 42 dagen bewaakt</li>
-            <li><Icon naam="camera" maat={15} /> LGAR scannen</li>
-            <li><Icon naam="mail" maat={15} /> Weekoverzicht</li>
-          </ul>
+          <div className="toegang-band-kenmerken" aria-label="Wat ClaimFlow doet">
+            <ul className="kenmerken-loop">
+              {[0, 1].map((rij) => KENMERKEN.map(([icoon, tekst]) => (
+                <li key={`${rij}-${tekst}`} aria-hidden={rij === 1 || undefined}><Icon naam={icoon} maat={15} /> {tekst}</li>
+              )))}
+            </ul>
+          </div>
+          <DemoClaim />
         </div>
       </div>
       <div className="toegang-plek">
