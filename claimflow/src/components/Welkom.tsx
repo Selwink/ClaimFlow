@@ -4,7 +4,7 @@ import { useStore } from "../state/Store";
 import { Icon, type IconNaam } from "./Icon";
 
 /**
- * Unfolding welcome tour, shown after every login (also after creating an account or a new password).
+ * Unfolding welcome tour, shown every time the app opens (and after logging in), once the opening screen is gone.
  * Can be reopened from Beheer with `toonWelkom()`.
  */
 const NA_INLOGGEN = "claimflow-welkom-tonen";
@@ -49,13 +49,18 @@ export function Welkom() {
   const lijst = stappen((naam || "").split(" ")[0], magBewerken);
   const laatste = stap === lijst.length - 1;
 
+  const getoond = useRef(false);
   useEffect(() => {
-    let net = false;
-    try { net = sessionStorage.getItem(NA_INLOGGEN) === "1"; } catch { /* private mode */ }
-    if (!rol || !geladen || !net) return;
+    if (!rol || !geladen || getoond.current) return;
     try { sessionStorage.removeItem(NA_INLOGGEN); } catch { /* private mode */ }
-    const t = setTimeout(() => { setStap(0); setOpen(true); }, 500);
-    return () => clearTimeout(t);
+    // wait until the opening screen has gone, so the card visibly unfolds
+    const t = setInterval(() => {
+      if (document.documentElement.dataset.splash || document.querySelector(".splash")) return;
+      clearInterval(t);
+      getoond.current = true;
+      setTimeout(() => { setStap(0); setOpen(true); }, 250);
+    }, 150);
+    return () => clearInterval(t);
   }, [rol, geladen]);
   useEffect(() => {
     const opnieuw = () => { setStap(0); setOpen(true); };
