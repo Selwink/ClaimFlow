@@ -113,7 +113,7 @@ export function Login() {
           {stand === "herstel" ? <h2>{KOP.herstel}</h2> : (
             <div className="segment toegang-tabs" role="tablist" aria-label="Inloggen of account maken">
               {(["inloggen", "aanmelden"] as const).map((s) => (
-                <button key={s} type="button" role="tab" aria-selected={stand === s} aria-checked={stand === s} onClick={() => wissel(s)}>{KOP[s]}</button>
+                <button key={s} type="button" role="tab" aria-selected={stand === s} onClick={() => wissel(s)}>{KOP[s]}</button>
               ))}
             </div>
           )}

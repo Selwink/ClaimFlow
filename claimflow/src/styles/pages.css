@@ -155,6 +155,7 @@
 .toegang-kaart h2 { font-weight: 800; font-size: 1.6rem; }
 .toegang-tabs { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
 .toegang-tabs button { padding: 10px 12px; font-size: .92rem; }
+.toegang-tabs button[aria-selected="true"] { background: var(--papier); color: var(--inkt); box-shadow: 0 1px 3px rgba(42, 16, 36, .12); }
 .toegang-uitleg { font-size: .86rem; color: var(--inkt-2); margin-top: -2px; }
 .knop-link { background: none; border: 0; color: var(--rood-2); font-weight: 600; font-size: .88rem; padding: 6px; align-self: center; text-decoration: underline; text-underline-offset: 3px; }
 .sterkte { display: flex; align-items: center; gap: 10px; font-size: .76rem; color: var(--inkt-2); }
