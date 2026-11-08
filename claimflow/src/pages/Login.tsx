@@ -148,7 +148,7 @@ export function Login() {
               <span className="veld-label">Vestigingscode</span>
               <input type="password" value={code} onChange={(e) => { setCode(e.target.value); setFout(""); }} autoComplete="off" autoCapitalize="off" autoCorrect="off"
                 spellCheck={false} enterKeyHint="go" aria-describedby="code-uitleg" />
-              <span className="veld-hint" id="code-uitleg">De code van je vestiging. Vraag hem aan je leidinggevende.</span>
+              <span className="veld-hint" id="code-uitleg">De code van je vestiging. Vraag hem aan je werkvoorbereider.</span>
             </label>
           )}
           {hoofdletters && !fout && <p className="veld-hint" id="pw-caps"><Icon naam="waarschuwing" maat={14} /> Caps Lock staat aan</p>}
