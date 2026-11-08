@@ -20,9 +20,9 @@ function stappen(voornaam: string, magBewerken: boolean): Stap[] {
     { icoon: "vink", toon: "rood", titel: `Welkom${voornaam ? `, ${voornaam}` : ""}!`,
       tekst: "ClaimFlow houdt alle garantieclaims van Meppel bij, zodat er geen claim meer over de termijn gaat.",
       punten: [["klok", "Elke claim heeft 42 dagen; de app telt mee"], ["persoon", "Je naam staat bij alles wat je doet"], ["slot", "Je blijft 30 dagen ingelogd op dit apparaat"]] },
-    { icoon: "huis", toon: "aub", titel: "Vandaag",
-      tekst: "Je startscherm. Hier zie je in één oogopslag wat er moet gebeuren.",
-      punten: [["waarschuwing", "Rood = over de termijn: tijd om informatie bij de VAM op te vragen"], ["vink", "Gehonoreerd betekent: geld is binnen"]] },
+    { icoon: "huis", toon: "aub", titel: "Werkbak",
+      tekst: "Je startscherm: alles wat er moet gebeuren, met de knop erbij.",
+      punten: [["waarschuwing", "Rood = over de termijn: tijd om informatie bij de VAM op te vragen"], ["vink", "Tik op VAM gevraagd, Indienen of Inkoopnr invullen en de taak is klaar"], ["klok", "Later schuift een taak een week op"]] },
     magBewerken
       ? { icoon: "plus", toon: "rood", titel: "Claim toevoegen",
           tekst: "Tik op de rode + onderin. Kies hoe je begint:",
@@ -35,7 +35,7 @@ function stappen(voornaam: string, magBewerken: boolean): Stap[] {
       punten: [["klok", "De ring toont hoeveel dagen er nog over zijn"], ["vink", magBewerken ? "Met één tik naar Ingediend of Gehonoreerd" : "De status en de hele tijdlijn"], ["camera", "Foto’s en notities als bewijs voor de leverancier"]] },
     { icoon: "grafiek", toon: "oker", titel: "Overzicht houden",
       tekst: "Je hoeft niets bij te houden in Excel.",
-      punten: [["mail", "Elke maandag een weekoverzicht per mail"], ["grafiek", "Cijfers: wat terugkomt, per maand en per leverancier"], ["persoon", "Ik: je account, wachtwoord en instellingen"]] },
+      punten: [["mail", "Elke maandag een weekoverzicht per mail"], ["grafiek", "Cijfers: het teamdoel, wat terugkomt en per leverancier"], ["persoon", "Ik: je account, wachtwoord en instellingen"]] },
   ];
 }
 

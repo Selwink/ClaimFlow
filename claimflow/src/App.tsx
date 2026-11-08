@@ -4,7 +4,7 @@ import { StoreProvider, useStore } from "./state/Store";
 import { Layout } from "./components/Layout";
 import { Splash } from "./components/Splash";
 import { Login } from "./pages/Login";
-import { Vandaag } from "./pages/Vandaag";
+import { Werkbak } from "./pages/Werkbak";
 import { Claims } from "./pages/Claims";
 import { ClaimDetail } from "./pages/ClaimDetail";
 import { Bewerken } from "./pages/Bewerken";
@@ -26,7 +26,7 @@ function AppRoutes() {
           <Route path="vandaag" element={<Navigate to="/" replace />} />
           <Route path="logistiek" element={<Navigate to="/" replace />} />
           <Route element={<Layout />}>
-            <Route index element={<Vandaag />} />
+            <Route index element={<Werkbak />} />
             <Route path="claims" element={<Claims />} />
             <Route path="claims/:id" element={<ClaimDetail />} />
             <Route path="claims/:id/bewerken" element={<Bewerken />} />

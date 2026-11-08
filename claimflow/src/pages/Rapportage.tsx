@@ -7,7 +7,7 @@ import { download, naarCsv } from "../lib/export";
 import { Icon } from "../components/Icon";
 import { Kpi, Leeg, PaginaKop, Voortgang } from "../components/ui";
 import { LevAvatar } from "./Leveranciers";
-import { TeamPerMaand } from "../components/Team";
+import { TeamKaart, TeamPerMaand } from "../components/Team";
 import { Optel } from "../components/Optel";
 
 export function Rapportage() {
@@ -72,6 +72,8 @@ export function Rapportage() {
 
       {lijst.length === 0 ? <Leeg titel="Nog geen cijfers" tekst="Zodra er claims zijn, verschijnt hier het overzicht." /> : (
         <>
+          <TeamKaart />
+
           <section className="voortgangkaart">
             <div className="voortgang-kop">
               <div><small className="bovenschrift">Teruggehaald</small><b><Optel waarde={terug} opmaak={euroKort} ms={1100} /></b></div>

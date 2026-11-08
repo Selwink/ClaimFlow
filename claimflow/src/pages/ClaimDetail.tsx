@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import type { Status } from "../lib/types";
 import { STATUS_LABEL } from "../lib/types";
 import { useStore } from "../state/Store";
@@ -21,7 +21,8 @@ export function ClaimDetail() {
   const nav = useNavigate();
   const loc = useLocation();
   const { claims, inst, magBewerken, zetStatus, notitie, naarPrullenbak, terugzetten } = useStore();
-  const [notitieOpen, setNotitieOpen] = useState(false);
+  const [params] = useSearchParams();
+  const [notitieOpen, setNotitieOpen] = useState(() => params.get("notitie") === "1");
   const [tekst, setTekst] = useState("");
   const [naarStatus, setNaarStatus] = useState<Status | "">("");
   const [feest, setFeest] = useState(0);
