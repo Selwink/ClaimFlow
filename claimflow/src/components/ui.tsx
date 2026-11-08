@@ -4,12 +4,11 @@ import { STATUS_LABEL } from "../lib/types";
 import type { Toon } from "../lib/claims";
 import { Icon } from "./Icon";
 
-/** Wordmark. `logistiek` shows the Logistiek Flow mark (truck) instead of ClaimFlow (tick). */
-export function Logo({ licht = true, klein = false, logistiek = false }: { licht?: boolean; klein?: boolean; logistiek?: boolean }) {
+export function Logo({ licht = true, klein = false }: { licht?: boolean; klein?: boolean }) {
   return (
     <span className={`logo${licht ? " logo-licht" : ""}${klein ? " logo-klein" : ""}`}>
-      <span className="logo-merk" aria-hidden="true"><Icon naam={logistiek ? "vrachtwagen" : "vink"} maat={klein ? 13 : 15} /></span>
-      <span className="logo-woord">{logistiek ? "Logistiek Flow" : "ClaimFlow"} <span className="logo-mp">Medipoint</span></span>
+      <span className="logo-merk" aria-hidden="true"><Icon naam="vink" maat={klein ? 13 : 15} /></span>
+      <span className="logo-woord">ClaimFlow <span className="logo-mp">Medipoint</span></span>
     </span>
   );
 }

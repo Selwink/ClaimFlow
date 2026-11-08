@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ToastProvider } from "./state/Toast";
 import { StoreProvider, useStore } from "./state/Store";
 import { Layout } from "./components/Layout";
@@ -14,8 +14,6 @@ import { Rapportage } from "./pages/Rapportage";
 import { Beheer } from "./pages/Beheer";
 import { Prullenbak } from "./pages/Prullenbak";
 import { Datums } from "./pages/Datums";
-import { Start } from "./pages/Start";
-import { Logistiek } from "./pages/Logistiek";
 import { NietGevonden } from "./pages/NietGevonden";
 
 function AppRoutes() {
@@ -25,10 +23,10 @@ function AppRoutes() {
       <Splash klaar={!rol || geladen} kort={!!rol} />
       {!rol ? <Login /> : (
         <Routes>
-          <Route index element={<Start />} />
-          <Route path="logistiek" element={<Logistiek />} />
+          <Route path="vandaag" element={<Navigate to="/" replace />} />
+          <Route path="logistiek" element={<Navigate to="/" replace />} />
           <Route element={<Layout />}>
-            <Route path="vandaag" element={<Vandaag />} />
+            <Route index element={<Vandaag />} />
             <Route path="claims" element={<Claims />} />
             <Route path="claims/:id" element={<ClaimDetail />} />
             <Route path="claims/:id/bewerken" element={<Bewerken />} />
