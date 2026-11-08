@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useStore } from "../state/Store";
 import { isOpen, overTermijn } from "../lib/claims";
-import { teDoen } from "../lib/logistiek";
 import { meervoud } from "../lib/format";
 import { Icon } from "../components/Icon";
 import { Logo } from "../components/ui";
@@ -18,7 +17,6 @@ export function Start() {
   const laat = useMemo(() => actief.filter((c) => overTermijn(c, inst.dagen)).length, [actief, inst.dagen]);
   const open = useMemo(() => actief.filter(isOpen).length, [actief]);
   const voornaam = (naam || "").split(" ")[0];
-  const logistiek = useMemo(() => teDoen(actief), [actief]);
 
   return (
     <main className="start">
@@ -46,8 +44,8 @@ export function Start() {
           <span className="start-ic" aria-hidden="true"><Icon naam="vrachtwagen" maat={30} /></span>
           <span className="start-t">
             <b>Logistiek Flow</b>
-            <span>Onderdelen retour sturen, vernietigen of bewaren</span>
-            <span className="start-chips">{logistiek > 0 ? <span className="chip chip-oker">{meervoud(logistiek, "onderdeel", "onderdelen")} te doen</span> : <span className="chip chip-turk">Alles afgehandeld</span>}</span>
+            <span>Codeverwerking van Logistiek bijhouden</span>
+            <span className="start-chips"><span className="chip chip-oker">Wordt ingericht</span></span>
           </span>
           <Icon naam="verder" maat={22} className="start-pijl" />
         </Link>
