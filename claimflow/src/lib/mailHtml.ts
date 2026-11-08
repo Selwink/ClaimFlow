@@ -25,7 +25,7 @@ ${rijen.map(([k, v]) => `<tr><td style="padding:10px 0;border-bottom:1px solid #
 </table></td></tr>
 ${link ? `<tr><td style="padding:16px 24px 24px"><a href="${esc(link)}" style="display:inline-block;background:#E8382B;color:#fff;text-decoration:none;font-weight:700;padding:12px 20px;border-radius:12px">Openen in ClaimFlow</a></td></tr>` : ""}
 </table>
-<p style="font-size:12px;color:#6E6268;margin:14px 0 0">Automatische melding van ClaimFlow Medipoint</p>
+<p style="font-size:12px;color:#6E6268;margin:14px 0 0">ClaimFlow Medipoint · Wat kapot gaat, komt terug.</p>
 </td></tr></table></body></html>`;
 
   const tekst = [onderwerp, "", ...rijen.map(([k, v]) => `${k}: ${v}`)].join("\n");

@@ -1,27 +1,10 @@
-import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
+import { useRef, useState, type FormEvent, type KeyboardEvent } from "react";
 import { useStore } from "../state/Store";
-import { leesTeller } from "../lib/teller";
-import { euroKort } from "../lib/format";
 import { Icon } from "../components/Icon";
-import { Logo, Voortgang } from "../components/ui";
-
-/** Counts a number up from zero once, for the headline figure. */
-function useOptellen(doel: number, ms = 1100) {
-  const [w, setW] = useState(() => (matchMedia("(prefers-reduced-motion: reduce)").matches ? doel : 0));
-  useEffect(() => {
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) { setW(doel); return; }
-    let raf = 0; const start = performance.now() + 250;
-    const stap = (t: number) => { const f = Math.min(1, Math.max(0, (t - start) / ms)); setW(doel * (1 - Math.pow(1 - f, 3))); if (f < 1) raf = requestAnimationFrame(stap); };
-    raf = requestAnimationFrame(stap);
-    return () => cancelAnimationFrame(raf);
-  }, [doel, ms]);
-  return w;
-}
+import { Logo } from "../components/ui";
 
 export function Login() {
   const { login, naam, setNaam } = useStore();
-  const [teller] = useState(leesTeller);
-  const bedrag = useOptellen(teller?.terug ?? 0);
   const [pw, setPw] = useState("");
   const [wie, setWie] = useState(naam);
   const [zien, setZien] = useState(false);
@@ -53,21 +36,18 @@ export function Login() {
   return (
     <main className="toegang">
       <div className="toegang-band">
+        <div className="toegang-ringen" aria-hidden="true"><i /><i /><i /></div>
         <div className="toegang-band-binnen">
           <Logo />
-          {teller ? (
-            <div className="toegang-teller">
-              <small>Teruggehaald in {teller.plaats}</small>
-              <b aria-label={euroKort(teller.terug)}>{euroKort(bedrag)}</b>
-              <Voortgang deel={teller.deel} label="Deel van het claimbedrag dat is teruggehaald" />
-              <span>{Math.round(teller.deel * 100)}% van alle claims is binnen{teller.honorering != null ? ` · ${Math.round(teller.honorering * 100)}% gehonoreerd` : ""}</span>
-            </div>
-          ) : (
-            <div className="toegang-slogan">
-              <h1>Elke claim terug.<br /><span>Op tijd.</span></h1>
-              <p>Het garantieregister van Medipoint Meppel.</p>
-            </div>
-          )}
+          <div className="toegang-slogan">
+            <h1>Wat kapot gaat,<br /><span>komt terug.</span></h1>
+            <p>Garantieclaims van Medipoint Meppel, van melding tot creditnota.</p>
+          </div>
+          <ul className="toegang-kenmerken" aria-label="Wat ClaimFlow doet">
+            <li><Icon naam="klok" maat={15} /> 42 dagen bewaakt</li>
+            <li><Icon naam="camera" maat={15} /> LGAR scannen</li>
+            <li><Icon naam="mail" maat={15} /> Weekoverzicht</li>
+          </ul>
         </div>
       </div>
       <div className="toegang-plek">

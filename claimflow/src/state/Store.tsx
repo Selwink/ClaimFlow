@@ -7,10 +7,11 @@ import { metRegel, metStatus, statusVan } from "../lib/claims";
 import { ls, meervoud, vandaag } from "../lib/format";
 import { verstuurWachtrij } from "../lib/mail";
 import { useToast } from "./Toast";
-import { bewaarTeller } from "../lib/teller";
 
 /** Pre-2026-11 sessions stored a password hash here; it is no longer accepted and is cleaned up. */
 const OUDE_SLEUTEL = "garanties-meppel-toegang";
+/** Login-screen figures from an earlier design; no longer kept on the device. */
+const OUDE_TELLER = "claimflow-teller";
 const VERVERS_MS = 90_000;
 const SLEUTEL_NAAM = "claimregister-naam";
 const SLEUTEL_CACHE = "claimflow-cache";
@@ -58,7 +59,7 @@ const kopie = (c: Claim): Claim => JSON.parse(JSON.stringify(c));
 
 export function StoreProvider({ children }: { children: ReactNode }) {
   const toast = useToast();
-  const [rol, setRol] = useState<Rol | null>(() => { ls.del(OUDE_SLEUTEL); return geldigeRol(); });
+  const [rol, setRol] = useState<Rol | null>(() => { ls.del(OUDE_SLEUTEL); ls.del(OUDE_TELLER); return geldigeRol(); });
   const magBewerken = rol === "beheer";
   const [naam, setNaamState] = useState(() => ls.get(SLEUTEL_NAAM) || "");
   const cache = ls.json<{ claims: Claim[]; inst: Instellingen; tijd: number }>(SLEUTEL_CACHE);
@@ -83,7 +84,6 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       setOnline(true);
       setSyncTijd(Date.now());
       schrijfCache(c, nieuweInst);
-      bewaarTeller(c, nieuweInst);
     } catch (e) {
       if (e instanceof Uitgelogd) { ls.del(SLEUTEL_CACHE); setRol(null); setClaims([]); }
       else setOnline(false);
