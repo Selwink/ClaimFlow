@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useStore } from "../state/Store";
 import { dezeMaand, euroKort, ls, periodLabel } from "../lib/format";
-import { dezeMaandTerug, dezeWeek, teruggehaaldPerMaand, totaalTerug } from "../lib/team";
+import { dezeMaandTerug, dezeWeek, teruggehaaldPerMaand, totaalTerug, uitbesteedOpen } from "../lib/team";
 import { Icon } from "./Icon";
 import { Optel } from "./Optel";
 
@@ -17,6 +17,22 @@ export function TotaalKaart() {
         <small className="bovenschrift" id="totaal-kop">Totaal teruggehaald</small>
         <b className="totaal-bedrag"><Optel waarde={t.bedrag} opmaak={euroKort} ms={1300} /></b>
         <span className="totaal-sub">{t.aantal === 1 ? "1 claim" : `${t.aantal} claims`} gehonoreerd · geld is binnen</span>
+      </div>
+    </section>
+  );
+}
+
+/** Start page: what is still with the suppliers (uitbesteed, not yet handled). */
+export function UitbesteedKaart() {
+  const { actief } = useStore();
+  const u = useMemo(() => uitbesteedOpen(actief), [actief]);
+  return (
+    <section className="uitbesteedkaart" aria-labelledby="uitbesteed-kop">
+      <span className="uitbesteed-ic" aria-hidden="true"><Icon naam="fabriek" maat={22} /></span>
+      <div>
+        <small className="bovenschrift" id="uitbesteed-kop">Uitbesteed, nog open</small>
+        <b className="uitbesteed-bedrag"><Optel waarde={u.bedrag} opmaak={euroKort} ms={1300} /></b>
+        <span className="uitbesteed-sub">{u.aantal === 1 ? "1 claim" : `${u.aantal} claims`} bij de leverancier</span>
       </div>
     </section>
   );

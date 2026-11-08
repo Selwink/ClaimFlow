@@ -1,5 +1,5 @@
 import type { Claim } from "./types";
-import { afgehandeldOp, statusVan } from "./claims";
+import { afgehandeldOp, isOpen, statusVan } from "./claims";
 import { dezeMaand } from "./format";
 
 /**
@@ -66,6 +66,16 @@ export function totaalTerug(claims: Claim[]): { bedrag: number; aantal: number }
   let bedrag = 0, aantal = 0;
   for (const c of claims) {
     if (c.verwijderd || statusVan(c) !== "gehonoreerd") continue;
+    bedrag += Number(c.bedrag) || 0; aantal++;
+  }
+  return { bedrag, aantal };
+}
+
+/** Open claims that are with a supplier (uitbesteed): what is still with them, not yet handled. */
+export function uitbesteedOpen(claims: Claim[]): { bedrag: number; aantal: number } {
+  let bedrag = 0, aantal = 0;
+  for (const c of claims) {
+    if (c.verwijderd || !c.uitbesteed || !isOpen(c)) continue;
     bedrag += Number(c.bedrag) || 0; aantal++;
   }
   return { bedrag, aantal };
