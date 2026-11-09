@@ -24,7 +24,10 @@ export function Werkbak() {
   const [bezig, setBezig] = useState("");
   const taken = useMemo(() => werkbak(actief, inst.dagen), [actief, inst.dagen]);
   const tel = (b: Bak) => taken.filter((t) => t.bak === b).length;
-  const lijst = taken.filter((t) => t.bak === bak);
+  const [zoek, setZoek] = useState("");
+  const zoekt = zoek.trim().toLowerCase();
+  const lijst = taken.filter((t) => t.bak === bak && (!zoekt || [titelVan(t.claim), t.claim.leverancier, t.claim.inkoopnummer, t.claim.nummer, t.claim.onderdeel]
+    .some((v) => (v || "").toLowerCase().includes(zoekt))));
   const groepen = lijst.reduce<Array<{ reden: Taak["reden"]; taken: Taak[] }>>((acc, t) => {
     const g = acc.find((x) => x.reden === t.reden);
     if (g) g.taken.push(t); else acc.push({ reden: t.reden, taken: [t] });
@@ -76,6 +79,10 @@ export function Werkbak() {
             </div>
             {magBewerken && <Link to="/nieuw" className="knop knop-rood knop-klein alleen-desktop"><Icon naam="plus" maat={16} /> Nieuwe claim</Link>}
           </div>
+          <label className="werkbak-zoek">
+            <Icon naam="lijst" maat={16} />
+            <input type="search" value={zoek} onChange={(e) => setZoek(e.target.value)} placeholder="Zoek op onderdeel, leverancier of inkoopnummer" aria-label="Zoeken in de Werkbalk" />
+          </label>
           <div className="werkbak-tabs" role="tablist" aria-label="Werkbalk">
             {BAKKEN.map((b) => (
               <button key={b.id} type="button" role="tab" aria-selected={bak === b.id} onClick={() => setBak(b.id)}>
