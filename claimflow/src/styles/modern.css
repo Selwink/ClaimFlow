@@ -177,3 +177,22 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 .werkbak-zoek input:focus { outline: none; }
 .werkbak-zoek input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; width: 16px; height: 16px; background: rgba(255, 255, 255, .7); border-radius: 50%; cursor: pointer;
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 6l12 12M18 6L6 18' stroke='black' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") center / 10px no-repeat; }
+
+/* ============ Abstract direction on the Werkbalk ============
+   Tasks are lines, not boxes. A red dot marks what is over the term. Colours unchanged. */
+.werkbak-lijst { gap: 0; }
+.werkbak-lijst > li + li { margin-top: 0; }
+.werktaak, .werktaak-laat {
+  background: transparent; border: 0; border-top: 1px solid var(--lijn); border-radius: 0; box-shadow: none;
+  padding: 16px 0 16px 22px; position: relative; gap: 8px;
+}
+.werktaak:first-child { border-top: 0; }
+.werktaak::before { content: ""; position: absolute; left: 2px; top: 22px; width: 9px; height: 9px; border-radius: 50%; background: var(--ink-2, #8c877c); opacity: .5; }
+.werktaak-laat::before { background: var(--rood); opacity: 1; box-shadow: 0 0 0 4px rgba(232, 56, 43, .14); }
+.werktaak:hover { box-shadow: none; transform: none; }
+.werktaak-t b { font-size: 1.05rem; letter-spacing: -.02em; }
+.werktaak-t span { color: var(--inkt-2); }
+.werkbak-groep { border-top: 0; margin-top: 18px; }
+/* the big numbers stay, the boxes around the supporting cards go */
+.uitbesteedkaart, .teamkaart { box-shadow: none; border: 0; border-top: 1px solid var(--lijn); border-radius: 0; background: transparent; padding: 22px 0; }
+.uitbesteed-bedrag, .team-bedrag { letter-spacing: -.05em; }
