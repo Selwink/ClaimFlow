@@ -54,6 +54,8 @@ export const handler = async (e: Verzoek) => {
       return json(202, { wacht: true, naam });
     }
     if (actie === "login") {
+      // name, password and the branch code are all needed
+      if (!rolVoorCode(tekst("code"))) { await wacht(700); return fout(401, "De vestigingscode klopt niet."); }
       const g = await db.gebruiker(sleutelVoor(tekst("naam", 40)));
       if (!g || !(await klopt(tekst("wachtwoord"), g.hash))) { await wacht(700); return fout(401, "Naam of wachtwoord klopt niet."); }
       if (g.wacht) return fout(403, "Je account wacht nog op goedkeuring van een beheerder.");

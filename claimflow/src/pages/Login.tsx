@@ -59,10 +59,10 @@ export function Login() {
     if (naam.trim().length < 2) { mis("Vul je naam in."); return; }
     if (!pw) { mis("Vul je wachtwoord in."); pwVeld.current?.focus(); return; }
     if (nieuwWachtwoord && pw.length < MIN) { mis(`Kies een wachtwoord van minstens ${MIN} tekens.`); pwVeld.current?.focus(); return; }
-    if (nieuwWachtwoord && !code) { mis("Vul de vestigingscode in."); return; }
+    if (!code) { mis("Vul de vestigingscode in."); return; }
     setBezig(true);
     try {
-      const r = stand === "inloggen" ? await login(naam.trim(), pw) : stand === "aanmelden" ? await aanmelden(naam.trim(), pw, code) : await herstelWachtwoord(naam.trim(), code, pw);
+      const r = stand === "inloggen" ? await login(naam.trim(), pw, code) : stand === "aanmelden" ? await aanmelden(naam.trim(), pw, code) : await herstelWachtwoord(naam.trim(), code, pw);
       if ("wacht" in r) { setBezig(false); setWachtOp(r.naam); setPw(""); setCode(""); return; }
 
       naInloggen(r);
@@ -144,7 +144,7 @@ export function Login() {
               </span>
             )}
           </label>
-          {nieuwWachtwoord && (
+          {(
             <label className="veld">
               <span className="veld-label">Vestigingscode</span>
               <input type="password" value={code} onChange={(e) => { setCode(e.target.value); setFout(""); }} autoComplete="off" autoCapitalize="off" autoCorrect="off"

@@ -43,4 +43,4 @@ Omgevingsvariabelen in Netlify (Site configuration → Environment variables):
 | `TOKEN_GEHEIM` | ja | Ondertekent de toegangspassen (willekeurig, minstens 32 tekens) |
 | `SUPABASE_SERVICE_KEY` | sterk aangeraden | Service-sleutel uit Supabase → Project Settings → API. Daarna `supabase-afschermen.sql` uitvoeren |
 | `RESEND_API_KEY` | optioneel | Betrouwbare mail via Resend; zonder valt hij terug op FormSubmit |
-| `WACHTWOORD_HASH`, `BEHEER_HASH` | optioneel | sha256(code + "medipoint-meppel"): de vestigingscode(s) waarmee accounts worden aangemaakt |
+| `WACHTWOORD_HASH`, `BEHEER_HASH` | optioneel | sha256(code + "medipoint-meppel"): de vestigingscode(s) waarmee je inlogt en accounts maakt. Standaard is de code `medipointmeppel` (hash `252c9b1f…`). Staat `WACHTWOORD_HASH` in Netlify nog op de oude code, dan moet die worden aangepast of verwijderd. |
