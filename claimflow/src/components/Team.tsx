@@ -57,8 +57,10 @@ export function TeamKaart() {
         <div>
           <small className="bovenschrift" id="team-kop">Samen in {maandNaam}</small>
           <b className="team-bedrag"><Optel waarde={maand.bedrag} opmaak={euroKort} ms={1100} /> <span>van {euroKort(doel)}</span></b>
-          <span className="team-geclaimd">Geclaimd deze maand: <b><Optel waarde={geclaimd.bedrag} opmaak={euroKort} ms={1100} /></b> <span>({geclaimd.aantal === 1 ? "1 claim" : `${geclaimd.aantal} claims`})</span></span>
         </div>
+        <span className="team-geclaimd-pil" title={geclaimd.aantal === 1 ? "1 claim" : `${geclaimd.aantal} claims`}>
+          <small>Geclaimd</small><Optel waarde={geclaimd.bedrag} opmaak={euroKort} ms={1100} />
+        </span>
       </div>
       <div className="balk balk-licht team-balk" role="progressbar" aria-label="Maanddoel" aria-valuenow={Math.round(deel * 100)} aria-valuemin={0} aria-valuemax={100}><i style={{ width: `${Math.round(deel * 100)}%` }} /></div>
       <p className="team-regel">{gehaald ? <><b>Maanddoel gehaald!</b> Mooi werk, team.</> : <>Nog <b>{euroKort(doel - maand.bedrag)}</b> tot het maanddoel.</>}</p>
