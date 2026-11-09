@@ -77,7 +77,7 @@ export function Werkbak() {
                 <span className="sl-terug" aria-hidden="true">komt terug.</span>
               </p>
             </div>
-            {magBewerken && <Link to="/nieuw" className="knop knop-rood knop-klein alleen-desktop"><Icon naam="plus" maat={16} /> Nieuwe claim</Link>}
+            {magBewerken && <Link to="/nieuw" className="knop knop-rood knop-klein"><Icon naam="plus" maat={16} /> Nieuwe claim</Link>}
           </div>
           <label className="werkbak-zoek">
             <Icon naam="lijst" maat={16} />
@@ -99,7 +99,6 @@ export function Werkbak() {
         {lijst.length === 0 ? (
           <Leeg titel={bak === "nu" ? "Werkbalk leeg" : bak === "week" ? "Niets voor deze week" : "Nergens op wachten"}
             tekst={bak === "nu" ? "Alles wat nu moest, is gedaan. Mooi werk." : undefined}>
-            {bak === "nu" && magBewerken && <Link to="/nieuw" className="knop knop-rood"><Icon naam="plus" maat={18} /> Nieuwe claim</Link>}
           </Leeg>
         ) : groepen.map((g) => (
           <section key={g.reden} aria-labelledby={`groep-${g.reden}`}>
