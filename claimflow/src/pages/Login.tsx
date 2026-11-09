@@ -57,12 +57,12 @@ export function Login() {
   const verstuur = async (e: FormEvent) => {
     e.preventDefault();
     if (naam.trim().length < 2) { mis("Vul je naam in."); return; }
-    if (!pw) { mis("Vul je wachtwoord in."); pwVeld.current?.focus(); return; }
+    if (nieuwWachtwoord && !pw) { mis("Vul je wachtwoord in."); pwVeld.current?.focus(); return; }
     if (nieuwWachtwoord && pw.length < MIN) { mis(`Kies een wachtwoord van minstens ${MIN} tekens.`); pwVeld.current?.focus(); return; }
     if (!code) { mis("Vul de vestigingscode in."); return; }
     setBezig(true);
     try {
-      const r = stand === "inloggen" ? await login(naam.trim(), pw, code) : stand === "aanmelden" ? await aanmelden(naam.trim(), pw, code) : await herstelWachtwoord(naam.trim(), code, pw);
+      const r = stand === "inloggen" ? await login(naam.trim(), code) : stand === "aanmelden" ? await aanmelden(naam.trim(), pw, code) : await herstelWachtwoord(naam.trim(), code, pw);
       if ("wacht" in r) { setBezig(false); setWachtOp(r.naam); setPw(""); setCode(""); return; }
 
       naInloggen(r);
@@ -126,6 +126,7 @@ export function Login() {
             <input name="username" value={naam} onChange={(e) => { setNaam(e.target.value); setFout(""); }} autoComplete="username" autoCapitalize="words"
               placeholder={stand === "aanmelden" ? "Voor- en achternaam" : "Je naam"} enterKeyHint="next" maxLength={40} />
           </label>
+          {stand !== "inloggen" && (
           <label className="veld">
             <span className="veld-label">{nieuwWachtwoord ? "Kies een wachtwoord" : "Wachtwoord"}</span>
             <span className="met-na">
@@ -144,6 +145,7 @@ export function Login() {
               </span>
             )}
           </label>
+          )}
           {(
             <label className="veld">
               <span className="veld-label">Vestigingscode</span>
@@ -157,7 +159,6 @@ export function Login() {
           <button className="knop knop-rood knop-groot knop-vol" disabled={bezig}>
             {bezig ? <><span className="mini-spinner" aria-hidden="true" /> Even geduld…</> : <>{KNOP[stand]} <Icon naam="pijl" maat={18} /></>}
           </button>
-          {stand === "inloggen" && <button type="button" className="knop-link" onClick={() => wissel("herstel")}>Wachtwoord vergeten?</button>}
           {stand === "herstel" && <button type="button" className="knop-link" onClick={() => wissel("inloggen")}>Terug naar inloggen</button>}
           <p className="toegang-tip"><Icon naam="slot" maat={14} /> Je blijft 30 dagen ingelogd op dit apparaat.</p>
         </form>

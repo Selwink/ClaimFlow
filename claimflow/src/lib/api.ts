@@ -41,7 +41,7 @@ async function metPas(actie: "login" | "aanmelden" | "herstel" | "wachtwoord", b
   pas.zet(r);
   return r;
 }
-export const login = (naam: string, wachtwoord: string, code: string) => metPas("login", { naam, wachtwoord, code });
+export const login = (naam: string, code: string) => metPas("login", { naam, code });
 /** Creates an account. The first account logs straight in; later ones wait for approval and get `{ wacht: true }`. */
 export async function aanmelden(naam: string, wachtwoord: string, code: string): Promise<PasInfo | { wacht: true; naam: string }> {
   const r = await vraag<PasInfo | { wacht: true; naam: string }>("aanmelden", { body: { naam, wachtwoord, code } });

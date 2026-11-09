@@ -54,10 +54,10 @@ export const handler = async (e: Verzoek) => {
       return json(202, { wacht: true, naam });
     }
     if (actie === "login") {
-      // name, password and the branch code are all needed
+      // name and the branch code are needed; no password at login
       if (!rolVoorCode(tekst("code"))) { await wacht(700); return fout(401, "De vestigingscode klopt niet."); }
       const g = await db.gebruiker(sleutelVoor(tekst("naam", 40)));
-      if (!g || !(await klopt(tekst("wachtwoord"), g.hash))) { await wacht(700); return fout(401, "Naam of wachtwoord klopt niet."); }
+      if (!g) { await wacht(700); return fout(401, "Die naam staat niet in het systeem. Maak eerst een account."); }
       if (g.wacht) return fout(403, "Je account wacht nog op goedkeuring van een beheerder.");
       if (!g.actief) return fout(403, "Dit account is geblokkeerd. Vraag de beheerder om het weer te openen.");
       await db.bewaarGebruiker({ ...g, laatst: new Date().toISOString() }).catch(() => undefined);
