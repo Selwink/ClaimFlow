@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useStore } from "../state/Store";
 import { dezeMaand, euroKort, ls, periodLabel } from "../lib/format";
-import { dezeMaandTerug, dezeWeek, teruggehaaldPerMaand, totaalTerug, uitbesteedTotaal } from "../lib/team";
+import { dezeMaandTerug, dezeWeek, teruggehaaldPerMaand, totaalTerug, uitbesteedTotaal, geclaimdDezeMaand } from "../lib/team";
 import { Icon } from "./Icon";
 import { Optel } from "./Optel";
 
@@ -43,6 +43,7 @@ export function TeamKaart() {
   const { actief, inst, naam } = useStore();
   const maand = useMemo(() => dezeMaandTerug(actief), [actief]);
   const week = useMemo(() => dezeWeek(actief, naam), [actief, naam]);
+  const geclaimd = useMemo(() => geclaimdDezeMaand(actief), [actief]);
   const doel = inst.maanddoel;
   const deel = doel ? Math.min(1, maand.bedrag / doel) : 0;
   const gehaald = maand.bedrag >= doel;
@@ -56,6 +57,7 @@ export function TeamKaart() {
         <div>
           <small className="bovenschrift" id="team-kop">Samen in {maandNaam}</small>
           <b className="team-bedrag"><Optel waarde={maand.bedrag} opmaak={euroKort} ms={1100} /> <span>van {euroKort(doel)}</span></b>
+          <span className="team-geclaimd">Geclaimd deze maand: <b><Optel waarde={geclaimd.bedrag} opmaak={euroKort} ms={1100} /></b> <span>({geclaimd.aantal === 1 ? "1 claim" : `${geclaimd.aantal} claims`})</span></span>
         </div>
       </div>
       <div className="balk balk-licht team-balk" role="progressbar" aria-label="Maanddoel" aria-valuenow={Math.round(deel * 100)} aria-valuemin={0} aria-valuemax={100}><i style={{ width: `${Math.round(deel * 100)}%` }} /></div>

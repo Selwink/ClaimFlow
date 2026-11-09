@@ -80,3 +80,13 @@ export function uitbesteedTotaal(claims: Claim[]): { bedrag: number; aantal: num
   }
   return { bedrag, aantal };
 }
+
+/** Amount claimed this month: all claims whose month (periode) is the current one, whatever their status. */
+export function geclaimdDezeMaand(claims: Claim[]): { bedrag: number; aantal: number } {
+  let bedrag = 0, aantal = 0;
+  for (const c of claims) {
+    if (c.verwijderd || c.periode !== dezeMaand()) continue;
+    bedrag += Number(c.bedrag) || 0; aantal++;
+  }
+  return { bedrag, aantal };
+}

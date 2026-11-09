@@ -164,3 +164,6 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 @media (min-width: 1024px) { .werkbak-doel { grid-template-columns: 1fr 1fr 1fr; } }
 /* on a computer the Werkbalk gets room for three money cards side by side (header and list stay aligned) */
 @media (min-width: 1024px) { .werkbak-kop-binnen, .werkbak-inhoud { max-width: 1000px; } }
+.team-geclaimd { display: block; margin-top: 4px; font-size: .84rem; color: var(--inkt-2); }
+.team-geclaimd b { color: var(--inkt); font-family: var(--display); font-weight: 800; }
+.team-geclaimd > span { font-size: .78rem; }
