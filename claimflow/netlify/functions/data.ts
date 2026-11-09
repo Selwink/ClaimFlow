@@ -54,16 +54,26 @@ export const handler = async (e: Verzoek) => {
       return json(202, { wacht: true, naam });
     }
     if (actie === "login") {
-      // name and the branch code are needed; no password at login
-      if (!rolVoorCode(tekst("code"))) { await wacht(700); return fout(401, "De vestigingscode klopt niet."); }
-      const g = await db.gebruiker(sleutelVoor(tekst("naam", 40)));
-      if (!g) { await wacht(700); return fout(401, "Die naam staat niet in het systeem. Maak eerst een account."); }
+      // name and the branch code are needed. A new name gets its account on the spot.
+      const rolCode = rolVoorCode(tekst("code"));
+      if (!rolCode) { await wacht(700); return fout(401, "De vestigingscode klopt niet."); }
+      const naam = tekst("naam", 40).trim().replace(/\s+/g, " ");
+      if (!naamOk(naam)) return fout(400, "Vul je naam in (2 tot 40 tekens).");
+      const sleutel = sleutelVoor(naam);
+      let g = await db.gebruiker(sleutel);
+      if (!g) {
+        const eerste = (await db.alleGebruikers()).length === 0;
+        g = { sleutel, naam, hash: await versleutel(crypto.randomUUID()), rol: eerste ? "beheer" : rolCode, actief: true, v: 1,
+          gemaakt: new Date().toISOString(), laatst: new Date().toISOString() };
+        await db.bewaarGebruiker(g);
+      }
       if (g.wacht) return fout(403, "Je account wacht nog op goedkeuring van een beheerder.");
       if (!g.actief) return fout(403, "Dit account is geblokkeerd. Vraag de beheerder om het weer te openen.");
       await db.bewaarGebruiker({ ...g, laatst: new Date().toISOString() }).catch(() => undefined);
       return pasVoor(g);
     }
-    if (actie === "herstel") {
+    if (actie === "herstel") { return fout(410, "Niet meer nodig: inloggen gaat met je naam en de vestigingscode."); }
+    if (actie === "herstel_oud") {
       const g = await db.gebruiker(sleutelVoor(tekst("naam", 40)));
       const wachtwoord = tekst("wachtwoord");
       if (!g || !g.reset || !rolVoorCode(tekst("code"))) { await wacht(700); return fout(403, "Dit lukt alleen als de beheerder een nieuw wachtwoord voor je heeft toegestaan, en met de juiste vestigingscode."); }

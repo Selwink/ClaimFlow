@@ -22,7 +22,6 @@ function DemoClaim() {
 
 type Stand = "inloggen" | "aanmelden" | "herstel";
 const MIN = 8;
-const KOP: Record<Stand, string> = { inloggen: "Inloggen", aanmelden: "Account maken", herstel: "Nieuw wachtwoord" };
 const KNOP: Record<Stand, string> = { inloggen: "Inloggen", aanmelden: "Account maken", herstel: "Wachtwoord opslaan" };
 
 /** Rough strength hint for a new password; the server only enforces the minimum length. */
@@ -111,14 +110,7 @@ export function Login() {
         ) : (
         <form className={`toegang-kaart${schud ? " schud" : ""}`} key={`${stand}-${schud}`} onSubmit={verstuur} noValidate>
           <span className="greep" aria-hidden="true" />
-          {stand === "herstel" ? <h2>{KOP.herstel}</h2> : (
-            <div className="segment toegang-tabs" role="tablist" aria-label="Inloggen of account maken">
-              {(["inloggen", "aanmelden"] as const).map((s) => (
-                <button key={s} type="button" role="tab" aria-selected={stand === s} onClick={() => wissel(s)}>{KOP[s]}</button>
-              ))}
-            </div>
-          )}
-          {stand === "aanmelden" && <p className="toegang-uitleg">Kies je eigen wachtwoord. Niemand anders kan het zien, ook de beheerder niet.</p>}
+          <p className="toegang-uitleg">Vul je eigen naam in en de vestigingscode. Heb je nog geen account, dan maakt de app die nu voor je aan.</p>
           {stand === "herstel" && <p className="toegang-uitleg">Dit werkt nadat de beheerder een nieuw wachtwoord voor je heeft toegestaan in Beheer.</p>}
 
           <label className="veld">
