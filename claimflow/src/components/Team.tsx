@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useStore } from "../state/Store";
 import { dezeMaand, euroKort, ls, periodLabel } from "../lib/format";
-import { dezeMaandTerug, dezeWeek, teruggehaaldPerMaand, totaalTerug, uitbesteedTotaal, geclaimdDezeMaand } from "../lib/team";
+import { dezeWeek, teruggehaaldPerMaand, totaalTerug, uitbesteedTotaal, geclaimdDezeMaand } from "../lib/team";
 import { Icon } from "./Icon";
 import { Optel } from "./Optel";
 
@@ -41,12 +41,12 @@ export function UitbesteedKaart() {
 /** Vandaag card: the team's progress toward this month's goal, and what everyone did together this week. */
 export function TeamKaart() {
   const { actief, inst, naam } = useStore();
-  const maand = useMemo(() => dezeMaandTerug(actief), [actief]);
   const week = useMemo(() => dezeWeek(actief, naam), [actief, naam]);
+  // the goal is measured on what is claimed this month: it grows as claims are filed
   const geclaimd = useMemo(() => geclaimdDezeMaand(actief), [actief]);
   const doel = inst.maanddoel;
-  const deel = doel ? Math.min(1, maand.bedrag / doel) : 0;
-  const gehaald = maand.bedrag >= doel;
+  const deel = doel ? Math.min(1, geclaimd.bedrag / doel) : 0;
+  const gehaald = geclaimd.bedrag >= doel;
   const maandNaam = periodLabel(dezeMaand()).split(" ")[0].toLowerCase();
   const mijn = [week.ik.toegevoegd && `${week.ik.toegevoegd} toegevoegd`, week.ik.ingediend && `${week.ik.ingediend} ingediend`, week.ik.gehonoreerd && `${week.ik.gehonoreerd} gehonoreerd`].filter(Boolean);
 
@@ -56,14 +56,11 @@ export function TeamKaart() {
         <span className="team-ic" aria-hidden="true"><Icon naam={gehaald ? "vink" : "persoon"} maat={22} /></span>
         <div>
           <small className="bovenschrift" id="team-kop">Samen in {maandNaam}</small>
-          <b className="team-bedrag"><Optel waarde={maand.bedrag} opmaak={euroKort} ms={1100} /> <span>van {euroKort(doel)}</span></b>
+          <b className="team-bedrag"><Optel waarde={geclaimd.bedrag} opmaak={euroKort} ms={1100} /> <span>van {euroKort(doel)}</span></b>
         </div>
-        <span className="team-geclaimd-pil" title={geclaimd.aantal === 1 ? "1 claim" : `${geclaimd.aantal} claims`}>
-          <small>Geclaimd</small><Optel waarde={geclaimd.bedrag} opmaak={euroKort} ms={1100} />
-        </span>
       </div>
       <div className="balk balk-licht team-balk" role="progressbar" aria-label="Maanddoel" aria-valuenow={Math.round(deel * 100)} aria-valuemin={0} aria-valuemax={100}><i style={{ width: `${Math.round(deel * 100)}%` }} /></div>
-      <p className="team-regel">{gehaald ? <><b>Maanddoel gehaald!</b> Mooi werk, team.</> : <>Nog <b>{euroKort(doel - maand.bedrag)}</b> tot het maanddoel.</>}</p>
+      <p className="team-regel">{gehaald ? <><b>Maanddoel gehaald!</b> Mooi werk, team.</> : <>Nog <b>{euroKort(Math.max(0, doel - geclaimd.bedrag))}</b> tot het maanddoel.</>}</p>
       <div className="team-week" aria-label="Deze week samen">
         <div><b><Optel waarde={week.team.toegevoegd} /></b><span>toegevoegd</span></div>
         <div><b><Optel waarde={week.team.ingediend} /></b><span>ingediend</span></div>
@@ -77,7 +74,7 @@ export function TeamKaart() {
 /** Celebration for everyone, once per month, when the team reaches the monthly goal. */
 export function DoelGehaald() {
   const { actief, inst, geladen, rol } = useStore();
-  const maand = useMemo(() => dezeMaandTerug(actief), [actief]);
+  const maand = useMemo(() => geclaimdDezeMaand(actief), [actief]);
   const [feest, setFeest] = useState(false);
   useEffect(() => {
     if (!geladen || !rol || maand.bedrag < inst.maanddoel) return;
@@ -101,7 +98,7 @@ export function DoelGehaald() {
       <div className="feest-kaart" onClick={(e) => e.stopPropagation()}>
         <span className="team-ic team-ic-groot" aria-hidden="true"><Icon naam="vink" maat={36} /></span>
         <small className="bovenschrift rood">Maanddoel gehaald!</small>
-        <h2 id="doel-titel">{euroKort(maand.bedrag)} teruggehaald</h2>
+        <h2 id="doel-titel">{euroKort(maand.bedrag)} geclaimd</h2>
         <p className="t-zacht">Het team heeft het doel van {euroKort(inst.maanddoel)} voor {periodLabel(dezeMaand()).toLowerCase()} gehaald. Mooi werk, iedereen!</p>
         <button type="button" className="knop knop-rood knop-vol" onClick={() => setFeest(false)} autoFocus>Top!</button>
       </div>
