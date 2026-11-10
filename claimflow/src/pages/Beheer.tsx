@@ -14,7 +14,6 @@ import { Backups } from "../components/Backups";
 import { Gebruikers, WachtwoordWijzigen } from "../components/Gebruikers";
 import { toonWelkom } from "../components/Welkom";
 import { PushMeldingen } from "../components/PushMeldingen";
-import { Beveiliging } from "../components/Beveiliging";
 import { datumOntbreekt } from "../lib/claims";
 
 function Blok({ titel, uitleg, children }: { titel: string; uitleg?: string; children: ReactNode }) {
@@ -92,9 +91,6 @@ export function Beheer() {
         </Blok>
       )}
 
-      <Blok titel="Beveiliging">
-        <Beveiliging />
-      </Blok>
 
       <Blok titel="Back-ups">
         <Backups />
@@ -146,13 +142,6 @@ export function Beheer() {
               <span className="veld-hint">Het team ziet op Vandaag hoe ver jullie zijn; bij het halen volgt een felicitatie.</span></label>
             <label className="veld"><span className="veld-label">Leveranciers (één per regel)</span><textarea rows={6} value={levTekst} onChange={(e) => setLevTekst(e.target.value)} /></label>
             <label className="veld"><span className="veld-label">Altijd uitbesteed</span><textarea rows={6} value={uitTekst} onChange={(e) => setUitTekst(e.target.value)} /></label>
-            <div className="veld veld-breed"><span className="veld-label">E-mailadres per leverancier</span>
-              <div className="levmail">
-                {levs.map((l) => (
-                  <label key={l}><span>{l}</span><input type="email" value={i.levMail[l] || ""} placeholder="garantie@…" onChange={(e) => setI({ ...i, levMail: { ...i.levMail, [l]: e.target.value.trim() } })} /></label>
-                ))}
-              </div>
-            </div>
             <div className="veld veld-breed"><span className="veld-label">Vaste bedragen — worden ingevuld als het woord in de storing staat</span>
               <div className="prijzen">
                 {prijzen.map((p, n) => (
