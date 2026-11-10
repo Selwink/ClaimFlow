@@ -247,3 +247,20 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 .lade-uit { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 46px; margin-top: 10px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, .14); background: rgba(255, 255, 255, .06); color: #fff; font: 600 .92rem/1 var(--body); cursor: pointer; }
 .lade-uit:hover { background: rgba(255, 255, 255, .1); }
 .lade-uit:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+/* ============ Claim detail in the same look as the claim list and the Werkbalk ============ */
+.detail-kop { background: radial-gradient(120% 140% at 100% 0%, rgba(232, 56, 43, .28), transparent 55%), linear-gradient(170deg, #1E2030, #14151F); padding-bottom: 72px; }
+.detail-kop .bovenschrift { font: 600 .66rem/1 var(--mono); letter-spacing: .14em; color: rgba(255, 255, 255, .6); }
+.detail-kop h1 { font-size: clamp(30px, 6vw, 46px); letter-spacing: -.05em; line-height: 1.02; }
+.detail-kop p { color: rgba(255, 255, 255, .72); }
+.detail-raster { gap: 16px; }
+.detail-hoofd, .detail-zij { gap: 16px; }
+/* cards: one border, one soft shadow, the same radius everywhere */
+.detail-raster .kaart, .detail-raster .detail-kaart, .detail-raster [class*="kaart"] {
+  border: 1px solid var(--lijn); border-radius: 22px; box-shadow: 0 1px 2px rgba(17, 18, 26, .05), 0 10px 26px -16px rgba(17, 18, 26, .22);
+}
+.detail-kop-binnen .kop-acties { gap: 10px; }
+/* the actions bar keeps its frosted strip, with the main action in the accent */
+.actiebalk .knop-rood, .actiebalk .knop-turk { min-height: 52px; }
+/* one more step of breathing room between sections on phones */
+@media (max-width: 1023px) { .detail-raster { margin-top: -44px; } .detail-kop { padding-bottom: 64px; } }
