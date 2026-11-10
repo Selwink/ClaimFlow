@@ -20,7 +20,7 @@ const NAV: NavItem[] = [
 
 /** App frame: sidebar on desktop, top bar + bottom tab bar on phone and tablet. */
 export function Layout() {
-  const { actief, inst, online, syncTijd, naam, magBewerken, rol, vernieuw } = useStore();
+  const { actief, inst, online, syncTijd, naam, magBewerken, rol, vernieuw, uitloggen } = useStore();
   const nav = useNavigate();
   const loc = useLocation();
   const aandacht = actief.filter((c) => overTermijn(c, inst.dagen)).length;
@@ -101,6 +101,9 @@ export function Layout() {
             <span className="avatar-klein">{initialen}</span>
             <span><b>{naam || "Naam niet ingesteld"}</b><small>{rol === "beheer" ? "beheerder" : "alleen kijken"}</small></span>
           </div>
+          <button type="button" className="lade-uit" onClick={() => { setMenuOpen(false); uitloggen(); }}>
+            <Icon naam="uitloggen" maat={18} /> Uitloggen
+          </button>
         </nav>
       </div>
 

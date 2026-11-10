@@ -244,3 +244,6 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 .menu-knop { transition: background .15s, transform .12s; }
 .menu-knop:active { transform: scale(.94); }
 @media (prefers-reduced-motion: reduce) { .menu-ikoon line { transition: none; } }
+.lade-uit { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 46px; margin-top: 10px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, .14); background: rgba(255, 255, 255, .06); color: #fff; font: 600 .92rem/1 var(--body); cursor: pointer; }
+.lade-uit:hover { background: rgba(255, 255, 255, .1); }
+.lade-uit:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
