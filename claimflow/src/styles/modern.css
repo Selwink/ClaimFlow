@@ -277,3 +277,19 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 .toegang-kaart .met-na { border-radius: 999px; min-height: 56px; background: #F7F8FB; }
 .toegang-kaart form button.knop-rood, .toegang-kaart .knop-rood { border-radius: 999px; min-height: 56px; text-transform: uppercase; letter-spacing: .12em; font-size: .9rem; font-weight: 700; }
 .toegang-kaart .veld-hint { text-align: center; }
+
+/* ============ More green next to the red: positives in emerald, urgency and the main action stay red ============ */
+:root { --groen: #1A7F50; --groen-2: #2FA36F; --groen-licht: #3FC48A; --groen-zacht: #DDF5E8; --groen-ink: #0F5A38; }
+.totaalkaart { background: radial-gradient(120% 160% at 100% 0%, rgba(63, 196, 138, .35), transparent 55%), linear-gradient(160deg, #173D2C, #0E2A1E); }
+.totaal-ic, .team-ic, .teamkaart-gehaald .team-ic, .team-ic-groot { background: linear-gradient(145deg, var(--groen-2), var(--groen)); box-shadow: 0 10px 22px -8px rgba(26, 127, 80, .7); }
+.totaal-bedrag, .team-bedrag, .kpi > b.t-turk, .t-turk { color: var(--groen); }
+.team-bedrag > span:last-child { color: var(--inkt-2); }
+.balk i, .team-balk i { background: linear-gradient(90deg, var(--groen), var(--groen-licht)); }
+.chip-turk, .ic-turk, .bedrag-plus, .tm-doel.gehaald { background: var(--groen-zacht); color: var(--groen-ink); }
+.knop-turk { background: linear-gradient(180deg, var(--groen-2), var(--groen)); box-shadow: 0 8px 18px -8px rgba(26, 127, 80, .8); }
+.wic-turk { background: linear-gradient(145deg, var(--groen-2), var(--groen)); box-shadow: 0 12px 26px -10px rgba(26, 127, 80, .6); }
+.tm-balk i.gehaald { background: var(--groen-licht); }
+.teamkaart-gehaald { border-color: #BFE6D2; background: linear-gradient(180deg, #F1FBF6, var(--papier)); }
+.actiebalk-klaar { color: var(--groen); background: var(--groen-zacht); }
+.tabbalk .aan svg, .tab.active svg { filter: none; }
+.werkbak-tabs b.groen-getal { color: var(--groen); }
