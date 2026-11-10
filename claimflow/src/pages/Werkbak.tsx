@@ -97,7 +97,7 @@ export function Werkbak() {
         <div className="werkbak-doel"><TotaalKaart /><UitbesteedKaart /><TeamKaart /></div>
         <div className="werkbak-lijsten" key={bak}>
         {lijst.length === 0 ? (
-          <Leeg titel={bak === "nu" ? "Werkbalk leeg" : bak === "week" ? "Niets voor deze week" : "Nergens op wachten"}
+          <Leeg icoon={bak === "nu" ? <Icon naam="vink" maat={34} /> : undefined} titel={bak === "nu" ? "Werkbalk leeg" : bak === "week" ? "Niets voor deze week" : "Nergens op wachten"}
             tekst={bak === "nu" ? "Alles wat nu moest, is gedaan. Mooi werk." : undefined}>
           </Leeg>
         ) : groepen.map((g) => (

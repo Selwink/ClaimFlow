@@ -23,10 +23,11 @@ export const Chip = ({ toon, children }: { toon: Toon; children: ReactNode }) =>
 const STATUS_TOON: Record<Status, Toon> = { nieuw: "grijs", ingediend: "oker", gehonoreerd: "turk", afgewezen: "rood" };
 export const StatusPil = ({ status }: { status: Status }) => <Chip toon={STATUS_TOON[status]}>{STATUS_LABEL[status]}</Chip>;
 
-export function Leeg({ titel, tekst, children, kop }: { titel: string; tekst?: string; children?: ReactNode; kop?: "h1" | "h2" }) {
+export function Leeg({ titel, tekst, children, kop, icoon }: { titel: string; tekst?: string; children?: ReactNode; kop?: "h1" | "h2"; icoon?: ReactNode }) {
   const Kop = kop || "b";
   return (
     <div className="leeg">
+      {icoon && <span className="leeg-orb" aria-hidden="true">{icoon}</span>}
       <Kop className="leeg-titel">{titel}</Kop>
       {tekst && <span>{tekst}</span>}
       {children}
