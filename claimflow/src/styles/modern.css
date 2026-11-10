@@ -233,3 +233,14 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 @media (prefers-reduced-motion: reduce) { .lade-paneel, .lade-bedekking { transition: none; } }
 .lade-kop > :first-child { min-width: 0; flex: 1 1 auto; overflow: hidden; }
 .lade-kop .logo { font-size: 1.02rem; white-space: nowrap; }
+
+/* menu icon: three rounded strokes of uneven length; they turn into a cross when the menu is open */
+.menu-ikoon { overflow: visible; }
+.menu-ikoon line { stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; transform-origin: 12px 12px; transition: transform .28s cubic-bezier(.2, .8, .3, 1), opacity .2s, x1 .28s, x2 .28s; }
+.menu-ikoon .l2 { transform-origin: 12px 12px; }
+.menu-ikoon.open .l1 { transform: translateY(5px) rotate(45deg); }
+.menu-ikoon.open .l2 { opacity: 0; }
+.menu-ikoon.open .l3 { transform: translateY(-5px) rotate(-45deg); }
+.menu-knop { transition: background .15s, transform .12s; }
+.menu-knop:active { transform: scale(.94); }
+@media (prefers-reduced-motion: reduce) { .menu-ikoon line { transition: none; } }

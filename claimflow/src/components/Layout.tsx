@@ -66,7 +66,11 @@ export function Layout() {
 
       <header className="topbalk">
         <button type="button" className="menu-knop" aria-label="Menu openen" aria-expanded={menuOpen} aria-controls="menu-lade" onClick={() => setMenuOpen(true)}>
-          <Icon naam="meer" maat={22} />
+          <svg className={`menu-ikoon${menuOpen ? " open" : ""}`} width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+            <line className="l1" x1="4" y1="7" x2="20" y2="7" />
+            <line className="l2" x1="4" y1="12" x2="14" y2="12" />
+            <line className="l3" x1="4" y1="17" x2="20" y2="17" />
+          </svg>
         </button>
         <NavLink to="/" aria-label="ClaimFlow Medipoint — naar de Werkbalk"><Logo /></NavLink>
         <div className="topbalk-rechts">
