@@ -2,6 +2,8 @@
 // Personal accounts: create one with the branch code, then log in with your own name and password.
 // Every other call needs a signed pass; changes need the "beheer" role.
 import { connectLambda } from "@netlify/blobs";
+import { timingSafeEqual } from "node:crypto";
+import { metRegel } from "../../src/lib/claims";
 import type { Claim, Instellingen } from "../../src/lib/types";
 import * as db from "../lib/db";
 import { haalBackup, herstel, lijst, maakBackup } from "../lib/backup";
@@ -71,6 +73,36 @@ export const handler = async (e: Verzoek) => {
       if (!g.actief) return fout(403, "Dit account is geblokkeerd. Vraag de beheerder om het weer te openen.");
       await db.bewaarGebruiker({ ...g, laatst: new Date().toISOString() }).catch(() => undefined);
       return pasVoor(g);
+    }
+    // ---- LGAR-formulier: Power Automate sends each answer here. Off unless FORMULIER_SLEUTEL is set in Netlify.
+    if (actie === "formulier") {
+      const verwacht = process.env.FORMULIER_SLEUTEL || "";
+      const gegeven = e.headers["x-formulier-sleutel"] || "";
+      const goed = verwacht.length >= 24 && gegeven.length === verwacht.length && timingSafeEqual(Buffer.from(gegeven), Buffer.from(verwacht));
+      if (!goed) { await wacht(700); return fout(401, "Niet toegestaan."); }
+      const veld = (k: string, max = 200) => {
+        const v = body[k];
+        return typeof v === "string" || typeof v === "number" ? String(v).trim().slice(0, max) : "";
+      };
+      const nummer = veld("nummer", 40);
+      const type = veld("type"), onderdeel = veld("onderdeel");
+      if (!nummer && !type && !onderdeel) return fout(400, "Vul ten minste het onderdeel of het claimnummer in.");
+      const { claims: bestaand } = await db.claimsEnInstellingen();
+      if (nummer && bestaand.some((c) => c.nummer === nummer)) return json(200, { ok: true, dubbel: true });
+      const datum = /^\d{4}-\d{2}-\d{2}$/.test(veld("datum", 10)) ? veld("datum", 10) : new Date().toISOString().slice(0, 10);
+      const bedrag = Number(veld("bedrag", 20).replace(",", "."));
+      const locatie = veld("locatie", 20).toLowerCase().includes("buiten") ? "buiten" : "binnen";
+      const basis = {
+        id: crypto.randomUUID(), nummer: nummer || undefined, type: type || undefined, onderdeel: onderdeel || type || undefined,
+        leverancier: veld("leverancier", 60) || undefined, inkoopnummer: veld("inkoopnummer", 40) || undefined,
+        voorziening: veld("voorziening", 40) || undefined, frame: veld("frame", 40) || undefined, aankoop: veld("aankoop", 20) || undefined,
+        storing: veld("storing", 300) || undefined, bijzonderheden: veld("bijzonderheden", 1000) || undefined,
+        bedrag: Number.isFinite(bedrag) && bedrag > 0 ? bedrag : undefined, datum, periode: datum.slice(0, 7), status: "nieuw" as const,
+        locatie: locatie as "binnen" | "buiten", uitbesteed: false, notities: [],
+      } as Claim;
+      const c = metRegel(basis, "Claim vastgelegd uit het LGAR-formulier", "LGAR-formulier");
+      await db.bewaar([c]);
+      return json(200, { ok: true, id: c.id });
     }
     if (actie === "herstel") { return fout(410, "Niet meer nodig: inloggen gaat met je naam en de vestigingscode."); }
     if (actie === "herstel_oud") {
