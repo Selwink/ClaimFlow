@@ -61,6 +61,9 @@ export function Layout() {
           </button>
           <span>{naam || "Naam niet ingesteld"} · {rol === "beheer" ? "beheerder" : "alleen kijken"}</span>
           {syncTijd && <span className="mono">Bijgewerkt {geleden(syncTijd)}</span>}
+          <button type="button" className="zij-uit" onClick={() => uitloggen()}>
+            <Icon naam="uitloggen" maat={16} /> Uitloggen
+          </button>
         </div>
       </aside>
 
