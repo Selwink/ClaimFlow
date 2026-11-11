@@ -148,6 +148,9 @@ export function leesVelden(tekst: string, bekendeLeveranciers: string[]): Partia
     const match = bekendeLeveranciers.find((l) => new RegExp(`(?:^|[^a-z])${l.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:[^a-z]|$)`, "i").test(tekst));
     if (match) uit.leverancier = match;
   }
+  // The garantie-aanvraag number is "<left>/<right>": the right part is always the inkoopnummer.
+  const aanvraag = tekst.replace(/\r/g, "").match(/garantie[\s-]*aanvraag[^\d]{0,40}(\d{4,})\s*\/\s*(\d{4,})/i) || tekst.match(/(\d{5,})\s*\/\s*(\d{5,})/);
+  if (aanvraag) uit.inkoopnummer = aanvraag[2];
   for (const k of ["nummer", "inkoopnummer"] as const) {
     const brok = uit[k]?.match(/\d[\d./ -]{2,}\d|\d{4,}/)?.[0];
     if (!brok) { delete uit[k]; continue; }
