@@ -48,7 +48,6 @@ export function LeverancierDetail() {
   const breed = useBreed();
   const lijst = useMemo(() => actief.filter((c) => ((c.leverancier || "").trim() || "Zonder leverancier") === naam), [actief, naam]);
   const s = perLeverancier(lijst)[0];
-  const mail = inst.levMail[naam];
   if (!s) return <div className="pagina"><Leeg titel="Leverancier niet gevonden"><Link className="knop knop-zacht" to="/leveranciers">Alle leveranciers</Link></Leeg></div>;
   const beoordeeld = s.gehN + s.afgN;
   const gesorteerd = sorteer(lijst, { veld: "dagen", omhoog: false });
@@ -56,7 +55,6 @@ export function LeverancierDetail() {
     <div className="pagina">
       <Link to="/leveranciers" className="terugknop terugknop-donker"><Icon naam="terug" maat={18} /> Leveranciers</Link>
       <PaginaKop boven={inst.uitbesteedLev.includes(naam) ? "Uitbesteed" : "Leverancier"} titel={<span className="lev-titel"><LevAvatar naam={naam} groot />{naam}</span>}>
-        {mail && <a className="knop knop-zacht" href={`mailto:${mail}`}><Icon naam="mail" maat={18} /> Mailen</a>}
         <Link className="knop knop-zacht" to={`/claims?lev=${encodeURIComponent(naam)}`}><Icon naam="lijst" maat={18} /> In claimlijst</Link>
       </PaginaKop>
       <section className="kpi-rij kpi-rij-4">

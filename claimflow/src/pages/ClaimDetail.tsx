@@ -40,13 +40,11 @@ export function ClaimDetail() {
   const d = dagenOpen(c);
   const laat = overTermijn(c, inst.dagen);
   const volgende = VOLGENDE[st];
-  const levMail = c.leverancier ? inst.levMail[c.leverancier] : "";
   const ringTekst = !isOpen(c) ? (st === "gehonoreerd" ? `Gehonoreerd${doorlooptijd(c) != null ? ` na ${doorlooptijd(c)} dagen` : ""}.` : "Afgewezen door de leverancier.")
     : c.uitbesteed ? "Uitbesteed — de leverancier handelt dit zelf af."
     : !d ? "Nog geen datum: vul ‘ingediend op’ in om de termijn te volgen."
     : laat ? `${d.dagen - inst.dagen} dagen over de termijn van ${inst.dagen} dagen. Tijd om informatie bij de VAM op te vragen.`
     : `Nog ${inst.dagen - d.dagen} dagen binnen de termijn van ${inst.dagen} dagen.`;
-  const mailBody = encodeURIComponent(`Beste ${c.leverancier},\n\nGraag horen wij de stand van zaken van onze garantieclaim:\n\n${titelVan(c)}\nInkoopnummer: ${c.inkoopnummer || "-"}\nFramenummer: ${c.frame || "-"}\nIngediend: ${c.datum ? datum(c.datum) : periodLabel(c.periode)}\n\nMet vriendelijke groet,\nMedipoint ${inst.vestiging.replace(/^Vestiging /, "")}`);
 
   const feiten: Array<[string, string | undefined, boolean?]> = [
     ["Leverancier", c.leverancier], ["Inkoopnummer", c.inkoopnummer, true], ["Voorzieningnummer", c.voorziening, true], ["Framenummer", c.frame, true],
@@ -110,7 +108,6 @@ export function ClaimDetail() {
 
           <section className="kaart acties-kaart">
             <h2 className="sectiekop">Acties</h2>
-            {levMail && <a className="actie" href={`mailto:${levMail}?subject=${encodeURIComponent(`Garantieclaim ${titelVan(c)}${c.inkoopnummer ? ` — inkoop ${c.inkoopnummer}` : ""}`)}&body=${mailBody}`}><Icon naam="mail" maat={18} /> Mail {c.leverancier}</a>}
             {isOpen(c) && !c.uitbesteed && <button type="button" className="actie" onClick={() => agendaBestand([c], inst)}><Icon naam="agenda" maat={18} /> Herinnering in agenda</button>}
             {magBewerken && <Link className="actie" to={`/claims/${c.id}/bewerken`}><Icon naam="potlood" maat={18} /> Bewerken</Link>}
             {magBewerken && (c.verwijderd
