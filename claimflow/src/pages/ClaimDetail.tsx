@@ -112,9 +112,9 @@ export function ClaimDetail() {
             <h2 className="sectiekop">Acties</h2>
             {isOpen(c) && !c.uitbesteed && <button type="button" className="actie" onClick={() => agendaBestand([c], inst)}><Icon naam="agenda" maat={18} /> Herinnering in agenda</button>}
             {magBewerken && <Link className="actie" to={`/claims/${c.id}/bewerken`}><Icon naam="potlood" maat={18} /> Bewerken</Link>}
-            {magBewerken && !c.frame && (
+            {magBewerken && (!c.frame || !c.inkoopnummer) && (
               <label className="actie" style={{ cursor: "pointer" }}>
-                <Icon naam="document" maat={18} /> {frameBezig || "Framenummer uit LGAR-pdf"}
+                <Icon naam="document" maat={18} /> {frameBezig || "Nummers uit LGAR-pdf"}
                 <input type="file" accept=".pdf,application/pdf,image/*" hidden onChange={async (e) => {
                   const f = e.target.files?.[0]; e.target.value = "";
                   if (!f) return;
@@ -122,9 +122,11 @@ export function ClaimDetail() {
                   try {
                     const { tekst: uitTekst, ocr } = await leesBestand(f);
                     const velden = leesVelden(uitTekst, inst.leveranciers);
-                    if (!velden.frame) { setFrameBezig("Geen framenummer gevonden in deze pdf"); return; }
+                    const nieuwFrame = !c.frame && velden.frame ? velden.frame : c.frame;
+                    const nieuwInkoop = !c.inkoopnummer && velden.inkoopnummer ? velden.inkoopnummer : c.inkoopnummer;
+                    if (nieuwFrame === c.frame && nieuwInkoop === c.inkoopnummer) { setFrameBezig("Deze pdf geeft niets nieuws voor deze claim"); return; }
                     if (velden.inkoopnummer && c.inkoopnummer && velden.inkoopnummer !== c.inkoopnummer) { setFrameBezig(`Pdf hoort bij inkoop ${velden.inkoopnummer}, niet bij deze claim`); return; }
-                    await bewaar([{ ...c, frame: velden.frame, notities: [...(c.notities || []), { d: new Date().toISOString().slice(0, 10), t: `Framenummer ${velden.frame} aangevuld uit LGAR-pdf${ocr ? " (gescand)" : ""}`, w: naam }] }], "Framenummer opgeslagen", [c]);
+                    await bewaar([{ ...c, frame: nieuwFrame, inkoopnummer: nieuwInkoop, notities: [...(c.notities || []), { d: new Date().toISOString().slice(0, 10), t: `Aangevuld uit LGAR-pdf${ocr ? " (gescand)" : ""}: ${[nieuwFrame !== c.frame ? `frame ${nieuwFrame}` : "", nieuwInkoop !== c.inkoopnummer ? `inkoop ${nieuwInkoop}` : ""].filter(Boolean).join(", ")}`, w: naam }] }], "Opgeslagen uit de pdf", [c]);
                     setFrameBezig("");
                   } catch { setFrameBezig("Pdf kon niet worden gelezen"); }
                 }} />
