@@ -136,8 +136,16 @@ export function leesVelden(tekst: string, bekendeLeveranciers: string[]): Partia
       if (w && !isLabel(w)) { uit[v.k] = w.slice(0, 400); break; }
     }
   }
-  const match = bekendeLeveranciers.find((l) => new RegExp(`(?:^|[^a-z])${l.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:[^a-z]|$)`, "i").test(tekst));
-  if (match) uit.leverancier = match;
+  // The "aan:" line in the header is the supplier. Its legal form (B.V., N.V.) is dropped; a known name from the list wins.
+  const aanRegel = regels.find((r) => /^aan\s*[:=]/i.test(r))?.replace(/^aan\s*[:=]\s*/i, "").trim();
+  const schoon = aanRegel?.replace(/\b(b\.?\s?v\.?|n\.?\s?v\.?|gmbh|bv|nv)\b\.?/gi, "").replace(/[\s,.;:-]+$/, "").trim();
+  const bekende = schoon ? bekendeLeveranciers.find((l) => l.toLowerCase() === schoon.toLowerCase()) : undefined;
+  if (bekende) uit.leverancier = bekende;
+  else if (schoon && schoon.length >= 2) uit.leverancier = schoon;
+  else {
+    const match = bekendeLeveranciers.find((l) => new RegExp(`(?:^|[^a-z])${l.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:[^a-z]|$)`, "i").test(tekst));
+    if (match) uit.leverancier = match;
+  }
   for (const k of ["nummer", "inkoopnummer"] as const) {
     const brok = uit[k]?.match(/\d[\d./ -]{2,}\d|\d{4,}/)?.[0];
     if (!brok) { delete uit[k]; continue; }

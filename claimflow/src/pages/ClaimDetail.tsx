@@ -6,6 +6,7 @@ import { useStore } from "../state/Store";
 import { aankoopVan, dagenOpen, doorlooptijd, geenBedrag, isOpen, overTermijn, statusVan, titelVan, afgehandeldOp } from "../lib/claims";
 import { datum, euro, periodLabel } from "../lib/format";
 import { agendaBestand } from "../lib/export";
+import { leesBestand, leesVelden } from "../lib/lgar";
 import { Icon } from "../components/Icon";
 import { Bovenschrift, Leeg, Sheet, StatusPil } from "../components/ui";
 import { TermRing } from "../components/TermRing";
@@ -20,7 +21,8 @@ export function ClaimDetail() {
   const { id } = useParams();
   const nav = useNavigate();
   const loc = useLocation();
-  const { claims, inst, magBewerken, zetStatus, notitie, naarPrullenbak, terugzetten } = useStore();
+  const { claims, inst, magBewerken, zetStatus, notitie, naarPrullenbak, terugzetten, bewaar, naam } = useStore();
+  const [frameBezig, setFrameBezig] = useState("");
   const [params] = useSearchParams();
   const [notitieOpen, setNotitieOpen] = useState(() => params.get("notitie") === "1");
   const [tekst, setTekst] = useState("");
@@ -110,6 +112,24 @@ export function ClaimDetail() {
             <h2 className="sectiekop">Acties</h2>
             {isOpen(c) && !c.uitbesteed && <button type="button" className="actie" onClick={() => agendaBestand([c], inst)}><Icon naam="agenda" maat={18} /> Herinnering in agenda</button>}
             {magBewerken && <Link className="actie" to={`/claims/${c.id}/bewerken`}><Icon naam="potlood" maat={18} /> Bewerken</Link>}
+            {magBewerken && !c.frame && (
+              <label className="actie" style={{ cursor: "pointer" }}>
+                <Icon naam="document" maat={18} /> {frameBezig || "Framenummer uit LGAR-pdf"}
+                <input type="file" accept=".pdf,application/pdf,image/*" hidden onChange={async (e) => {
+                  const f = e.target.files?.[0]; e.target.value = "";
+                  if (!f) return;
+                  setFrameBezig("Pdf wordt gelezen…");
+                  try {
+                    const { tekst: uitTekst, ocr } = await leesBestand(f);
+                    const velden = leesVelden(uitTekst, inst.leveranciers);
+                    if (!velden.frame) { setFrameBezig("Geen framenummer gevonden in deze pdf"); return; }
+                    if (velden.inkoopnummer && c.inkoopnummer && velden.inkoopnummer !== c.inkoopnummer) { setFrameBezig(`Pdf hoort bij inkoop ${velden.inkoopnummer}, niet bij deze claim`); return; }
+                    await bewaar([{ ...c, frame: velden.frame, notities: [...(c.notities || []), { d: new Date().toISOString().slice(0, 10), t: `Framenummer ${velden.frame} aangevuld uit LGAR-pdf${ocr ? " (gescand)" : ""}`, w: naam }] }], "Framenummer opgeslagen", [c]);
+                    setFrameBezig("");
+                  } catch { setFrameBezig("Pdf kon niet worden gelezen"); }
+                }} />
+              </label>
+            )}
             {magBewerken && (c.verwijderd
               ? <button type="button" className="actie" onClick={() => terugzetten(c.id)}><Icon naam="ongedaan" maat={18} /> Terugzetten</button>
               : <button type="button" className="actie actie-rood" onClick={async () => { await naarPrullenbak([c.id]); nav("/claims"); }}><Icon naam="prullenbak" maat={18} /> Naar prullenbak</button>)}
