@@ -137,11 +137,13 @@ export function leesVelden(tekst: string, bekendeLeveranciers: string[]): Partia
     }
   }
   // The "aan:" line in the header is the supplier. Its legal form (B.V., N.V.) is dropped; a known name from the list wins.
+  // Stop at the next label of the header (afleveradres, factuuradres, straat, ...) and never take Medipoint's own address.
   const aanRegel = regels.find((r) => /^aan\s*[:=]/i.test(r))?.replace(/^aan\s*[:=]\s*/i, "").trim();
-  const schoon = aanRegel?.replace(/\b(b\.?\s?v\.?|n\.?\s?v\.?|gmbh|bv|nv)\b\.?/gi, "").replace(/[\s,.;:-]+$/, "").trim();
+  const afgekapt = aanRegel?.split(/\s+(?=(?:afleveradres|factuuradres|factuur|afdeling|t\.?\s?a\.?\s?v\.?|straat|postcode|pc\/?plaats|land|relatie|telefoon|e-?mail|medipoint)\s*[:=]?)/i)[0];
+  const schoon = afgekapt?.replace(/\b(b\.?\s?v\.?|n\.?\s?v\.?|gmbh|bv|nv)\b\.?/gi, "").replace(/[\s,.;:-]+$/, "").trim();
   const bekende = schoon ? bekendeLeveranciers.find((l) => l.toLowerCase() === schoon.toLowerCase()) : undefined;
   if (bekende) uit.leverancier = bekende;
-  else if (schoon && schoon.length >= 2) uit.leverancier = schoon;
+  else if (schoon && schoon.length >= 2 && !/medipoint/i.test(schoon)) uit.leverancier = schoon;
   else {
     const match = bekendeLeveranciers.find((l) => new RegExp(`(?:^|[^a-z])${l.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:[^a-z]|$)`, "i").test(tekst));
     if (match) uit.leverancier = match;
