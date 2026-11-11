@@ -98,7 +98,8 @@ export function ClaimTabel({ claims, termijn, geselecteerd, wissel, alles, sorte
               <td><a href={`/claims/${c.id}`} onClick={(e) => { e.preventDefault(); nav(`/claims/${c.id}`); }} className="rij-titel">{titelVan(c)}</a>
                 <span className="rij-sub">{periodLabel(c.periode)}{c.uitbesteed ? " · uitbesteed" : ""}</span></td>
               <td>{c.leverancier || <span className="t-zacht">—</span>}</td>
-              <td className="mono kol-tablet">{c.inkoopnummer || <span className="t-oker">ontbreekt</span>}</td>
+              <td className="mono kol-tablet">{c.inkoopnummer || <span className="t-oker">ontbreekt</span>}
+                <span className="rij-sub">{c.frame ? `frame ${c.frame}` : "geen frame"}</span></td>
               <td className="mono rechts">{geenBedrag(c) ? <span className="t-zacht">volgt</span> : euroKort(c.bedrag)}</td>
               <td><StatusPil status={statusVan(c)} /></td>
               <td className="mono rechts"><DagenCel c={c} termijn={termijn} /></td>
@@ -137,7 +138,7 @@ export function ClaimKaarten({ claims, termijn, geselecteerd, wissel, kiesModus 
               <span className={`taak-ic ic-${l.toon}`}>{geselecteerd?.has(c.id) ? <Icon naam="vink" /> : isOpen(c) && d && !c.uitbesteed ? `${d.dagen}d` : <Icon naam={isOpen(c) ? "klok" : "vink"} maat={18} />}</span>
               <span className="taak-t">
                 <b>{titelVan(c)}</b>
-                <span>{[c.leverancier, geenBedrag(c) ? "bedrag volgt" : euroKort(c.bedrag), c.inkoopnummer ? `ink ${c.inkoopnummer}` : "geen inkoopnr"].filter(Boolean).join(" · ")}</span>
+                <span>{[c.leverancier, geenBedrag(c) ? "bedrag volgt" : euroKort(c.bedrag), c.inkoopnummer ? `ink ${c.inkoopnummer}` : "geen inkoopnr", c.frame ? `frame ${c.frame}` : "geen frame"].filter(Boolean).join(" · ")}</span>
               </span>
               <span className={`chip chip-${l.toon}`}>{l.tekst.replace(/ \d+ d$/, "")}</span>
             </button>
