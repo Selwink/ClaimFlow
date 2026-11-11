@@ -140,7 +140,9 @@ export function leesVelden(tekst: string, bekendeLeveranciers: string[]): Partia
   // Stop at the next label of the header (afleveradres, factuuradres, straat, ...) and never take Medipoint's own address.
   const aanRegel = regels.find((r) => /^aan\s*[:=]/i.test(r))?.replace(/^aan\s*[:=]\s*/i, "").trim();
   const afgekapt = aanRegel?.split(/\s+(?=(?:afleveradres|factuuradres|factuur|afdeling|t\.?\s?a\.?\s?v\.?|straat|postcode|pc\/?plaats|land|relatie|telefoon|e-?mail|medipoint)\s*[:=]?)/i)[0];
-  const schoon = afgekapt?.replace(/\b(b\.?\s?v\.?|n\.?\s?v\.?|gmbh|bv|nv)\b\.?/gi, "").replace(/[\s,.;:-]+$/, "").trim();
+  // Only the name itself: up to the legal form (B.V., N.V.) or the first gap of two spaces. Anything further right is left out.
+  const naamDeel = afgekapt?.match(/^(.*?\b(?:b\.?\s?v\.?|n\.?\s?v\.?))/i)?.[1] ?? afgekapt?.split(/\s{2,}/)[0];
+  const schoon = naamDeel?.replace(/\b(b\.?\s?v\.?|n\.?\s?v\.?|gmbh|bv|nv)\b\.?/gi, "").replace(/[\s,.;:-]+$/, "").trim();
   const bekende = schoon ? bekendeLeveranciers.find((l) => l.toLowerCase() === schoon.toLowerCase()) : undefined;
   if (bekende) uit.leverancier = bekende;
   else if (schoon && schoon.length >= 2 && !/medipoint/i.test(schoon)) uit.leverancier = schoon;
