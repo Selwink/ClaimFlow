@@ -54,7 +54,10 @@ export function ClaimForm({ start, knop, bezig, onBewaar, onAnnuleer, herkend }:
     if (!c.type?.trim() && !c.onderdeel?.trim()) { setFout("Vul een type of onderdeel in."); return; }
     if (!/^\d{4}-\d{2}$/.test(c.periode || "")) { setFout("Kies de maand van de claim."); return; }
     setFout("");
-    onBewaar({ ...c, type: c.type?.trim(), onderdeel: c.onderdeel?.trim() || c.type?.trim(), bedrag });
+    // The inkoop field holds only the number: right of a slash if there is one, otherwise the first number.
+    const ruw = (c.inkoopnummer || "").trim();
+    const inkoop = ruw ? (ruw.includes("/") ? ruw.split("/").pop() : ruw)?.match(/\d+/)?.[0] : undefined;
+    onBewaar({ ...c, type: c.type?.trim(), onderdeel: c.onderdeel?.trim() || c.type?.trim(), bedrag, inkoopnummer: inkoop });
   };
 
   return (
