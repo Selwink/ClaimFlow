@@ -1,0 +1,27 @@
+{
+  "CoD – Dynamic (zet in-game op Linear)": {
+    "right": {"shape": "dynamic", "deadzone": 0.03, "outer": 0.01},
+    "left": {"shape": "linear", "deadzone": 0.03, "outer": 0.01},
+    "trigger_deadzone": 0.0,
+    "hair_triggers": true
+  },
+  "CoD – alleen deadzone (in-game Dynamic)": {
+    "right": {"shape": "linear", "deadzone": 0.02, "outer": 0.01},
+    "left": {"shape": "linear", "deadzone": 0.03, "outer": 0.01},
+    "trigger_deadzone": 0.0,
+    "hair_triggers": true
+  },
+  "Apex – Classic": {
+    "right": {"shape": "classic", "deadzone": 0.03, "outer": 0.02},
+    "left": {"shape": "linear", "deadzone": 0.03, "outer": 0.02}
+  },
+  "Fortnite – Lineair": {
+    "right": {"shape": "linear", "deadzone": 0.05},
+    "left": {"shape": "linear", "deadzone": 0.05}
+  },
+  "Racing – S-curve sturen": {
+    "left": {"shape": "scurve", "deadzone": 0.02},
+    "right": {"shape": "linear", "deadzone": 0.05}
+  },
+  "Doorlaten (geen wijziging)": {}
+}
