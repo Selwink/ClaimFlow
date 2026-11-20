@@ -62,13 +62,15 @@ export function dezeWeek(claims: Claim[], naam: string): { team: WeekTelling; ik
 }
 
 /** Everything the claims have brought in so far: all honoured claims, whatever month. */
-export function totaalTerug(claims: Claim[]): { bedrag: number; aantal: number } {
-  let bedrag = 0, aantal = 0;
+export function totaalTerug(claims: Claim[]): { bedrag: number; aantal: number; gehonoreerd: number; ingediend: number } {
+  let bedrag = 0, aantal = 0, gehonoreerd = 0, ingediend = 0;
   for (const c of claims) {
-    if (c.verwijderd || statusVan(c) !== "gehonoreerd") continue;
+    const s = statusVan(c);
+    if (c.verwijderd || (s !== "gehonoreerd" && s !== "ingediend")) continue;
     bedrag += Number(c.bedrag) || 0; aantal++;
+    if (s === "gehonoreerd") gehonoreerd++; else ingediend++;
   }
-  return { bedrag, aantal };
+  return { bedrag, aantal, gehonoreerd, ingediend };
 }
 
 /** Everything ever handed to a supplier (uitbesteed), open or finished. */

@@ -16,7 +16,7 @@ export function TotaalKaart() {
       <div>
         <small className="bovenschrift" id="totaal-kop">Totaal teruggehaald</small>
         <b className="totaal-bedrag"><Optel waarde={t.bedrag} opmaak={euroKort} ms={1300} /></b>
-        <span className="totaal-sub">{t.aantal === 1 ? "1 claim" : `${t.aantal} claims`} gehonoreerd · geld is binnen</span>
+        <span className="totaal-sub">{t.gehonoreerd} gehonoreerd · geld is binnen{t.ingediend ? ` · ${t.ingediend} ingediend` : ""}</span>
       </div>
     </section>
   );
