@@ -302,3 +302,10 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 .team-week { gap: 10px; }
 .team-week > div { min-width: 0; }
 .team-regel, .team-ik { margin: 0; }
+
+/* ---- Samen in november when the goal is reached: same margins, bar and tiles stay inside the card ---- */
+.teamkaart-gehaald { padding: 22px 20px; }
+.teamkaart .balk, .teamkaart .team-balk { width: 100%; }
+.team-week { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.team-week > div { padding: 10px 12px; }
+.team-ik { min-width: 0; overflow-wrap: anywhere; }
