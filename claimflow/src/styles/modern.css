@@ -293,3 +293,12 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 .actiebalk-klaar { color: var(--groen); background: var(--groen-zacht); }
 .tabbalk .aan svg, .tab.active svg { filter: none; }
 .werkbak-tabs b.groen-getal { color: var(--groen); }
+
+/* ---- Samen in november: same inner margin as the total card, so the block lines up on phone and desktop ---- */
+.teamkaart { padding: 22px 20px; gap: 12px; }
+.teamkaart-kop { gap: 14px; align-items: center; }
+.team-bedrag { font-size: clamp(1.4rem, 6vw, 1.7rem); overflow-wrap: anywhere; }
+.team-balk { margin-top: 2px; }
+.team-week { gap: 10px; }
+.team-week > div { min-width: 0; }
+.team-regel, .team-ik { margin: 0; }
