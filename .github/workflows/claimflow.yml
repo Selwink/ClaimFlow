@@ -28,12 +28,6 @@ jobs:
   app:
     if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    concurrency: { group: pages, cancel-in-progress: false }
-    environment: { name: github-pages, url: "${{ steps.deploy.outputs.page_url }}" }
     defaults: { run: { working-directory: claimflow } }
     steps:
       - uses: actions/checkout@v4
@@ -50,6 +44,17 @@ jobs:
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with: { path: claimflow/dist }
+
+  # Publishing is its own job: deploying in the same job as the upload sometimes finds no artifact yet.
+  pages:
+    needs: app
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    concurrency: { group: pages, cancel-in-progress: false }
+    environment: { name: github-pages, url: "${{ steps.deploy.outputs.page_url }}" }
+    steps:
       - id: deploy
         uses: actions/deploy-pages@v4
 
