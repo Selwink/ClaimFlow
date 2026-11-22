@@ -84,3 +84,14 @@ body { background: #F3F6F2; }
 .toegang-kaart::before { content: "" !important; width: 84px !important; height: 84px !important; border-radius: 22% !important;
   background: url("../../public/logo.svg") center / cover no-repeat !important; box-shadow: 0 16px 34px -14px rgba(63, 174, 73, .7) !important; }
 @media (max-width: 1023px) { .eco-stats { padding-left: var(--gutter) !important; scroll-padding-left: var(--gutter); } }
+/* quick actions at the top of the phone Werkbalk, as an Eco card */
+@media (max-width: 1023px) {
+  .wb-snel { margin: 14px var(--gutter) 0; padding: 14px 8px !important; background: #fff; border-radius: 16px; gap: 4px; }
+  .wb-snel a, .wb-snel button { font-size: .72rem; color: #111611; }
+  .wb-snel i { width: 50px; height: 50px; border-radius: 15px; box-shadow: none !important; }
+  .sn-1 { background: #111611 !important; }
+  .sn-2 { background: #2F9A3A !important; }
+  .sn-3 { background: #DCE8D6 !important; color: #1E7A2C !important; }
+  .sn-4 { background: #101511 !important; color: #86EFAC !important; }
+  .eco-dash { padding-top: 10px !important; }
+}
