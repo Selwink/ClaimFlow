@@ -12,6 +12,7 @@ import { Icon, type IconNaam } from "../components/Icon";
 import { PaginaKop } from "../components/ui";
 import { Backups } from "../components/Backups";
 import { Verhuizen } from "../components/Verhuizen";
+import { ProfielKop } from "../components/Showcase";
 import { Gebruikers, WachtwoordWijzigen } from "../components/Gebruikers";
 import { toonWelkom } from "../components/Welkom";
 import { PushMeldingen } from "../components/PushMeldingen";
@@ -73,7 +74,8 @@ export function Beheer() {
 
   return (
     <div className="pagina pagina-smal">
-      <PaginaKop boven={s.inst.vestiging} titel="Beheer" />
+      <PaginaKop boven={s.inst.vestiging} titel="Profiel" />
+      <ProfielKop />
 
       <Blok titel="Jij">
         <Rij icoon="persoon" titel={s.naam || "Je account"} tekst={s.rol === "beheer" ? "Je kunt claims toevoegen en wijzigen. Je naam komt in de tijdlijn." : "Je kunt alles zien maar niets wijzigen. Vraag een beheerder om meer rechten."} />

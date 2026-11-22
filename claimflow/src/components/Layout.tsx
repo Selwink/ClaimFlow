@@ -15,7 +15,9 @@ const NAV: NavItem[] = [
   { naar: "/claims", label: "Claims", icoon: "lijst" },
   { naar: "/leveranciers", label: "Leveranciers", icoon: "fabriek" },
   { naar: "/rapportage", label: "Rapportage", kort: "Cijfers", icoon: "grafiek" },
-  { naar: "/beheer", label: "Beheer", kort: "Ik", icoon: "persoon" },
+  { naar: "/notities", label: "Notities", icoon: "notitie" },
+  { naar: "/assistent", label: "Assistent", icoon: "robot" },
+  { naar: "/beheer", label: "Profiel", kort: "Profiel", icoon: "persoon" },
 ];
 
 /** App frame: sidebar on desktop, top bar + bottom tab bar on phone and tablet. */
@@ -37,7 +39,7 @@ export function Layout() {
 
   const badge = (n: NavItem) => (n.naar === "/claims" && aandacht ? <em className="nav-badge" aria-label={`${aandacht} over termijn`}>{aandacht}</em> : null);
   const initialen = (naam || "?").split(/\s+/).map((d) => d[0]).join("").slice(0, 2).toUpperCase();
-  const onder = NAV.filter((n) => n.naar !== "/leveranciers");
+  const onder = NAV.filter((n) => !["/leveranciers", "/notities", "/assistent"].includes(n.naar));
 
   return (
     <div className="frame">
@@ -94,6 +96,8 @@ export function Layout() {
           <NavLink to="/claims" className="lade-link"><Icon naam="lijst" maat={18} />Claims</NavLink>
           {magBewerken && <NavLink to="/nieuw" className="lade-link"><Icon naam="plus" maat={18} />Nieuwe claim</NavLink>}
           <NavLink to="/leveranciers" className="lade-link"><Icon naam="fabriek" maat={18} />Leveranciers</NavLink>
+          <NavLink to="/notities" className="lade-link"><Icon naam="notitie" maat={18} />Notities</NavLink>
+          <NavLink to="/assistent" className="lade-link"><Icon naam="robot" maat={18} />Assistent Flow</NavLink>
           <div className="lade-groep">Overzicht</div>
           <NavLink to="/rapportage" className="lade-link"><Icon naam="grafiek" maat={18} />Rapportage</NavLink>
           <NavLink to="/datums" className="lade-link"><Icon naam="agenda" maat={18} />Datums</NavLink>
