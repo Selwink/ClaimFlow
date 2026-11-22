@@ -544,3 +544,9 @@ h1, h2, h3, .paginakop h1 { font-family: "Fira Sans", sans-serif !important; let
   .md-link { font-size: .82rem; }
 }
 @media (min-width: 1024px) { .md-vakken { max-width: 320px; } }
+/* LGAR at the top of Home */
+.md-lgar { order: -1; display: flex; align-items: center; gap: 16px; margin-top: 18px; padding: 18px 22px; background: var(--mr); color: #fff !important; border-radius: 2px; text-decoration: none; }
+.md-lgar-ic { width: 48px; height: 48px; border-radius: 50%; background: #fff; color: var(--mr); display: grid; place-items: center; flex: none; }
+.md-lgar > span:nth-child(2) { flex: 1; min-width: 0; } .md-lgar b { display: block; font: 700 1.25rem "Fira Sans", sans-serif; } .md-lgar small { color: rgba(255, 255, 255, .9) !important; font-size: .88rem; }
+.md-usp { order: -2; }
+@media (max-width: 1023px) { .md-lgar { margin-top: 14px; padding: 14px 16px; } .md-lgar b { font-size: 1.1rem; } .md-lgar small { font-size: .8rem; } }
