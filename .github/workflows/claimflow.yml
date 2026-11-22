@@ -17,7 +17,7 @@ on:
 
 env:
   # Supabase project that holds the claims (not secret: it is also in the app's address list).
-  SUPABASE_PROJECT: xpktjqdtwmqznhgcicim
+  SUPABASE_PROJECT: orgbypykgxnxoqywgbbg
 
 permissions:
   contents: read

@@ -11,6 +11,7 @@ import { dezeMaand, euro, geleden, meervoud, parseBedrag, vandaag } from "../lib
 import { Icon, type IconNaam } from "../components/Icon";
 import { PaginaKop } from "../components/ui";
 import { Backups } from "../components/Backups";
+import { Verhuizen } from "../components/Verhuizen";
 import { Gebruikers, WachtwoordWijzigen } from "../components/Gebruikers";
 import { toonWelkom } from "../components/Welkom";
 import { PushMeldingen } from "../components/PushMeldingen";
@@ -95,6 +96,12 @@ export function Beheer() {
       <Blok titel="Back-ups">
         <Backups />
       </Blok>
+
+      {s.magBewerken && (
+        <Blok titel="Verhuizen" uitleg="Het hele register naar een andere database overzetten.">
+          <Verhuizen />
+        </Blok>
+      )}
 
       <Blok titel="Gegevens" uitleg={`${meervoud(s.actief.length, "claim", "claims")} · ${s.online ? `bijgewerkt ${geleden(s.syncTijd)}` : "offline"}`}>
         <Rij icoon="download" titel="Exporteren naar Excel" tekst="CSV met alle claims en tijdlijnen" onClick={() => download(`garantieclaims-${dezeMaand()}.csv`, naarCsv(s.actief), "text/csv;charset=utf-8")} />
