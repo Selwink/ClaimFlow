@@ -4,7 +4,9 @@ import { createHash } from "node:crypto";
 import type { Claim, Instellingen } from "../../src/lib/types";
 import { INST_ID, leesInstellingen } from "../../src/lib/instellingen";
 
-const URL_ = (process.env.SUPABASE_URL || "https://xpktjqdtwmqznhgcicim.supabase.co").replace(/\/+$/, "");
+/** CLAIMS_DB_URL points the server at another Supabase project than the one it runs in (GitHub setup on the old database). */
+const EIGEN_DB = process.env.CLAIMS_DB_URL;
+const URL_ = (EIGEN_DB || process.env.SUPABASE_URL || "https://xpktjqdtwmqznhgcicim.supabase.co").replace(/\/+$/, "");
 const TABEL = "claims";
 const API = `${URL_}/rest/v1/${TABEL}`;
 /** Old public key: only used until the service key is configured, so the app keeps working during the switch. */
@@ -18,12 +20,14 @@ function uitLijst(naam: string): string {
 }
 // Netlify/Railway: SUPABASE_SERVICE_KEY. Supabase Edge Functions (GitHub Pages setup) get the key from Supabase itself:
 // new projects as SUPABASE_SECRET_KEYS, older ones as SUPABASE_SERVICE_ROLE_KEY.
-const serviceSleutel = () => process.env.SUPABASE_SERVICE_KEY || uitLijst("SUPABASE_SECRET_KEYS") || process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+// With CLAIMS_DB_URL the keys Supabase gives the function belong to the wrong project: use CLAIMS_DB_SLEUTEL, else the old public key.
+const serviceSleutel = () => EIGEN_DB ? process.env.CLAIMS_DB_SLEUTEL || ""
+  : process.env.SUPABASE_SERVICE_KEY || uitLijst("SUPABASE_SECRET_KEYS") || process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 /** Public key of this project (only used to check that the table is closed to the public). */
-const publiekeSleutel = () => uitLijst("SUPABASE_PUBLISHABLE_KEYS") || process.env.SUPABASE_ANON_KEY || PUBLIEKE_SLEUTEL;
+const publiekeSleutel = () => EIGEN_DB ? PUBLIEKE_SLEUTEL : uitLijst("SUPABASE_PUBLISHABLE_KEYS") || process.env.SUPABASE_ANON_KEY || PUBLIEKE_SLEUTEL;
 const sleutel = () => serviceSleutel() || publiekeSleutel();
 /** Which key the server uses, for the status check (never the key itself). */
-export const sleutelBron = () => process.env.SUPABASE_SERVICE_KEY ? "SUPABASE_SERVICE_KEY" : uitLijst("SUPABASE_SECRET_KEYS") ? "SUPABASE_SECRET_KEYS"
+export const sleutelBron = () => EIGEN_DB ? (process.env.CLAIMS_DB_SLEUTEL ? "CLAIMS_DB_SLEUTEL" : "openbare sleutel (CLAIMS_DB_URL)") : process.env.SUPABASE_SERVICE_KEY ? "SUPABASE_SERVICE_KEY" : uitLijst("SUPABASE_SECRET_KEYS") ? "SUPABASE_SECRET_KEYS"
   : process.env.SUPABASE_SERVICE_ROLE_KEY ? "SUPABASE_SERVICE_ROLE_KEY" : "geen";
 export const heeftServiceSleutel = () => !!serviceSleutel();
 
