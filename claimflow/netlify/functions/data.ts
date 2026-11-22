@@ -10,7 +10,7 @@ import { haalBackup, herstel, lijst, maakBackup } from "../lib/backup";
 import { verzend } from "../lib/verzend";
 import * as push from "../lib/push";
 
-const SITE = process.env.URL || "https://garantieclaims-meppel.netlify.app";
+const SITE = (process.env.APP_URL || process.env.URL || "https://selwink.github.io/ClaimFlow").replace(/\/$/, "");
 import { geheim, klopt, leesPas, maakPas, MIN_LENGTE, rolVoorCode, sleutelVoor, versleutel } from "../lib/toegang";
 
 interface Verzoek { httpMethod: string; headers: Record<string, string | undefined>; body: string | null; isBase64Encoded?: boolean; queryStringParameters?: Record<string, string | undefined> | null; blobs?: string }
@@ -149,7 +149,7 @@ export const handler = async (e: Verzoek) => {
         const sub = body.sub as db.PushAbonnement["sub"] | undefined;
         if (!sub?.endpoint || !/^https:\/\//.test(sub.endpoint) || !sub.keys?.p256dh || !sub.keys?.auth || sub.endpoint.length > 1000) return fout(400, "Ongeldige aanmelding");
         const gevraagd = Array.isArray(body.soorten) ? (body.soorten as string[]) : ["termijn", "accounts"];
-        const soorten = gevraagd.filter((s): s is "termijn" | "accounts" => s === "termijn" || (s === "accounts" && rol === "beheer"));
+        const soorten = gevraagd.filter((s): s is "termijn" | "leverancier" | "accounts" => s === "termijn" || s === "leverancier" || (s === "accounts" && rol === "beheer"));
         await db.bewaarPush({ gebruiker: ik.sleutel, sub: { endpoint: sub.endpoint, keys: { p256dh: sub.keys.p256dh, auth: sub.keys.auth } }, soorten, apparaat: tekst("apparaat", 80), gemaakt: new Date().toISOString() });
         return json(200, { ok: true, soorten });
       }

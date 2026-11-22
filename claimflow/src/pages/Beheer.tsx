@@ -136,6 +136,12 @@ export function Beheer() {
           <input type="checkbox" role="switch" className="schakelaar" checked={s.inst.weekmail} disabled={uit}
             onChange={(e) => void s.bewaarInst({ ...s.inst, weekmail: e.target.checked })} />
         </label>
+        <label className="instelrij schakelrij">
+          <span className="rij-ic"><Icon naam="klok" maat={18} /></span>
+          <span className="rij-t"><b>Herinneringen per mail</b><span>Elke ochtend als er iets is: claims die bijna of vandaag over de termijn gaan, en leveranciers die 14 dagen niets lieten horen.</span></span>
+          <input type="checkbox" role="switch" className="schakelaar" checked={s.inst.herinnermail} disabled={uit}
+            onChange={(e) => void s.bewaarInst({ ...s.inst, herinnermail: e.target.checked })} />
+        </label>
         <Rij icoon="bericht" titel="Weekoverzicht nu sturen" tekst={weekStatus || "Stuur de samenvatting van vandaag meteen"} onClick={stuurWeek} />
         {wachtrij > 0 && <Rij icoon="klok" titel={`${meervoud(wachtrij, "mail wacht", "mails wachten")} op verzending`} tekst="Worden automatisch opnieuw geprobeerd"
           onClick={async () => { const n = await verstuurWachtrij(); setWachtrij(wachtrijLengte()); toast(n ? `${n} verstuurd` : "Nog niet bereikbaar"); }} />}

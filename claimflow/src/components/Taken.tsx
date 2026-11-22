@@ -14,6 +14,7 @@ const SOORT: Partial<Record<Reden, { icoon: IconNaam; toon: string }>> = {
   inkoop: { icoon: "potlood", toon: "wic-oker" },
   indienen: { icoon: "upload", toon: "wic-oker" },
   bijna: { icoon: "klok", toon: "wic-turk" },
+  stil: { icoon: "telefoon", toon: "wic-oker" },
 };
 
 export function TakenPopup() {

@@ -4,7 +4,7 @@ import { claimsEnInstellingen } from "../lib/db";
 import { weekOverzicht } from "../../src/lib/overzicht";
 import { verzend } from "../lib/verzend";
 
-const SITE = process.env.URL || "https://garantieclaims-meppel.netlify.app";
+const SITE = (process.env.APP_URL || process.env.URL || "https://selwink.github.io/ClaimFlow").replace(/\/$/, "");
 
 export const handler = async () => {
   const { claims, inst } = await claimsEnInstellingen();

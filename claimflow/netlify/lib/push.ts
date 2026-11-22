@@ -5,7 +5,7 @@ import webpush from "web-push";
 import * as db from "./db";
 import { geheim } from "./toegang";
 
-export type PushSoort = "termijn" | "accounts";
+export type PushSoort = "termijn" | "leverancier" | "accounts";
 
 async function vapid(): Promise<{ publiek: string; prive: string }> {
   const { sleutel } = await geheim();

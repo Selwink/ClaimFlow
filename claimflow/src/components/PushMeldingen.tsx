@@ -6,6 +6,7 @@ import { Icon } from "./Icon";
 
 const SOORTEN: Array<{ id: PushSoort; titel: string; tekst: string; beheer?: boolean }> = [
   { id: "termijn", titel: "Claim over de termijn", tekst: "3 dagen vooraf en op de dag dat een claim de termijn passeert." },
+  { id: "leverancier", titel: "Leverancier laat niets horen", tekst: "Als een ingediende claim 14 dagen geen nieuws heeft, daarna elke week." },
   { id: "accounts", titel: "Nieuw account wacht op goedkeuring", tekst: "Zodra iemand zich aanmeldt.", beheer: true },
 ];
 
@@ -14,7 +15,7 @@ export function PushMeldingen() {
   const { magBewerken } = useStore();
   const toast = useToast();
   const [st, setSt] = useState<{ aan: boolean; soorten: PushSoort[]; toestemming: NotificationPermission } | null>(null);
-  const [keuze, setKeuze] = useState<PushSoort[]>(["termijn", "accounts"]);
+  const [keuze, setKeuze] = useState<PushSoort[]>(["termijn", "leverancier", "accounts"]);
   const [bezig, setBezig] = useState(false);
   const [fout, setFout] = useState("");
   const kan = ondersteund();
@@ -81,7 +82,7 @@ export function PushMeldingen() {
         {soorten.map((s) => (
           <li key={s.id}>
             <label className="schakelrij instelrij">
-              <span className="rij-ic"><Icon naam={s.id === "termijn" ? "klok" : "persoon"} maat={18} /></span>
+              <span className="rij-ic"><Icon naam={s.id === "termijn" ? "klok" : s.id === "leverancier" ? "telefoon" : "persoon"} maat={18} /></span>
               <span className="rij-t"><b>{s.titel}</b><span>{s.tekst}</span></span>
               <input type="checkbox" role="switch" className="schakelaar" checked={keuze.includes(s.id)} disabled={bezig} onChange={() => wissel(s.id)} />
             </label>

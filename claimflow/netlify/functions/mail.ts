@@ -4,7 +4,7 @@ import { dienst, verzend } from "../lib/verzend";
 import { leesPas } from "../lib/toegang";
 import { connectLambda } from "@netlify/blobs";
 
-const SITE = process.env.URL || "https://garantieclaims-meppel.netlify.app";
+const SITE = (process.env.APP_URL || process.env.URL || "https://selwink.github.io/ClaimFlow").replace(/\/$/, "");
 const toegestaan = (o: string) => !o || o === SITE || o === new URL(SITE).origin || /^https:\/\/[a-z0-9-]+--garantieclaims-meppel\.netlify\.app$/.test(o) || /^http:\/\/localhost(:\d+)?$/.test(o);
 const json = (statusCode: number, body: unknown) => ({ statusCode, headers: { "Content-Type": "application/json", "Cache-Control": "no-store" }, body: JSON.stringify(body) });
 
