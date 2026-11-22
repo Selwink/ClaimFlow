@@ -3,11 +3,12 @@ import type { Status } from "../lib/types";
 import { STATUS_LABEL } from "../lib/types";
 import type { Toon } from "../lib/claims";
 import { Icon } from "./Icon";
+import { LogoMerk } from "./LogoMerk";
 
 export function Logo({ licht = true, klein = false }: { licht?: boolean; klein?: boolean }) {
   return (
     <span className={`logo${licht ? " logo-licht" : ""}${klein ? " logo-klein" : ""}`}>
-      <span className="logo-merk" aria-hidden="true"><Icon naam="vink" maat={klein ? 13 : 15} /></span>
+      <span className="logo-merk" aria-hidden="true"><LogoMerk maat={klein ? 24 : 30} /></span>
       <span className="logo-woord">ClaimFlow <span className="logo-mp">Medipoint</span></span>
     </span>
   );

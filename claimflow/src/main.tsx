@@ -8,8 +8,8 @@ import "./styles/components.css";
 import "./styles/pages.css";
 import "./styles/beweging.css";
 import "./styles/modern.css";
-import "./styles/thema-oceaan.css";
 import "./styles/layout-c.css";
+import "./styles/thema-eco.css";
 
 createRoot(document.getElementById("root")!).render(<StrictMode><App /></StrictMode>);
 
