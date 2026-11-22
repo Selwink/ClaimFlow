@@ -5,7 +5,7 @@ import { bewaarClaims, bewaarInstellingen, haalAlles, pas, REMOTE, Uitgelogd, ve
 import { INST_STANDAARD, leesInstellingen } from "../lib/instellingen";
 import { metRegel, metStatus, statusVan } from "../lib/claims";
 import { ls, meervoud, vandaag } from "../lib/format";
-import { verstuurWachtrij } from "../lib/mail";
+import { mailNotitie, mailStatus, verstuurWachtrij } from "../lib/mail";
 import { useToast } from "./Toast";
 
 /** Pre-2026-11 sessions stored a password hash here; it is no longer accepted and is cleaned up. */
@@ -65,6 +65,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const cache = ls.json<{ claims: Claim[]; inst: Instellingen; tijd: number }>(SLEUTEL_CACHE);
   const [claims, setClaims] = useState<Claim[]>(cache?.claims || []);
   const [inst, setInst] = useState<Instellingen>(cache?.inst ? leesInstellingen(cache.inst) : INST_STANDAARD);
+  const instRef = useRef(inst);
+  instRef.current = inst;
   const [geladen, setGeladen] = useState(!!cache);
   const [online, setOnline] = useState(true);
   const [syncTijd, setSyncTijd] = useState<number | undefined>(cache?.tijd);
@@ -152,8 +154,9 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const zetStatus = useCallback(async (ids: string[], naar: Status) => {
     const voor = vind(ids).filter((c) => statusVan(c) !== naar);
     if (!voor.length) return;
-    await bewaar(voor.map((c) => metStatus(kopie(c), naar, naam)),
+    const ok = await bewaar(voor.map((c) => metStatus(kopie(c), naar, naam)),
       `${voor.length === 1 ? "Claim" : `${voor.length} claims`} op ${STATUS_LABEL[naar].toLowerCase()} gezet`, voor.map(kopie));
+    if (ok && instRef.current.mail) void mailStatus(voor, STATUS_LABEL[naar], naam);
   }, [bewaar, naam]);
 
   const notitie = useCallback(async (id: string, tekst: string, naar?: Status) => {
@@ -162,7 +165,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     let n = kopie(c);
     if (tekst) n = metRegel(n, tekst, naam);
     if (naar) n = metStatus(n, naar, naam);
-    await bewaar([n], "Notitie toegevoegd", [kopie(c)]);
+    const ok = await bewaar([n], "Notitie toegevoegd", [kopie(c)]);
+    if (ok && instRef.current.mail) {
+      if (tekst) void mailNotitie(n, tekst, naam);
+      if (naar && statusVan(c) !== naar) void mailStatus([n], STATUS_LABEL[naar], naam);
+    }
   }, [bewaar, naam]);
 
   const naarPrullenbak = useCallback(async (ids: string[]) => {

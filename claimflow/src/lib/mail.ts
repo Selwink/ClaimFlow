@@ -83,3 +83,32 @@ export async function verstuurWachtrij(): Promise<number> {
   return rij.length - over.length;
 }
 export const wachtrijLengte = () => (ls.json<Velden[]>(SLEUTEL) || []).length;
+
+/** Mail when claims change status (one mail for a whole batch). */
+export async function mailStatus(claims: Claim[], naar: string, wie: string) {
+  if (location.protocol !== "https:" || !claims.length) return;
+  const velden: Velden = {
+    _subject: claims.length === 1 ? `Claim ${naar.toLowerCase()}: ${titelVan(claims[0])}${claims[0].leverancier ? ` (${claims[0].leverancier})` : ""}` : `${claims.length} claims ${naar.toLowerCase()}`,
+    "Nieuwe status": naar,
+    Claims: claims.slice(0, 20).map((c) => `• ${titelVan(c)}${c.leverancier ? ` — ${c.leverancier}` : ""}${c.inkoopnummer ? ` (ink ${c.inkoopnummer})` : ""}${geenBedrag(c) ? "" : ` · ${euro(c.bedrag)}`}`).join("\n") + (claims.length > 20 ? `\nen nog ${claims.length - 20}` : ""),
+    "Gewijzigd door": wie || "onbekend",
+    Register: appUrl(claims.length === 1 ? `claims/${claims[0].id}` : "claims"),
+  };
+  const r = await stuur(velden);
+  if (!r.ok) ls.set(SLEUTEL, JSON.stringify([...(ls.json<Velden[]>(SLEUTEL) || []), velden].slice(-50)));
+}
+
+/** Mail when someone writes a note on a claim. */
+export async function mailNotitie(c: Claim, tekst: string, wie: string) {
+  if (location.protocol !== "https:" || !tekst.trim()) return;
+  const velden: Velden = {
+    _subject: `Nieuwe notitie: ${titelVan(c)}${c.leverancier ? ` (${c.leverancier})` : ""}`,
+    Notitie: tekst,
+    Claim: `${titelVan(c)}${c.inkoopnummer ? ` · ink ${c.inkoopnummer}` : ""}`,
+    Status: STATUS_LABEL[statusVan(c)],
+    "Geschreven door": wie || "onbekend",
+    Register: appUrl(`claims/${c.id}`),
+  };
+  const r = await stuur(velden);
+  if (!r.ok) ls.set(SLEUTEL, JSON.stringify([...(ls.json<Velden[]>(SLEUTEL) || []), velden].slice(-50)));
+}
