@@ -78,6 +78,13 @@ export function Werkbak() {
 
   return (
     <div className="werkbak wb">
+      {/* quick actions first on the phone; hidden on the computer, where the sidebar has them */}
+      <nav className="wb-snel" aria-label="Snel naar">
+        {magBewerken && <Link to="/nieuw?bron=camera"><i className="sn-1"><Icon naam="camera" maat={24} /></i>Scan LGAR</Link>}
+        <Link to="/leveranciers"><i className="sn-2"><Icon naam="fabriek" maat={24} /></i>Leveranciers</Link>
+        <button type="button" onClick={() => setZoekOpen((z) => !z)} aria-expanded={zoekOpen}><i className="sn-3"><Icon naam="zoek" maat={24} /></i>Zoeken</button>
+        <Link to="/rapportage"><i className="sn-4"><Icon naam="grafiek" maat={24} /></i>Rapportage</Link>
+      </nav>
       <EcoDashboard />
       <header className="wb-held">
         <div className="wb-held-top">
@@ -100,12 +107,6 @@ export function Werkbak() {
         ) : <p className="wb-dringend wb-rustig"><span><b>Alles bij</b><small>Er staat nu niets open dat moet.</small></span></p>}
       </header>
 
-      <nav className="wb-snel" aria-label="Snel naar">
-        {magBewerken && <Link to="/nieuw?bron=camera"><i className="sn-1"><Icon naam="camera" maat={24} /></i>Scan LGAR</Link>}
-        <Link to="/leveranciers"><i className="sn-2"><Icon naam="fabriek" maat={24} /></i>Leveranciers</Link>
-        <button type="button" onClick={() => setZoekOpen((z) => !z)} aria-expanded={zoekOpen}><i className="sn-3"><Icon naam="zoek" maat={24} /></i>Zoeken</button>
-        <Link to="/rapportage"><i className="sn-4"><Icon naam="grafiek" maat={24} /></i>Rapportage</Link>
-      </nav>
 
       {(zoekOpen || zoek) && (
         <label className="wb-zoek">
