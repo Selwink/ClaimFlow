@@ -110,7 +110,7 @@ const REGELS: Array<{ k: keyof Claim; labels: string[]; lang?: boolean }> = [
   { k: "nummer", labels: ["claimnummer", "werkordernummer", "werkorder", "meldingsnummer"] },
   { k: "inkoopnummer", labels: ["inkoopnummer", "inkoop\\s*nr\\.?", "inkooporder", "bestelnummer"] },
   { k: "aankoop", labels: ["aankoopdatum", "datum\\s*(?:van\\s*)?aankoop", "aanschafdatum", "leverdatum"] },
-  { k: "onderdeel", labels: ["product\\s*categor[a-z]*", "vervangen\\s*onderdeel", "defect\\s*onderdeel", "onderdeel"] },
+  { k: "onderdeel", labels: ["vervangen\\s*onderdeel", "defect\\s*onderdeel", "onderdeel"] },
 ];
 const EXTRA = ["monteur", "vestiging", "datum", "cli[eë]nt", "naam", "adres", "telefoon", "e-?mail", "aantal", "bedrag", "handtekening"];
 const ALLE = REGELS.flatMap((r) => r.labels).concat(EXTRA);
