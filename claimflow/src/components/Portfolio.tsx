@@ -16,7 +16,7 @@ export function PfBand() {
   const dag = new Date().toLocaleDateString("nl-NL", { weekday: "long", day: "numeric", month: "short", year: "numeric" });
   return (
     <header className="pf-band">
-      <Link to="/" className="pf-logo" aria-label="Home"><LogoMerk maat={30} /><b className="pf-woord">claimflow</b></Link>
+      <Link to="/" className="pf-logo" aria-label="Home"><LogoMerk maat={30} /><b className="pf-woord">ClaimFlow</b></Link>
       <span className="pf-dag"><i aria-hidden="true">✦</i>{dag[0].toUpperCase() + dag.slice(1)}</span>
       <Link to="/claims" className="pf-zoek"><Icon naam="zoek" maat={15} /> Zoeken</Link>
       <span className="pf-acties">
