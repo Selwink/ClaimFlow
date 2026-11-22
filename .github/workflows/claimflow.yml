@@ -62,7 +62,7 @@ jobs:
       - run: npm ci
       - run: node scripts/bouw-supabase.mjs
       - uses: supabase/setup-cli@v1
-        with: { version: latest }
+        with: { version: 2.122.1 }
       - name: Settings for the function
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
