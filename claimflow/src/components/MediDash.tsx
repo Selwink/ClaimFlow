@@ -48,7 +48,13 @@ export function MediDash() {
           <div className="md-tekst">
             <h2><i>Totaal</i> <b>geclaimd.</b></h2>
             <strong>€ {heel(totaal)}</strong>
-            <p>Geclaimd € {heel(som(d.eigen))} + uitbesteed € {heel(som(d.uit))} in {d.jaar}.<br />Binnenmonteur € {heel(binnen)} · buitenmonteur € {heel(buiten)}</p>
+            <dl className="md-rijen">
+              <div><dt>Geclaimd</dt><dd>€ {heel(som(d.eigen))}</dd></div>
+              <div><dt>Uitbesteed</dt><dd>€ {heel(som(d.uit))}</dd></div>
+              <div className="md-sub"><dt>Binnenmonteur</dt><dd>€ {heel(binnen)}</dd></div>
+              <div className="md-sub"><dt>Buitenmonteur</dt><dd>€ {heel(buiten)}</dd></div>
+              <div className="md-som"><dt>Totaal {d.jaar}</dt><dd>€ {heel(totaal)}</dd></div>
+            </dl>
             <Link to="/claims" className="md-pil md-pil-rood">Bekijk alle claims</Link>
           </div>
           <div className="md-beeld md-beeld-teal"><Bed />{pct >= 100 && <span className="md-sticker"><span>{pct}%<br />van het doel<br />gehaald</span></span>}</div>

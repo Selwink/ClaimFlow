@@ -511,3 +511,9 @@ h1, h2, h3, .paginakop h1 { font-family: "Fira Sans", sans-serif !important; let
 .splash { overflow: hidden !important; } html, body { overflow-x: clip; }
 @media (max-width: 1023px) { .tab-plus, .tab-plus-leeg { display: none !important; } }
 .md { grid-template-columns: minmax(0, 1fr); } .md > *, .md-banners > *, .md-blokken > * { min-width: 0; }
+.md-rijen { margin: 6px 0 20px; width: 100%; max-width: 340px; display: grid; gap: 0; }
+.md-rijen > div { display: flex; justify-content: space-between; gap: 16px; padding: 7px 0; border-bottom: 1px solid rgba(255, 255, 255, .28); font-size: .95rem; }
+.md-rijen dt { color: rgba(255, 255, 255, .95); } .md-rijen dd { margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; }
+.md-rijen .md-sub { padding-left: 14px; font-size: .86rem; } .md-rijen .md-sub dt::before { content: "– "; opacity: .7; }
+.md-rijen .md-som { border-bottom: 0; border-top: 2px solid #fff; margin-top: 2px; font-size: 1.02rem; } .md-rijen .md-som dd { font-weight: 800; }
+.md-tekst { padding-right: 48px !important; } @media (max-width: 1023px) { .md-tekst { padding-right: 22px !important; } .md-rijen { max-width: none; } }
