@@ -104,7 +104,7 @@ export async function leesBestand(file: File, voortgang?: Voortgang): Promise<Le
 const REGELS: Array<{ k: keyof Claim; labels: string[]; lang?: boolean }> = [
   { k: "voorziening", labels: ["voorzieningsnummer", "voorzieningnummer", "voorzienings?\\s*nr\\.?", "voorziening"] },
   { k: "frame", labels: ["framenummer", "frame\\s*nummer", "frame\\s*nr\\.?", "serienummer", "frame"] },
-  { k: "type", labels: ["type\\s*hulpmiddel", "hulpmiddel\\s*type", "type\\s*/?\\s*model", "hulpmiddel", "type"] },
+  { k: "type", labels: ["product\\s*categor[a-z]*", "type\\s*hulpmiddel", "hulpmiddel\\s*type", "type\\s*/?\\s*model", "hulpmiddel", "type"] },
   { k: "storing", labels: ["omschrijving\\s*(?:van\\s*)?(?:de\\s*)?storing", "klachtomschrijving", "storing", "klacht", "omschrijving"], lang: true },
   { k: "leverancier", labels: ["leverancier", "fabrikant", "merk"] },
   { k: "nummer", labels: ["claimnummer", "werkordernummer", "werkorder", "meldingsnummer"] },
@@ -125,7 +125,15 @@ export function leesVelden(tekst: string, bekendeLeveranciers: string[]): Partia
       const i = regels.findIndex((r) => re.test(r));
       if (i < 0) continue;
       let w = (regels[i].match(re)?.[1] || "").trim();
-      if (v.lang) { const onder = regels[i + 1]; if (onder && !isLabel(onder)) w = onder; }
+      if (v.lang) {
+        // The description sits under the bold heading: take every line below it, up to the article table.
+        const onder: string[] = [];
+        for (const r of regels.slice(i + 1, i + 5)) {
+          if (isLabel(r) || /^art\.?\s*nr|^aant|omschrijving\s*$/i.test(r)) break;
+          onder.push(r);
+        }
+        if (onder.length) w = onder.join(" ");
+      }
       else if (!w && regels[i + 1] && !isLabel(regels[i + 1])) w = regels[i + 1];
       for (const l of ALLE) {
         if (l === lab) continue;
