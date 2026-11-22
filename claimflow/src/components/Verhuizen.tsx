@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { exportPagina, importRijen } from "../lib/api";
 import { download } from "../lib/export";
 import { meervoud, vandaag } from "../lib/format";
+import { INST_ID } from "../lib/instellingen";
 import { useStore } from "../state/Store";
 import { useToast } from "../state/Toast";
 import { Icon } from "./Icon";
@@ -40,8 +41,12 @@ export function Verhuizen() {
     if (!f) return;
     setFout(""); setBezig("Bestand lezen…");
     try {
-      const b = JSON.parse(await f.text()) as Partial<Bestand>;
-      if (b.soort !== "claimflow-verhuizing" || !Array.isArray(b.rijen)) throw new Error("Dit is geen ClaimFlow-verhuisbestand.");
+      const ruw = JSON.parse(await f.text()) as Partial<Bestand> & { claims?: Array<Record<string, unknown>>; instellingen?: unknown };
+      // Also accepts a normal backup (Beheer → Back-ups → downloaden): claims plus settings, without accounts or photos.
+      const b: Partial<Bestand> = ruw.soort === "claimflow-verhuizing" ? ruw
+        : Array.isArray(ruw.claims) ? { rijen: [...ruw.claims, ...(ruw.instellingen ? [{ id: INST_ID, onderdeel: "", nummer: "", leverancier: "", status: "nieuw", locatie: "binnen", bedrag: 0, periode: "", bijzonderheden: JSON.stringify(ruw.instellingen) }] : [])] }
+        : {};
+      if (!Array.isArray(b.rijen)) throw new Error("Dit is geen ClaimFlow-verhuisbestand of back-up.");
       let klaar = 0, stapel: Bestand["rijen"] = [], grootte = 0;
       const stuur = async () => {
         if (!stapel.length) return;
@@ -63,7 +68,7 @@ export function Verhuizen() {
 
   return (
     <div className="verhuizen">
-      <p className="t-zacht">Alles in één bestand: claims, instellingen, accounts (met hun wachtwoorden), foto's en meldingen. Exporteer in de oude app en lees het bestand in de nieuwe in.</p>
+      <p className="t-zacht">Alles in één bestand: claims, instellingen, accounts (met hun wachtwoorden), foto's en meldingen. Exporteer in de oude app en lees het bestand in de nieuwe in. Een gewone back-up kan ook (zonder accounts en foto's).</p>
       <div className="melding-acties">
         <button type="button" className="knop knop-zacht" disabled={!!bezig} onClick={() => void exporteer()}><Icon naam="download" maat={18} /> Alles exporteren</button>
         <button type="button" className="knop knop-zacht" disabled={!!bezig} onClick={() => kies.current?.click()}><Icon naam="upload" maat={18} /> Export inlezen</button>

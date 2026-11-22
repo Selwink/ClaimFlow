@@ -9,12 +9,26 @@ const TABEL = "claims";
 const API = `${URL_}/rest/v1/${TABEL}`;
 /** Old public key: only used until the service key is configured, so the app keeps working during the switch. */
 export const PUBLIEKE_SLEUTEL = "sb_publishable_Pg8KNp50y2EzGkYurn117w_4Llr27bI";
-// SUPABASE_SERVICE_ROLE_KEY is what Supabase itself provides to its Edge Functions (GitHub Pages setup).
-const serviceSleutel = () => process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || "";
-const sleutel = () => serviceSleutel() || PUBLIEKE_SLEUTEL;
+/** A named key from Supabase's JSON key lists (SUPABASE_SECRET_KEYS / SUPABASE_PUBLISHABLE_KEYS), "default" first. */
+function uitLijst(naam: string): string {
+  try {
+    const l = JSON.parse(process.env[naam] || "{}") as Record<string, string>;
+    return l.default || Object.values(l)[0] || "";
+  } catch { return ""; }
+}
+// Netlify/Railway: SUPABASE_SERVICE_KEY. Supabase Edge Functions (GitHub Pages setup) get the key from Supabase itself:
+// new projects as SUPABASE_SECRET_KEYS, older ones as SUPABASE_SERVICE_ROLE_KEY.
+const serviceSleutel = () => process.env.SUPABASE_SERVICE_KEY || uitLijst("SUPABASE_SECRET_KEYS") || process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+/** Public key of this project (only used to check that the table is closed to the public). */
+const publiekeSleutel = () => uitLijst("SUPABASE_PUBLISHABLE_KEYS") || process.env.SUPABASE_ANON_KEY || PUBLIEKE_SLEUTEL;
+const sleutel = () => serviceSleutel() || publiekeSleutel();
+/** Which key the server uses, for the status check (never the key itself). */
+export const sleutelBron = () => process.env.SUPABASE_SERVICE_KEY ? "SUPABASE_SERVICE_KEY" : uitLijst("SUPABASE_SECRET_KEYS") ? "SUPABASE_SECRET_KEYS"
+  : process.env.SUPABASE_SERVICE_ROLE_KEY ? "SUPABASE_SERVICE_ROLE_KEY" : "geen";
 export const heeftServiceSleutel = () => !!serviceSleutel();
 
-const kop = (extra?: Record<string, string>, k = sleutel()) => ({ apikey: k, Authorization: `Bearer ${k}`, "Content-Type": "application/json", ...extra });
+// New-style keys (sb_secret_…, sb_publishable_…) go in the apikey header only; the old JWT keys also as Bearer.
+const kop = (extra?: Record<string, string>, k = sleutel()) => ({ apikey: k, ...(k.startsWith("sb_") ? {} : { Authorization: `Bearer ${k}` }), "Content-Type": "application/json", ...extra });
 const q = (s: string) => encodeURIComponent(s);
 
 export const FOTO = "_foto:";
@@ -136,7 +150,7 @@ export async function bewaarBackupRij(id: string, inhoud: string, datum: string,
 /** True when the old public key can still read the table, i.e. row level security is not switched on yet. */
 export async function tabelOpen(): Promise<boolean> {
   try {
-    const r = await fetch(`${API}?select=id&limit=1`, { headers: kop(undefined, PUBLIEKE_SLEUTEL) });
+    const r = await fetch(`${API}?select=id&limit=1`, { headers: kop(undefined, publiekeSleutel()) });
     if (!r.ok) return false;
     return ((await r.json()) as unknown[]).length > 0;
   } catch { return false; }
