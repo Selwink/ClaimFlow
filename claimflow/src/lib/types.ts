@@ -49,6 +49,8 @@ export interface Instellingen {
   autoInvoer: boolean;
   /** Send the Monday summary e-mail. */
   weekmail: boolean;
+  /** Daily reminder e-mail (term almost up / over, supplier silent) on mornings when there is something to report. */
+  herinnermail: boolean;
   /** E-mails on at all (new claim + weekly overview). Off: only the in-app pop-up. */
   mail: boolean;
   /** Monthly team goal: euros to get back. */

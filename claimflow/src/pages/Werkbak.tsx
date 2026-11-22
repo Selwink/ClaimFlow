@@ -4,7 +4,7 @@ import type { Claim } from "../lib/types";
 import { useStore } from "../state/Store";
 import { geenBedrag, isOpen, metRegel, titelVan } from "../lib/claims";
 import { datum, euroKort, meervoud } from "../lib/format";
-import { GROEP, laterDatum, laterTekst, VAM_GEVRAAGD, WEER_OPGEPAKT, werkbak, type Bak, type Taak } from "../lib/werkbak";
+import { GROEP, laterDatum, laterTekst, NAGEBELD, VAM_GEVRAAGD, WEER_OPGEPAKT, werkbak, type Bak, type Taak } from "../lib/werkbak";
 import { Icon } from "../components/Icon";
 import { Leeg, Sheet } from "../components/ui";
 import { TeamKaart, TotaalKaart, UitbesteedKaart } from "../components/Team";
@@ -19,7 +19,7 @@ import { ShowcaseKop } from "../components/Showcase";
 const BAKKEN: Array<{ id: Bak; label: string }> = [{ id: "nu", label: "Nu doen" }, { id: "week", label: "Deze week" }, { id: "wacht", label: "Wacht op lev." }];
 const CHIP: Record<Taak["reden"], { toon: string; tekst: string }> = {
   termijn: { toon: "chip-rood", tekst: "VAM vragen" }, inkoop: { toon: "chip-oker", tekst: "Aanvullen" }, indienen: { toon: "chip-oker", tekst: "Indienen" },
-  bijna: { toon: "chip-oker", tekst: "Opvolgen" }, vam: { toon: "chip-grijs", tekst: "Wacht op VAM" }, antwoord: { toon: "chip-turk", tekst: "Wacht op lev." }, later: { toon: "chip-grijs", tekst: "Later" },
+  bijna: { toon: "chip-oker", tekst: "Opvolgen" }, stil: { toon: "chip-oker", tekst: "Nabellen" }, vam: { toon: "chip-grijs", tekst: "Wacht op VAM" }, antwoord: { toon: "chip-turk", tekst: "Wacht op lev." }, later: { toon: "chip-grijs", tekst: "Later" },
 };
 
 /** Start screen: everything that needs doing, each task with the button that does it. */
@@ -64,6 +64,8 @@ export function Werkbak() {
         return <><button type="button" className="knopje" disabled={uit} onClick={() => notitie(c, VAM_GEVRAAGD, "VAM gevraagd: claim staat bij Wacht")}><Icon naam="vink" maat={14} /> VAM gevraagd</button>{notitieKnop}{later}</>;
       case "inkoop":
         return <><button type="button" className="knopje" disabled={uit} onClick={() => { setNummer(""); setInkoop(c); }}>Inkoopnr invullen</button>{notitieKnop}{later}</>;
+      case "stil":
+        return <><button type="button" className="knopje" disabled={uit} onClick={() => notitie(c, NAGEBELD, `${c.leverancier || "Leverancier"} nagebeld over ${titelVan(c)}`)}><Icon naam="telefoon" maat={14} /> Nagebeld</button><button type="button" className="knopje knopje-turk" disabled={uit} onClick={() => status(c, "gehonoreerd")}><Icon naam="vink" maat={14} /> Gehonoreerd</button>{notitieKnop}</>;
       case "indienen":
         return <><button type="button" className="knopje" disabled={uit} onClick={() => status(c, "ingediend")}><Icon naam="upload" maat={14} /> Indienen</button>{notitieKnop}{later}</>;
       default:

@@ -4,7 +4,7 @@ import { BASIS, functie } from "./config";
 /** Phone notifications (Web Push) in the browser: support checks, turning on and off, a test message. */
 
 const FUNCTIE = functie("data");
-export type PushSoort = "termijn" | "accounts";
+export type PushSoort = "termijn" | "leverancier" | "accounts";
 
 export const ondersteund = () => typeof window !== "undefined" && "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
 export const isIOS = () => /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);

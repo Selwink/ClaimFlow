@@ -197,7 +197,7 @@ export const verwijderGebruiker = (sleutel: string) => verwijder(GEBRUIKER + sle
 // ---- push subscriptions: rows `_push:<account>:<device>`; account key in `nummer`, details as JSON
 export interface PushAbonnement {
   id: string; gebruiker: string; sub: { endpoint: string; keys: { p256dh: string; auth: string } };
-  soorten: Array<"termijn" | "accounts">; apparaat: string; gemaakt: string;
+  soorten: Array<"termijn" | "leverancier" | "accounts">; apparaat: string; gemaakt: string;
 }
 
 export async function pushAbonnementen(gebruiker?: string): Promise<PushAbonnement[]> {
