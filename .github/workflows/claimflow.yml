@@ -18,6 +18,8 @@ on:
 env:
   # Supabase project that holds the claims (not secret: it is also in the app's address list).
   SUPABASE_PROJECT: orgbypykgxnxoqywgbbg
+  # Database with the claims: the original project (the function runs in SUPABASE_PROJECT and talks to this one).
+  CLAIMS_DB_URL: https://xpktjqdtwmqznhgcicim.supabase.co
 
 permissions:
   contents: read
@@ -72,13 +74,14 @@ jobs:
           BEHEER_HASH: ${{ secrets.BEHEER_HASH }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           FORMULIER_SLEUTEL: ${{ secrets.FORMULIER_SLEUTEL }}
+          CLAIMS_DB_SLEUTEL: ${{ secrets.CLAIMS_DB_SLEUTEL }}
           EIGENAAR: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
         run: |
           test -n "$SUPABASE_ACCESS_TOKEN" || { echo "::error::Secret SUPABASE_ACCESS_TOKEN ontbreekt"; exit 1; }
           test -n "$TOKEN_GEHEIM" || { echo "::error::Secret TOKEN_GEHEIM ontbreekt"; exit 1; }
           set -- "URL=https://${EIGENAAR,,}.github.io/$REPO"
-          for n in TOKEN_GEHEIM PLANNING_SLEUTEL WACHTWOORD_HASH BEHEER_HASH RESEND_API_KEY FORMULIER_SLEUTEL; do
+          for n in CLAIMS_DB_URL CLAIMS_DB_SLEUTEL TOKEN_GEHEIM PLANNING_SLEUTEL WACHTWOORD_HASH BEHEER_HASH RESEND_API_KEY FORMULIER_SLEUTEL; do
             [ -n "${!n}" ] && set -- "$@" "$n=${!n}"
           done
           supabase secrets set --project-ref "$SUPABASE_PROJECT" "$@"
