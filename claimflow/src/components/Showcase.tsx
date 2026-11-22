@@ -19,7 +19,7 @@ function Ring({ waarde, label, deel }: { waarde: string; label: string; deel: nu
 
 /** Phone Werkbalk head (showcase design): greeting, ask-Flow bar, three progress rings and the slogan banner. */
 export function ShowcaseKop() {
-  const { actief, inst, naam } = useStore();
+  const { actief, inst, naam, magBewerken } = useStore();
   const d = useMemo(() => {
     const taken = werkbak(actief, inst.dagen).filter((t) => t.bak === "nu");
     const vandaagD = vandaag();
@@ -35,7 +35,8 @@ export function ShowcaseKop() {
     <section className="sh-kop" aria-label="Vandaag">
       <div className="sh-groet"><div><small>{groet},</small><h1>{naam ? naam.split(" ")[0] : "welkom"}! 👋</h1><small>Laten we wat terughalen vandaag.</small></div>
         <span className="sh-acties"><Link to="/notities" className="sh-bel" aria-label="Notities en meldingen"><Icon naam="bericht" maat={20} /></Link><Link to="/beheer" className="sh-av" aria-label="Profiel">{(naam || "?").slice(0, 1).toUpperCase()}</Link></span></div>
-      <Link to="/assistent" className="sh-vraag"><Icon naam="zoek" maat={16} /> Vraag Flow, de ClaimFlow-assistent…</Link>
+      <div className="sh-vraag-rij"><Link to="/assistent" className="sh-vraag"><Icon naam="zoek" maat={16} /> Vraag Flow, de ClaimFlow-assistent…</Link>
+        {magBewerken && <Link to="/nieuw" className="knop knop-rood sh-nieuw"><Icon naam="plus" maat={16} /> Nieuwe claim</Link>}</div>
       <p className="sh-lab">Voortgang vandaag</p>
       <div className="sh-ringen">
         <Ring waarde={`${d.klaarVandaag}/${d.klaarVandaag + d.taken}`} label="Taken" deel={d.klaarVandaag / Math.max(1, d.klaarVandaag + d.taken)} />

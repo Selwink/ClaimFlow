@@ -63,7 +63,7 @@ export function Werkbak() {
         return <><button type="button" className="knopje" disabled={uit} onClick={() => status(c, "ingediend")}><Icon naam="upload" maat={14} /> Indienen</button>{notitieKnop}{later}</>;
       default:
         return <><button type="button" className="knopje knopje-turk" disabled={uit} onClick={() => status(c, "gehonoreerd")}><Icon naam="vink" maat={14} /> Gehonoreerd</button>{notitieKnop}
-          <button type="button" className="knopje knopje-z" disabled={uit} onClick={() => notitie(c, WEER_OPGEPAKT, `${titelVan(c)} staat weer in de Werkbalk`)}>Weer oppakken</button></>;
+          <button type="button" className="knopje knopje-z" disabled={uit} onClick={() => notitie(c, WEER_OPGEPAKT, `${titelVan(c)} staat weer op Home`)}>Weer oppakken</button></>;
     }
   };
 
@@ -113,11 +113,11 @@ export function Werkbak() {
       {(zoekOpen || zoek) && (
         <label className="wb-zoek">
           <Icon naam="zoek" maat={18} />
-          <input type="search" value={zoek} onChange={(e) => setZoek(e.target.value)} placeholder="Zoek op onderdeel, leverancier of inkoopnummer" aria-label="Zoeken in de Werkbalk" autoFocus />
+          <input type="search" value={zoek} onChange={(e) => setZoek(e.target.value)} placeholder="Zoek op onderdeel, leverancier of inkoopnummer" aria-label="Zoeken in je taken" autoFocus />
         </label>
       )}
 
-      <div className="wb-chips" role="tablist" aria-label="Werkbalk">
+      <div className="wb-chips" role="tablist" aria-label="Taken">
         {BAKKEN.map((b) => (
           <button key={b.id} type="button" role="tab" aria-selected={bak === b.id} className={`wb-chip${bak === b.id ? " aan" : ""}`} onClick={() => setBak(b.id)}>
             {b.label}<span>{tel(b.id)}</span>
@@ -127,7 +127,7 @@ export function Werkbak() {
 
       <div className="wb-lijst" key={bak}>
         {lijst.length === 0 ? (
-          <Leeg icoon={bak === "nu" ? <Icon naam="vink" maat={34} /> : undefined} titel={bak === "nu" ? "Werkbalk leeg" : bak === "week" ? "Niets voor deze week" : "Nergens op wachten"}
+          <Leeg icoon={bak === "nu" ? <Icon naam="vink" maat={34} /> : undefined} titel={bak === "nu" ? "Niets te doen" : bak === "week" ? "Niets voor deze week" : "Nergens op wachten"}
             tekst={bak === "nu" ? "Alles wat nu moest, is gedaan. Mooi werk." : undefined} />
         ) : groepen.map((g) => (
           <section key={g.reden} aria-labelledby={`groep-${g.reden}`}>

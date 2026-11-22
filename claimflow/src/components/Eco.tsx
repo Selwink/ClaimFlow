@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import type { Claim } from "../lib/types";
 import { useStore } from "../state/Store";
 import { titelVan } from "../lib/claims";
-import { Icon } from "./Icon";
 import { afgehandeldOp, dagenOpen, isOpen, levKleur, levLetters, som, startDatum, statusVan } from "../lib/claims";
 import { datum, dezeMaand, euroKort, meervoud, periodLabel, vandaag } from "../lib/format";
 import { geclaimdDezeMaand, teruggehaaldPerMaand } from "../lib/team";
@@ -35,7 +34,7 @@ function perDag(claims: Claim[]) {
 
 /** Desktop dashboard on the Werkbalk (layout "Eco"): stat cards, claims per day, year card, suppliers, month goal. */
 export function EcoDashboard() {
-  const { actief, inst, naam, magBewerken } = useStore();
+  const { actief, inst } = useStore();
   const d = useMemo(() => {
     const maand = dezeMaand(), vorige = vorigeMaand(maand), jaar = maand.slice(0, 4);
     const pm = teruggehaaldPerMaand(actief);
@@ -84,11 +83,6 @@ export function EcoDashboard() {
 
   return (
     <section className="eco-dash" aria-label="Overzicht">
-      <header className="cr-kop">
-        <div><h1>Welkom terug{naam ? `, ${naam.split(" ")[0]}` : ""}</h1><p>Dit gebeurt er vandaag met je claims.</p></div>
-        <Link to="/claims" className="cr-zoek"><Icon naam="zoek" maat={16} /> Zoek claims, leveranciers…</Link>
-        {magBewerken && <Link to="/nieuw" className="knop knop-rood cr-nieuw"><Icon naam="plus" maat={16} /> Nieuwe claim</Link>}
-      </header>
       <div className="eco-stats">
         <div className="eco-kaart eco-donker">
           <small>Teruggehaald deze maand</small><b>{euroKort(d.dezeM)}</b>
