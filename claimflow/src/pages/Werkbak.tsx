@@ -2,8 +2,8 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import type { Claim } from "../lib/types";
 import { useStore } from "../state/Store";
-import { metRegel, titelVan } from "../lib/claims";
-import { datum, meervoud } from "../lib/format";
+import { geenBedrag, isOpen, metRegel, titelVan } from "../lib/claims";
+import { datum, euroKort, meervoud } from "../lib/format";
 import { GROEP, laterDatum, laterTekst, VAM_GEVRAAGD, WEER_OPGEPAKT, werkbak, type Bak, type Taak } from "../lib/werkbak";
 import { Icon } from "../components/Icon";
 import { Leeg, Sheet } from "../components/ui";
@@ -65,68 +65,93 @@ export function Werkbak() {
     }
   };
 
+  // Summary for the welcome card: open claims, money still to come back, the most urgent task.
+  const open = actief.filter((c) => isOpen(c) && !c.uitbesteed);
+  const nogTerug = open.reduce((s, c) => s + (Number(c.bedrag) || 0), 0);
+  const laat = taken.filter((t) => t.reden === "termijn");
+  const dringend = taken.find((t) => t.bak === "nu");
+  const uur = new Date().getHours();
+  const groet = uur < 6 ? "Goedenacht" : uur < 12 ? "Goedemorgen" : uur < 18 ? "Goedemiddag" : "Goedenavond";
+  const [zoekOpen, setZoekOpen] = useState(false);
+  const overDagen = (t: Taak) => (t.reden === "termijn" && t.dagen != null ? `+${t.dagen - inst.dagen} d` : t.dagen != null ? `${t.dagen} d` : "");
+
   return (
-    <div className="werkbak">
-      <header className="werkbak-kop">
-        <div className="werkbak-kop-binnen">
-          <div className="werkbak-titel">
-            <div>
-              <h1>Werkbalk</h1>
-              <p className="werkbak-slogan" aria-label="Wat kapot gaat, komt terug.">
-                <span aria-hidden="true">Wat <span className="kapot">{"kapot".split("").map((l, i) => <i key={i}>{l}</i>)}</span> gaat, </span>
-                <span className="sl-terug" aria-hidden="true">komt terug.</span>
-              </p>
-            </div>
-            {magBewerken && (
-              <span className="werkbak-knoppen">
-                <Link to="/nieuw?bron=camera" className="knop knop-stil knop-klein"><Icon naam="camera" maat={16} /> Scan LGAR</Link>
-                <Link to="/nieuw" className="knop knop-rood knop-klein"><Icon naam="plus" maat={16} /> Nieuwe claim</Link>
-              </span>
-            )}
+    <div className="werkbak wb">
+      <header className="wb-held">
+        <div className="wb-held-top">
+          <div>
+            <p className="wb-groet">{groet}{naam ? `, ${naam.split(" ")[0]}` : ""} 👋</p>
+            <h1 className="wb-merk">ClaimFlow</h1>
           </div>
-          <label className="werkbak-zoek">
-            <Icon naam="lijst" maat={16} />
-            <input type="search" value={zoek} onChange={(e) => setZoek(e.target.value)} placeholder="Zoek op onderdeel, leverancier of inkoopnummer" aria-label="Zoeken in de Werkbalk" />
-          </label>
-          <div className="werkbak-tabs" role="tablist" aria-label="Werkbalk">
-            {BAKKEN.map((b) => (
-              <button key={b.id} type="button" role="tab" aria-selected={bak === b.id} onClick={() => setBak(b.id)}>
-                <b className={b.id === "nu" && tel("nu") ? "rood" : undefined}>{tel(b.id)}</b>{b.label}
-              </button>
-            ))}
-          </div>
+          <Link to="/beheer" className="wb-bel" aria-label="Meldingen en instellingen"><Icon naam="bericht" maat={22} /></Link>
         </div>
+        <p className="wb-samen">{meervoud(open.length, "open claim", "open claims")} · {euroKort(nogTerug)} nog terug te halen</p>
+        <p className="wb-groot">
+          <b>{laat.length || tel("nu")}</b>
+          <span>{laat.length ? "over termijn" : tel("nu") === 1 ? "taak voor nu" : "taken voor nu"}</span>
+        </p>
+        {dringend ? (
+          <Link to={`/claims/${dringend.claim.id}`} className="wb-dringend">
+            <span><b>{titelVan(dringend.claim)}</b><small>{[dringend.claim.leverancier, CHIP[dringend.reden].tekst].filter(Boolean).join(" · ")}</small></span>
+            <em className={dringend.reden === "termijn" ? "laat" : undefined}>{overDagen(dringend)}</em>
+          </Link>
+        ) : <p className="wb-dringend wb-rustig"><span><b>Alles bij</b><small>Er staat nu niets open dat moet.</small></span></p>}
       </header>
 
-      <div className="werkbak-inhoud">
-        <div className="werkbak-doel"><TotaalKaart /><UitbesteedKaart /><TeamKaart /></div>
-        <div className="werkbak-lijsten" key={bak}>
+      <nav className="wb-snel" aria-label="Snel naar">
+        {magBewerken && <Link to="/nieuw?bron=camera"><i className="sn-1"><Icon naam="camera" maat={24} /></i>Scan LGAR</Link>}
+        <Link to="/leveranciers"><i className="sn-2"><Icon naam="fabriek" maat={24} /></i>Leveranciers</Link>
+        <button type="button" onClick={() => setZoekOpen((z) => !z)} aria-expanded={zoekOpen}><i className="sn-3"><Icon naam="zoek" maat={24} /></i>Zoeken</button>
+        <Link to="/rapportage"><i className="sn-4"><Icon naam="grafiek" maat={24} /></i>Rapportage</Link>
+      </nav>
+
+      {(zoekOpen || zoek) && (
+        <label className="wb-zoek">
+          <Icon naam="zoek" maat={18} />
+          <input type="search" value={zoek} onChange={(e) => setZoek(e.target.value)} placeholder="Zoek op onderdeel, leverancier of inkoopnummer" aria-label="Zoeken in de Werkbalk" autoFocus />
+        </label>
+      )}
+
+      <div className="wb-chips" role="tablist" aria-label="Werkbalk">
+        {BAKKEN.map((b) => (
+          <button key={b.id} type="button" role="tab" aria-selected={bak === b.id} className={`wb-chip${bak === b.id ? " aan" : ""}`} onClick={() => setBak(b.id)}>
+            {b.label}<span>{tel(b.id)}</span>
+          </button>
+        ))}
+      </div>
+
+      <div className="wb-lijst" key={bak}>
         {lijst.length === 0 ? (
           <Leeg icoon={bak === "nu" ? <Icon naam="vink" maat={34} /> : undefined} titel={bak === "nu" ? "Werkbalk leeg" : bak === "week" ? "Niets voor deze week" : "Nergens op wachten"}
-            tekst={bak === "nu" ? "Alles wat nu moest, is gedaan. Mooi werk." : undefined}>
-          </Leeg>
+            tekst={bak === "nu" ? "Alles wat nu moest, is gedaan. Mooi werk." : undefined} />
         ) : groepen.map((g) => (
           <section key={g.reden} aria-labelledby={`groep-${g.reden}`}>
-            <h2 className="werkbak-groep" id={`groep-${g.reden}`}><span>{GROEP[g.reden]}</span><span className={`chip ${CHIP[g.reden].toon}`}>{g.taken.length}</span></h2>
-            <ul className="werkbak-lijst">
+            <h2 className="wb-kop" id={`groep-${g.reden}`}>{GROEP[g.reden]}<span>{g.taken.length}</span></h2>
+            <ul className="wb-kaarten">
               {g.taken.map((t) => (
-                <li key={t.claim.id} className={`werktaak${t.reden === "termijn" ? " werktaak-laat" : ""}`}>
-                  <div className="werktaak-boven">
-                    <Link to={`/claims/${t.claim.id}`} className="werktaak-t">
+                <li key={t.claim.id} className={`wb-kaart${t.reden === "termijn" ? " laat" : ""}`}>
+                  <Link to={`/claims/${t.claim.id}`} className="wb-kaart-boven">
+                    <span className="wb-ic" aria-hidden="true"><Icon naam="document" maat={22} /></span>
+                    <span className="wb-kaart-t">
                       <b>{titelVan(t.claim)}</b>
-                      <span>{[t.claim.leverancier, t.claim.inkoopnummer && `ink ${t.claim.inkoopnummer}`, t.sinds ? `${t.tekst} · ${datum(t.sinds)}` : t.tekst].filter(Boolean).join(" · ")}</span>
-                    </Link>
-                    <span className={`chip ${CHIP[t.reden].toon}`}>{CHIP[t.reden].tekst}</span>
-                  </div>
-                  {magBewerken && <div className="werktaak-acties">{acties(t)}</div>}
+                      <span>{[t.claim.leverancier, t.claim.onderdeel && t.claim.onderdeel !== titelVan(t.claim) ? t.claim.onderdeel : "", t.claim.inkoopnummer && `ink ${t.claim.inkoopnummer}`].filter(Boolean).join(" · ")}</span>
+                      <span className="wb-rij"><i className={`wb-pil ${CHIP[t.reden].toon}`}>{CHIP[t.reden].tekst}</i>{t.sinds ? `${t.tekst} · ${datum(t.sinds)}` : t.tekst}</span>
+                    </span>
+                    {!geenBedrag(t.claim) && <span className="wb-bedrag">{euroKort(t.claim.bedrag)}</span>}
+                  </Link>
+                  {magBewerken && <div className="werktaak-acties wb-acties">{acties(t)}</div>}
                 </li>
               ))}
             </ul>
           </section>
         ))}
-        </div>
         {taken.length > 0 && <p className="hint">{meervoud(taken.length, "taak", "taken")} in totaal · claims binnen de termijn staan in <Link to="/claims">Claims</Link></p>}
       </div>
+
+      <section className="wb-maand" aria-label="Deze maand">
+        <h2 className="wb-kop">Deze maand</h2>
+        <div className="werkbak-doel"><TotaalKaart /><UitbesteedKaart /><TeamKaart /></div>
+      </section>
 
       <Sheet titel="Inkoopnummer invullen" open={!!inkoop} sluit={() => setInkoop(null)}
         voet={<><button type="button" className="knop knop-zacht" onClick={() => setInkoop(null)}>Annuleren</button>
