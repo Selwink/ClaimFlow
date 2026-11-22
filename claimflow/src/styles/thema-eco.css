@@ -23,3 +23,64 @@
 }
 body { background: #F3F6F2; }
 @media (max-width: 1023px) { .wb-kop span, .wb-chip span { background: #E6ECE4; } }
+
+/* ---------- Eco login: dark frame, green glow, light rounded panel with the form ---------- */
+.toegang { background: radial-gradient(700px 420px at 15% 10%, rgba(63, 174, 73, .28), transparent 60%), #0E1410 !important; }
+.toegang-gloed i { background: rgba(63, 174, 73, .35) !important; }
+.toegang-ringen i { border-color: rgba(134, 239, 172, .12) !important; }
+.toegang .sl-terug { color: #5CC466 !important; text-shadow: 0 0 28px rgba(63, 174, 73, .45) !important; }
+.toegang-band-kenmerken li { background: rgba(63, 174, 73, .1) !important; border-color: rgba(63, 174, 73, .25) !important; color: #D9F2D6 !important; }
+.toegang-plek { background: #F3F6F2 !important; }
+.toegang-kaart { background: #fff; border-radius: 22px; padding: 22px !important; box-shadow: 0 1px 2px rgba(17, 22, 17, .05), 0 12px 30px -16px rgba(17, 22, 17, .25); }
+.toegang-kaart input { background: #F7F9F6 !important; border-color: #E3E9E1 !important; border-radius: 12px !important; }
+.toegang-kaart input:focus { border-color: #3FAE49 !important; box-shadow: 0 0 0 3px rgba(63, 174, 73, .18) !important; }
+.toegang-kaart .knop-rood { background: #111611 !important; box-shadow: none !important; border-radius: 12px !important; }
+.toegang-kaart .knop-rood:hover { background: #1E2A20 !important; }
+.toegang-tabs { background: #E6ECE4 !important; }
+@media (min-width: 1024px) {
+  .toegang-plek { margin: 10px 10px 10px 0; border-radius: 22px !important; box-shadow: none !important; }
+}
+
+/* ---------- Eco on the phone: the same dashboard, stacked; layout C's welcome card makes way ---------- */
+@media (max-width: 1023px) {
+  .wb-held, .wb-maand { display: none !important; }
+  .eco-dash { display: block; padding: 14px var(--gutter) 0; }
+  .eco-stats { display: grid; grid-auto-flow: column; grid-auto-columns: 78%; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin: 0 calc(-1 * var(--gutter)); padding: 0 var(--gutter) 4px; }
+  .eco-stats::-webkit-scrollbar { display: none; }
+  .eco-stats > * { scroll-snap-align: start; }
+  .eco-kaart { background: #fff; border-radius: 16px; padding: 14px 16px; position: relative; }
+  .eco-kaart > small { color: #7D8A7E; font-size: .76rem; }
+  .eco-stats .eco-kaart > b { display: block; font: 700 1.5rem var(--display); color: #111; margin-top: 4px; }
+  .eco-stats .eco-kaart > b em { font-style: normal; color: #9AA59A; font-weight: 500; }
+  .eco-kaart .op { color: #2F9A3A; font-size: .74rem; } .eco-kaart .neer { color: #E5484D; font-size: .74rem; } .eco-kaart .zacht { color: #7D8A7E; font-size: .74rem; }
+  .eco-mini { position: absolute; right: 16px; bottom: 16px; display: flex; align-items: flex-end; gap: 4px; }
+  .eco-mini i { width: 5px; border-radius: 2px; }
+  .eco-donker { background: #101511; } .eco-donker > small { color: #8A978B; } .eco-stats .eco-donker > b { color: #fff; }
+  .eco-midden, .eco-onder { display: grid; gap: 10px; margin-top: 10px; }
+  .eco-kaart h3 { font: 600 .95rem var(--display); color: #111; display: flex; justify-content: space-between; align-items: center; margin: 0; }
+  .eco-kaart h3 span, .eco-kaart h3 a { background: #111; color: #fff; border-radius: 8px; padding: 3px 9px; font: 600 .7rem var(--body); text-decoration: none; }
+  .eco-staven { width: 100%; height: 150px; margin-top: 6px; }
+  .eco-groen { background: #DCE8D6; }
+  .eco-groot { font: 400 2.1rem var(--display); color: #111; letter-spacing: -.02em; } .eco-groot small { font-size: .85rem; color: #6B786C; }
+  .eco-it { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+  .eco-it span { width: 34px; height: 34px; border-radius: 50%; background: #C8D9C1; display: grid; place-items: center; }
+  .eco-it b { display: block; font-size: .86rem; color: #111; } .eco-it small { color: #6B786C; font-size: .72rem; }
+  .eco-onder { grid-template-areas: "doel" "lev"; } .eco-onder > :first-child { grid-area: lev; } .eco-doel { grid-area: doel; }
+  .eco-tabel { width: 100%; border-collapse: collapse; font-size: .8rem; margin-top: 6px; }
+  .eco-tabel th { text-align: left; color: #9AA59A; font-weight: 500; font-size: .68rem; padding: 6px 2px; }
+  .eco-tabel td { padding: 9px 2px; border-top: 1px solid #EEF2EC; color: #111; }
+  .eco-tabel th:nth-child(4), .eco-tabel td:nth-child(4), .eco-tabel th:nth-child(5), .eco-tabel td:nth-child(5) { display: none; }
+  .eco-tabel td a { color: inherit; text-decoration: none; display: inline-flex; align-items: center; }
+  .eco-av { width: 24px; height: 24px; border-radius: 50%; display: inline-grid; place-items: center; color: #fff; font-weight: 800; font-size: .7rem; margin-right: 8px; }
+  .eco-doel { display: grid; grid-template-columns: 120px 1fr; grid-template-rows: auto 1fr; column-gap: 14px; align-items: center; }
+  .eco-doel h3 { grid-column: 1 / -1; color: #fff; } .eco-doel h3 span { background: #fff; color: #111; }
+  .eco-ring { width: 120px; height: 120px; margin-top: 8px; }
+  .eco-pil { background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .12); border-radius: 10px; padding: 8px 10px; font-size: .78rem; color: #E7EDE6; margin: 0; }
+  .eco-pil b { color: #86EFAC; }
+  .eco-taken-kop { display: none; }
+  .wb-snel { padding-top: 18px; }
+}
+/* login card: the ClaimFlow logo instead of a plain check */
+.toegang-kaart::before { content: "" !important; width: 84px !important; height: 84px !important; border-radius: 22% !important;
+  background: url("../../public/logo.svg") center / cover no-repeat !important; box-shadow: 0 16px 34px -14px rgba(63, 174, 73, .7) !important; }
+@media (max-width: 1023px) { .eco-stats { padding-left: var(--gutter) !important; scroll-padding-left: var(--gutter); } }
