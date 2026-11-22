@@ -92,3 +92,19 @@ export function geclaimdDezeMaand(claims: Claim[]): { bedrag: number; aantal: nu
   }
   return { bedrag, aantal };
 }
+
+/** Days in a row, ending today or yesterday, on which this person wrote something in a claim's timeline. */
+export function reeks(claims: Claim[], naam: string): number {
+  if (!naam) return 0;
+  const ik = naam.trim().toLowerCase(), voor = ik.split(/\s+/)[0];
+  const dagen = new Set<string>();
+  for (const c of claims) for (const n of c.notities || []) {
+    const w = (n.w || "").trim().toLowerCase();
+    if (w && (w === ik || w === voor)) dagen.add(n.d.slice(0, 10));
+  }
+  const d = new Date(`${new Date().toISOString().slice(0, 10)}T12:00:00`);
+  if (!dagen.has(d.toISOString().slice(0, 10))) d.setDate(d.getDate() - 1);
+  let n = 0;
+  while (dagen.has(d.toISOString().slice(0, 10))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}

@@ -1,3 +1,4 @@
+import { CijfersKaart } from "../components/Showcase";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { useStore } from "../state/Store";
@@ -51,6 +52,7 @@ export function Rapportage() {
   }, [lijst]);
   const levs = perLeverancier(lijst);
 
+  const [cperiode, setCperiode] = useState<"dag" | "week" | "maand" | "jaar">("week");
   return (
     <div className="pagina">
       <PaginaKop boven={jaar ? `Jaar ${jaar}` : "Alle jaren"} titel="Rapportage">
@@ -62,6 +64,7 @@ export function Rapportage() {
           <Icon naam="download" maat={18} /> <span className="alleen-desktop">CSV</span>
         </button>
       </PaginaKop>
+      <CijfersKaart periode={cperiode} zet={setCperiode} />
 
       {lijst.some(datumOntbreekt) && (
         <Link to="/datums" className="melding melding-oker melding-link">

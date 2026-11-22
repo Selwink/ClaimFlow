@@ -16,6 +16,8 @@ import { Beheer } from "./pages/Beheer";
 import { Prullenbak } from "./pages/Prullenbak";
 import { Datums } from "./pages/Datums";
 import { NietGevonden } from "./pages/NietGevonden";
+import { Notities } from "./pages/Notities";
+import { Assistent } from "./pages/Assistent";
 
 function AppRoutes() {
   const { rol, geladen } = useStore();
@@ -38,6 +40,8 @@ function AppRoutes() {
             <Route path="beheer" element={<Beheer />} />
             <Route path="prullenbak" element={<Prullenbak />} />
             <Route path="datums" element={<Datums />} />
+            <Route path="notities" element={<Notities />} />
+            <Route path="assistent" element={<Assistent />} />
             <Route path="*" element={<NietGevonden />} />
           </Route>
         </Routes>

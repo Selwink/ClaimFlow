@@ -9,6 +9,7 @@ import { Icon } from "../components/Icon";
 import { Leeg, Sheet } from "../components/ui";
 import { TeamKaart, TotaalKaart, UitbesteedKaart } from "../components/Team";
 import { EcoDashboard } from "../components/Eco";
+import { ShowcaseKop } from "../components/Showcase";
 
 const BAKKEN: Array<{ id: Bak; label: string }> = [{ id: "nu", label: "Nu doen" }, { id: "week", label: "Deze week" }, { id: "wacht", label: "Wacht op lev." }];
 const CHIP: Record<Taak["reden"], { toon: string; tekst: string }> = {
@@ -78,6 +79,7 @@ export function Werkbak() {
 
   return (
     <div className="werkbak wb">
+      <ShowcaseKop />
       {/* quick actions first on the phone; hidden on the computer, where the sidebar has them */}
       <nav className="wb-snel" aria-label="Snel naar">
         {magBewerken && <Link to="/nieuw?bron=camera"><i className="sn-1"><Icon naam="camera" maat={24} /></i>Scan LGAR</Link>}
