@@ -5,7 +5,7 @@ import { STATUS_LABEL } from "../lib/types";
 import { useStore } from "../state/Store";
 import { afgehandeldOp, overTermijn, som, statusVan, titelVan } from "../lib/claims";
 import { dezeMaand, euro } from "../lib/format";
-import { geclaimdDezeMaand, teruggehaaldPerMaand } from "../lib/team";
+import { teruggehaaldPerMaand } from "../lib/team";
 import { werkbak } from "../lib/werkbak";
 import { Icon } from "./Icon";
 
@@ -13,7 +13,6 @@ const heel = (n: number) => new Intl.NumberFormat("nl-NL", { maximumFractionDigi
 
 /** White line drawings in the Medipoint style. */
 const Bed = () => <svg viewBox="0 0 150 110" className="md-lijn" aria-hidden="true"><path d="M8 20 V95 M8 75 H142 V88 H8" /><path d="M20 62 L40 50 L70 62 H135" /><circle cx="20" cy="98" r="6" /><circle cx="130" cy="98" r="6" /></svg>;
-const Stoel = () => <svg viewBox="0 0 150 110" className="md-lijn" aria-hidden="true"><path d="M100 8 H118 M100 8 V55 M40 30 H95 M45 55 H100 V70 H45 Z M45 55 V95" /><circle cx="100" cy="80" r="26" /><path d="M45 70 L20 92 H6" /></svg>;
 const Krukken = () => <svg viewBox="0 0 150 150" className="md-lijn" aria-hidden="true"><path d="M50 10 L70 140 M100 10 L80 140 M40 10 H62 M90 10 H112 M56 48 H68 M86 48 H98" /><path d="M64 98 H86" /></svg>;
 
 /** Home dashboard (design 23 "Medipoint"): turquoise and red banners with a curved image side, pastel blocks, latest claims, figures with colour stripes. */
@@ -33,7 +32,6 @@ export function MediDash() {
   }, [actief, inst.dagen]);
   const totaal = som(d.eigen) + som(d.uit);
   const binnen = som(d.eigen.filter((c) => c.locatie !== "buiten")), buiten = som(d.eigen.filter((c) => c.locatie === "buiten"));
-  const doel = inst.maanddoel || 1, geclaimd = geclaimdDezeMaand(actief).bedrag, pct = Math.round((geclaimd / doel) * 100);
   const graad = d.afg.length ? Math.round((d.geh.length / d.afg.length) * 100) : 0;
   const nu = d.taken.filter((t) => t.bak === "nu").length;
   const toon = (c: Claim) => (overTermijn(c, inst.dagen) ? ["s-rood", "VAM vragen"] : statusVan(c) === "gehonoreerd" ? ["s-teal", "Gehonoreerd"] : statusVan(c) === "afgewezen" ? ["s-grijs", "Afgewezen"] : statusVan(c) === "nieuw" ? ["s-roze", "Nieuw"] : ["s-geel", STATUS_LABEL[statusVan(c)]]);
@@ -48,10 +46,15 @@ export function MediDash() {
           <div className="md-tekst">
             <h2><i>Totaal</i> <b>geclaimd.</b></h2>
             <strong>€ {heel(totaal)}</strong>
-            <p>Geclaimd € {heel(som(d.eigen))} + uitbesteed € {heel(som(d.uit))} in {d.jaar}.<br />Binnenmonteur € {heel(binnen)} · buitenmonteur € {heel(buiten)}</p>
+            <div className="md-vakken">
+              <span><small>Geclaimd</small><b>€ {heel(som(d.eigen))}</b></span>
+              <span><small>Uitbesteed</small><b>€ {heel(som(d.uit))}</b></span>
+              <span><small>Binnenmonteur</small><b>€ {heel(binnen)}</b></span>
+              <span><small>Buitenmonteur</small><b>€ {heel(buiten)}</b></span>
+            </div>
             <Link to="/claims" className="md-pil md-pil-rood">Bekijk alle claims</Link>
           </div>
-          <div className="md-beeld md-beeld-teal"><Bed />{pct >= 100 && <span className="md-sticker"><span>{pct}%<br />van het doel<br />gehaald</span></span>}</div>
+          <div className="md-beeld md-beeld-teal"><Bed /></div>
         </div>
         <div className="md-banner md-rood">
           <div className="md-tekst">
@@ -66,7 +69,6 @@ export function MediDash() {
 
       <div className="md-blokken">
         <Link to="/claims" className="md-blok md-blok-teal"><div><h3>Nu doen</h3><p>{nu} {nu === 1 ? "taak wacht" : "taken wachten"} op je.<br />{d.laat} over termijn.</p><span className="md-pil md-pil-wit">Open taken</span></div><Bed /></Link>
-        <Link to="/rapportage" className="md-blok md-blok-roze"><div><h3>Maanddoel</h3><p>{euro(geclaimd)} van {euro(doel)}<br />{pct}% gehaald.</p><span className="md-pil md-pil-wit">Bekijk cijfers</span></div><Stoel /></Link>
       </div>
 
       <div className="md-kaart md-tabel">
@@ -82,7 +84,7 @@ export function MediDash() {
         <div className="md-cijfer c-roze"><small>Teruggehaald {d.jaar}</small><b>€ {heel(som(d.eigen))}</b></div>
         <div className="md-cijfer c-teal"><small>Ingediend</small><b>{d.ingediend} {d.ingediend === 1 ? "claim" : "claims"}</b></div>
         <div className="md-cijfer c-navy"><small>Honoreringsgraad</small><b>{graad}%</b></div>
-        <div className="md-cijfer c-geel"><small>Maanddoel</small><b>{pct}%</b></div>
+        <div className="md-cijfer c-geel"><small>Over termijn</small><b>{d.laat} {d.laat === 1 ? "claim" : "claims"}</b></div>
       </div>
 
       <h2 className="md-direct">Direct naar</h2>
