@@ -517,3 +517,30 @@ h1, h2, h3, .paginakop h1 { font-family: "Fira Sans", sans-serif !important; let
 .md-rijen .md-sub { padding-left: 14px; font-size: .86rem; } .md-rijen .md-sub dt::before { content: "– "; opacity: .7; }
 .md-rijen .md-som { border-bottom: 0; border-top: 2px solid #fff; margin-top: 2px; font-size: 1.02rem; } .md-rijen .md-som dd { font-weight: 800; }
 .md-tekst { padding-right: 48px !important; } @media (max-width: 1023px) { .md-tekst { padding-right: 22px !important; } .md-rijen { max-width: none; } }
+/* amounts in small blocks */
+.md-vakken { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; max-width: 360px; margin: 6px 0 20px; }
+.md-vakken span { background: rgba(255, 255, 255, .16); border: 1px solid rgba(255, 255, 255, .3); border-radius: 4px; padding: 9px 12px; }
+.md-vakken small { display: block; font-size: .74rem; color: rgba(255, 255, 255, .92) !important; }
+.md-vakken b { display: block; font-size: 1.05rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.md-blokken { grid-template-columns: 1fr !important; }
+/* month goal: text only, next to Assistent */
+.pf-doel { display: inline-flex; align-items: center; padding: 13px 0 10px; color: #5F6368; font-size: .9rem; font-weight: 600; white-space: nowrap; }
+.pf-doel::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--mgeel); margin-right: 8px; }
+.pf-nav a:last-of-type { margin-left: auto; }
+.pf-nav a[href$="beheer"] { order: 2; } .pf-doel { order: 1; }
+@media (max-width: 1023px) {
+  /* the two banners side by side on the phone */
+  .md-banners { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; gap: 10px !important; align-items: stretch; }
+  .md-banner { display: flex !important; flex-direction: column; }
+  .md-beeld { height: 84px !important; }
+  .md-beeld .md-lijn { width: 56% !important; }
+  .md-tekst { padding: 14px 12px 16px !important; flex: 1; justify-content: flex-start !important; }
+  .md-tekst h2 { font-size: 1.1rem !important; } .md-tekst h2 b { font-size: 1.25rem !important; }
+  .md-tekst strong { font-size: 1.35rem !important; margin: 4px 0 8px !important; }
+  .md-tekst p { font-size: .82rem; margin-bottom: 12px; }
+  .md-vakken { grid-template-columns: 1fr; gap: 6px; margin: 0 0 14px; }
+  .md-vakken span { padding: 6px 9px; } .md-vakken small { font-size: .68rem; } .md-vakken b { font-size: .92rem; }
+  .md-pil-rood { padding: 9px 12px; font-size: .8rem; }
+  .md-link { font-size: .82rem; }
+}
+@media (min-width: 1024px) { .md-vakken { max-width: 320px; } }

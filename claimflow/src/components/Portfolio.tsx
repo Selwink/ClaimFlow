@@ -4,7 +4,7 @@ import type { Claim } from "../lib/types";
 import { useStore } from "../state/Store";
 import { isOpen, som, statusVan, titelVan } from "../lib/claims";
 import { euro, euroKort } from "../lib/format";
-import { teruggehaaldPerMaand } from "../lib/team";
+import { geclaimdDezeMaand, teruggehaaldPerMaand } from "../lib/team";
 import { Icon } from "./Icon";
 import { LogoMerk } from "./LogoMerk";
 
@@ -12,7 +12,7 @@ const PF_NAV: Array<[string, string]> = [["/", "Home"], ["/claims", "Claims"], [
 
 /** Top band (design "Portfolio"): date, search, + new claim, avatar — on every page, phone and computer. */
 export function PfBand() {
-  const { naam, magBewerken, rol } = useStore();
+  const { naam, magBewerken, rol, actief, inst } = useStore();
   const dag = new Date().toLocaleDateString("nl-NL", { weekday: "long", day: "numeric", month: "short", year: "numeric" });
   return (
     <header className="pf-band">
@@ -27,6 +27,7 @@ export function PfBand() {
       <i className="pf-streep" aria-hidden="true"><b /><b /><b /><b /><b /></i>
       <nav className="pf-nav" aria-label="Hoofdmenu bovenbalk">
         {PF_NAV.map(([naar, label]) => <NavLink key={naar} to={naar} end={naar === "/"}>{label}</NavLink>)}
+        <span className="pf-doel">Maanddoel {euroKort(geclaimdDezeMaand(actief).bedrag)} van {euroKort(inst.maanddoel || 0)} · {inst.maanddoel ? Math.round((geclaimdDezeMaand(actief).bedrag / inst.maanddoel) * 100) : 0}%</span>
       </nav>
     </header>
   );
