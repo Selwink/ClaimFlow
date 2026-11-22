@@ -1,7 +1,7 @@
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import type { Instellingen, VastBedrag } from "../lib/types";
-import { CONFIG } from "../lib/config";
+import { appUrl, CONFIG } from "../lib/config";
 import { useStore } from "../state/Store";
 import { useToast } from "../state/Toast";
 import { agendaBestand, download, naarCsv } from "../lib/export";
@@ -63,7 +63,7 @@ export function Beheer() {
   };
   const stuurWeek = async () => {
     setWeekStatus("Versturen…");
-    const r = await stuur(weekOverzicht(s.claims, s.inst, location.origin).velden);
+    const r = await stuur(weekOverzicht(s.claims, s.inst, appUrl().replace(/\/$/, "")).velden);
     setWeekStatus(r.ok ? `${r.bericht} — kijk in je inbox.` : `Niet gelukt: ${r.bericht}`);
   };
   const backup = () => download(`claimflow-backup-${vandaag()}.json`, JSON.stringify({ gemaakt: new Date().toISOString(), instellingen: s.inst, claims: s.claims }, null, 2), "application/json");

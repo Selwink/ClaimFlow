@@ -7,7 +7,7 @@ import type { Rol } from "../../src/lib/types";
 
 const scrypt = promisify(scryptCb) as (pw: string, salt: Buffer, len: number) => Promise<Buffer>;
 const ZOUT = "medipoint-meppel";
-/** Branch code needed to log in and to create an account (default "medipointmeppel", case-insensitive). sha256(lowercase code + ZOUT). */
+/** Branch code needed to create an account (case-insensitive): sha256(lowercase code + ZOUT). Set WACHTWOORD_HASH to your own code (scripts/code-hash.mjs). */
 const CODE_HASH = process.env.WACHTWOORD_HASH || "252c9b1f887c71f89c211e0d491cbb6569b6599cc1b3744a3d293cd94908e1f6";
 /** Optional separate code that creates accounts with edit rights; without it every new account may edit. */
 const BEHEER_CODE_HASH = process.env.BEHEER_HASH || "";

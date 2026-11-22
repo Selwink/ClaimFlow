@@ -9,8 +9,10 @@ const TABEL = "claims";
 const API = `${URL_}/rest/v1/${TABEL}`;
 /** Old public key: only used until the service key is configured, so the app keeps working during the switch. */
 export const PUBLIEKE_SLEUTEL = "sb_publishable_Pg8KNp50y2EzGkYurn117w_4Llr27bI";
-const sleutel = () => process.env.SUPABASE_SERVICE_KEY || PUBLIEKE_SLEUTEL;
-export const heeftServiceSleutel = () => !!process.env.SUPABASE_SERVICE_KEY;
+// SUPABASE_SERVICE_ROLE_KEY is what Supabase itself provides to its Edge Functions (GitHub Pages setup).
+const serviceSleutel = () => process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+const sleutel = () => serviceSleutel() || PUBLIEKE_SLEUTEL;
+export const heeftServiceSleutel = () => !!serviceSleutel();
 
 const kop = (extra?: Record<string, string>, k = sleutel()) => ({ apikey: k, Authorization: `Bearer ${k}`, "Content-Type": "application/json", ...extra });
 const q = (s: string) => encodeURIComponent(s);

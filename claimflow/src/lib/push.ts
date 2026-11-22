@@ -1,8 +1,9 @@
 import { pas } from "./api";
+import { BASIS, functie } from "./config";
 
 /** Phone notifications (Web Push) in the browser: support checks, turning on and off, a test message. */
 
-const FUNCTIE = "/.netlify/functions/data";
+const FUNCTIE = functie("data");
 export type PushSoort = "termijn" | "accounts";
 
 export const ondersteund = () => typeof window !== "undefined" && "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
@@ -23,7 +24,7 @@ async function vraag<T>(actie: string, body?: unknown, query: Record<string, str
 
 export async function registreer(): Promise<ServiceWorkerRegistration | null> {
   if (!("serviceWorker" in navigator)) return null;
-  try { return await navigator.serviceWorker.register("/sw.js"); } catch { return null; }
+  try { return await navigator.serviceWorker.register(`${BASIS}sw.js`, { scope: BASIS }); } catch { return null; }
 }
 
 const naarSleutel = (b64: string) => {
@@ -32,7 +33,7 @@ const naarSleutel = (b64: string) => {
 };
 
 async function huidigAbonnement(): Promise<PushSubscription | null> {
-  const reg = await navigator.serviceWorker.getRegistration("/");
+  const reg = await navigator.serviceWorker.getRegistration(BASIS);
   return reg ? reg.pushManager.getSubscription() : null;
 }
 

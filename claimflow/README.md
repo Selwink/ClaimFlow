@@ -43,4 +43,26 @@ Omgevingsvariabelen in Netlify (Site configuration → Environment variables):
 | `TOKEN_GEHEIM` | ja | Ondertekent de toegangspassen (willekeurig, minstens 32 tekens) |
 | `SUPABASE_SERVICE_KEY` | sterk aangeraden | Service-sleutel uit Supabase → Project Settings → API. Daarna `supabase-afschermen.sql` uitvoeren |
 | `RESEND_API_KEY` | optioneel | Betrouwbare mail via Resend; zonder valt hij terug op FormSubmit |
-| `WACHTWOORD_HASH`, `BEHEER_HASH` | optioneel | sha256(code + "medipoint-meppel"): de vestigingscode(s) waarmee je inlogt en accounts maakt. Standaard is de code `medipointmeppel` (hash `252c9b1f…`). Staat `WACHTWOORD_HASH` in Netlify nog op de oude code, dan moet die worden aangepast of verwijderd. |
+| `WACHTWOORD_HASH`, `BEHEER_HASH` | optioneel | sha256(code + "medipoint-meppel"): de vestigingscode(s) waarmee je inlogt en accounts maakt. Maak de hash met `node scripts/code-hash.mjs "jouw code"`. |
+
+## Alleen op GitHub draaien (GitHub Pages + Supabase)
+
+GitHub Pages toont de app; het servergedeelte (inloggen, data, mail, back-ups, meldingen) draait als één
+Supabase Edge Function (`server/supabase.ts`, gebundeld door `scripts/bouw-supabase.mjs`). De workflow
+`.github/workflows/claimflow.yml` zet bij elke wijziging in `main` beide online en doet de vaste tijden.
+
+Eenmalig instellen:
+
+1. **Settings → Pages → Source: GitHub Actions.**
+2. **Settings → Secrets and variables → Actions → New repository secret:**
+
+| Secret | Nodig | Waarvoor |
+| --- | --- | --- |
+| `SUPABASE_ACCESS_TOKEN` | ja | Supabase → Account → Access Tokens. Laat GitHub de functie op Supabase zetten |
+| `TOKEN_GEHEIM` | ja | Ondertekent de inlogpassen (willekeurig, minstens 32 tekens) |
+| `PLANNING_SLEUTEL` | ja | Willekeurige tekst; alleen GitHub mag daarmee back-up, meldingen en weekoverzicht starten |
+| `WACHTWOORD_HASH` | sterk aangeraden | Hash van je eigen vestigingscode (`node scripts/code-hash.mjs "code"`) |
+| `BEHEER_HASH`, `RESEND_API_KEY`, `FORMULIER_SLEUTEL` | optioneel | Zoals hierboven |
+
+De service-sleutel van de database hoeft niet: Supabase geeft die zelf aan de functie.
+3. **Actions → ClaimFlow → Run workflow.** Daarna staat de app op `https://<eigenaar>.github.io/<repository>/`.

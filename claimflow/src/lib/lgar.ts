@@ -1,4 +1,5 @@
 import type { Claim } from "./types";
+import { BASIS } from "./config";
 
 /** Reads an LGAR form (text pdf, scanned pdf, photo or text file) and extracts claim fields. */
 
@@ -52,7 +53,7 @@ async function afbeeldingNaarCanvas(file: File): Promise<HTMLCanvasElement> {
 async function herken(beelden: HTMLCanvasElement[], voortgang?: Voortgang): Promise<string> {
   voortgang?.("Tekstherkenning laden", 0);
   const { createWorker } = await import("tesseract.js");
-  const basis = `${location.origin}/ocr`;
+  const basis = `${location.origin}${BASIS}ocr`;
   const worker = await createWorker("nld", 1, {
     workerPath: `${basis}/worker.min.js`, corePath: basis, langPath: basis, gzip: true,
     logger: (m: { status: string; progress: number }) => {

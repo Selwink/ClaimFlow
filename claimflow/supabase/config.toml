@@ -1,0 +1,7 @@
+# Only used to deploy the ClaimFlow function (GitHub Actions: .github/workflows/claimflow.yml).
+project_id = "claimflow"
+
+[functions.claimflow]
+# The app sends its own signed pass, not a Supabase login, so Supabase must not check one.
+verify_jwt = false
+entrypoint = "./functions/claimflow/index.js"

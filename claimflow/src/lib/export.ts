@@ -2,6 +2,7 @@ import type { Claim, Instellingen } from "./types";
 import { STATUS_LABEL } from "./types";
 import { aankoopVan, afgehandeldOp, doorlooptijd, geenBedrag, isOpen, overTermijn, startDatum, statusVan, titelVan } from "./claims";
 import { datum, euro, periodLabel } from "./format";
+import { appUrl } from "./config";
 
 export function download(naam: string, inhoud: string, type: string) {
   const url = URL.createObjectURL(new Blob([inhoud], { type }));
@@ -36,7 +37,7 @@ export function agendaBestand(claims: Claim[], inst: Instellingen): number {
     const dag = verlopen ? morgen : d;
     const titel = `${verlopen ? "Garantieclaim over termijn" : "Termijn garantieclaim"}: ${titelVan(c)}${c.leverancier ? ` (${c.leverancier})` : ""}`;
     const tekst = [`Inkoopnummer: ${c.inkoopnummer || "nog niet bekend"}`, geenBedrag(c) ? "" : `Bedrag: ${euro(c.bedrag)}`,
-      `Ingediend: ${c.datum ? datum(c.datum) : periodLabel(c.periode)}`, `Register: ${location.origin}/claims/${c.id}`].filter(Boolean).join("\n");
+      `Ingediend: ${c.datum ? datum(c.datum) : periodLabel(c.periode)}`, `Register: ${appUrl(`claims/${c.id}`)}`].filter(Boolean).join("\n");
     return ["BEGIN:VEVENT", `UID:${c.id}-termijn@claimflow`, `DTSTAMP:${stamp}`, `DTSTART:${icsDatum(dag)}T090000`, `DTEND:${icsDatum(dag)}T091500`,
       `SUMMARY:${icsTekst(titel)}`, `DESCRIPTION:${icsTekst(tekst)}`, "BEGIN:VALARM", "ACTION:DISPLAY", `DESCRIPTION:${icsTekst(titel)}`,
       "TRIGGER:-PT0M", "END:VALARM", "END:VEVENT"].join("\r\n");

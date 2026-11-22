@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BASIS } from "./lib/config";
 import { ToastProvider } from "./state/Toast";
 import { StoreProvider, useStore } from "./state/Store";
 import { Layout } from "./components/Layout";
@@ -47,7 +48,7 @@ function AppRoutes() {
 
 export function App() {
   return (
-    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+    <BrowserRouter basename={BASIS.replace(/\/$/, "") || undefined} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <ToastProvider>
         <StoreProvider>
           <AppRoutes />

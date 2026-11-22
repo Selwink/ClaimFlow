@@ -1,12 +1,13 @@
 import type { Claim, Instellingen, Rol } from "./types";
 import { ls } from "./format";
+import { functie } from "./config";
 
 /**
  * Client for /.netlify/functions/data. The browser never talks to the database directly:
  * it logs in once, gets a signed pass, and sends that pass with every request.
  */
 
-const FUNCTIE = "/.netlify/functions/data";
+const FUNCTIE = functie("data");
 const SLEUTEL_PAS = "claimflow-pas";
 export const REMOTE = true;
 

@@ -5,7 +5,7 @@ import { leesPas } from "../lib/toegang";
 import { connectLambda } from "@netlify/blobs";
 
 const SITE = process.env.URL || "https://garantieclaims-meppel.netlify.app";
-const toegestaan = (o: string) => !o || o === SITE || /^https:\/\/[a-z0-9-]+--garantieclaims-meppel\.netlify\.app$/.test(o) || /^http:\/\/localhost(:\d+)?$/.test(o);
+const toegestaan = (o: string) => !o || o === SITE || o === new URL(SITE).origin || /^https:\/\/[a-z0-9-]+--garantieclaims-meppel\.netlify\.app$/.test(o) || /^http:\/\/localhost(:\d+)?$/.test(o);
 const json = (statusCode: number, body: unknown) => ({ statusCode, headers: { "Content-Type": "application/json", "Cache-Control": "no-store" }, body: JSON.stringify(body) });
 
 interface Verzoek { httpMethod: string; headers: Record<string, string | undefined>; body: string | null; isBase64Encoded?: boolean }

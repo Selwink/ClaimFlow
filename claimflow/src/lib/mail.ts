@@ -1,4 +1,4 @@
-import { CONFIG } from "./config";
+import { appUrl, CONFIG, functie } from "./config";
 import type { Claim } from "./types";
 import { STATUS_LABEL } from "./types";
 import { geenBedrag, statusVan, titelVan } from "./claims";
@@ -12,7 +12,7 @@ type Velden = Record<string, string>;
 
 export type Dienst = "resend" | "formsubmit";
 interface Resultaat { ok: boolean; activatie?: boolean; bericht: string; dienst?: Dienst }
-const FUNCTIE = "/.netlify/functions/mail";
+const FUNCTIE = functie("mail");
 
 async function viaFormSubmit(velden: Velden): Promise<Resultaat> {
   try {
@@ -68,7 +68,7 @@ export async function mailNieuweClaim(c: Claim, bron: string, wie: string) {
     Storing: c.storing || "-",
     "Toegevoegd door": wie || "onbekend",
     Bron: bron,
-    Register: `${location.origin}/claims/${c.id}`,
+    Register: appUrl(`claims/${c.id}`),
   };
   const r = await stuur(velden);
   if (!r.ok) ls.set(SLEUTEL, JSON.stringify([...(ls.json<Velden[]>(SLEUTEL) || []), velden].slice(-50)));

@@ -13,17 +13,19 @@ self.addEventListener("push", (e) => {
   try { m = e.data ? e.data.json() : {}; } catch { m = { tekst: e.data ? e.data.text() : "" }; }
   e.waitUntil(self.registration.showNotification(m.titel || "ClaimFlow", {
     body: m.tekst || "",
-    icon: "/icon-192.png",
-    badge: "/icon-192.png",
+    icon: "icon-192.png",
+    badge: "icon-192.png",
     tag: m.tag || undefined,
     renotify: !!m.tag,
-    data: { url: m.url || "/" },
+    data: { url: m.url || "" },
   }));
 });
 
 self.addEventListener("notificationclick", (e) => {
   e.notification.close();
-  const url = new URL((e.notification.data && e.notification.data.url) || "/", self.location.origin).href;
+  // Links are app paths like "/claims/1"; resolve them inside the folder the app runs from (also on GitHub Pages).
+  const pad = String((e.notification.data && e.notification.data.url) || "").replace(/^\//, "");
+  const url = new URL(pad, self.registration.scope).href;
   e.waitUntil((async () => {
     const vensters = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
     for (const v of vensters) {
