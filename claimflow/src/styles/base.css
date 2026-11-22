@@ -11,7 +11,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
 button:disabled { cursor: not-allowed; opacity: .55; }
 img, svg { display: block; }
-:focus-visible { outline: 3px solid rgba(232, 56, 43, .45); outline-offset: 2px; border-radius: 6px; }
+:focus-visible { outline: 3px solid rgba(var(--rood-rgb), .45); outline-offset: 2px; border-radius: 6px; }
 ::selection { background: var(--roze); }
 @media (max-width: 759px) { input, select, textarea { font-size: 16px !important; } } /* iOS zooms into fields under 16px */
 .sr { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

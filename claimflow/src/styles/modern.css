@@ -4,10 +4,10 @@
   --kaart-rand: rgba(17, 18, 26, .06);
   --kaart-schaduw: 0 1px 2px rgba(17, 18, 26, .04), 0 6px 20px -6px rgba(17, 18, 26, .08);
   --kaart-schaduw-hover: 0 2px 4px rgba(17, 18, 26, .05), 0 16px 36px -10px rgba(17, 18, 26, .16);
-  --donker-vlak: radial-gradient(120% 160% at 100% 0%, rgba(232, 56, 43, .26), transparent 52%),
-    radial-gradient(90% 120% at 0% 100%, rgba(75, 63, 191, .22), transparent 60%),
-    linear-gradient(165deg, #1E2030, #12131B);
-  --knop-rood: linear-gradient(180deg, #F04B3E, #D62F22);
+  --donker-vlak: radial-gradient(120% 160% at 100% 0%, rgba(var(--rood-rgb), .26), transparent 52%),
+    radial-gradient(90% 120% at 0% 100%, rgba(var(--gloed-rgb), .22), transparent 60%),
+    linear-gradient(165deg, var(--aub-2), var(--aub-0));
+  --knop-rood: linear-gradient(180deg, var(--rood-licht), var(--rood-knop));
 }
 
 body { background: var(--zand); font-feature-settings: "cv11", "ss01"; }
@@ -31,15 +31,15 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 .werkbak-kop { border-radius: 0 0 28px 28px; }
 @media (min-width: 1024px) { .werkbak-kop { border-radius: 0 0 0 28px; } }
 
-.topbalk { background: rgba(20, 21, 31, .86); -webkit-backdrop-filter: blur(18px) saturate(1.6); backdrop-filter: blur(18px) saturate(1.6); }
+.topbalk { background: rgba(var(--aub-rgb), .86); -webkit-backdrop-filter: blur(18px) saturate(1.6); backdrop-filter: blur(18px) saturate(1.6); }
 .topbalk::after { height: 2px; bottom: -2px; background: linear-gradient(90deg, var(--rood), var(--oker) 45%, var(--turk) 75%, #6b74ff); opacity: .9; }
 
 .tabbalk {
-  background: rgba(20, 21, 31, .82); -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6);
+  background: rgba(var(--aub-rgb), .82); -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6);
   border: 1px solid rgba(255, 255, 255, .08); border-radius: 24px; box-shadow: 0 18px 40px -10px rgba(17, 18, 26, .45);
 }
 .tab-plus { background: var(--knop-rood); border-radius: 50%; border-color: var(--zand); }
-.tab.active svg { filter: drop-shadow(0 0 8px rgba(232, 56, 43, .55)); }
+.tab.active svg { filter: drop-shadow(0 0 8px rgba(var(--rood-rgb), .55)); }
 
 @media (min-width: 1024px) {
   .zijbalk { background: var(--donker-vlak); background-color: var(--aub); border-right: 1px solid rgba(255, 255, 255, .04); }
@@ -49,8 +49,8 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 
 /* ---- buttons & controls ---- */
 .knop { border-radius: 14px; letter-spacing: -.005em; }
-.knop-rood, .grootknop { background: var(--knop-rood); box-shadow: 0 1px 0 rgba(255, 255, 255, .25) inset, 0 8px 20px -6px rgba(232, 56, 43, .55); }
-.knop-rood:hover:not(:disabled) { background: linear-gradient(180deg, #E8402F, #C4271B); }
+.knop-rood, .grootknop { background: var(--knop-rood); box-shadow: 0 1px 0 rgba(255, 255, 255, .25) inset, 0 8px 20px -6px rgba(var(--rood-rgb), .55); }
+.knop-rood:hover:not(:disabled) { background: linear-gradient(180deg, #E8402F, var(--rood-2)); }
 .knop-zacht { background: #fff; border-color: var(--lijn); box-shadow: 0 1px 2px rgba(17, 18, 26, .05); }
 .knop-zacht:hover:not(:disabled) { background: var(--zand); }
 .icoonknop { background: #fff; box-shadow: inset 0 0 0 1px var(--lijn); }
@@ -61,22 +61,22 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 
 .formulier input, .formulier select, .formulier textarea, .veld input, .veld select, .veld textarea { border-radius: 14px; }
 .formulier input:focus, .formulier select:focus, .formulier textarea:focus, .veld input:focus, .veld select:focus, .veld textarea:focus {
-  border-color: var(--rood); box-shadow: 0 0 0 4px rgba(232, 56, 43, .14); outline: none;
+  border-color: var(--rood); box-shadow: 0 0 0 4px rgba(var(--rood-rgb), .14); outline: none;
 }
 
 .werkbak-tabs button[aria-selected="true"] { box-shadow: 0 8px 20px -8px rgba(0, 0, 0, .45); }
 .avatar { background: linear-gradient(135deg, #fff, #E9EBF1); }
-.team-ic, .avatar-klein, .push-stap { background: linear-gradient(145deg, #2A2D42, #14151F); }
+.team-ic, .avatar-klein, .push-stap { background: linear-gradient(145deg, var(--aub-3), var(--aub)); }
 .balk i { background: linear-gradient(90deg, var(--turk), #7fe0db); }
 
-::selection { background: rgba(232, 56, 43, .2); }
+::selection { background: rgba(var(--rood-rgb), .2); }
 
 /* ---- Taken pop-up ---- */
 .taken-pop { display: flex; flex-direction: column; gap: 0; padding: 26px 22px calc(18px + env(safe-area-inset-bottom, 0px)); }
 .taken-kop { display: flex; align-items: center; gap: 14px; padding-right: 44px; }
 .taken-hoofd { width: 56px; height: 56px; border-radius: 18px; flex: 0 0 auto; display: grid; place-items: center; color: #fff; box-shadow: 0 12px 24px -10px rgba(17, 18, 26, .45); }
-.taken-hoofd.wic-rood { background: linear-gradient(145deg, #F04B3E, #D62F22); }
-.taken-hoofd.wic-aub { background: linear-gradient(145deg, #2A2D42, #14151F); }
+.taken-hoofd.wic-rood { background: linear-gradient(145deg, var(--rood-licht), var(--rood-knop)); }
+.taken-hoofd.wic-aub { background: linear-gradient(145deg, var(--aub-3), var(--aub)); }
 .taken-hoi { margin: 0 0 2px; font: 600 .72rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--inkt-2); }
 .taken-kop h2 { font-size: 1.55rem; letter-spacing: -.035em; line-height: 1.05; }
 .taken-samenvatting { margin: 14px 0 12px; color: var(--inkt-2); font-size: .95rem; }
@@ -90,7 +90,7 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 .taken-n { min-width: 34px; height: 30px; padding: 0 10px; border-radius: 99px; background: var(--zand-2); display: grid; place-items: center; font: 800 .95rem/1 var(--display); flex: 0 0 auto; }
 .taken-acties { margin-top: 18px; display: grid; gap: 4px; justify-items: stretch; }
 .taken-acties .knop-groot-vol { width: 100%; min-height: 54px; font-size: 1rem; border-radius: 18px; }
-.taken-acties .knop:focus-visible { outline: none; box-shadow: 0 0 0 3px #fff, 0 0 0 5px rgba(232, 56, 43, .55); }
+.taken-acties .knop:focus-visible { outline: none; box-shadow: 0 0 0 3px #fff, 0 0 0 5px rgba(var(--rood-rgb), .55); }
 .taken-later { justify-self: center; border: 0; background: none; color: var(--inkt-2); font-weight: 600; font-size: .92rem; padding: 10px 16px; min-height: 44px; }
 
 /* ---- monthly goal on the Werkbak ---- */
@@ -100,7 +100,7 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 
 /* ---- total brought in, on the start page ---- */
 .totaalkaart { position: relative; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; isolation: isolate; display: flex; align-items: center; gap: 16px; padding: 20px; border-radius: 22px; color: #fff;
-  background: radial-gradient(120% 160% at 100% 0%, rgba(63, 183, 178, .35), transparent 55%), linear-gradient(160deg, #1E2030, #12131B);
+  background: radial-gradient(120% 160% at 100% 0%, rgba(63, 183, 178, .35), transparent 55%), linear-gradient(160deg, var(--aub-2), var(--aub-0));
   box-shadow: 0 14px 34px -14px rgba(17, 18, 26, .55); }
 .totaal-ic { width: 52px; height: 52px; border-radius: 17px; flex: 0 0 auto; display: grid; place-items: center; color: #fff;
   background: linear-gradient(145deg, #3FB7B2, #18716d); box-shadow: 0 10px 22px -8px rgba(63, 183, 178, .7); }
@@ -135,18 +135,18 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 .toegang-kaart input:not([type="checkbox"]) { border-radius: 16px; min-height: 52px; border: 1.5px solid #E5E7EE; background: #FBFBFD; padding: 0 16px;
   transition: border-color .15s, box-shadow .15s, background .15s; }
 .toegang-kaart input:not([type="checkbox"]):hover { border-color: #D3D7E1; }
-.toegang-kaart input:not([type="checkbox"]):focus { outline: none; border-color: #E8382B; background: #fff; box-shadow: 0 0 0 4px rgba(232, 56, 43, .14); }
+.toegang-kaart input:not([type="checkbox"]):focus { outline: none; border-color: var(--rood); background: #fff; box-shadow: 0 0 0 4px rgba(var(--rood-rgb), .14); }
 .toegang-kaart .veld-fout { font-weight: 600; }
 
 .toegang-kaart form button.knop-rood, .toegang-kaart .knop-rood { min-height: 56px; border-radius: 18px; font-size: 1.02rem; letter-spacing: -.01em;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, .25) inset, 0 14px 28px -10px rgba(232, 56, 43, .65); }
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .25) inset, 0 14px 28px -10px rgba(var(--rood-rgb), .65); }
 
 .toegang-tip { background: #F4F6FA; border-radius: 99px; padding: 9px 14px; color: #4A5163; margin: 2px auto 0; font-weight: 500; }
 .toegang-tip svg { color: #1A7F50; }
 /* password: the field and the eye share one frame, so there is only one border */
 .toegang-kaart .met-na { display: flex; align-items: center; gap: 6px; border: 1.5px solid #E5E7EE; border-radius: 16px; background: #FBFBFD; padding-right: 6px; transition: border-color .15s, box-shadow .15s, background .15s; }
 .toegang-kaart .met-na:hover { border-color: #D3D7E1; }
-.toegang-kaart .met-na:focus-within { border-color: #E8382B; background: #fff; box-shadow: 0 0 0 4px rgba(232, 56, 43, .14); }
+.toegang-kaart .met-na:focus-within { border-color: var(--rood); background: #fff; box-shadow: 0 0 0 4px rgba(var(--rood-rgb), .14); }
 .toegang-kaart .met-na input { flex: 1; min-width: 0; border: 0 !important; box-shadow: none !important; background: transparent !important; min-height: 50px; }
 .toegang-kaart .met-na .oogknop { border-radius: 12px; width: 40px; height: 40px; }
 
@@ -188,7 +188,7 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 }
 .werktaak:first-child { border-top: 0; }
 .werktaak::before { content: ""; position: absolute; left: 2px; top: 22px; width: 9px; height: 9px; border-radius: 50%; background: var(--ink-2, #8c877c); opacity: .5; }
-.werktaak-laat::before { background: var(--rood); opacity: 1; box-shadow: 0 0 0 4px rgba(232, 56, 43, .14); }
+.werktaak-laat::before { background: var(--rood); opacity: 1; box-shadow: 0 0 0 4px rgba(var(--rood-rgb), .14); }
 .werktaak:hover { box-shadow: none; transform: none; }
 .werktaak-t b { font-size: 1.05rem; letter-spacing: -.02em; }
 .werktaak-t span { color: var(--inkt-2); }
@@ -213,7 +213,7 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 .lade.open { visibility: visible; transition-delay: 0s; }
 .lade-bedekking { position: absolute; inset: 0; background: rgba(8, 9, 14, .55); opacity: 0; transition: opacity .25s; }
 .lade.open .lade-bedekking { opacity: 1; }
-.lade-paneel { position: absolute; top: 0; bottom: 0; left: 0; width: min(308px, 84vw); background: var(--midnight-800, #14151F); color: #fff; padding: calc(env(safe-area-inset-top, 0px) + 18px) 14px calc(env(safe-area-inset-bottom, 0px) + 18px);
+.lade-paneel { position: absolute; top: 0; bottom: 0; left: 0; width: min(308px, 84vw); background: var(--midnight-800, var(--aub)); color: #fff; padding: calc(env(safe-area-inset-top, 0px) + 18px) 14px calc(env(safe-area-inset-bottom, 0px) + 18px);
   display: flex; flex-direction: column; gap: 2px; overflow-y: auto; border-radius: 0 26px 26px 0; box-shadow: 24px 0 48px -12px rgba(0, 0, 0, .55);
   transform: translateX(-102%); transition: transform .28s cubic-bezier(.2, .8, .3, 1); }
 .lade.open .lade-paneel { transform: translateX(0); }
@@ -224,12 +224,12 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 .lade-link { display: flex; align-items: center; gap: 12px; min-height: 46px; padding: 0 12px; border-radius: 14px; color: rgba(255, 255, 255, .8); text-decoration: none; font-weight: 500; font-size: .95rem; }
 .lade-link:hover { background: rgba(255, 255, 255, .06); color: #fff; }
 .lade-link.active { background: rgba(255, 255, 255, .1); color: #fff; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08); }
-.lade-link.active svg { color: var(--rood, #E8382B); }
+.lade-link.active svg { color: var(--rood, var(--rood)); }
 .lade-link .nav-badge { margin-left: auto; }
 .lade-voet { margin-top: auto; border-top: 1px solid rgba(255, 255, 255, .1); padding: 14px 8px 0; display: flex; align-items: center; gap: 10px; }
 .lade-voet b { display: block; font-size: .88rem; }
 .lade-voet small { font-size: .74rem; color: rgba(255, 255, 255, .55); }
-.avatar-klein { width: 36px; height: 36px; border-radius: 50%; background: #fff; color: var(--midnight-800, #14151F); display: grid; place-items: center; font: 800 .8rem/1 var(--display); flex: 0 0 auto; }
+.avatar-klein { width: 36px; height: 36px; border-radius: 50%; background: #fff; color: var(--midnight-800, var(--aub)); display: grid; place-items: center; font: 800 .8rem/1 var(--display); flex: 0 0 auto; }
 @media (prefers-reduced-motion: reduce) { .lade-paneel, .lade-bedekking { transition: none; } }
 .lade-kop > :first-child { min-width: 0; flex: 1 1 auto; overflow: hidden; }
 .lade-kop .logo { font-size: 1.02rem; white-space: nowrap; }
@@ -249,7 +249,7 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 .lade-uit:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 
 /* ============ Claim detail in the same look as the claim list and the Werkbalk ============ */
-.detail-kop { background: radial-gradient(120% 140% at 100% 0%, rgba(232, 56, 43, .28), transparent 55%), linear-gradient(170deg, #1E2030, #14151F); padding-bottom: 72px; }
+.detail-kop { background: radial-gradient(120% 140% at 100% 0%, rgba(var(--rood-rgb), .28), transparent 55%), linear-gradient(170deg, var(--aub-2), var(--aub)); padding-bottom: 72px; }
 .detail-kop .bovenschrift { font: 600 .66rem/1 var(--mono); letter-spacing: .14em; color: rgba(255, 255, 255, .6); }
 .detail-kop h1 { font-size: clamp(30px, 6vw, 46px); letter-spacing: -.05em; line-height: 1.02; }
 .detail-kop p { color: rgba(255, 255, 255, .72); }
@@ -270,10 +270,10 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 
 /* ============ Login: the approved parts (emblem, pill fields and button) on the original dark header ============ */
 .toegang-kaart::before { content: "✓"; width: 92px; height: 92px; border-radius: 30px; display: grid; place-items: center; margin: 4px auto 6px; font: 800 2.3rem/1 var(--display); color: #fff;
-  background: linear-gradient(160deg, #F04B3E, #C4271B); box-shadow: 0 22px 40px -16px rgba(232, 56, 43, .65), inset 0 1px 0 rgba(255, 255, 255, .3); }
+  background: linear-gradient(160deg, var(--rood-licht), var(--rood-2)); box-shadow: 0 22px 40px -16px rgba(var(--rood-rgb), .65), inset 0 1px 0 rgba(255, 255, 255, .3); }
 .toegang-kaart .greep { display: none; }
 .toegang-kaart .toegang-uitleg { text-align: center; }
-.toegang-kaart input:not([type="checkbox"]) { border-radius: 999px; min-height: 56px; padding: 0 22px; background: #F7F8FB; border: 1px solid #E3E6EE; box-shadow: 0 8px 22px -14px rgba(20, 21, 31, .28); }
+.toegang-kaart input:not([type="checkbox"]) { border-radius: 999px; min-height: 56px; padding: 0 22px; background: #F7F8FB; border: 1px solid #E3E6EE; box-shadow: 0 8px 22px -14px rgba(var(--aub-rgb), .28); }
 .toegang-kaart .met-na { border-radius: 999px; min-height: 56px; background: #F7F8FB; }
 .toegang-kaart form button.knop-rood, .toegang-kaart .knop-rood { border-radius: 999px; min-height: 56px; text-transform: uppercase; letter-spacing: .12em; font-size: .9rem; font-weight: 700; }
 .toegang-kaart .veld-hint { text-align: center; }

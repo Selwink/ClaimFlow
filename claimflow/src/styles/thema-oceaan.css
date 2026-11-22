@@ -1,0 +1,14 @@
+/* Oceaan theme: ocean blue as the brand colour on deep navy. Loaded last.
+   Brand use of the --rood* tokens turns blue; warnings and delete actions get red back below. */
+:root {
+  --rood: #0EA5E9; --rood-2: #0369A1; --rood-knop: #0284C7; --rood-licht: #38BDF8; --rood-zacht: #E0F2FE; --rood-rand: #BAE6FD; --rood-rgb: 14, 165, 233;
+  --aub: #082F49; --aub-2: #0C3B5C; --aub-3: #164E72; --aub-0: #061E30; --aub-rgb: 8, 47, 73; --gloed-rgb: 56, 189, 248;
+  --zand: #F2F7FA; --zand-2: #E3EDF3;
+  --inkt: #0B1B2B; --lijn: #E1EAF0; --lijn-2: #CCDAE4;
+}
+/* Warnings, "over termijn" and delete actions stay red, so they still stand out. */
+.melding-rood, .chip-rood, .t-rood, .wic-rood, .ic-rood, .ring-rood, .tl-afgewezen, .werktaak-laat, .nav-badge,
+.icoonknop-rood, .actie-rood, .bulk-rood, .geld-mini b.rood {
+  --rood: #E8382B; --rood-2: #B8231A; --rood-knop: #DB3325; --rood-licht: #F04B3E; --rood-zacht: #FFE3DF; --rood-rand: #F3B9B1; --rood-rgb: 232, 56, 43;
+  --knop-rood: linear-gradient(180deg, #F04B3E, #D62F22);
+}

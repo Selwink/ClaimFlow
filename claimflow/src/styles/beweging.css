@@ -60,7 +60,7 @@
 /* tab bar: the chosen icon hops, the + breathes */
 .tab.active svg { animation: wip .45s cubic-bezier(.3, 1.6, .5, 1); }
 @keyframes wip { 40% { transform: translateY(-5px) scale(1.12); } }
-@keyframes adem-knop { 50% { box-shadow: 0 12px 28px rgba(232, 56, 43, .35), 0 0 0 8px rgba(232, 56, 43, .08); } }
+@keyframes adem-knop { 50% { box-shadow: 0 12px 28px rgba(var(--rood-rgb), .35), 0 0 0 8px rgba(var(--rood-rgb), .08); } }
 
 /* status chips pop in when they change */
 .chip { animation: pop .35s cubic-bezier(.2, 1.4, .4, 1) backwards; }

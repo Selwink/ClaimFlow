@@ -3,10 +3,16 @@
   --aub: #14151F;
   --aub-2: #1E2030;
   --aub-3: #2A2D42;
+  --aub-0: #12131B;
+  --aub-rgb: 20, 21, 31;
+  --gloed-rgb: 75, 63, 191;
   --rood: #E8382B;
   --rood-2: #B8231A;
   --rood-knop: #DB3325; /* button fill: white text reaches 4.6:1 */
   --rood-zacht: #FFE3DF;
+  --rood-licht: #F04B3E;
+  --rood-rand: #F3B9B1;
+  --rood-rgb: 232, 56, 43;
   --zand: #F3F4F8;
   --zand-2: #E9EBF1;
   --papier: #FFFFFF;
