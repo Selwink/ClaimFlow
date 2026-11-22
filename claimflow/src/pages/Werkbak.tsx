@@ -13,6 +13,7 @@ import { PortfolioDash } from "../components/Portfolio";
 import { RoodDash } from "../components/RoodDash";
 import { GlasDash } from "../components/GlasDash";
 import { MediDash } from "../components/MediDash";
+import { DiscDash } from "../components/DiscDash";
 import { ShowcaseKop } from "../components/Showcase";
 
 const BAKKEN: Array<{ id: Bak; label: string }> = [{ id: "nu", label: "Nu doen" }, { id: "week", label: "Deze week" }, { id: "wacht", label: "Wacht op lev." }];
@@ -91,6 +92,7 @@ export function Werkbak() {
         <button type="button" onClick={() => setZoekOpen((z) => !z)} aria-expanded={zoekOpen}><i className="sn-3"><Icon naam="zoek" maat={24} /></i>Zoeken</button>
         <Link to="/rapportage"><i className="sn-4"><Icon naam="grafiek" maat={24} /></i>Rapportage</Link>
       </nav>
+      <DiscDash />
       <MediDash />
       <GlasDash />
       <RoodDash />
