@@ -344,3 +344,22 @@ html, body { background: #F4F5F7 !important; color: #273246; }
 .detail-kop { z-index: 0 !important; } .detail-raster, .actiebalk { position: relative; z-index: 3; }
 .detail-raster .ringkaart-bedrag { border: 0 !important; box-shadow: none !important; border-radius: 0 !important; padding: 0 !important; background: none !important; }
 @media (max-width: 1023px) { .tab.active svg { background: #FDE2E4 !important; } }
+
+/* ===== Login: identical on phone and computer — slogan band on top, card in the middle ===== */
+.toegang { display: flex !important; flex-direction: column !important; grid-template-columns: none !important; min-height: 100dvh; background: #F4F5F7 !important; padding: 0 !important; justify-content: flex-start !important; }
+.toegang-band { display: block !important; width: 100%; background: linear-gradient(180deg, #273246, #2E3A50) !important; padding: calc(env(safe-area-inset-top) + 34px) var(--gutter) 110px !important; text-align: center; }
+.toegang-band-binnen { max-width: 720px; margin: 0 auto; display: flex !important; flex-direction: column; align-items: center; gap: 10px !important; padding: 0 !important; }
+.toegang-band .logo, .toegang-band-kenmerken, .demo-claim { display: none !important; }
+.toegang-slogan { text-align: center; margin: 0 !important; }
+.toegang-slogan h1 { font: 800 clamp(2.2rem, 6.5vw, 3.6rem)/1 var(--display) !important; letter-spacing: -.04em !important; color: #fff !important; margin: 0 !important; }
+.toegang-slogan h1 > span { display: block; } .toegang-slogan h1 span span, .toegang-slogan h1 i { display: inline !important; }
+.toegang-slogan p { color: rgba(255, 255, 255, .72) !important; margin: 12px auto 0 !important; max-width: none !important; }
+.toegang-plek { margin: -78px 0 0 !important; background: transparent !important; border-radius: 0 !important; box-shadow: none !important; display: flex !important; justify-content: center; align-items: flex-start; padding: 0 var(--gutter) 40px !important; min-height: 0 !important; }
+.toegang-kaart { width: 100%; max-width: 440px; background: #fff !important; border: 1px solid #E6E9EF !important; border-radius: 22px !important; padding: 24px !important; box-shadow: 0 14px 36px -16px rgba(30, 40, 60, .35) !important; }
+.toegang-kaart::before { display: none !important; }
+.lg-kop { display: flex !important; flex-direction: column; align-items: center; text-align: center; margin: 4px 0 8px; }
+.lg-merk .logo-svg { width: 64px; height: 64px; box-shadow: 0 10px 24px -10px rgba(217, 67, 79, .6) !important; }
+.lg-kop > b { font: 800 1.5rem var(--display) !important; color: #273246 !important; margin-top: 10px; text-transform: none !important; }
+.lg-kop h2 { font: 700 1.05rem var(--display); color: #273246 !important; margin: 10px 0 2px; }
+.lg-kop small { color: #7A8394 !important; }
+.toegang-uitleg { display: none !important; }
