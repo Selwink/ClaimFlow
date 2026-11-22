@@ -4,6 +4,7 @@ import { useStore } from "../state/Store";
 import { Icon, type IconNaam } from "../components/Icon";
 import { Logo } from "../components/ui";
 import { LogoMerk } from "../components/LogoMerk";
+import { Voorpagina } from "../components/Voorpagina";
 
 const KENMERKEN: Array<[IconNaam, string]> = [
   ["klok", "42 dagen bewaakt"], ["camera", "LGAR scannen"], ["afbeelding", "Foto’s als bewijs"],
@@ -35,7 +36,7 @@ function sterkte(pw: string): { score: number; tekst: string } {
   return { score: s, tekst: pw.length < MIN ? `Nog ${MIN - pw.length} tekens` : ["Zwak", "Redelijk", "Goed", "Sterk", "Sterk"][s] };
 }
 
-export function Login() {
+function LoginFormulier() {
   const { naInloggen } = useStore();
   const [stand, setStand] = useState<Stand>("inloggen");
   const [naam, setNaam] = useState("");
@@ -161,4 +162,11 @@ export function Login() {
       </div>
     </main>
   );
+}
+
+/** Start page before login (design "Element"); "Inloggen" opens the form. Remembered for this browser session. */
+export function Login() {
+  const [formulier, setFormulier] = useState(() => { try { return sessionStorage.getItem("claimflow-voorpagina") === "gezien"; } catch { return false; } });
+  const open = () => { try { sessionStorage.setItem("claimflow-voorpagina", "gezien"); } catch { /* geen opslag */ } setFormulier(true); window.scrollTo(0, 0); };
+  return formulier ? <LoginFormulier /> : <Voorpagina onInloggen={open} />;
 }
