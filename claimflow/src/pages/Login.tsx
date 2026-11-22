@@ -166,7 +166,7 @@ function LoginFormulier() {
 
 /** Start page before login (design "Element"); "Inloggen" opens the form. Remembered for this browser session. */
 export function Login() {
-  const [formulier, setFormulier] = useState(() => { try { return sessionStorage.getItem("claimflow-voorpagina") === "gezien"; } catch { return false; } });
+  const [formulier, setFormulier] = useState(() => { return true });
   const open = () => { try { sessionStorage.setItem("claimflow-voorpagina", "gezien"); } catch { /* geen opslag */ } setFormulier(true); window.scrollTo(0, 0); };
   return formulier ? <LoginFormulier /> : <Voorpagina onInloggen={open} />;
 }

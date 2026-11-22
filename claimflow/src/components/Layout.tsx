@@ -8,6 +8,7 @@ import { Logo } from "./ui";
 import { Welkom } from "./Welkom";
 import { TakenPopup } from "./Taken";
 import { DoelGehaald } from "./Team";
+import { PfBand } from "./Portfolio";
 
 interface NavItem { naar: string; label: string; kort?: string; icoon: IconNaam; einde?: boolean }
 const NAV: NavItem[] = [
@@ -118,6 +119,7 @@ export function Layout() {
       <TakenPopup />
       <DoelGehaald />
       <main className="inhoud" id="inhoud">
+        <PfBand />
         {!online && <div className="offline-band">Geen verbinding — je ziet de laatst opgehaalde gegevens.</div>}
         <Outlet />
       </main>
