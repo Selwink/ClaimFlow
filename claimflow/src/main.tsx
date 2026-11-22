@@ -10,7 +10,7 @@ import "./styles/beweging.css";
 import "./styles/modern.css";
 import "./styles/layout-c.css";
 import "./styles/thema-eco.css";
-import "./styles/thema-glas.css";
+import "./styles/thema-medi.css";
 
 createRoot(document.getElementById("root")!).render(<StrictMode><App /></StrictMode>);
 

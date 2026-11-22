@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import type { Claim } from "../lib/types";
 import { useStore } from "../state/Store";
 import { isOpen, som, statusVan, titelVan } from "../lib/claims";
@@ -8,13 +8,15 @@ import { teruggehaaldPerMaand } from "../lib/team";
 import { Icon } from "./Icon";
 import { LogoMerk } from "./LogoMerk";
 
+const PF_NAV: Array<[string, string]> = [["/", "Home"], ["/claims", "Claims"], ["/notities", "Notities"], ["/leveranciers", "Leveranciers"], ["/rapportage", "Rapportage"], ["/assistent", "Assistent"], ["/beheer", "Profiel"]];
+
 /** Top band (design "Portfolio"): date, search, + new claim, avatar — on every page, phone and computer. */
 export function PfBand() {
   const { naam, magBewerken, rol } = useStore();
   const dag = new Date().toLocaleDateString("nl-NL", { weekday: "long", day: "numeric", month: "short", year: "numeric" });
   return (
     <header className="pf-band">
-      <Link to="/" className="pf-logo" aria-label="Home"><LogoMerk maat={30} /></Link>
+      <Link to="/" className="pf-logo" aria-label="Home"><LogoMerk maat={30} /><b className="pf-woord">claimflow</b></Link>
       <span className="pf-dag"><i aria-hidden="true">✦</i>{dag[0].toUpperCase() + dag.slice(1)}</span>
       <Link to="/claims" className="pf-zoek"><Icon naam="zoek" maat={15} /> Zoeken</Link>
       <span className="pf-acties">
@@ -22,6 +24,10 @@ export function PfBand() {
         <Link to="/notities" className="pf-ic" aria-label="Notities"><Icon naam="bericht" maat={18} /></Link>
         <Link to="/beheer" className="pf-ik"><span className="pf-av">{(naam || "?").slice(0, 1).toUpperCase()}</span><span className="pf-naam"><b>{naam || "Account"}</b><small>{rol === "beheer" ? "Beheerder" : "Alleen kijken"}</small></span></Link>
       </span>
+      <i className="pf-streep" aria-hidden="true"><b /><b /><b /><b /><b /></i>
+      <nav className="pf-nav" aria-label="Hoofdmenu bovenbalk">
+        {PF_NAV.map(([naar, label]) => <NavLink key={naar} to={naar} end={naar === "/"}>{label}</NavLink>)}
+      </nav>
     </header>
   );
 }
