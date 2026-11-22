@@ -17,6 +17,7 @@ interface Verzoek { httpMethod: string; headers: Record<string, string | undefin
 const json = (statusCode: number, body: unknown) => ({ statusCode, headers: { "Content-Type": "application/json", "Cache-Control": "no-store" }, body: JSON.stringify(body) });
 const fout = (statusCode: number, bericht: string) => json(statusCode, { fout: bericht });
 const wacht = (ms: number) => new Promise((r) => setTimeout(r, ms));
+const EXPORT_PAGINA = 10;
 const isId = (v: unknown): v is string => typeof v === "string" && v.length > 0 && v.length < 200;
 
 export const handler = async (e: Verzoek) => {
@@ -238,6 +239,22 @@ export const handler = async (e: Verzoek) => {
         if (!beheer()) return alleenBeheer();
         if (!isId(body.id)) return fout(400, "Geen back-up");
         return json(200, { teruggezet: await herstel(body.id) });
+      }
+      case "export": {
+        // Moving to another database: the whole register, a page at a time (photos make rows large).
+        if (!beheer()) return alleenBeheer();
+        const vanaf = Math.max(0, Math.floor(Number(e.queryStringParameters?.vanaf) || 0));
+        const rijen = await db.exportRijen(vanaf, EXPORT_PAGINA);
+        return json(200, { rijen, meer: rijen.length === EXPORT_PAGINA });
+      }
+      case "import": {
+        if (!beheer()) return alleenBeheer();
+        const rijen = (Array.isArray(body.rijen) ? body.rijen : [])
+          .filter((r): r is Record<string, unknown> => !!r && typeof r === "object" && isId((r as { id?: unknown }).id) && !String((r as { id: string }).id).startsWith(db.BACKUP));
+        if (!rijen.length) return fout(400, "Geen rijen om in te lezen");
+        if (rijen.length > 500) return fout(413, "Te veel rijen in één keer");
+        await db.importRijen(rijen);
+        return json(200, { aantal: rijen.length });
       }
       case "beveiliging": return json(200, { serviceSleutel: db.heeftServiceSleutel(), tabelOpen: await db.tabelOpen(), sleutel: (await geheim()).bron });
       default: return fout(404, "Onbekende actie");

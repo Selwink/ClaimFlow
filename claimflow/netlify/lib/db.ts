@@ -108,6 +108,18 @@ export async function bewaarFoto(claimId: string, data: string, wie: string, dat
   return { id, claim: claimId, data, datum, wie };
 }
 
+// ---- moving the register to another database: every row (claims, settings, accounts, photos, devices), no backups
+/** One page of rows, in a fixed order. Pages stay small because photo rows carry whole images. */
+export async function exportRijen(vanaf: number, aantal: number): Promise<Array<Record<string, unknown>>> {
+  return haal(`select=*&id=not.like.${q(`${BACKUP}*`)}&order=id.asc&limit=${aantal}&offset=${vanaf}`);
+}
+/** Writes exported rows back as they were (same id = replaced). Only the table's own columns are sent. */
+export async function importRijen(rijen: Array<Record<string, unknown>>): Promise<void> {
+  const schoon = rijen.map((x) => Object.fromEntries(KOLOMMEN.filter((k) => k in x && !onbekend.has(k)).map((k) => [k, x[k]])));
+  const r = await fetch(API, { method: "POST", headers: kop({ Prefer: "resolution=merge-duplicates,return=minimal" }), body: JSON.stringify(schoon) });
+  if (!r.ok) throw new Error(`Database ${r.status}: ${(await r.text().catch(() => "")).slice(0, 200)}`);
+}
+
 // ---- backup fallback storage inside the table (used only when Netlify Blobs is unavailable)
 export async function backupRijen(): Promise<Array<{ id: string; bijgewerkt: string; aantal: number }>> {
   const rows = await haal(`select=id,bijgewerkt,nummer&id=like.${q(`${BACKUP}*`)}`);

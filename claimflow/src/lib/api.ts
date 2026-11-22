@@ -72,4 +72,7 @@ export const haalBackups = () => vraag<{ backups: BackupInfo[] }>("backups").the
 export const maakBackup = () => vraag<{ backup: BackupInfo }>("backup", { body: {} }).then((r) => r.backup);
 export const backupInhoud = (id: string) => vraag<{ gemaakt: string; aantal: number; rijen: unknown[] }>("backupinhoud", { query: { id } });
 export const herstelBackup = (id: string) => vraag<{ teruggezet: number }>("herstel", { body: { id } }).then((r) => r.teruggezet);
+/** Moving to another database: one page of every row, and writing exported rows into this database. */
+export const exportPagina = (vanaf: number) => vraag<{ rijen: Array<Record<string, unknown>>; meer: boolean }>("export", { query: { vanaf: String(vanaf) } });
+export const importRijen = (rijen: Array<Record<string, unknown>>) => vraag<{ aantal: number }>("import", { body: { rijen } }).then((r) => r.aantal);
 export const beveiliging = () => vraag<{ serviceSleutel: boolean; tabelOpen: boolean; sleutel: "variabele" | "server" | "nood" }>("beveiliging");
