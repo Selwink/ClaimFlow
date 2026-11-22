@@ -329,3 +329,65 @@ body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-i
 .vp-tg small { color: #fff !important; opacity: .85; }
 html { background: #08100D; }
 body { min-height: 100vh; background-attachment: scroll !important; }
+
+/* ===== Same content on phone and computer ===== */
+/* the amount on a claim is not a card (it matched [class*="kaart"]) */
+.detail-raster .ringkaart-bedrag { border: 0 !important; box-shadow: none !important; border-radius: 0 !important; padding: 0 !important; background: none !important; }
+/* term ring: a visible track behind the arc */
+.ring-bodem { stroke: rgba(111, 191, 142, .16) !important; }
+.termring text { fill: var(--tekst); }
+
+/* Home: greeting, Flow bar, rings, quick actions, dashboard, tasks — on every screen */
+.sh-kop, .wb-snel, .eco-dash { display: block !important; }
+.wb-snel { display: grid !important; }
+.wb-held, .wb-maand, .cr-kop { display: none !important; }
+.sh-vraag-rij { display: flex; gap: 10px; align-items: center; margin: 14px 0 4px; }
+.sh-vraag-rij .sh-vraag { flex: 1; margin: 0 !important; }
+.sh-nieuw { white-space: nowrap; }
+.cr-midden, .cr-rij { display: grid !important; }
+.cr-act ul { list-style: none; padding: 0; margin: 10px 0 0; }
+.cr-act li { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--rand); }
+.cr-act li:last-child { border: 0; }
+.cr-act li a { flex: 1; min-width: 0; text-decoration: none; color: var(--tekst); }
+.cr-act li b { display: block; font-size: .86rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cr-act li small { font-size: .74rem; }
+.cr-act li em { font-style: normal; color: var(--tekst-2); font-size: .74rem; white-space: nowrap; }
+.cr-ok, .cr-no { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: .66rem; font-weight: 800; flex: none; }
+.cr-ok { background: rgba(111, 191, 142, .18); color: #6FBF8E; } .cr-no { background: rgba(248, 113, 113, .16); color: #F87171; }
+.cr-donut { display: flex; align-items: center; gap: 18px; margin-top: 12px; color: var(--tekst); }
+.cr-donut svg { width: 130px; height: 130px; flex: none; }
+.cr-donut ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; font-size: .86rem; }
+.cr-donut i { display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 8px; }
+@media (max-width: 1023px) {
+  .sh-nieuw { display: none; }
+  .eco-dash { padding: 14px var(--gutter) 0 !important; }
+  .cr-midden, .cr-rij { grid-template-columns: 1fr !important; }
+  .eco-staven { height: 150px !important; }
+}
+@media (min-width: 1024px) {
+  .wb { padding-top: 22px !important; }
+  .sh-kop { padding: 0 !important; display: grid !important; grid-template-columns: 1fr minmax(320px, 420px); grid-template-areas: "groet ringen" "vraag ringen" "banner banner"; column-gap: 28px; align-items: center; }
+  .sh-groet { grid-area: groet; display: flex; justify-content: space-between; align-items: flex-start; }
+  .sh-groet h1 { font-size: 2.4rem !important; margin: 0; }
+  .sh-groet small { color: var(--tekst-2); }
+  .sh-groet .sh-acties { display: none; }
+  .sh-vraag-rij { grid-area: vraag; }
+  .sh-vraag { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 14px; background: var(--vlak); border: 1px solid var(--rand); color: #6E877C; text-decoration: none; }
+  .sh-kop > .sh-lab { display: none; }
+  .sh-ringen { grid-area: ringen; display: flex; gap: 10px; background: var(--vlak); border: 1px solid var(--rand); border-radius: 18px; padding: 14px; }
+  .sh-ring { position: relative; flex: 1; text-align: center; }
+  .sh-ring svg { width: 84px; height: 84px; }
+  .sh-ring b { position: absolute; top: 30px; left: 0; right: 0; font-size: .82rem; }
+  .sh-ring small { display: block; font-size: .74rem; }
+  .sh-banner { grid-area: banner; display: flex; justify-content: space-between; align-items: center; margin-top: 16px; min-height: 76px; padding: 14px 20px; border-radius: 18px; text-decoration: none; color: var(--tekst); font-weight: 600; background: linear-gradient(90deg, rgba(8, 16, 13, .9), rgba(8, 16, 13, .2)), linear-gradient(135deg, #7A2A1C, #E8553F 55%, #16302A); }
+  .sh-banner i { width: 32px; height: 32px; border-radius: 50%; background: #fff; color: #111; display: grid; place-items: center; font-style: normal; font-size: .7rem; }
+  .wb-snel { margin: 16px 0 0 !important; grid-template-columns: repeat(4, 1fr) !important; padding: 14px !important; background: var(--vlak) !important; border: 1px solid var(--rand); border-radius: 18px; }
+  .wb-snel a, .wb-snel button { flex-direction: row !important; justify-content: center; gap: 12px !important; font-size: .9rem !important; }
+  .wb-snel i { width: 44px !important; height: 44px !important; }
+  .eco-dash { margin-top: 16px; padding: 0 !important; }
+  .cr-midden { grid-template-columns: 1fr 1.7fr !important; }
+  .cr-rij { grid-template-columns: 1fr 1fr !important; }
+}
+.sn-1, .sn-2, .sn-3, .sn-4 { background: #142822 !important; color: #6FBF8E !important; border: 1px solid var(--rand-2); box-shadow: none !important; }
+.sn-1 { color: var(--O) !important; }
+.sh-ring b { font-size: .74rem !important; }

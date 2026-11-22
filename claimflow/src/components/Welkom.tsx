@@ -17,7 +17,7 @@ function stappen(voornaam: string, magBewerken: boolean): Stap[] {
     { icoon: "vink", toon: "rood", titel: `Welkom${voornaam ? `, ${voornaam}` : ""}!`,
       tekst: "ClaimFlow houdt alle garantieclaims van Meppel bij, zodat er geen claim meer over de termijn gaat.",
       punten: [["klok", "Elke claim heeft 42 dagen; de app telt mee"], ["persoon", "Je naam staat bij alles wat je doet"], ["slot", "Je blijft 30 dagen ingelogd op dit apparaat"]] },
-    { icoon: "huis", toon: "aub", titel: "Werkbalk",
+    { icoon: "huis", toon: "aub", titel: "Home",
       tekst: "Je startscherm: alles wat er moet gebeuren, met de knop erbij.",
       punten: [["waarschuwing", "Rood = over de termijn: tijd om informatie bij de VAM op te vragen"], ["vink", "Tik op VAM gevraagd, Indienen of Inkoopnr invullen en de taak is klaar"], ["klok", "Later schuift een taak een week op"]] },
     magBewerken
@@ -87,7 +87,7 @@ export function Welkom() {
             ? <button ref={knop} type="button" className="knop knop-rood" onClick={() => sluit(magBewerken ? "/nieuw" : "/claims")}>{magBewerken ? "Eerste claim toevoegen" : "Bekijk de claims"} <Icon naam="pijl" maat={18} /></button>
             : <button ref={knop} type="button" className="knop knop-rood" onClick={() => ga(stap + 1)}>Volgende <Icon naam="pijl" maat={18} /></button>}
         </div>
-        {laatste && <button type="button" className="knop-link welkom-later" onClick={() => sluit()}>Naar de Werkbalk</button>}
+        {laatste && <button type="button" className="knop-link welkom-later" onClick={() => sluit()}>Naar Home</button>}
       </div>
     </div>
   );

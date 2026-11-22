@@ -58,7 +58,7 @@ export function TakenPopup() {
             <h2 id="taken-titel">Dit moet er gebeuren</h2>
           </div>
         </div>
-        <p className="taken-samenvatting"><b>{taken.length}</b> {taken.length === 1 ? "taak staat" : "taken staan"} klaar in de Werkbalk</p>
+        <p className="taken-samenvatting"><b>{taken.length}</b> {taken.length === 1 ? "taak staat" : "taken staan"} klaar op Home</p>
         <ul className="taken-groepen">
           {groepen.map(([reden, titels], i) => {
             const s = SOORT[reden] || { icoon: "lijst" as IconNaam, toon: "wic-aub" };
@@ -76,7 +76,7 @@ export function TakenPopup() {
           })}
         </ul>
         <div className="taken-acties">
-          <button ref={knop} type="button" className="knop knop-rood knop-groot-vol" onClick={() => sluit("/")}>Naar de Werkbalk <Icon naam="pijl" maat={18} /></button>
+          <button ref={knop} type="button" className="knop knop-rood knop-groot-vol" onClick={() => sluit("/")}>Naar Home <Icon naam="pijl" maat={18} /></button>
           <button type="button" className="taken-later" onClick={() => sluit()}>Later</button>
         </div>
       </div>
