@@ -101,6 +101,11 @@ export async function leesBestand(file: File, voortgang?: Voortgang): Promise<Le
   return { tekst: await herken(beelden, voortgang), ocr: true };
 }
 
+/** Fixed part for a storing: "speling" or "spindel" in the description always means the part is the Spindel. */
+export function onderdeelUitStoring(storing?: string): string | undefined {
+  return storing && /spindel|speling/i.test(storing) ? "Spindel" : undefined;
+}
+
 const REGELS: Array<{ k: keyof Claim; labels: string[]; lang?: boolean }> = [
   { k: "voorziening", labels: ["voorzieningsnummer", "voorzieningnummer", "voorzienings?\\s*nr\\.?", "voorziening"] },
   { k: "frame", labels: ["framenummer", "frame\\s*nummer", "frame\\s*nr\\.?", "serienummer", "frame"] },
@@ -176,5 +181,7 @@ export function leesVelden(tekst: string, bekendeLeveranciers: string[]): Partia
     const d = uit.aankoop.match(/\d{1,2}[-/. ]\d{1,2}[-/. ]\d{2,4}|\d{4}-\d{2}-\d{2}|(?:19|20)\d{2}/)?.[0];
     if (d) uit.aankoop = d; else delete uit.aankoop;
   }
+  const vast = onderdeelUitStoring(uit.storing);
+  if (vast) uit.onderdeel = vast;
   return uit as Partial<Claim>;
 }

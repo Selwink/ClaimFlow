@@ -5,6 +5,7 @@ import { STATUS_LABEL } from "../lib/types";
 import { prijsVoor, titelVan, zoekDubbel } from "../lib/claims";
 import { euro, parseBedrag } from "../lib/format";
 import { useStore } from "../state/Store";
+import { onderdeelUitStoring } from "../lib/lgar";
 import { Icon } from "./Icon";
 
 function Veld({ label, children, breed, hint }: { label: string; children: ReactNode; breed?: boolean; hint?: ReactNode }) {
@@ -40,6 +41,7 @@ export function ClaimForm({ start, knop, bezig, onBewaar, onAnnuleer, herkend }:
       n.uitbesteed = true;
       if (!o.status || o.status === "nieuw") n.status = "gehonoreerd";
     }
+    if (k === "storing" && typeof v === "string") { const vast = onderdeelUitStoring(v); if (vast) n.onderdeel = vast; }
     return n;
   });
 
