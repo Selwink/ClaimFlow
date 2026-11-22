@@ -10,6 +10,7 @@ import { Leeg, Sheet } from "../components/ui";
 import { TeamKaart, TotaalKaart, UitbesteedKaart } from "../components/Team";
 import { EcoDashboard } from "../components/Eco";
 import { PortfolioDash } from "../components/Portfolio";
+import { RoodDash } from "../components/RoodDash";
 import { ShowcaseKop } from "../components/Showcase";
 
 const BAKKEN: Array<{ id: Bak; label: string }> = [{ id: "nu", label: "Nu doen" }, { id: "week", label: "Deze week" }, { id: "wacht", label: "Wacht op lev." }];
@@ -88,6 +89,7 @@ export function Werkbak() {
         <button type="button" onClick={() => setZoekOpen((z) => !z)} aria-expanded={zoekOpen}><i className="sn-3"><Icon naam="zoek" maat={24} /></i>Zoeken</button>
         <Link to="/rapportage"><i className="sn-4"><Icon naam="grafiek" maat={24} /></i>Rapportage</Link>
       </nav>
+      <RoodDash />
       <PortfolioDash />
       <EcoDashboard />
       <header className="wb-held">
