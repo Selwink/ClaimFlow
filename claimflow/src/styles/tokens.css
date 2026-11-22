@@ -1,0 +1,49 @@
+/* Claimflow design tokens — from the approved concept (06 · identiteit). */
+:root {
+  --aub: #14151F;
+  --aub-2: #1E2030;
+  --aub-3: #2A2D42;
+  --aub-0: #12131B;
+  --aub-rgb: 20, 21, 31;
+  --gloed-rgb: 75, 63, 191;
+  --rood: #E8382B;
+  --rood-2: #B8231A;
+  --rood-knop: #DB3325; /* button fill: white text reaches 4.6:1 */
+  --rood-zacht: #FFE3DF;
+  --rood-licht: #F04B3E;
+  --rood-rand: #F3B9B1;
+  --rood-rgb: 232, 56, 43;
+  --zand: #F3F4F8;
+  --zand-2: #E9EBF1;
+  --papier: #FFFFFF;
+  --inkt: #11121A;
+  --inkt-2: #5E6272;
+  --turk: #3FB7B2;
+  --turk-2: #18716d; /* turquoise for text and filled buttons on light grounds (≥5:1) */
+  --turk-zacht: #DDF3F2;
+  --oker: #EFB13C;
+  --oker-2: #7a5200;
+  --oker-zacht: #FCEBC6;
+  --nacht: #33427A;
+  --roze: #F7CBD1;
+  --lijn: #E5E7EE;
+  --lijn-2: #D3D7E1;
+
+  --display: "Plus Jakarta Sans", system-ui, sans-serif;
+  --body: "Inter", system-ui, -apple-system, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --r-s: 12px;
+  --r-m: 16px;
+  --r-l: 20px;
+  --r-xl: 28px;
+  --schaduw: 0 1px 2px rgba(17, 18, 26, .04), 0 10px 30px -8px rgba(17, 18, 26, .10);
+  --schaduw-rood: 0 12px 28px rgba(232, 56, 43, .35);
+  --zijbalk: 248px;
+  --tabbalk-h: 76px;
+  --gutter: 16px;
+  --max: 1180px;
+  color-scheme: light;
+}
+@media (min-width: 760px) { :root { --gutter: 28px; } }
+@media (min-width: 1024px) { :root { --gutter: 40px; } }

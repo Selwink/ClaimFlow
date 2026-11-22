@@ -1,0 +1,312 @@
+/* Modern layer: same layout, calmer surfaces. Soft shadows instead of hard borders, glass bars,
+   deep midnight headers with a red glow, gradient buttons. Loaded last so it refines the base styles. */
+:root {
+  --kaart-rand: rgba(17, 18, 26, .06);
+  --kaart-schaduw: 0 1px 2px rgba(17, 18, 26, .04), 0 6px 20px -6px rgba(17, 18, 26, .08);
+  --kaart-schaduw-hover: 0 2px 4px rgba(17, 18, 26, .05), 0 16px 36px -10px rgba(17, 18, 26, .16);
+  --donker-vlak: radial-gradient(120% 160% at 100% 0%, rgba(var(--rood-rgb), .26), transparent 52%),
+    radial-gradient(90% 120% at 0% 100%, rgba(var(--gloed-rgb), .22), transparent 60%),
+    linear-gradient(165deg, var(--aub-2), var(--aub-0));
+  --knop-rood: linear-gradient(180deg, var(--rood-licht), var(--rood-knop));
+}
+
+body { background: var(--zand); font-feature-settings: "cv11", "ss01"; }
+h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
+
+/* ---- surfaces ---- */
+.kaart, .kpi:not(.kpi-donker), .teamkaart, .levkaart, .voortgangkaart, .datumrij, .optie, .tabelkader, .werktaak,
+.zoekbalk, .teller, .formulier fieldset, .taak {
+  border-color: var(--kaart-rand); box-shadow: var(--kaart-schaduw);
+}
+.kaart, .teamkaart, .kpi, .levkaart, .voortgangkaart, .optie, .tabelkader, .formulier fieldset { border-radius: 22px; }
+.werktaak, .taak { border-radius: 20px; transition: box-shadow .2s, transform .2s; }
+@media (hover: hover) {
+  .werktaak:hover, .taak:hover, .levkaart:hover, .optie:hover, .kpi-link:hover .kpi { box-shadow: var(--kaart-schaduw-hover); transform: translateY(-1px); }
+}
+.leeg { border: 1.5px dashed var(--lijn-2); background: rgba(255, 255, 255, .6); }
+
+/* ---- dark areas: midnight with glow ---- */
+.werkbak-kop, .detail-kop, .geldkaart, .kpi-donker, .toegang { background: var(--donker-vlak); background-color: var(--aub); }
+.werkbak-kop, .detail-kop { position: relative; }
+.werkbak-kop { border-radius: 0 0 28px 28px; }
+@media (min-width: 1024px) { .werkbak-kop { border-radius: 0 0 0 28px; } }
+
+.topbalk { background: rgba(var(--aub-rgb), .86); -webkit-backdrop-filter: blur(18px) saturate(1.6); backdrop-filter: blur(18px) saturate(1.6); }
+.topbalk::after { height: 2px; bottom: -2px; background: linear-gradient(90deg, var(--rood), var(--oker) 45%, var(--turk) 75%, #6b74ff); opacity: .9; }
+
+.tabbalk {
+  background: rgba(var(--aub-rgb), .82); -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6);
+  border: 1px solid rgba(255, 255, 255, .08); border-radius: 24px; box-shadow: 0 18px 40px -10px rgba(17, 18, 26, .45);
+}
+.tab-plus { background: var(--knop-rood); border-radius: 50%; border-color: var(--zand); }
+.tab.active svg { filter: drop-shadow(0 0 8px rgba(var(--rood-rgb), .55)); }
+
+@media (min-width: 1024px) {
+  .zijbalk { background: var(--donker-vlak); background-color: var(--aub); border-right: 1px solid rgba(255, 255, 255, .04); }
+  .zij-link { border-radius: 14px; }
+  .zij-link.active { background: linear-gradient(90deg, rgba(255, 255, 255, .13), rgba(255, 255, 255, .04)); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .07); }
+}
+
+/* ---- buttons & controls ---- */
+.knop { border-radius: 14px; letter-spacing: -.005em; }
+.knop-rood, .grootknop { background: var(--knop-rood); box-shadow: 0 1px 0 rgba(255, 255, 255, .25) inset, 0 8px 20px -6px rgba(var(--rood-rgb), .55); }
+.knop-rood:hover:not(:disabled) { background: linear-gradient(180deg, #E8402F, var(--rood-2)); }
+.knop-zacht { background: #fff; border-color: var(--lijn); box-shadow: 0 1px 2px rgba(17, 18, 26, .05); }
+.knop-zacht:hover:not(:disabled) { background: var(--zand); }
+.icoonknop { background: #fff; box-shadow: inset 0 0 0 1px var(--lijn); }
+.pil { background: #fff; border-color: var(--lijn); }
+.pil[aria-pressed="true"] { background: var(--inkt); border-color: var(--inkt); box-shadow: 0 6px 14px -6px rgba(17, 18, 26, .5); }
+.segment { background: var(--zand-2); }
+.chip { font-family: var(--body); font-weight: 600; letter-spacing: .01em; }
+
+.formulier input, .formulier select, .formulier textarea, .veld input, .veld select, .veld textarea { border-radius: 14px; }
+.formulier input:focus, .formulier select:focus, .formulier textarea:focus, .veld input:focus, .veld select:focus, .veld textarea:focus {
+  border-color: var(--rood); box-shadow: 0 0 0 4px rgba(var(--rood-rgb), .14); outline: none;
+}
+
+.werkbak-tabs button[aria-selected="true"] { box-shadow: 0 8px 20px -8px rgba(0, 0, 0, .45); }
+.avatar { background: linear-gradient(135deg, #fff, #E9EBF1); }
+.team-ic, .avatar-klein, .push-stap { background: linear-gradient(145deg, var(--aub-3), var(--aub)); }
+.balk i { background: linear-gradient(90deg, var(--turk), #7fe0db); }
+
+::selection { background: rgba(var(--rood-rgb), .2); }
+
+/* ---- Taken pop-up ---- */
+.taken-pop { display: flex; flex-direction: column; gap: 0; padding: 26px 22px calc(18px + env(safe-area-inset-bottom, 0px)); }
+.taken-kop { display: flex; align-items: center; gap: 14px; padding-right: 44px; }
+.taken-hoofd { width: 56px; height: 56px; border-radius: 18px; flex: 0 0 auto; display: grid; place-items: center; color: #fff; box-shadow: 0 12px 24px -10px rgba(17, 18, 26, .45); }
+.taken-hoofd.wic-rood { background: linear-gradient(145deg, var(--rood-licht), var(--rood-knop)); }
+.taken-hoofd.wic-aub { background: linear-gradient(145deg, var(--aub-3), var(--aub)); }
+.taken-hoi { margin: 0 0 2px; font: 600 .72rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--inkt-2); }
+.taken-kop h2 { font-size: 1.55rem; letter-spacing: -.035em; line-height: 1.05; }
+.taken-samenvatting { margin: 14px 0 12px; color: var(--inkt-2); font-size: .95rem; }
+.taken-samenvatting b { color: var(--inkt); font-family: var(--display); font-size: 1.1rem; margin-right: 2px; }
+.taken-groepen { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+.taken-groepen li { display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 18px; background: #fff; box-shadow: inset 0 0 0 1px var(--lijn), 0 2px 8px -4px rgba(17, 18, 26, .08); animation: lijstIn .45s cubic-bezier(.2, .8, .3, 1) both; min-width: 0; }
+.taken-ic { width: 40px; height: 40px; border-radius: 14px; color: #fff; display: grid; place-items: center; flex: 0 0 auto; }
+.taken-t { display: flex; flex-direction: column; min-width: 0; flex: 1; gap: 1px; }
+.taken-t b { font-size: .95rem; letter-spacing: -.01em; }
+.taken-t span { color: var(--inkt-2); font-size: .8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.taken-n { min-width: 34px; height: 30px; padding: 0 10px; border-radius: 99px; background: var(--zand-2); display: grid; place-items: center; font: 800 .95rem/1 var(--display); flex: 0 0 auto; }
+.taken-acties { margin-top: 18px; display: grid; gap: 4px; justify-items: stretch; }
+.taken-acties .knop-groot-vol { width: 100%; min-height: 54px; font-size: 1rem; border-radius: 18px; }
+.taken-acties .knop:focus-visible { outline: none; box-shadow: 0 0 0 3px #fff, 0 0 0 5px rgba(var(--rood-rgb), .55); }
+.taken-later { justify-self: center; border: 0; background: none; color: var(--inkt-2); font-weight: 600; font-size: .92rem; padding: 10px 16px; min-height: 44px; }
+
+/* ---- monthly goal on the Werkbak ---- */
+.werkbak-doel { margin: 0 0 22px; }
+.werkbak-doel .teamkaart { margin-bottom: 0; }
+.werkbak-doel { display: grid; gap: 12px; }
+
+/* ---- total brought in, on the start page ---- */
+.totaalkaart { position: relative; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; isolation: isolate; display: flex; align-items: center; gap: 16px; padding: 20px; border-radius: 22px; color: #fff;
+  background: radial-gradient(120% 160% at 100% 0%, rgba(63, 183, 178, .35), transparent 55%), linear-gradient(160deg, var(--aub-2), var(--aub-0));
+  box-shadow: 0 14px 34px -14px rgba(17, 18, 26, .55); }
+.totaal-ic { width: 52px; height: 52px; border-radius: 17px; flex: 0 0 auto; display: grid; place-items: center; color: #fff;
+  background: linear-gradient(145deg, #3FB7B2, #18716d); box-shadow: 0 10px 22px -8px rgba(63, 183, 178, .7); }
+.totaalkaart .bovenschrift { color: rgba(255, 255, 255, .62); }
+.totaal-bedrag { display: block; font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 8vw, 2.6rem); letter-spacing: -.045em; line-height: 1.05; margin: 2px 0; }
+.totaal-sub { font-size: .82rem; color: rgba(255, 255, 255, .7); }
+
+/* ---- slogan under the Werkbalk title ---- */
+.werkbak-slogan { margin-top: 4px; font-family: var(--display); font-weight: 700; font-size: clamp(1rem, 3.6vw, 1.15rem); letter-spacing: -.02em; color: #fff; }
+.werkbak-slogan .kapot { display: inline-flex; }
+.werkbak-slogan .sl-terug { display: inline-block; }
+
+/* ---- desktop: total and monthly goal side by side, so the tasks start sooner ---- */
+@media (min-width: 1024px) {
+  .werkbak-doel { align-items: stretch; }
+  .werkbak-doel .teamkaart { height: 100%; }
+}
+
+/* ---- login: a calmer, more polished sheet ---- */
+.toegang-band { padding-top: calc(env(safe-area-inset-top) + 34px); }
+.toegang-slogan h1 { font-size: clamp(2.7rem, 12vw, 3.7rem); letter-spacing: -.055em; line-height: .95; }
+.toegang-slogan p { color: rgba(255, 255, 255, .72); max-width: 32ch; }
+.toegang-band-kenmerken li { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .14); }
+
+.toegang-plek { border-radius: 36px 36px 0 0; box-shadow: 0 -24px 60px -20px rgba(0, 0, 0, .5); }
+.toegang-kaart { gap: 16px; padding-top: 6px; }
+.toegang-tabs { padding: 5px; border-radius: 18px; background: #E9EBF1; }
+.toegang-tabs button { font-weight: 600; border-radius: 14px; min-height: 42px; }
+.toegang-tabs button[aria-checked="true"] { box-shadow: 0 4px 12px -4px rgba(17, 18, 26, .18); }
+
+.toegang-kaart label { font-size: .84rem; font-weight: 600; color: #3E4456; letter-spacing: -.005em; }
+.toegang-kaart input:not([type="checkbox"]) { border-radius: 16px; min-height: 52px; border: 1.5px solid #E5E7EE; background: #FBFBFD; padding: 0 16px;
+  transition: border-color .15s, box-shadow .15s, background .15s; }
+.toegang-kaart input:not([type="checkbox"]):hover { border-color: #D3D7E1; }
+.toegang-kaart input:not([type="checkbox"]):focus { outline: none; border-color: var(--rood); background: #fff; box-shadow: 0 0 0 4px rgba(var(--rood-rgb), .14); }
+.toegang-kaart .veld-fout { font-weight: 600; }
+
+.toegang-kaart form button.knop-rood, .toegang-kaart .knop-rood { min-height: 56px; border-radius: 18px; font-size: 1.02rem; letter-spacing: -.01em;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .25) inset, 0 14px 28px -10px rgba(var(--rood-rgb), .65); }
+
+.toegang-tip { background: #F4F6FA; border-radius: 99px; padding: 9px 14px; color: #4A5163; margin: 2px auto 0; font-weight: 500; }
+.toegang-tip svg { color: #1A7F50; }
+/* password: the field and the eye share one frame, so there is only one border */
+.toegang-kaart .met-na { display: flex; align-items: center; gap: 6px; border: 1.5px solid #E5E7EE; border-radius: 16px; background: #FBFBFD; padding-right: 6px; transition: border-color .15s, box-shadow .15s, background .15s; }
+.toegang-kaart .met-na:hover { border-color: #D3D7E1; }
+.toegang-kaart .met-na:focus-within { border-color: var(--rood); background: #fff; box-shadow: 0 0 0 4px rgba(var(--rood-rgb), .14); }
+.toegang-kaart .met-na input { flex: 1; min-width: 0; border: 0 !important; box-shadow: none !important; background: transparent !important; min-height: 50px; }
+.toegang-kaart .met-na .oogknop { border-radius: 12px; width: 40px; height: 40px; }
+
+/* ---- claim detail: the action bar is a solid, frosted strip, so content never shows through the gaps ---- */
+.actiebalk { background: rgba(243, 244, 248, .88); -webkit-backdrop-filter: blur(16px) saturate(1.5); backdrop-filter: blur(16px) saturate(1.5);
+  border-radius: 24px; padding-block: 8px; box-shadow: 0 -8px 30px -12px rgba(17, 18, 26, .18), 0 0 0 1px rgba(17, 18, 26, .05); }
+.actiebalk .knop { border-radius: 16px; }
+
+/* ---- uitbesteed, still open: amber, next to the total ---- */
+.uitbesteedkaart { position: relative; display: flex; align-items: center; gap: 16px; padding: 20px; border-radius: 22px; background: #fff; border: 1px solid var(--lijn); box-shadow: var(--kaart-schaduw); }
+.uitbesteed-ic { width: 52px; height: 52px; border-radius: 17px; flex: 0 0 auto; display: grid; place-items: center; color: #fff; background: linear-gradient(145deg, #F2B544, #C98A12); box-shadow: 0 10px 22px -8px rgba(201, 138, 18, .7); }
+.uitbesteedkaart .bovenschrift { color: var(--inkt-2); }
+.uitbesteed-bedrag { display: block; font-family: var(--display); font-weight: 800; font-size: clamp(1.7rem, 6vw, 2.2rem); letter-spacing: -.045em; line-height: 1.05; margin: 2px 0; color: var(--oker-2); }
+.uitbesteed-sub { font-size: .82rem; color: var(--inkt-2); }
+@media (min-width: 1024px) { .werkbak-doel { grid-template-columns: 1fr 1fr 1fr; } }
+/* on a computer the Werkbalk gets room for three money cards side by side (header and list stay aligned) */
+@media (min-width: 1024px) { .werkbak-kop-binnen, .werkbak-inhoud { max-width: 1000px; } }
+.teamkaart-kop { position: relative; }
+.team-geclaimd-pil { margin-left: auto; align-self: flex-start; display: inline-flex; flex-direction: column; align-items: flex-end; gap: 2px; padding: 8px 12px; border-radius: 14px;
+  background: var(--turk-zacht); color: var(--turk-2); font: 800 1rem/1.1 var(--display); letter-spacing: -.02em; white-space: nowrap; }
+.team-geclaimd-pil small { font: 600 .6rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
+
+/* ---- search inside the Werkbalk header ---- */
+.werkbak-zoek { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 16px; background: rgba(255, 255, 255, .1); color: rgba(255, 255, 255, .7); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12); }
+.werkbak-zoek:focus-within { background: rgba(255, 255, 255, .16); box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .5); }
+.werkbak-zoek input { flex: 1; min-width: 0; border: 0; background: transparent; color: #fff; font-size: 16px; padding: 0; }
+.werkbak-zoek input::placeholder { color: rgba(255, 255, 255, .6); }
+.werkbak-zoek input:focus { outline: none; }
+.werkbak-zoek input[type="search"]::-webkit-search-cancel-button { -webkit-appearance: none; width: 16px; height: 16px; background: rgba(255, 255, 255, .7); border-radius: 50%; cursor: pointer;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 6l12 12M18 6L6 18' stroke='black' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") center / 10px no-repeat; }
+
+/* ============ Abstract direction on the Werkbalk ============
+   Tasks are lines, not boxes. A red dot marks what is over the term. Colours unchanged. */
+.werkbak-lijst { gap: 0; }
+.werkbak-lijst > li + li { margin-top: 0; }
+.werktaak, .werktaak-laat {
+  background: transparent; border: 0; border-top: 1px solid var(--lijn); border-radius: 0; box-shadow: none;
+  padding: 16px 0 16px 22px; position: relative; gap: 8px;
+}
+.werktaak:first-child { border-top: 0; }
+.werktaak::before { content: ""; position: absolute; left: 2px; top: 22px; width: 9px; height: 9px; border-radius: 50%; background: var(--ink-2, #8c877c); opacity: .5; }
+.werktaak-laat::before { background: var(--rood); opacity: 1; box-shadow: 0 0 0 4px rgba(var(--rood-rgb), .14); }
+.werktaak:hover { box-shadow: none; transform: none; }
+.werktaak-t b { font-size: 1.05rem; letter-spacing: -.02em; }
+.werktaak-t span { color: var(--inkt-2); }
+.werkbak-groep { border-top: 0; margin-top: 18px; }
+/* the big numbers stay, the boxes around the supporting cards go */
+.uitbesteedkaart, .teamkaart { box-shadow: none; border: 0; border-top: 1px solid var(--lijn); border-radius: 0; background: transparent; padding: 22px 0; }
+.uitbesteed-bedrag, .team-bedrag { letter-spacing: -.05em; }
+
+/* ---- empty Werkbalk: a calm mint orb with a tick, the same look as the modern example ---- */
+.leeg:has(.leeg-orb) { padding: 34px 20px; gap: 8px; }
+.leeg-orb { width: 84px; height: 84px; border-radius: 28px; display: grid; place-items: center; margin: 0 auto 6px; color: #18716d;
+  background: linear-gradient(160deg, #DDF3F2, #C4EDEA); box-shadow: 0 18px 36px -18px rgba(24, 113, 109, .55), inset 0 1px 0 rgba(255, 255, 255, .6); }
+.leeg:has(.leeg-orb) .leeg-titel { font-size: 1.4rem; letter-spacing: -.03em; }
+.leeg:has(.leeg-orb) > span:not(.leeg-orb) { color: var(--inkt-2); max-width: 28ch; }
+
+/* ============ Phone menu: a drawer from the left with every page ============ */
+.menu-knop { width: 40px; height: 40px; border-radius: 12px; border: 0; background: var(--glas, rgba(255, 255, 255, .1)); color: inherit; display: grid; place-items: center; cursor: pointer; flex: 0 0 auto; margin-right: 6px; }
+.menu-knop:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+@media (min-width: 1024px) { .menu-knop { display: none; } .lade { display: none !important; } }
+
+.lade { position: fixed; inset: 0; z-index: 180; visibility: hidden; transition: visibility 0s linear .28s; }
+.lade.open { visibility: visible; transition-delay: 0s; }
+.lade-bedekking { position: absolute; inset: 0; background: rgba(8, 9, 14, .55); opacity: 0; transition: opacity .25s; }
+.lade.open .lade-bedekking { opacity: 1; }
+.lade-paneel { position: absolute; top: 0; bottom: 0; left: 0; width: min(308px, 84vw); background: var(--midnight-800, var(--aub)); color: #fff; padding: calc(env(safe-area-inset-top, 0px) + 18px) 14px calc(env(safe-area-inset-bottom, 0px) + 18px);
+  display: flex; flex-direction: column; gap: 2px; overflow-y: auto; border-radius: 0 26px 26px 0; box-shadow: 24px 0 48px -12px rgba(0, 0, 0, .55);
+  transform: translateX(-102%); transition: transform .28s cubic-bezier(.2, .8, .3, 1); }
+.lade.open .lade-paneel { transform: translateX(0); }
+.lade-kop { display: flex; align-items: center; justify-content: space-between; padding: 4px 6px 16px; }
+.lade-kop .logo { color: #fff; }
+.lade-sluit { width: 38px; height: 38px; border-radius: 12px; border: 0; background: rgba(255, 255, 255, .1); color: #fff; display: grid; place-items: center; cursor: pointer; }
+.lade-groep { font: 500 .66rem/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: rgba(255, 255, 255, .45); padding: 16px 12px 8px; }
+.lade-link { display: flex; align-items: center; gap: 12px; min-height: 46px; padding: 0 12px; border-radius: 14px; color: rgba(255, 255, 255, .8); text-decoration: none; font-weight: 500; font-size: .95rem; }
+.lade-link:hover { background: rgba(255, 255, 255, .06); color: #fff; }
+.lade-link.active { background: rgba(255, 255, 255, .1); color: #fff; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08); }
+.lade-link.active svg { color: var(--rood, var(--rood)); }
+.lade-link .nav-badge { margin-left: auto; }
+.lade-voet { margin-top: auto; border-top: 1px solid rgba(255, 255, 255, .1); padding: 14px 8px 0; display: flex; align-items: center; gap: 10px; }
+.lade-voet b { display: block; font-size: .88rem; }
+.lade-voet small { font-size: .74rem; color: rgba(255, 255, 255, .55); }
+.avatar-klein { width: 36px; height: 36px; border-radius: 50%; background: #fff; color: var(--midnight-800, var(--aub)); display: grid; place-items: center; font: 800 .8rem/1 var(--display); flex: 0 0 auto; }
+@media (prefers-reduced-motion: reduce) { .lade-paneel, .lade-bedekking { transition: none; } }
+.lade-kop > :first-child { min-width: 0; flex: 1 1 auto; overflow: hidden; }
+.lade-kop .logo { font-size: 1.02rem; white-space: nowrap; }
+
+/* menu icon: three rounded strokes of uneven length; they turn into a cross when the menu is open */
+.menu-ikoon { overflow: visible; }
+.menu-ikoon line { stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; transform-origin: 12px 12px; transition: transform .28s cubic-bezier(.2, .8, .3, 1), opacity .2s, x1 .28s, x2 .28s; }
+.menu-ikoon .l2 { transform-origin: 12px 12px; }
+.menu-ikoon.open .l1 { transform: translateY(5px) rotate(45deg); }
+.menu-ikoon.open .l2 { opacity: 0; }
+.menu-ikoon.open .l3 { transform: translateY(-5px) rotate(-45deg); }
+.menu-knop { transition: background .15s, transform .12s; }
+.menu-knop:active { transform: scale(.94); }
+@media (prefers-reduced-motion: reduce) { .menu-ikoon line { transition: none; } }
+.lade-uit { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 46px; margin-top: 10px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, .14); background: rgba(255, 255, 255, .06); color: #fff; font: 600 .92rem/1 var(--body); cursor: pointer; }
+.lade-uit:hover { background: rgba(255, 255, 255, .1); }
+.lade-uit:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+/* ============ Claim detail in the same look as the claim list and the Werkbalk ============ */
+.detail-kop { background: radial-gradient(120% 140% at 100% 0%, rgba(var(--rood-rgb), .28), transparent 55%), linear-gradient(170deg, var(--aub-2), var(--aub)); padding-bottom: 72px; }
+.detail-kop .bovenschrift { font: 600 .66rem/1 var(--mono); letter-spacing: .14em; color: rgba(255, 255, 255, .6); }
+.detail-kop h1 { font-size: clamp(30px, 6vw, 46px); letter-spacing: -.05em; line-height: 1.02; }
+.detail-kop p { color: rgba(255, 255, 255, .72); }
+.detail-raster { gap: 16px; }
+.detail-hoofd, .detail-zij { gap: 16px; }
+/* cards: one border, one soft shadow, the same radius everywhere */
+.detail-raster .kaart, .detail-raster .detail-kaart, .detail-raster [class*="kaart"] {
+  border: 1px solid var(--lijn); border-radius: 22px; box-shadow: 0 1px 2px rgba(17, 18, 26, .05), 0 10px 26px -16px rgba(17, 18, 26, .22);
+}
+.detail-kop-binnen .kop-acties { gap: 10px; }
+/* the actions bar keeps its frosted strip, with the main action in the accent */
+.actiebalk .knop-rood, .actiebalk .knop-turk { min-height: 52px; }
+/* one more step of breathing room between sections on phones */
+@media (max-width: 1023px) { .detail-raster { margin-top: -44px; } .detail-kop { padding-bottom: 64px; } }
+.zij-uit { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; margin-top: 10px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, .14); background: rgba(255, 255, 255, .06); color: #fff; font: 600 .85rem/1 var(--body); cursor: pointer; }
+.zij-uit:hover { background: rgba(255, 255, 255, .12); }
+.zij-uit:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+/* ============ Login: the approved parts (emblem, pill fields and button) on the original dark header ============ */
+.toegang-kaart::before { content: "✓"; width: 92px; height: 92px; border-radius: 30px; display: grid; place-items: center; margin: 4px auto 6px; font: 800 2.3rem/1 var(--display); color: #fff;
+  background: linear-gradient(160deg, var(--rood-licht), var(--rood-2)); box-shadow: 0 22px 40px -16px rgba(var(--rood-rgb), .65), inset 0 1px 0 rgba(255, 255, 255, .3); }
+.toegang-kaart .greep { display: none; }
+.toegang-kaart .toegang-uitleg { text-align: center; }
+.toegang-kaart input:not([type="checkbox"]) { border-radius: 999px; min-height: 56px; padding: 0 22px; background: #F7F8FB; border: 1px solid #E3E6EE; box-shadow: 0 8px 22px -14px rgba(var(--aub-rgb), .28); }
+.toegang-kaart .met-na { border-radius: 999px; min-height: 56px; background: #F7F8FB; }
+.toegang-kaart form button.knop-rood, .toegang-kaart .knop-rood { border-radius: 999px; min-height: 56px; text-transform: uppercase; letter-spacing: .12em; font-size: .9rem; font-weight: 700; }
+.toegang-kaart .veld-hint { text-align: center; }
+
+/* ============ More green next to the red: positives in emerald, urgency and the main action stay red ============ */
+:root { --groen: #1A7F50; --groen-2: #2FA36F; --groen-licht: #3FC48A; --groen-zacht: #DDF5E8; --groen-ink: #0F5A38; }
+.totaalkaart { background: radial-gradient(120% 160% at 100% 0%, rgba(63, 196, 138, .35), transparent 55%), linear-gradient(160deg, #173D2C, #0E2A1E); }
+.totaal-ic, .team-ic, .teamkaart-gehaald .team-ic, .team-ic-groot { background: linear-gradient(145deg, var(--groen-2), var(--groen)); box-shadow: 0 10px 22px -8px rgba(26, 127, 80, .7); }
+.totaal-bedrag, .team-bedrag, .kpi > b.t-turk, .t-turk { color: var(--groen); }
+.team-bedrag > span:last-child { color: var(--inkt-2); }
+.balk i, .team-balk i { background: linear-gradient(90deg, var(--groen), var(--groen-licht)); }
+.chip-turk, .ic-turk, .bedrag-plus, .tm-doel.gehaald { background: var(--groen-zacht); color: var(--groen-ink); }
+.knop-turk { background: linear-gradient(180deg, var(--groen-2), var(--groen)); box-shadow: 0 8px 18px -8px rgba(26, 127, 80, .8); }
+.wic-turk { background: linear-gradient(145deg, var(--groen-2), var(--groen)); box-shadow: 0 12px 26px -10px rgba(26, 127, 80, .6); }
+.tm-balk i.gehaald { background: var(--groen-licht); }
+.teamkaart-gehaald { border-color: #BFE6D2; background: linear-gradient(180deg, #F1FBF6, var(--papier)); }
+.actiebalk-klaar { color: var(--groen); background: var(--groen-zacht); }
+.tabbalk .aan svg, .tab.active svg { filter: none; }
+.werkbak-tabs b.groen-getal { color: var(--groen); }
+
+/* ---- Samen in november: same inner margin as the total card, so the block lines up on phone and desktop ---- */
+.teamkaart { padding: 22px 20px; gap: 12px; }
+.teamkaart-kop { gap: 14px; align-items: center; }
+.team-bedrag { font-size: clamp(1.4rem, 6vw, 1.7rem); overflow-wrap: anywhere; }
+.team-balk { margin-top: 2px; }
+.team-week { gap: 10px; }
+.team-week > div { min-width: 0; }
+.team-regel, .team-ik { margin: 0; }
+
+/* ---- Samen in november when the goal is reached: same margins, bar and tiles stay inside the card ---- */
+.teamkaart-gehaald { padding: 22px 20px; }
+.teamkaart .balk, .teamkaart .team-balk { width: 100%; }
+.team-week { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.team-week > div { padding: 10px 12px; }
+.team-ik { min-width: 0; overflow-wrap: anywhere; }
+.werkbak-knoppen { display: inline-flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }

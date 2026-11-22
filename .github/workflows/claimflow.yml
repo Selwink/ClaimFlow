@@ -1,0 +1,105 @@
+# ClaimFlow on GitHub only:
+#  - "app":     builds the app and publishes it on GitHub Pages
+#  - "functie": puts the server part (login, data, mail) on Supabase as one Edge Function
+#  - "gepland": the fixed times (nightly backup, morning notices, Monday overview)
+# Runs on every change to claimflow/ in main, by hand (Actions → ClaimFlow → Run workflow), and on the schedule.
+name: ClaimFlow
+
+on:
+  push:
+    branches: [main]
+    paths: ["claimflow/**", ".github/workflows/claimflow.yml"]
+  workflow_dispatch:
+  schedule:
+    - cron: "0 1 * * *"    # backup, every night 01:00 UTC
+    - cron: "15 6 * * *"   # meldingen, every morning 06:15 UTC
+    - cron: "0 6 * * 1"    # weekoverzicht, Monday 06:00 UTC
+
+env:
+  # Supabase project that holds the claims (not secret: it is also in the app's address list).
+  SUPABASE_PROJECT: xpktjqdtwmqznhgcicim
+
+permissions:
+  contents: read
+
+jobs:
+  app:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    concurrency: { group: pages, cancel-in-progress: false }
+    environment: { name: github-pages, url: "${{ steps.deploy.outputs.page_url }}" }
+    defaults: { run: { working-directory: claimflow } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm, cache-dependency-path: claimflow/package-lock.json }
+      - run: npm ci
+      - name: Build
+        run: npm run build
+        env:
+          VITE_BASE: /${{ github.event.repository.name }}/
+          VITE_API_URL: https://${{ env.SUPABASE_PROJECT }}.supabase.co/functions/v1/claimflow
+      - name: Deep links and no Jekyll
+        run: cp dist/index.html dist/404.html && touch dist/.nojekyll
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: claimflow/dist }
+      - id: deploy
+        uses: actions/deploy-pages@v4
+
+  functie:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: claimflow } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm, cache-dependency-path: claimflow/package-lock.json }
+      - run: npm ci
+      - run: node scripts/bouw-supabase.mjs
+      - uses: supabase/setup-cli@v1
+        with: { version: latest }
+      - name: Settings for the function
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          TOKEN_GEHEIM: ${{ secrets.TOKEN_GEHEIM }}
+          PLANNING_SLEUTEL: ${{ secrets.PLANNING_SLEUTEL }}
+          WACHTWOORD_HASH: ${{ secrets.WACHTWOORD_HASH }}
+          BEHEER_HASH: ${{ secrets.BEHEER_HASH }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          FORMULIER_SLEUTEL: ${{ secrets.FORMULIER_SLEUTEL }}
+          EIGENAAR: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+        run: |
+          test -n "$SUPABASE_ACCESS_TOKEN" || { echo "::error::Secret SUPABASE_ACCESS_TOKEN ontbreekt"; exit 1; }
+          test -n "$TOKEN_GEHEIM" || { echo "::error::Secret TOKEN_GEHEIM ontbreekt"; exit 1; }
+          set -- "URL=https://${EIGENAAR,,}.github.io/$REPO"
+          for n in TOKEN_GEHEIM PLANNING_SLEUTEL WACHTWOORD_HASH BEHEER_HASH RESEND_API_KEY FORMULIER_SLEUTEL; do
+            [ -n "${!n}" ] && set -- "$@" "$n=${!n}"
+          done
+          supabase secrets set --project-ref "$SUPABASE_PROJECT" "$@"
+      - name: Deploy function
+        env: { SUPABASE_ACCESS_TOKEN: "${{ secrets.SUPABASE_ACCESS_TOKEN }}" }
+        run: supabase functions deploy claimflow --project-ref "$SUPABASE_PROJECT" --no-verify-jwt
+
+  gepland:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run the scheduled job
+        env:
+          SCHEMA: ${{ github.event.schedule }}
+          PLANNING_SLEUTEL: ${{ secrets.PLANNING_SLEUTEL }}
+        run: |
+          case "$SCHEMA" in
+            "0 1 * * *") taak=backup ;;
+            "15 6 * * *") taak=meldingen ;;
+            "0 6 * * 1") taak=weekoverzicht ;;
+            *) echo "Onbekend schema: $SCHEMA"; exit 1 ;;
+          esac
+          curl -fsS -X POST -H "x-planning-sleutel: $PLANNING_SLEUTEL" \
+            "https://$SUPABASE_PROJECT.supabase.co/functions/v1/claimflow/$taak"

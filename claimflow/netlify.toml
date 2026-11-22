@@ -1,0 +1,20 @@
+# Lets Netlify build this folder straight from Git (base directory: claimflow).
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[functions."weekoverzicht"]
+  # Every Monday 06:00 UTC (07:00 winter / 08:00 summer in the Netherlands).
+  schedule = "0 6 * * 1"
+
+[functions."backup"]
+  # Every night 01:00 UTC.
+  schedule = "0 1 * * *"
+
+[functions."meldingen"]
+  # Every morning 06:15 UTC (07:15 winter / 08:15 summer): claims that cross the term today.
+  schedule = "15 6 * * *"
