@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import type { Claim } from "../lib/types";
 import { useStore } from "../state/Store";
-import { isOpen, levKleur, levLetters, som, startDatum, statusVan } from "../lib/claims";
+import { afgehandeldOp, isOpen, levKleur, levLetters, som, startDatum, statusVan } from "../lib/claims";
 import { dezeMaand, euroKort, meervoud, periodLabel, vandaag } from "../lib/format";
 import { geclaimdDezeMaand, teruggehaaldPerMaand } from "../lib/team";
 
@@ -41,10 +41,16 @@ export function EcoDashboard() {
     const geh = actief.filter((c) => statusVan(c) === "gehonoreerd"), afg = actief.filter((c) => statusVan(c) === "afgewezen");
     const graad = geh.length + afg.length ? Math.round((geh.length / (geh.length + afg.length)) * 100) : null;
     const open = actief.filter((c) => isOpen(c) && !c.uitbesteed);
-    let jaarTerug = 0, vorigJaar = 0;
-    for (const [k, v] of pm) { if (k.startsWith(jaar)) jaarTerug += v.bedrag; if (k.startsWith(String(Number(jaar) - 1))) vorigJaar += v.bedrag; }
-    const gehJaar = geh.filter((c) => (c.periode || "").startsWith(jaar) || (c.datum || "").startsWith(jaar));
-    const binnen = gehJaar.filter((c) => c.locatie !== "buiten"), buiten = gehJaar.filter((c) => c.locatie === "buiten");
+    // Year card: honoured claims split binnen/buiten, plus everything handed to a supplier (uitbesteed).
+    // Uitbesteed counts in full and is added to the total, so the total is claimed + outsourced.
+    const jaarVan = (c: Claim) => (afgehandeldOp(c) || c.periode || c.datum || "").slice(0, 4);
+    const telt = (c: Claim) => (c.uitbesteed ? statusVan(c) !== "afgewezen" : statusVan(c) === "gehonoreerd");
+    const inJaar = (j: string) => actief.filter((c) => telt(c) && jaarVan(c) === j);
+    const ditJaar = inJaar(jaar), vorigJaarLijst = inJaar(String(Number(jaar) - 1));
+    const binnen = ditJaar.filter((c) => !c.uitbesteed && c.locatie !== "buiten");
+    const buiten = ditJaar.filter((c) => !c.uitbesteed && c.locatie === "buiten");
+    const uitbesteed = ditJaar.filter((c) => c.uitbesteed);
+    const jaarTerug = som(ditJaar), vorigJaar = som(vorigJaarLijst);
     const maanden = Array.from({ length: 6 }, (_, i) => { let p = maand; for (let k = 0; k < 5 - i; k++) p = vorigeMaand(p); return p; });
     const levs = new Map<string, Claim[]>();
     for (const c of actief) { const k = (c.leverancier || "").trim() || "Zonder leverancier"; levs.set(k, [...(levs.get(k) || []), c]); }
@@ -59,7 +65,7 @@ export function EcoDashboard() {
     }).sort((x, y) => y.totaal - x.totaal).slice(0, 5);
     const dagen = perDag(actief);
     const geclaimd = geclaimdDezeMaand(actief).bedrag;
-    return { maand, dezeM, vorigeM, graad, gehN: geh.length, afgN: afg.length, open, jaar, jaarTerug, vorigJaar, binnen, buiten, lev, dagen, geclaimd };
+    return { maand, dezeM, vorigeM, graad, gehN: geh.length, afgN: afg.length, open, jaar, jaarTerug, vorigJaar, binnen, buiten, uitbesteed, lev, dagen, geclaimd };
   }, [actief]);
 
   const maxDag = Math.max(1, ...d.dagen.map((x) => x.bedrag));
@@ -106,6 +112,7 @@ export function EcoDashboard() {
           <span className="op">{jaarGroei == null ? `teruggehaald in ${d.jaar}` : `${jaarGroei >= 0 ? "↗" : "↘"} ${Math.abs(Math.round(jaarGroei))}% ${jaarGroei >= 0 ? "meer" : "minder"} dan vorig jaar`}</span>
           <div className="eco-it"><span>🔧</span><div><b>Binnenmonteur</b><small>{euroKort(som(d.binnen))} · {meervoud(d.binnen.length, "claim", "claims")}</small></div></div>
           <div className="eco-it"><span>🚐</span><div><b>Buitenmonteur</b><small>{euroKort(som(d.buiten))} · {meervoud(d.buiten.length, "claim", "claims")}</small></div></div>
+          <div className="eco-it"><span>🏭</span><div><b>Uitbesteed</b><small>{euroKort(som(d.uitbesteed))} · {meervoud(d.uitbesteed.length, "claim", "claims")}</small></div></div>
         </div>
       </div>
 
