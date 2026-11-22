@@ -91,7 +91,6 @@ export function NieuweClaim() {
           {fout && <div className="melding melding-rood" role="alert"><Icon naam="waarschuwing" /><div>{fout}</div></div>}
           <div className="opties">
             <Optie hoofd icoon="upload" titel="LGAR-pdf inlezen" tekst="Sleep de pdf hierheen of kies een bestand — ook gescande pdf’s en foto’s. De velden vullen zich vanzelf." doe={() => bestand.current?.click()} />
-            <Optie icoon="camera" titel="LGAR scannen met camera" tekst="Maak een foto van het papieren formulier. De tekst wordt herkend en ingevuld." doe={() => camera.current?.click()} />
             <Optie icoon="formulier" titel="LGAR-formulier invullen" tekst="Open het Microsoft-formulier, vul het in en lees daarna de pdf in."
               doe={() => { window.open(CONFIG.LGAR_FORMULIER, "_blank", "noopener"); setStap("formulier-uit"); }} />
             <Optie icoon="potlood" titel="Zelf invullen" tekst="Typ de gegevens over. Vaste bedragen worden automatisch ingevuld." doe={() => { setBron(null); setStart(leegClaim()); setStap("zelf"); }} />
