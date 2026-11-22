@@ -7,6 +7,7 @@ import { euro, euroKort } from "../lib/format";
 import { geclaimdDezeMaand, teruggehaaldPerMaand } from "../lib/team";
 import { Icon } from "./Icon";
 import { LogoMerk } from "./LogoMerk";
+import { SnelZoek } from "./SnelZoek";
 
 const PF_NAV: Array<[string, string]> = [["/", "Home"], ["/claims", "Claims"], ["/notities", "Notities"], ["/leveranciers", "Leveranciers"], ["/rapportage", "Rapportage"], ["/assistent", "Assistent"], ["/beheer", "Profiel"]];
 
@@ -18,7 +19,7 @@ export function PfBand() {
     <header className="pf-band">
       <Link to="/" className="pf-logo" aria-label="Home"><LogoMerk maat={30} /><b className="pf-woord">ClaimFlow</b></Link>
       <span className="pf-dag"><i aria-hidden="true">✦</i>{dag[0].toUpperCase() + dag.slice(1)}</span>
-      <Link to="/claims" className="pf-zoek"><Icon naam="zoek" maat={15} /> Zoeken</Link>
+      <SnelZoek />
       <span className="pf-acties">
         {magBewerken && <Link to="/nieuw" className="pf-plus" aria-label="Nieuwe claim"><Icon naam="plus" maat={20} /></Link>}
         <Link to="/notities" className="pf-ic" aria-label="Notities"><Icon naam="bericht" maat={18} /></Link>
