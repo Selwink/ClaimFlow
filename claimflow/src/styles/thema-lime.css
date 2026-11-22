@@ -175,3 +175,71 @@ a { color: inherit; }
 .optie-ic { background: var(--vlak-2) !important; color: var(--L) !important; }
 .optie-hoofd .optie-ic { background: var(--L) !important; color: #0B0E0A !important; }
 .eco-kaart .op { color: var(--L) !important; }
+
+/* ===== Showcase-leidend: closer to the example ===== */
+/* login (phone): no top band, one centered screen like "02. Login" */
+.lg-kop { display: none; }
+@media (max-width: 1023px) {
+  .toegang-band { display: none !important; }
+  .toegang { min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+    background: radial-gradient(420px 300px at 50% 12%, rgba(183, 243, 74, .22), transparent 70%), var(--bg) !important; }
+  .toegang-plek { border-radius: 0 !important; box-shadow: none !important; padding: 24px 18px 30px !important; }
+  .toegang-kaart { background: transparent !important; border: 0 !important; padding: 0 !important; }
+  .toegang-kaart::before { display: none !important; }
+  .lg-kop { display: flex; flex-direction: column; align-items: center; text-align: center; margin: 10px 0 8px; }
+  .lg-merk .logo-svg { width: 72px; height: 72px; box-shadow: 0 0 40px rgba(183, 243, 74, .5); }
+  .lg-kop > b { font: 800 1.6rem var(--display); margin-top: 12px; }
+  .lg-kop h2 { font: 700 1.1rem var(--display); margin: 14px 0 2px; }
+  .toegang-uitleg { display: none; }
+}
+.lg-veld { display: flex; align-items: center; gap: 10px; background: #0E130B; border: 1px solid var(--rand-2); border-radius: 14px; padding: 0 14px; }
+.lg-veld svg { color: #6F7C68; flex: none; }
+.lg-veld input { border: 0 !important; background: transparent !important; box-shadow: none !important; padding-left: 0 !important; flex: 1; min-height: 50px; }
+.lg-veld:focus-within { border-color: var(--L); box-shadow: 0 0 0 3px rgba(183, 243, 74, .18); }
+.toegang-kaart .knop-rood { border-radius: 14px !important; min-height: 52px; text-transform: none !important; letter-spacing: 0 !important; font-weight: 800 !important; }
+.lg-voet { text-align: center; color: var(--tekst-2); font-size: .85rem; margin: 6px 0 0; }
+.lg-voet b { color: var(--L) !important; font-weight: 600; }
+
+/* phone: no logo bar on top; each page carries its own title (like the example screens) */
+@media (max-width: 1023px) {
+  .topbalk { display: none !important; }
+  .inhoud { padding-top: env(safe-area-inset-top); }
+  .sh-acties { display: flex; gap: 8px; align-items: center; }
+  .sh-bel { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; color: var(--tekst); background: var(--vlak); border: 1px solid var(--rand); }
+  .paginakop { padding-top: 14px; }
+  .paginakop h1 { font: 800 1.6rem var(--display) !important; }
+  .detail-kop { background: transparent !important; }
+}
+
+/* tasks on the Werkbalk: compact rows with a round check, like "Today's Tasks" */
+.wb-kaart { border-radius: 14px !important; }
+.wb-kaart-boven { padding: 12px 14px !important; gap: 12px !important; }
+.wb-ic { width: 22px !important; height: 22px !important; border-radius: 50% !important; background: transparent !important; border: 2px solid #3D4B33; color: transparent !important; }
+.wb-ic svg { display: none; }
+.wb-kaart.laat .wb-ic { border-color: #F87171 !important; background: #F87171 !important; }
+.wb-kaart-t > b { text-transform: none !important; font: 700 .95rem var(--display) !important; }
+.wb-pil { border-radius: 6px !important; padding: 2px 8px !important; }
+.wb-acties { padding: 0 14px 12px 48px !important; }
+.wb-acties .knopje { min-height: 32px; font-size: .78rem; border-radius: 9px !important; }
+.wb-kop { font-size: .98rem !important; }
+
+/* claim lists: rows with a status circle and a chevron, like "My Tasks" */
+.kaartlijst { gap: 8px !important; }
+.taak { border-radius: 14px !important; padding: 12px 14px !important; align-items: center; }
+.taak-ic { width: 24px !important; height: 24px !important; min-width: 24px; border-radius: 50% !important; font-size: 0 !important; background: transparent !important; border: 2px solid #3D4B33 !important; color: transparent !important; }
+.taak-ic svg { display: none; }
+.taak-ic.ic-rood { background: #F87171 !important; border-color: #F87171 !important; }
+.taak-ic.ic-turk { background: var(--L) !important; border-color: var(--L) !important; }
+.taak-ic.ic-turk::after { content: "✓"; font-size: .72rem; color: #0B0E0A; font-weight: 900; }
+.taak-ic.ic-oker { border-color: #F2C063 !important; }
+.taak-t b { text-transform: none !important; font: 700 .95rem var(--display) !important; }
+.taak::after { content: "›"; color: #56624F; font-size: 1.3rem; margin-left: 4px; }
+
+/* filter chips like the example: small, lime when active */
+.pil, .wb-chip { border-radius: 9px !important; min-height: 34px; font-size: .84rem !important; }
+
+/* splash: lime glow behind the logo */
+.splash { background: radial-gradient(420px 320px at 50% 40%, rgba(183, 243, 74, .25), transparent 70%), var(--bg) !important; }
+.toegang-tip { background: var(--vlak) !important; color: var(--tekst-2) !important; border: 1px solid var(--rand) !important; }
+/* claims (phone): straight to filters and rows, like "My Tasks" — the number tiles move out of the way */
+@media (max-width: 1023px) { .teller { display: none !important; } }

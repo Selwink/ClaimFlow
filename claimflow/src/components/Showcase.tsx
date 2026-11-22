@@ -34,7 +34,7 @@ export function ShowcaseKop() {
   return (
     <section className="sh-kop" aria-label="Vandaag">
       <div className="sh-groet"><div><small>{groet},</small><h1>{naam ? naam.split(" ")[0] : "welkom"}! 👋</h1><small>Laten we wat terughalen vandaag.</small></div>
-        <Link to="/beheer" className="sh-av" aria-label="Profiel">{(naam || "?").slice(0, 1).toUpperCase()}</Link></div>
+        <span className="sh-acties"><Link to="/notities" className="sh-bel" aria-label="Notities en meldingen"><Icon naam="bericht" maat={20} /></Link><Link to="/beheer" className="sh-av" aria-label="Profiel">{(naam || "?").slice(0, 1).toUpperCase()}</Link></span></div>
       <Link to="/assistent" className="sh-vraag"><Icon naam="zoek" maat={16} /> Vraag Flow, de ClaimFlow-assistent…</Link>
       <p className="sh-lab">Voortgang vandaag</p>
       <div className="sh-ringen">

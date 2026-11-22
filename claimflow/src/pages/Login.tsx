@@ -3,6 +3,7 @@ import { aanmelden, herstelWachtwoord, login } from "../lib/api";
 import { useStore } from "../state/Store";
 import { Icon, type IconNaam } from "../components/Icon";
 import { Logo } from "../components/ui";
+import { LogoMerk } from "../components/LogoMerk";
 
 const KENMERKEN: Array<[IconNaam, string]> = [
   ["klok", "42 dagen bewaakt"], ["camera", "LGAR scannen"], ["afbeelding", "Foto’s als bewijs"],
@@ -110,13 +111,14 @@ export function Login() {
         ) : (
         <form className={`toegang-kaart${schud ? " schud" : ""}`} key={`${stand}-${schud}`} onSubmit={verstuur} noValidate>
           <span className="greep" aria-hidden="true" />
+          <div className="lg-kop"><span className="lg-merk" aria-hidden="true"><LogoMerk maat={64} /></span><b>ClaimFlow</b><h2>{stand === "aanmelden" ? "Account maken" : "Welkom terug!"}</h2><small>Log in om verder te gaan</small></div>
           <p className="toegang-uitleg">Vul je eigen naam in en de vestigingscode. Heb je nog geen account, dan maakt de app die nu voor je aan.</p>
           {stand === "herstel" && <p className="toegang-uitleg">Dit werkt nadat de beheerder een nieuw wachtwoord voor je heeft toegestaan in Beheer.</p>}
 
           <label className="veld">
             <span className="veld-label">Naam</span>
-            <input name="username" value={naam} onChange={(e) => { setNaam(e.target.value); setFout(""); }} autoComplete="username" autoCapitalize="words"
-              placeholder={stand === "aanmelden" ? "Voor- en achternaam" : "Je naam"} enterKeyHint="next" maxLength={40} />
+            <span className="lg-veld"><Icon naam="persoon" maat={18} /><input name="username" value={naam} onChange={(e) => { setNaam(e.target.value); setFout(""); }} autoComplete="username" autoCapitalize="words"
+              placeholder={stand === "aanmelden" ? "Voor- en achternaam" : "Je naam"} enterKeyHint="next" maxLength={40} /></span>
           </label>
           {stand !== "inloggen" && (
           <label className="veld">
@@ -141,8 +143,8 @@ export function Login() {
           {(
             <label className="veld">
               <span className="veld-label">Vestigingscode</span>
-              <input type="password" value={code} onChange={(e) => { setCode(e.target.value); setFout(""); }} autoComplete="off" autoCapitalize="off" autoCorrect="off"
-                spellCheck={false} enterKeyHint="go" aria-describedby="code-uitleg" />
+              <span className="lg-veld"><Icon naam="slot" maat={18} /><input type="password" value={code} onChange={(e) => { setCode(e.target.value); setFout(""); }} autoComplete="off" autoCapitalize="off" autoCorrect="off"
+                spellCheck={false} enterKeyHint="go" aria-describedby="code-uitleg" /></span>
               <span className="veld-hint" id="code-uitleg">De code van je vestiging. Vraag hem aan je werkvoorbereider.</span>
             </label>
           )}
@@ -153,6 +155,7 @@ export function Login() {
           </button>
           {stand === "herstel" && <button type="button" className="knop-link" onClick={() => wissel("inloggen")}>Terug naar inloggen</button>}
           <p className="toegang-tip"><Icon naam="slot" maat={14} /> Je blijft 30 dagen ingelogd op dit apparaat.</p>
+          <p className="lg-voet">Nog geen account? <b>Vul je naam en de code in</b>, dan maken we er een.</p>
         </form>
         )}
       </div>

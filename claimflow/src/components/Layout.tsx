@@ -11,7 +11,7 @@ import { DoelGehaald } from "./Team";
 
 interface NavItem { naar: string; label: string; kort?: string; icoon: IconNaam; einde?: boolean }
 const NAV: NavItem[] = [
-  { naar: "/", label: "Werkbalk", icoon: "huis", einde: true },
+  { naar: "/", label: "Werkbalk", kort: "Home", icoon: "huis", einde: true },
   { naar: "/claims", label: "Claims", icoon: "lijst" },
   { naar: "/leveranciers", label: "Leveranciers", icoon: "fabriek" },
   { naar: "/rapportage", label: "Rapportage", kort: "Cijfers", icoon: "grafiek" },
@@ -39,7 +39,7 @@ export function Layout() {
 
   const badge = (n: NavItem) => (n.naar === "/claims" && aandacht ? <em className="nav-badge" aria-label={`${aandacht} over termijn`}>{aandacht}</em> : null);
   const initialen = (naam || "?").split(/\s+/).map((d) => d[0]).join("").slice(0, 2).toUpperCase();
-  const onder = NAV.filter((n) => !["/leveranciers", "/notities", "/assistent"].includes(n.naar));
+  const onder = NAV.filter((n) => !["/leveranciers", "/rapportage", "/assistent"].includes(n.naar));
 
   return (
     <div className="frame">
