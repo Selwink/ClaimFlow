@@ -37,6 +37,7 @@ export function MediDash() {
 
   return (
     <section className="md" aria-label="Overzicht">
+      {magBewerken && <Link to="/nieuw?bron=camera" className="md-lgar"><span className="md-lgar-ic"><Icon naam="document" maat={26} /></span><span><b>LGAR-bon inlezen</b><small>Scan of kies de bon, de velden vullen zichzelf in</small></span><Icon naam="pijl" maat={22} /></Link>}
       {d.pm ? <p className="md-usp"><Icon naam="vink" maat={16} /> {d.pm.aantal} {d.pm.aantal === 1 ? "claim" : "claims"} gehonoreerd deze maand · {euro(d.pm.bedrag)} teruggehaald</p>
         : <p className="md-usp"><Icon naam="vink" maat={16} /> Makkelijk claimen: scan de LGAR-bon en de velden vullen zichzelf in</p>}
 
@@ -84,7 +85,6 @@ export function MediDash() {
 
       <h2 className="md-direct">Direct naar</h2>
       <div className="md-tegels">
-        {magBewerken && <Link to="/nieuw?bron=camera" className="md-tegel"><Icon naam="document" maat={30} /><span>LGAR-bon inlezen</span><Icon naam="pijl" maat={20} /></Link>}
         <Link to="/leveranciers" className="md-tegel"><Icon naam="fabriek" maat={30} /><span>Leveranciers</span><Icon naam="pijl" maat={20} /></Link>
         <Link to="/notities" className="md-tegel"><Icon naam="notitie" maat={30} /><span>Notities</span><Icon naam="pijl" maat={20} /></Link>
         <Link to="/rapportage" className="md-tegel"><Icon naam="grafiek" maat={30} /><span>Rapportage</span><Icon naam="pijl" maat={20} /></Link>
