@@ -8,6 +8,7 @@ import { GROEP, laterDatum, laterTekst, VAM_GEVRAAGD, WEER_OPGEPAKT, werkbak, ty
 import { Icon } from "../components/Icon";
 import { Leeg, Sheet } from "../components/ui";
 import { TeamKaart, TotaalKaart, UitbesteedKaart } from "../components/Team";
+import { EcoDashboard } from "../components/Eco";
 
 const BAKKEN: Array<{ id: Bak; label: string }> = [{ id: "nu", label: "Nu doen" }, { id: "week", label: "Deze week" }, { id: "wacht", label: "Wacht op lev." }];
 const CHIP: Record<Taak["reden"], { toon: string; tekst: string }> = {
@@ -77,6 +78,7 @@ export function Werkbak() {
 
   return (
     <div className="werkbak wb">
+      <EcoDashboard />
       <header className="wb-held">
         <div className="wb-held-top">
           <div>

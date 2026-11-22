@@ -1,0 +1,25 @@
+/* Eco theme: fresh green on near-black chrome, light work surface. Loaded after modern.css.
+   Brand use of the --rood* tokens turns green; warnings and delete actions get red back below. */
+:root {
+  --rood: #3FAE49; --rood-2: #1E7A2C; --rood-knop: #2F9A3A; --rood-licht: #5CC466; --rood-zacht: #E3F3E1; --rood-rand: #BFE3BB; --rood-rgb: 63, 174, 73;
+  --aub: #0E1410; --aub-2: #151D17; --aub-3: #1F2A21; --aub-0: #090D0A; --aub-rgb: 14, 20, 16; --gloed-rgb: 63, 174, 73;
+  --zand: #F3F6F2; --zand-2: #E6ECE4; --inkt: #111611; --inkt-2: #5F6B60; --lijn: #E3E9E1; --lijn-2: #CFD8CC;
+  --c-blauw: #2F9A3A; --c-blauw-d: #1E7A2C; --c-held: linear-gradient(160deg, #18231B 0%, #0E1410 100%);
+}
+/* Warnings, "over termijn" and delete actions stay red, so they still stand out. */
+.melding-rood, .chip-rood, .t-rood, .wic-rood, .ic-rood, .ring-rood, .tl-afgewezen, .werktaak-laat, .nav-badge,
+.icoonknop-rood, .actie-rood, .bulk-rood, .geld-mini b.rood, .wb-kaart.laat .wb-ic {
+  --rood: #E8382B; --rood-2: #B8231A; --rood-knop: #DB3325; --rood-licht: #F04B3E; --rood-zacht: #FFE3DF; --rood-rand: #F3B9B1; --rood-rgb: 232, 56, 43;
+  --knop-rood: linear-gradient(180deg, #F04B3E, #D62F22);
+}
+.logo-merk { width: auto !important; height: auto !important; background: none !important; box-shadow: none !important; border-radius: 0 !important; }
+.logo-svg { display: block; border-radius: 22%; box-shadow: 0 4px 12px rgba(63, 174, 73, .35); }
+@media (max-width: 1023px) {
+  .topbalk { background: #0E1410 !important; }
+  .tab.active svg { background: #DCEFD9 !important; }
+  .wb-chip.aan span { background: rgba(255, 255, 255, .22); }
+  .optie-hoofd { background: #F3FAF2 !important; border-color: #A9D8A4 !important; }
+  .wb-dringend em.laat { color: #FCA5A5; }
+}
+body { background: #F3F6F2; }
+@media (max-width: 1023px) { .wb-kop span, .wb-chip span { background: #E6ECE4; } }
