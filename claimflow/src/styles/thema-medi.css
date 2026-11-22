@@ -550,3 +550,63 @@ h1, h2, h3, .paginakop h1 { font-family: "Fira Sans", sans-serif !important; let
 .md-lgar > span:nth-child(2) { flex: 1; min-width: 0; } .md-lgar b { display: block; font: 700 1.25rem "Fira Sans", sans-serif; } .md-lgar small { color: rgba(255, 255, 255, .9) !important; font-size: .88rem; }
 .md-usp { order: -2; }
 @media (max-width: 1023px) { .md-lgar { margin-top: 14px; padding: 14px 16px; } .md-lgar b { font-size: 1.1rem; } .md-lgar small { font-size: .8rem; } }
+
+/* ---------- 7 · search with results right underneath ---------- */
+.sz { position: relative; flex: 1; max-width: 560px; display: flex; align-items: center; gap: 10px; border: 2px solid var(--minkt); background: #fff; border-radius: 999px; padding: 0 18px; color: #555; }
+.sz input { flex: 1; min-width: 0; border: 0 !important; background: transparent !important; padding: 11px 0 !important; font: 400 .95rem "Fira Sans", sans-serif; color: var(--minkt) !important; outline: none; box-shadow: none !important; }
+.sz:focus-within { box-shadow: 0 0 0 3px rgba(218, 47, 36, .18); }
+.sz-lijst { position: absolute; left: 0; right: 0; top: calc(100% + 8px); z-index: 60; background: #fff; border-radius: 6px; box-shadow: 0 18px 40px -14px rgba(0, 0, 0, .35); overflow: hidden; border-top: 5px solid var(--mr); }
+.sz-rij { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #F0F0F0; color: var(--minkt); text-decoration: none; }
+.sz-rij:hover, .sz-rij:focus { background: #FBF0EF; }
+.sz-rij b { display: block; font-size: .95rem; } .sz-rij small { color: #666 !important; font-size: .8rem; }
+.sz-rij mark { background: var(--mroze); color: #8A1F2D; padding: 0 3px; border-radius: 3px; font-weight: 600; }
+.sz-rij em { font-style: normal; font-weight: 700; font-size: .88rem; white-space: nowrap; }
+.sz-leeg { padding: 14px 16px; margin: 0; color: #666; }
+.sz-alles { display: flex; justify-content: center; gap: 6px; align-items: center; padding: 11px; font-weight: 700; color: var(--mr) !important; text-decoration: none; background: var(--mlicht); }
+@media (max-width: 1023px) { .sz { order: 15; flex: 0 0 100%; max-width: none; } }
+
+/* ---------- 5 · month goal on the phone ---------- */
+.md-doel-tel { display: none; }
+@media (max-width: 1023px) {
+  .md-doel-tel { order: -1; display: flex; align-items: center; gap: 10px; margin: 12px 0 0; padding: 10px 14px; background: #fff; border-left: 5px solid var(--mgeel); font-size: .86rem; color: #444; }
+  .md-doel-tel span { white-space: nowrap; } .md-doel-tel span b { color: var(--minkt); }
+  .md-doel-tel i { flex: 1; height: 6px; background: #EFEFF1; border-radius: 6px; overflow: hidden; } .md-doel-tel u { display: block; height: 100%; background: var(--mgeel); }
+  .md-doel-tel > b { color: var(--minkt); }
+}
+
+/* ---------- 3 · the other pages in the Medipoint style ---------- */
+.paginakop { padding-top: 26px !important; padding-bottom: 6px !important; }
+.paginakop h1 { font: 700 2.6rem/1.05 "Fira Sans", sans-serif !important; color: var(--minkt) !important; letter-spacing: -.01em !important; }
+.paginakop h1::after { content: ""; display: block; width: 150px; height: 6px; margin-top: 12px; background: linear-gradient(90deg, var(--mroze) 0 18%, var(--mteal-2) 18% 36%, var(--mnavy) 36% 54%, var(--mgeel) 54% 72%, var(--mr) 72%); }
+.paginakop .bovenschrift { font: 600 .9rem "Fira Sans", sans-serif !important; letter-spacing: .01em !important; text-transform: none !important; color: #5F6368 !important; }
+.nieuw-titel { font: italic 700 2.4rem/1.1 "Fira Sans", sans-serif !important; color: var(--minkt) !important; }
+.nieuw-titel span { font-style: normal; font-weight: 400; color: #5F6368 !important; font-size: .55em; }
+.bovenschrift { font-family: "Fira Sans", sans-serif !important; letter-spacing: .04em !important; }
+/* claim header: turquoise with a curved bottom, like the banners */
+.detail-kop { background: #2E9CB2 !important; clip-path: ellipse(140% 100% at 50% 0%); }
+.detail-kop h1 { font: italic 800 2.4rem/1.05 "Fira Sans", sans-serif !important; }
+/* cards, rows and tables: white, square-ish, pastel accents */
+.kaart, .levkaart, .wb-kaart, .taak, .kpi, .tabelkader, .kaartlijst > *, .instelrij { border-radius: 4px !important; background: #fff !important; box-shadow: none !important; border: 1px solid #E8E8EA !important; }
+.levraster .levkaart { border-top: 6px solid var(--mteal-2) !important; }
+.levraster .levkaart:nth-child(4n+2) { border-top-color: var(--mroze) !important; } .levraster .levkaart:nth-child(4n+3) { border-top-color: var(--mnavy) !important; } .levraster .levkaart:nth-child(4n+4) { border-top-color: var(--mgeel) !important; }
+.levkaart h2, .levkaart h3, .lev-titel { font-family: "Fira Sans", sans-serif !important; font-weight: 700 !important; }
+.kpi-rij .kpi { border-top: 6px solid var(--mroze) !important; } .kpi-rij .kpi:nth-child(2) { border-top-color: var(--mteal-2) !important; } .kpi-rij .kpi:nth-child(3) { border-top-color: var(--mnavy) !important; } .kpi-rij .kpi:nth-child(4) { border-top-color: var(--mgeel) !important; }
+.claimtabel th, table th { font: 600 .8rem "Fira Sans", sans-serif !important; letter-spacing: 0 !important; text-transform: none !important; color: #6B6B70 !important; }
+.claimtabel tbody tr:hover td { background: #FBF0EF !important; }
+.groepkop { font: 700 1.2rem "Fira Sans", sans-serif !important; }
+/* filters and chips as pills */
+.pil, .wb-chip, .segment button { border-radius: 999px !important; border: 2px solid var(--minkt) !important; background: #fff !important; color: var(--minkt) !important; font-weight: 600 !important; }
+.pil[aria-pressed="true"], .wb-chip.aan, .segment button[aria-pressed="true"], .segment button[aria-selected="true"], .segment .aan { background: var(--minkt) !important; color: #fff !important; }
+.chip { border-radius: 999px !important; font-weight: 600 !important; }
+.chip-rood { background: #FBE3E1 !important; color: #B8241B !important; } .chip-oker { background: #FDECC8 !important; color: #7A4F00 !important; } .chip-turk { background: #D8F1F1 !important; color: #1E6E72 !important; } .chip-grijs { background: #EEE !important; color: #555 !important; }
+/* form fields: outlined like the search pill */
+.veld input:not([type="checkbox"]):not([type="radio"]), .veld select { border: 2px solid #CFCFD3 !important; border-radius: 999px !important; padding-left: 18px !important; background: #fff !important; }
+.veld textarea { border: 2px solid #CFCFD3 !important; border-radius: 14px !important; }
+.veld input:focus, .veld select:focus, .veld textarea:focus { border-color: var(--minkt) !important; box-shadow: none !important; }
+.veld-label { font-weight: 600 !important; color: var(--minkt) !important; }
+.optie { border-radius: 4px !important; border: 2px solid #E8E8EA !important; }
+.optie:hover { border-color: var(--mr) !important; }
+.actiebalk { background: #fff !important; border-top: 5px solid var(--mr) !important; border-radius: 0 !important; }
+.kpi.kpi-donker { background: var(--mr) !important; border-color: var(--mr) !important; color: #fff !important; } .kpi.kpi-donker * { color: #fff !important; }
+.pf-band { position: relative !important; z-index: 50 !important; overflow: visible !important; }
+.sz { z-index: 80; } .pf-streep, .pf-nav { position: relative; z-index: 1; }
