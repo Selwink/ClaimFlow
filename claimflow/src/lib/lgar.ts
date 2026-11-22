@@ -104,13 +104,13 @@ export async function leesBestand(file: File, voortgang?: Voortgang): Promise<Le
 const REGELS: Array<{ k: keyof Claim; labels: string[]; lang?: boolean }> = [
   { k: "voorziening", labels: ["voorzieningsnummer", "voorzieningnummer", "voorzienings?\\s*nr\\.?", "voorziening"] },
   { k: "frame", labels: ["framenummer", "frame\\s*nummer", "frame\\s*nr\\.?", "serienummer", "frame"] },
-  { k: "type", labels: ["product\\s*categor[a-z]*", "type\\s*hulpmiddel", "hulpmiddel\\s*type", "type\\s*/?\\s*model", "hulpmiddel", "type"] },
+  { k: "type", labels: ["type\\s*hulpmiddel", "hulpmiddel\\s*type", "type\\s*/?\\s*model", "hulpmiddel", "type"] },
   { k: "storing", labels: ["omschrijving\\s*(?:van\\s*)?(?:de\\s*)?storing", "klachtomschrijving", "storing", "klacht", "omschrijving"], lang: true },
   { k: "leverancier", labels: ["leverancier", "fabrikant", "merk"] },
   { k: "nummer", labels: ["claimnummer", "werkordernummer", "werkorder", "meldingsnummer"] },
   { k: "inkoopnummer", labels: ["inkoopnummer", "inkoop\\s*nr\\.?", "inkooporder", "bestelnummer"] },
   { k: "aankoop", labels: ["aankoopdatum", "datum\\s*(?:van\\s*)?aankoop", "aanschafdatum", "leverdatum"] },
-  { k: "onderdeel", labels: ["vervangen\\s*onderdeel", "defect\\s*onderdeel", "onderdeel"] },
+  { k: "onderdeel", labels: ["product\\s*categor[a-z]*", "vervangen\\s*onderdeel", "defect\\s*onderdeel", "onderdeel"] },
 ];
 const EXTRA = ["monteur", "vestiging", "datum", "cli[eë]nt", "naam", "adres", "telefoon", "e-?mail", "aantal", "bedrag", "handtekening"];
 const ALLE = REGELS.flatMap((r) => r.labels).concat(EXTRA);
@@ -135,6 +135,11 @@ export function leesVelden(tekst: string, bekendeLeveranciers: string[]): Partia
         if (onder.length) w = onder.join(" ");
       }
       else if (!w && regels[i + 1] && !isLabel(regels[i + 1])) w = regels[i + 1];
+      else if (v.k === "type" && w) {
+        // A long type wraps onto the next line (e.g. "... Skai" / "zwart"): add that line unless it starts a new label.
+        const verder = regels[i + 1];
+        if (verder && verder.length <= 40 && !ALLE.concat(["product\\s*categor"]).some((l) => new RegExp(`^(?:${l})`, "i").test(verder))) w += ` ${verder}`;
+      }
       for (const l of ALLE) {
         if (l === lab) continue;
         const m = w.match(new RegExp(`(?:^|[^a-z])${l}\\s*[:=]`, "i"));
