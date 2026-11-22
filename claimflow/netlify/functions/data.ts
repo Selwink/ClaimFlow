@@ -105,6 +105,11 @@ export const handler = async (e: Verzoek) => {
       await db.bewaar([c]);
       return json(200, { ok: true, id: c.id });
     }
+    // Open health check (no data, no secrets): is the database reachable with the server's key?
+    if (actie === "status") {
+      try { await db.alleGebruikers(); return json(200, { database: "ok", sleutel: db.sleutelBron() }); }
+      catch (err) { return json(503, { database: (err as Error).message, sleutel: db.sleutelBron() }); }
+    }
     if (actie === "herstel") { return fout(410, "Niet meer nodig: inloggen gaat met je naam en de vestigingscode."); }
     if (actie === "herstel_oud") {
       const g = await db.gebruiker(sleutelVoor(tekst("naam", 40)));

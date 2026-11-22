@@ -85,6 +85,11 @@ jobs:
       - name: Deploy function
         env: { SUPABASE_ACCESS_TOKEN: "${{ secrets.SUPABASE_ACCESS_TOKEN }}" }
         run: supabase functions deploy claimflow --project-ref "$SUPABASE_PROJECT" --no-verify-jwt
+      - name: Check that the function reaches the database
+        run: |
+          sleep 10
+          curl -sS -w "\nHTTP %{http_code}\n" "https://$SUPABASE_PROJECT.supabase.co/functions/v1/claimflow/data?actie=status" | tee status.txt
+          grep -q '"database":"ok"' status.txt
 
   gepland:
     if: github.event_name == 'schedule'
