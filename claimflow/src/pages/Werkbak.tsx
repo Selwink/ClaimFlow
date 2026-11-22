@@ -77,7 +77,12 @@ export function Werkbak() {
                 <span className="sl-terug" aria-hidden="true">komt terug.</span>
               </p>
             </div>
-            {magBewerken && <Link to="/nieuw" className="knop knop-rood knop-klein"><Icon naam="plus" maat={16} /> Nieuwe claim</Link>}
+            {magBewerken && (
+              <span className="werkbak-knoppen">
+                <Link to="/nieuw?bron=camera" className="knop knop-stil knop-klein"><Icon naam="camera" maat={16} /> Scan LGAR</Link>
+                <Link to="/nieuw" className="knop knop-rood knop-klein"><Icon naam="plus" maat={16} /> Nieuwe claim</Link>
+              </span>
+            )}
           </div>
           <label className="werkbak-zoek">
             <Icon naam="lijst" maat={16} />

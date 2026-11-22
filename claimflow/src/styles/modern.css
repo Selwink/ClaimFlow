@@ -309,3 +309,4 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 .team-week { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .team-week > div { padding: 10px 12px; }
 .team-ik { min-width: 0; overflow-wrap: anywhere; }
+.werkbak-knoppen { display: inline-flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
