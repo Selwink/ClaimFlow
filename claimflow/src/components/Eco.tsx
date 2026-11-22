@@ -2,8 +2,10 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import type { Claim } from "../lib/types";
 import { useStore } from "../state/Store";
-import { afgehandeldOp, isOpen, levKleur, levLetters, som, startDatum, statusVan } from "../lib/claims";
-import { dezeMaand, euroKort, meervoud, periodLabel, vandaag } from "../lib/format";
+import { titelVan } from "../lib/claims";
+import { Icon } from "./Icon";
+import { afgehandeldOp, dagenOpen, isOpen, levKleur, levLetters, som, startDatum, statusVan } from "../lib/claims";
+import { datum, dezeMaand, euroKort, meervoud, periodLabel, vandaag } from "../lib/format";
 import { geclaimdDezeMaand, teruggehaaldPerMaand } from "../lib/team";
 
 const vorigeMaand = (p: string) => { const [j, m] = p.split("-").map(Number); const d = new Date(j, m - 2, 1); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`; };
@@ -33,7 +35,7 @@ function perDag(claims: Claim[]) {
 
 /** Desktop dashboard on the Werkbalk (layout "Eco"): stat cards, claims per day, year card, suppliers, month goal. */
 export function EcoDashboard() {
-  const { actief, inst } = useStore();
+  const { actief, inst, naam, magBewerken } = useStore();
   const d = useMemo(() => {
     const maand = dezeMaand(), vorige = vorigeMaand(maand), jaar = maand.slice(0, 4);
     const pm = teruggehaaldPerMaand(actief);
@@ -65,8 +67,14 @@ export function EcoDashboard() {
     }).sort((x, y) => y.totaal - x.totaal).slice(0, 5);
     const dagen = perDag(actief);
     const geclaimd = geclaimdDezeMaand(actief).bedrag;
-    return { maand, dezeM, vorigeM, graad, gehN: geh.length, afgN: afg.length, open, jaar, jaarTerug, vorigJaar, binnen, buiten, uitbesteed, lev, dagen, geclaimd };
-  }, [actief]);
+    const recent = actief.flatMap((c) => (c.notities || []).map((n) => ({ c, n }))).sort((a, b) => b.n.d.localeCompare(a.n.d)).slice(0, 5);
+    const termijn = inst.dagen;
+    const openT = actief.filter((c) => isOpen(c) && !c.uitbesteed);
+    const teLaat = openT.filter((c) => (dagenOpen(c)?.dagen ?? 0) >= termijn).length;
+    const bijna = openT.filter((c) => { const x = dagenOpen(c)?.dagen ?? 0; return x < termijn && x >= termijn - 7; }).length;
+    const gezond = { opTijd: openT.length - teLaat - bijna, bijna, teLaat, totaal: openT.length };
+    return { recent, gezond, maand, dezeM, vorigeM, graad, gehN: geh.length, afgN: afg.length, open, jaar, jaarTerug, vorigJaar, binnen, buiten, uitbesteed, lev, dagen, geclaimd };
+  }, [actief, inst.dagen]);
 
   const maxDag = Math.max(1, ...d.dagen.map((x) => x.bedrag));
   const piek = d.dagen.reduce((b, x, i) => (x.bedrag > d.dagen[b].bedrag ? i : b), 0);
@@ -76,6 +84,11 @@ export function EcoDashboard() {
 
   return (
     <section className="eco-dash" aria-label="Overzicht">
+      <header className="cr-kop">
+        <div><h1>Welkom terug{naam ? `, ${naam.split(" ")[0]}` : ""}</h1><p>Dit gebeurt er vandaag met je claims.</p></div>
+        <Link to="/claims" className="cr-zoek"><Icon naam="zoek" maat={16} /> Zoek claims, leveranciers…</Link>
+        {magBewerken && <Link to="/nieuw" className="knop knop-rood cr-nieuw"><Icon naam="plus" maat={16} /> Nieuwe claim</Link>}
+      </header>
       <div className="eco-stats">
         <div className="eco-kaart eco-donker">
           <small>Teruggehaald deze maand</small><b>{euroKort(d.dezeM)}</b>
@@ -94,7 +107,14 @@ export function EcoDashboard() {
         </div>
       </div>
 
-      <div className="eco-midden">
+      <div className="eco-midden cr-midden">
+        <div className="eco-kaart cr-act">
+          <h3>Recente activiteit</h3>
+          <ul>{d.recent.map(({ c, n }, i) => {
+            const fout = /prullenbak|afgewezen|over termijn|te laat/i.test(n.t) || n.naar === "afgewezen";
+            return <li key={i}><span className={fout ? "cr-no" : "cr-ok"}>{fout ? "!" : "✓"}</span><Link to={`/claims/${c.id}`}><b>{titelVan(c)}{c.leverancier ? ` · ${c.leverancier}` : ""}</b><small>{n.t}</small></Link><em>{datum(n.d)}</em></li>;
+          })}</ul>
+        </div>
         <div className="eco-kaart">
           <h3>Ingediend per dag <span>8 weken</span></h3>
           <svg viewBox="0 0 700 200" className="eco-staven" role="img" aria-label="Bedrag ingediend per dag, laatste 8 weken">
@@ -106,6 +126,15 @@ export function EcoDashboard() {
             {d.dagen[piek].bedrag > 0 && (() => { const x = (piek + .3) * (700 / d.dagen.length); return <g><rect x={x - 34} y="6" width="68" height="22" rx="6" fill="#111" /><text x={x} y="21" fill="#fff" fontSize="11" textAnchor="middle" fontWeight="700">{euroKort(d.dagen[piek].bedrag)}</text></g>; })()}
             {Array.from({ length: 8 }, (_, w) => <text key={w} x={40 + w * 88} y="192" fill="#9AA59A" fontSize="10">{d.dagen[w * 7].d.slice(8, 10)}-{d.dagen[w * 7].d.slice(5, 7)}</text>)}
           </svg>
+        </div>
+      </div>
+      <div className="eco-midden cr-rij">
+        <div className="eco-kaart cr-gezond">
+          <h3>Gezondheid register</h3>
+          {(() => { const g = d.gezond, t = Math.max(1, g.totaal), o = 2 * Math.PI * 44; let acc = 0;
+            const deel = [["#22C55E", g.opTijd], ["#F59E0B", g.bijna], ["#FB7185", g.teLaat]] as const;
+            return <div className="cr-donut"><svg viewBox="0 0 120 120" role="img" aria-label="Open claims: op tijd, bijna, te laat">{deel.map(([k, v]) => { const el = <circle key={k} cx="60" cy="60" r="44" fill="none" stroke={k} strokeWidth="16" strokeDasharray={`${(v / t) * o} ${o}`} strokeDashoffset={-acc} transform="rotate(-90 60 60)" />; acc += (v / t) * o; return el; })}<text x="60" y="66" textAnchor="middle" fontSize="20" fontWeight="800" fill="currentColor">{g.totaal}</text></svg>
+              <ul><li><i style={{ background: "#22C55E" }} />Op tijd {g.opTijd}</li><li><i style={{ background: "#F59E0B" }} />Bijna {g.bijna}</li><li><i style={{ background: "#FB7185" }} />Te laat {g.teLaat}</li></ul></div>; })()}
         </div>
         <div className="eco-kaart eco-groen">
           <div className="eco-groot">{euroKort(d.jaarTerug)} <small>{d.jaar}</small></div>
