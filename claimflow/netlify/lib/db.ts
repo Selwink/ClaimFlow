@@ -127,9 +127,11 @@ export async function bewaarFoto(claimId: string, data: string, wie: string, dat
 export async function exportRijen(vanaf: number, aantal: number): Promise<Array<Record<string, unknown>>> {
   return haal(`select=*&id=not.like.${q(`${BACKUP}*`)}&order=id.asc&limit=${aantal}&offset=${vanaf}`);
 }
-/** Writes exported rows back as they were (same id = replaced). Only the table's own columns are sent. */
+/** Writes exported rows back as they were (same id = replaced). Every row gets every column (the database
+ *  requires the same keys in one request); a missing value becomes empty. */
 export async function importRijen(rijen: Array<Record<string, unknown>>): Promise<void> {
-  const schoon = rijen.map((x) => Object.fromEntries(KOLOMMEN.filter((k) => k in x && !onbekend.has(k)).map((k) => [k, x[k]])));
+  const leeg = (k: string) => (k === "notities" ? [] : k === "uitbesteed" ? false : null);
+  const schoon = rijen.map((x) => Object.fromEntries(KOLOMMEN.filter((k) => !onbekend.has(k)).map((k) => [k, x[k] === undefined ? leeg(k) : x[k]])));
   const r = await fetch(API, { method: "POST", headers: kop({ Prefer: "resolution=merge-duplicates,return=minimal" }), body: JSON.stringify(schoon) });
   if (!r.ok) throw new Error(`Database ${r.status}: ${(await r.text().catch(() => "")).slice(0, 200)}`);
 }

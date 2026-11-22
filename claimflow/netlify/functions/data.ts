@@ -258,7 +258,8 @@ export const handler = async (e: Verzoek) => {
           .filter((r): r is Record<string, unknown> => !!r && typeof r === "object" && isId((r as { id?: unknown }).id) && !String((r as { id: string }).id).startsWith(db.BACKUP));
         if (!rijen.length) return fout(400, "Geen rijen om in te lezen");
         if (rijen.length > 500) return fout(413, "Te veel rijen in één keer");
-        await db.importRijen(rijen);
+        try { await db.importRijen(rijen); }
+        catch (err) { console.error("import", err); return fout(502, `De database weigerde de rijen: ${(err as Error).message}`); }
         return json(200, { aantal: rijen.length });
       }
       case "beveiliging": return json(200, { serviceSleutel: db.heeftServiceSleutel(), tabelOpen: await db.tabelOpen(), sleutel: (await geheim()).bron });
