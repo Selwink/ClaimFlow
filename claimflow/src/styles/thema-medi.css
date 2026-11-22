@@ -610,3 +610,4 @@ h1, h2, h3, .paginakop h1 { font-family: "Fira Sans", sans-serif !important; let
 .kpi.kpi-donker { background: var(--mr) !important; border-color: var(--mr) !important; color: #fff !important; } .kpi.kpi-donker * { color: #fff !important; }
 .pf-band { position: relative !important; z-index: 50 !important; overflow: visible !important; }
 .sz { z-index: 80; } .pf-streep, .pf-nav { position: relative; z-index: 1; }
+.dc { display: none !important; }
