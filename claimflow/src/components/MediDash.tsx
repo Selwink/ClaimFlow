@@ -33,7 +33,6 @@ export function MediDash() {
   const totaal = som(d.eigen) + som(d.uit);
   const binnen = som(d.eigen.filter((c) => c.locatie !== "buiten")), buiten = som(d.eigen.filter((c) => c.locatie === "buiten"));
   const graad = d.afg.length ? Math.round((d.geh.length / d.afg.length) * 100) : 0;
-  const nu = d.taken.filter((t) => t.bak === "nu").length;
   const toon = (c: Claim) => (overTermijn(c, inst.dagen) ? ["s-rood", "VAM vragen"] : statusVan(c) === "gehonoreerd" ? ["s-teal", "Gehonoreerd"] : statusVan(c) === "afgewezen" ? ["s-grijs", "Afgewezen"] : statusVan(c) === "nieuw" ? ["s-roze", "Nieuw"] : ["s-geel", STATUS_LABEL[statusVan(c)]]);
 
   return (
@@ -65,10 +64,6 @@ export function MediDash() {
           </div>
           <div className="md-beeld md-beeld-rood"><Krukken /></div>
         </div>
-      </div>
-
-      <div className="md-blokken">
-        <Link to="/claims" className="md-blok md-blok-teal"><div><h3>Nu doen</h3><p>{nu} {nu === 1 ? "taak wacht" : "taken wachten"} op je.<br />{d.laat} over termijn.</p><span className="md-pil md-pil-wit">Open taken</span></div><Bed /></Link>
       </div>
 
       <div className="md-kaart md-tabel">
