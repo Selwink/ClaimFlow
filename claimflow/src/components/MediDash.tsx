@@ -23,7 +23,7 @@ export function MediDash() {
     const jaarVan = (c: Claim) => (afgehandeldOp(c) || c.periode || c.datum || "").slice(0, 4);
     const geh = actief.filter((c) => statusVan(c) === "gehonoreerd");
     const eigen = geh.filter((c) => !c.uitbesteed && jaarVan(c) === jaar);
-    const uit = actief.filter((c) => c.uitbesteed && statusVan(c) !== "afgewezen" && jaarVan(c) === jaar);
+    const uit = actief.filter((c) => c.uitbesteed && (c.periode || c.datum || afgehandeldOp(c) || "").slice(0, 4) === jaar);
     const afg = actief.filter((c) => ["gehonoreerd", "afgewezen"].includes(statusVan(c)));
     const taken = werkbak(actief, inst.dagen);
     const laatste = [...actief].sort((a, b) => (b.bijgewerkt || b.datum || "").localeCompare(a.bijgewerkt || a.datum || "")).slice(0, 5);
