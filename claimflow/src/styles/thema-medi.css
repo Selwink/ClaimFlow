@@ -1,26 +1,26 @@
 /* Medipoint theme (design 23): white top bar with colour stripe, turquoise and red banners, pastel blocks, Fira Sans. Loaded last. */
 :root {
-  --R: #DA2F24; --navy: #2E2E30; --navy-2: #3F4A63; --goud: #F4B43A;
-  --rood: #DA2F24; --rood-2: #B8241B; --rood-knop: #DA2F24; --rood-licht: #E8473A; --rood-zacht: #FBE3E1; --rood-rand: #F4B7B2; --rood-rgb: 218, 47, 36;
+  --R: var(--mr); --navy: #2E2E30; --navy-2: #3F4A63; --goud: #F4B43A;
+  --rood: var(--mr); --rood-2: var(--mr-2); --rood-knop: var(--mr); --rood-licht: #E8473A; --rood-zacht: var(--mr-zacht); --rood-rand: #F4B7B2; --rood-rgb: var(--mr-rgb);
   --aub: #2E2E30; --aub-2: #3F4A63; --aub-3: #3A4760; --aub-0: #1F2838; --aub-rgb: 46, 46, 48;
   --zand: #F4F5F7; --zand-2: #E9ECF1; --papier: #FFFFFF; --inkt: #2E2E30; --inkt-2: #5F6368; --lijn: #E6E9EF; --lijn-2: #D5DAE2;
   --turk: #1E8E73; --turk-2: #1E8E73; --turk-zacht: #D7F3EC; --oker: #E0A42E; --oker-2: #A07B00; --oker-zacht: #FDF3C4;
-  --L: #DA2F24; --vlak: #FFFFFF; --vlak-2: #F4F5F7; --rand: #E6E9EF; --rand-2: #D5DAE2; --tekst: #2E2E30; --tekst-2: #5F6368; --bg: #F4F5F7;
-  --donker-vlak: linear-gradient(180deg, #2E2E30, #3F4A63); --knop-rood: #DA2F24; --schaduw-rood: 0 8px 18px -8px rgba(218, 47, 36, .7);
+  --L: var(--mr); --vlak: #FFFFFF; --vlak-2: #F4F5F7; --rand: #E6E9EF; --rand-2: #D5DAE2; --tekst: #2E2E30; --tekst-2: #5F6368; --bg: #F4F5F7;
+  --donker-vlak: linear-gradient(180deg, #2E2E30, #3F4A63); --knop-rood: var(--mr); --schaduw-rood: 0 8px 18px -8px rgba(var(--mr-rgb), .7);
   --kaart-rand: #E6E9EF; --kaart-schaduw: 0 6px 20px -10px rgba(30, 40, 60, .22);
-  --c-blauw: #DA2F24; --c-blauw-d: #B8241B; --c-held: linear-gradient(180deg, #2E2E30, #3F4A63);
+  --c-blauw: var(--mr); --c-blauw-d: var(--mr-2); --c-held: linear-gradient(180deg, #2E2E30, #3F4A63);
   color-scheme: light;
 }
-.melding-rood, .chip-rood, .t-rood, .wic-rood, .ic-rood, .ring-rood, .tl-afgewezen, .werktaak-laat, .nav-badge, .icoonknop-rood, .actie-rood, .bulk-rood { --rood: #DA2F24; }
+.melding-rood, .chip-rood, .t-rood, .wic-rood, .ic-rood, .ring-rood, .tl-afgewezen, .werktaak-laat, .nav-badge, .icoonknop-rood, .actie-rood, .bulk-rood { --rood: var(--mr); }
 html, body { background: #F4F5F7 !important; color: #2E2E30; }
 .logo-svg { filter: hue-rotate(150deg) saturate(1.1); }
 .eco-dash, .sh-kop, .wb-held, .wb-maand, .pf-dash, .cr-kop, .vp { display: none !important; }
-.knop-rood, .grootknop, .zij-nieuw, .tab-plus, .pil[aria-pressed="true"], .wb-chip.aan { background: #DA2F24 !important; color: #fff !important; border-color: #DA2F24 !important; }
+.knop-rood, .grootknop, .zij-nieuw, .tab-plus, .pil[aria-pressed="true"], .wb-chip.aan { background: var(--mr) !important; color: #fff !important; border-color: var(--mr) !important; }
 .kaart, .wb-kaart, .taak, .optie, .instelrij, .levkaart, .sh-kaart, .sh-profiel, .notitielijst a, .flow-sug button, .flow-antw > div, .flow-invoer, .zoekbalk, .pil, .wb-chip, .wb-snel { background: #fff !important; border-color: #E6E9EF !important; box-shadow: 0 6px 20px -12px rgba(30, 40, 60, .22) !important; color: #2E2E30; }
-.sh-tabs button[aria-selected="true"], .sh-staven i.hl { background: #DA2F24 !important; color: #fff; }
+.sh-tabs button[aria-selected="true"], .sh-staven i.hl { background: var(--mr) !important; color: #fff; }
 .sh-staven i { background: #F9DFA6 !important; }
-.sh-ring-v { stroke: #DA2F24 !important; filter: none !important; }
-.flow-bot { color: #DA2F24 !important; border-color: #DA2F24 !important; background: #FBE3E1 !important; box-shadow: none !important; }
+.sh-ring-v { stroke: var(--mr) !important; filter: none !important; }
+.flow-bot { color: var(--mr) !important; border-color: var(--mr) !important; background: var(--mr-zacht) !important; box-shadow: none !important; }
 .flow-ik { background: #2E2E30 !important; color: #fff; }
 .sh-av, .pf-av { background: linear-gradient(135deg, #E8473A, #F4B43A) !important; color: #fff !important; }
 /* ---------- showcase pieces ---------- */
@@ -38,15 +38,15 @@ html, body { background: #F4F5F7 !important; color: #2E2E30; }
   .sh-ring b { position: absolute; top: 27px; left: 0; right: 0; font-size: .8rem; }
   .sh-ring small { display: block; font-size: .72rem; }
   .sh-banner { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; min-height: 96px; padding: 16px; border-radius: 18px; text-decoration: none; color: var(--tekst);
-    background: linear-gradient(90deg, rgba(17, 17, 17, .92), rgba(17, 17, 17, .15)), linear-gradient(135deg, #7C2D12, #DA2F24 60%, #FFFFFF); font-weight: 600; }
+    background: linear-gradient(90deg, rgba(17, 17, 17, .92), rgba(17, 17, 17, .15)), linear-gradient(135deg, #7C2D12, var(--mr) 60%, #FFFFFF); font-weight: 600; }
   .sh-banner b { color: var(--L) !important; }
   .sh-banner i { width: 32px; height: 32px; border-radius: 50%; background: #fff; color: #F4F5F7; display: grid; place-items: center; font-style: normal; font-size: .7rem; }
   .wb-snel { margin-top: 14px !important; }
 }
 .sh-ring-bg { fill: none; stroke: #2A2A2A; stroke-width: 4; }
-.sh-ring-v { fill: none; stroke: var(--L); stroke-width: 4; stroke-linecap: round; filter: drop-shadow(0 0 4px rgba(218, 47, 36, .5)); }
+.sh-ring-v { fill: none; stroke: var(--L); stroke-width: 4; stroke-linecap: round; filter: drop-shadow(0 0 4px rgba(var(--mr-rgb), .5)); }
 .sh-av { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, var(--L), #C2410C); color: #fff !important; display: grid; place-items: center; font-weight: 800; text-decoration: none; flex: none; }
-.sh-av-groot { width: 72px; height: 72px; font-size: 1.8rem; margin: 0 auto 8px; box-shadow: 0 0 30px rgba(218, 47, 36, .35); }
+.sh-av-groot { width: 72px; height: 72px; font-size: 1.8rem; margin: 0 auto 8px; box-shadow: 0 0 30px rgba(var(--mr-rgb), .35); }
 .sh-profiel { text-align: center; background: var(--vlak); border: 1px solid var(--rand); border-radius: 20px; padding: 22px 16px 10px; margin-bottom: 16px; display: flex; flex-direction: column; align-items: center; }
 .sh-profiel > b { font: 800 1.15rem var(--display); }
 .sh-stats { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; margin: 16px 0 8px; }
@@ -66,7 +66,7 @@ html, body { background: #F4F5F7 !important; color: #2E2E30; }
 .sh-staven { display: flex; align-items: flex-end; justify-content: space-between; height: 120px; margin-top: 14px; gap: 6px; }
 .sh-staven div { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .sh-staven i { width: min(18px, 60%); border-radius: 6px; background: #3A2A24; }
-.sh-staven i.hl { background: var(--L); box-shadow: 0 0 12px rgba(218, 47, 36, .5); }
+.sh-staven i.hl { background: var(--L); box-shadow: 0 0 12px rgba(var(--mr-rgb), .5); }
 .sh-staven span { font-size: .68rem; color: var(--tekst-2); }
 .sh-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
 
@@ -81,7 +81,7 @@ html, body { background: #F4F5F7 !important; color: #2E2E30; }
 .flow { display: flex; flex-direction: column; min-height: calc(100vh - 200px); }
 .flow-start { text-align: center; padding: 26px 0 10px; }
 .flow-bot { width: 110px; height: 110px; margin: 0 auto 16px; border-radius: 50%; display: grid; place-items: center; color: var(--L); border: 2px solid var(--L);
-  background: radial-gradient(circle, #2A2A2A, #F4F5F7111 70%); box-shadow: 0 0 40px rgba(218, 47, 36, .35); }
+  background: radial-gradient(circle, #2A2A2A, #F4F5F7111 70%); box-shadow: 0 0 40px rgba(var(--mr-rgb), .35); }
 .flow-start h1 { font: 800 1.5rem var(--display); margin: 0 0 6px; }
 .flow-start p { color: var(--tekst-2); }
 .flow-gesprek { display: flex; flex-direction: column; gap: 10px; padding: 10px 0; }
@@ -105,12 +105,12 @@ html, body { background: #F4F5F7 !important; color: #2E2E30; }
 @media (max-width: 1023px) {
   .toegang-band { display: none !important; }
   .toegang { min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
-    background: radial-gradient(420px 300px at 50% 12%, rgba(218, 47, 36, .22), transparent 70%), var(--bg) !important; }
+    background: radial-gradient(420px 300px at 50% 12%, rgba(var(--mr-rgb), .22), transparent 70%), var(--bg) !important; }
   .toegang-plek { border-radius: 0 !important; box-shadow: none !important; padding: 24px 18px 30px !important; }
   .toegang-kaart { background: transparent !important; border: 0 !important; padding: 0 !important; }
   .toegang-kaart::before { display: none !important; }
   .lg-kop { display: flex; flex-direction: column; align-items: center; text-align: center; margin: 10px 0 8px; }
-  .lg-merk .logo-svg { width: 72px; height: 72px; box-shadow: 0 0 40px rgba(218, 47, 36, .5); }
+  .lg-merk .logo-svg { width: 72px; height: 72px; box-shadow: 0 0 40px rgba(var(--mr-rgb), .5); }
   .lg-kop > b { font: 800 1.6rem var(--display); margin-top: 12px; }
   .lg-kop h2 { font: 700 1.1rem var(--display); margin: 14px 0 2px; }
   .toegang-uitleg { display: none; }
@@ -118,7 +118,7 @@ html, body { background: #F4F5F7 !important; color: #2E2E30; }
 .lg-veld { display: flex; align-items: center; gap: 10px; background: #F7F8FA; border: 1px solid var(--rand-2); border-radius: 14px; padding: 0 14px; }
 .lg-veld svg { color: #9AA3B2; flex: none; }
 .lg-veld input { border: 0 !important; background: transparent !important; box-shadow: none !important; padding-left: 0 !important; flex: 1; min-height: 50px; }
-.lg-veld:focus-within { border-color: var(--L); box-shadow: 0 0 0 3px rgba(218, 47, 36, .18); }
+.lg-veld:focus-within { border-color: var(--L); box-shadow: 0 0 0 3px rgba(var(--mr-rgb), .18); }
 .toegang-kaart .knop-rood { border-radius: 14px !important; min-height: 52px; text-transform: none !important; letter-spacing: 0 !important; font-weight: 800 !important; }
 .lg-voet { text-align: center; color: var(--tekst-2); font-size: .85rem; margin: 6px 0 0; }
 .lg-voet b { color: var(--L) !important; font-weight: 600; }
@@ -162,7 +162,7 @@ html, body { background: #F4F5F7 !important; color: #2E2E30; }
 .pil, .wb-chip { border-radius: 9px !important; min-height: 34px; font-size: .84rem !important; }
 
 /* splash: lime glow behind the logo */
-.splash { background: radial-gradient(420px 320px at 50% 40%, rgba(218, 47, 36, .25), transparent 70%), var(--bg) !important; }
+.splash { background: radial-gradient(420px 320px at 50% 40%, rgba(var(--mr-rgb), .25), transparent 70%), var(--bg) !important; }
 .toegang-tip { background: var(--vlak) !important; color: var(--tekst-2) !important; border: 1px solid var(--rand) !important; }
 /* claims (phone): straight to filters and rows, like "My Tasks" — the number tiles move out of the way */
 @media (max-width: 1023px) { .teller { display: none !important; } }
@@ -177,7 +177,7 @@ html, body { background: #F4F5F7 !important; color: #2E2E30; }
 .pf-dag i { color: #FFD166; font-style: normal; }
 .pf-zoek { display: flex; align-items: center; gap: 8px; margin: 0 auto; width: min(320px, 34vw); padding: 8px 14px; border-radius: 10px; background: rgba(0, 0, 0, .35); color: rgba(255, 255, 255, .7); text-decoration: none; font-size: .82rem; backdrop-filter: blur(6px); }
 .pf-acties { display: flex; align-items: center; gap: 10px; }
-.pf-plus { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: #DA2F24; color: #fff !important; box-shadow: 0 8px 20px -6px rgba(218, 47, 36, .8); }
+.pf-plus { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: var(--mr); color: #fff !important; box-shadow: 0 8px 20px -6px rgba(var(--mr-rgb), .8); }
 .pf-ic { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: rgba(0, 0, 0, .3); color: #fff; }
 .pf-ik { display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; }
 .pf-av { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #FFB86B, #E8473A); display: grid; place-items: center; font-weight: 800; }
@@ -199,8 +199,8 @@ html, body { background: #F4F5F7 !important; color: #2E2E30; }
 .pf-kop h2 { font: 700 1.05rem var(--display); margin: 0; }
 .pf-knoppen { display: flex; gap: 8px; }
 .pf-uit, .pf-oranje { padding: 7px 14px; border-radius: 9px; font-size: .78rem; font-weight: 700; text-decoration: none; text-align: center; }
-.pf-uit { border: 1px solid #DA2F24; color: #DA2F24 !important; }
-.pf-oranje { background: #DA2F24; color: #fff !important; box-shadow: 0 8px 18px -8px rgba(218, 47, 36, .9); }
+.pf-uit { border: 1px solid var(--mr); color: var(--mr) !important; }
+.pf-oranje { background: var(--mr); color: #fff !important; box-shadow: 0 8px 18px -8px rgba(var(--mr-rgb), .9); }
 .pf-vol { display: block; margin-top: 10px; }
 .pf-cijfers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 18px; }
 .pf-cijfer small { display: flex; gap: 8px; align-items: center; color: #5F6368; font-size: .74rem; }
@@ -209,11 +209,11 @@ html, body { background: #F4F5F7 !important; color: #2E2E30; }
 .pf-cijfer sup, .pf-sub sup, .pf-stat-kop sup { font-size: .55em; color: #5F6368; margin-right: 2px; }
 .pf-stat-kop { display: flex; align-items: center; gap: 14px; margin-top: 14px; }
 .pf-stat-kop small { color: #5F6368; font-size: .74rem; } .pf-stat-kop b { display: block; font: 700 1.05rem var(--display); }
-.pf-badge { width: 40px; height: 40px; border-radius: 12px; background: #FBE9EB; display: grid; place-items: center; color: #DA2F24; font-weight: 800; flex: none; }
+.pf-badge { width: 40px; height: 40px; border-radius: 12px; background: #FBE9EB; display: grid; place-items: center; color: var(--mr); font-weight: 800; flex: none; }
 .pf-badge .logo-svg { width: 26px; height: 26px; }
 .pf-tabs { margin-left: auto; display: flex; gap: 6px; }
 .pf-tabs button { border: 0; background: #F1F3F6; color: #5F6368; border-radius: 7px; padding: 6px 12px; font: 700 .7rem var(--body); cursor: pointer; }
-.pf-tabs button[aria-selected="true"] { background: #DA2F24; color: #fff; }
+.pf-tabs button[aria-selected="true"] { background: var(--mr); color: #fff; }
 .pf-golf { width: 100%; height: auto; margin-top: 10px; overflow: visible; }
 .pf-raster { stroke: #E6E9EF; stroke-dasharray: 2 4; }
 .pf-piek-lijn { stroke: rgba(255, 255, 255, .5); stroke-width: 1; }
@@ -224,7 +224,7 @@ html, body { background: #F4F5F7 !important; color: #2E2E30; }
 .pf-lev { display: flex; align-items: center; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid #E6E9EF; }
 .pf-lev b { display: block; } .pf-lev small { color: #5F6368; font-size: .66rem; letter-spacing: .06em; }
 .pf-sub { text-align: center; padding: 14px 0 6px; } .pf-sub small { color: #5F6368; font-size: .74rem; } .pf-sub b { display: block; font: 700 1.2rem var(--display); margin: 2px 0 6px; }
-.pf-sub a { color: #DA2F24; font-size: .74rem; font-weight: 700; text-decoration: none; }
+.pf-sub a { color: var(--mr); font-size: .74rem; font-weight: 700; text-decoration: none; }
 .pf-ring { width: 160px; height: 160px; margin: 10px auto; display: block; }
 .pf-ring-l { fill: #5F6368; font: 600 9px var(--body); } .pf-ring-v { fill: #fff; font: 800 22px var(--display); }
 .pf-lijst { margin: 6px 0 4px; display: grid; gap: 8px; font-size: .8rem; }
@@ -241,7 +241,7 @@ html, body { background: #F4F5F7 !important; color: #2E2E30; }
 .pf-band { background: linear-gradient(180deg, #2E2E30, #3F4A63) !important; padding-bottom: 14px !important; margin-bottom: 0 !important; }
 .pf-band::after { display: none !important; }
 .pf-zoek { background: rgba(255, 255, 255, .08) !important; color: rgba(255, 255, 255, .7) !important; }
-.pf-plus { background: #DA2F24 !important; box-shadow: none !important; }
+.pf-plus { background: var(--mr) !important; box-shadow: none !important; }
 .pf-ic { background: rgba(255, 255, 255, .08) !important; }
 .pf-dag i { color: var(--goud) !important; }
 
@@ -256,7 +256,7 @@ html, body { background: #F4F5F7 !important; color: #2E2E30; }
   .zij-link span { display: block !important; }
   .zij-link svg { color: #fff !important; }
   .zij-link.active { background: rgba(255, 255, 255, .16) !important; color: #fff !important; box-shadow: none !important; }
-  .zij-link .nav-badge { position: absolute; top: 4px; right: 10px; background: #fff !important; color: #DA2F24 !important; }
+  .zij-link .nav-badge { position: absolute; top: 4px; right: 10px; background: #fff !important; color: var(--mr) !important; }
   .zijbalk-voet { border: 0 !important; display: flex; justify-content: center; }
   .zij-uit { width: 46px; height: 46px; padding: 0 !important; font-size: 0 !important; background: rgba(255, 255, 255, .14) !important; border: 0 !important; color: #fff !important; justify-content: center; }
   .wb { max-width: none !important; padding: 0 !important; }
@@ -279,7 +279,7 @@ html, body { background: #F4F5F7 !important; color: #2E2E30; }
 .rd-werk { display: grid; grid-template-columns: 1fr 260px; gap: 16px; padding: 0 var(--gutter); margin-top: -62px; position: relative; }
 .rd-kaart { background: #fff; border-radius: 8px; box-shadow: 0 8px 24px -10px rgba(30, 40, 60, .28); padding: 16px 18px; min-width: 0; }
 .rd h3 { font: 600 1rem var(--display); color: #2E2E30 !important; margin: 0 0 10px; display: flex; justify-content: space-between; align-items: center; }
-.rd h3 a { font: 600 .74rem var(--body); color: #DA2F24; text-decoration: none; }
+.rd h3 a { font: 600 .74rem var(--body); color: var(--mr); text-decoration: none; }
 .rd-scroll { overflow-x: auto; }
 .rd-tabel table { width: 100%; border-collapse: collapse; font-size: .8rem; color: #4A5568; min-width: 620px; }
 .rd-tabel th { text-align: left; font-weight: 500; font-size: .62rem; color: #9AA3B2; text-transform: uppercase; letter-spacing: .04em; padding: 6px; }
@@ -287,8 +287,8 @@ html, body { background: #F4F5F7 !important; color: #2E2E30; }
 .rd-tabel tr:hover td { background: #F6F8FB; }
 .rd-tabel td a { color: #2E2E30; text-decoration: none; font-weight: 600; }
 .rd-st { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: .66rem; font-weight: 700; }
-.rd-st.geel { background: #FDF3C4; color: #A07B00; } .rd-st.groen { background: #D7F3EC; color: #1E8E73; } .rd-st.rood { background: #FBE3E1; color: #C42A20; }
-.rd-ac { white-space: nowrap; } .rd-ac a { color: #9AA3B2 !important; margin-right: 10px; } .rd-ac a.rood { color: #DA2F24 !important; }
+.rd-st.geel { background: #FDF3C4; color: #A07B00; } .rd-st.groen { background: #D7F3EC; color: #1E8E73; } .rd-st.rood { background: var(--mr-zacht); color: #C42A20; }
+.rd-ac { white-space: nowrap; } .rd-ac a { color: #9AA3B2 !important; margin-right: 10px; } .rd-ac a.rood { color: var(--mr) !important; }
 .rd-doel { background: linear-gradient(180deg, #FFFAEB, #FBF1D3); border-radius: 8px; box-shadow: 0 8px 24px -10px rgba(30, 40, 60, .28); padding: 18px; display: flex; flex-direction: column; min-height: 200px; }
 .rd-doel small { color: #B3A27A; }
 .rd-doel b { margin-top: auto; text-align: right; color: #C99A3E !important; font: 800 2.2rem var(--display); }
@@ -312,25 +312,25 @@ html, body { background: #F4F5F7 !important; color: #2E2E30; }
 /* quick actions and "Nieuwe claim" options: icons in soft colour circles */
 .wb-snel { margin: 18px var(--gutter) 0 !important; }
 .wb-snel i, .optie-ic { border-radius: 50% !important; box-shadow: none !important; }
-.sn-1, .optie:nth-child(1) .optie-ic { background: #FBE3E1 !important; color: #DA2F24 !important; }
+.sn-1, .optie:nth-child(1) .optie-ic { background: var(--mr-zacht) !important; color: var(--mr) !important; }
 .sn-2, .optie:nth-child(2) .optie-ic { background: #FDF3C4 !important; color: #A07B00 !important; }
 .sn-3, .optie:nth-child(3) .optie-ic { background: #D7F3EC !important; color: #1E8E73 !important; }
 .sn-4 { background: #E3E8F3 !important; color: #2E2E30 !important; }
-.optie-hoofd { border: 1px solid #DA2F24 !important; }
+.optie-hoofd { border: 1px solid var(--mr) !important; }
 
 /* phone bottom bar */
 @media (max-width: 1023px) {
   .tabbalk { background: #fff !important; border-top: 1px solid #E6E9EF !important; }
-  .tab { color: #9AA3B2 !important; } .tab.active, .tab.active svg { color: #DA2F24 !important; }
+  .tab { color: #9AA3B2 !important; } .tab.active, .tab.active svg { color: var(--mr) !important; }
 }
 
 /* login: navy band, white card, red button */
 .toegang { background: linear-gradient(180deg, #2E2E30, #3F4A63) !important; }
 .toegang .sl-terug { color: #F4B43A !important; text-shadow: none !important; }
-.toegang-kaart .knop-rood { background: #DA2F24 !important; }
+.toegang-kaart .knop-rood { background: var(--mr) !important; }
 .lg-veld { background: #F7F8FA !important; border-color: #DDE1E8 !important; }
 .lg-veld input { color: #2E2E30 !important; }
-.lg-veld:focus-within { border-color: #DA2F24 !important; box-shadow: 0 0 0 3px rgba(218, 47, 36, .15) !important; }
+.lg-veld:focus-within { border-color: var(--mr) !important; box-shadow: 0 0 0 3px rgba(var(--mr-rgb), .15) !important; }
 @media (max-width: 1023px) { .toegang-plek { background: #F4F5F7 !important; border-radius: 28px 28px 0 0 !important; } .lg-kop > b, .lg-kop h2 { color: #2E2E30 !important; } .toegang-kaart { background: #fff !important; border: 0 !important; padding: 22px !important; border-radius: 22px !important; box-shadow: 0 8px 24px -10px rgba(30,40,60,.25); } .toegang { justify-content: flex-start !important; padding-top: 40px; } }
 .logo-svg, .toegang-kaart::before { filter: hue-rotate(-128deg) saturate(1.15) !important; }
 .rd-ac a { display: inline-flex !important; vertical-align: middle; }
@@ -343,7 +343,7 @@ html, body { background: #F4F5F7 !important; color: #2E2E30; }
 @media (min-width: 1024px) { .wb-chips, .wb-lijst, .wb-zoek { padding-left: var(--gutter) !important; padding-right: var(--gutter) !important; } .wb { padding-bottom: 30px !important; } }
 .detail-kop { z-index: 0 !important; } .detail-raster, .actiebalk { position: relative; z-index: 3; }
 .detail-raster .ringkaart-bedrag { border: 0 !important; box-shadow: none !important; border-radius: 0 !important; padding: 0 !important; background: none !important; }
-@media (max-width: 1023px) { .tab.active svg { background: #FBE3E1 !important; } }
+@media (max-width: 1023px) { .tab.active svg { background: var(--mr-zacht) !important; } }
 
 /* ===== Login: identical on phone and computer — slogan band on top, card in the middle ===== */
 .toegang { display: flex !important; flex-direction: column !important; grid-template-columns: none !important; min-height: 100dvh; background: #F4F5F7 !important; padding: 0 !important; justify-content: flex-start !important; }
@@ -358,14 +358,14 @@ html, body { background: #F4F5F7 !important; color: #2E2E30; }
 .toegang-kaart { width: 100%; max-width: 440px; background: #fff !important; border: 1px solid #E6E9EF !important; border-radius: 22px !important; padding: 24px !important; box-shadow: 0 14px 36px -16px rgba(30, 40, 60, .35) !important; }
 .toegang-kaart::before { display: none !important; }
 .lg-kop { display: flex !important; flex-direction: column; align-items: center; text-align: center; margin: 4px 0 8px; }
-.lg-merk .logo-svg { width: 64px; height: 64px; box-shadow: 0 10px 24px -10px rgba(218, 47, 36, .6) !important; }
+.lg-merk .logo-svg { width: 64px; height: 64px; box-shadow: 0 10px 24px -10px rgba(var(--mr-rgb), .6) !important; }
 .lg-kop > b { font: 800 1.5rem var(--display) !important; color: #2E2E30 !important; margin-top: 10px; text-transform: none !important; }
 .lg-kop h2 { font: 700 1.05rem var(--display); color: #2E2E30 !important; margin: 10px 0 2px; }
 .lg-kop small { color: #5F6368 !important; }
 .toegang-uitleg { display: none !important; }
 
 /* ===================== Design 23 · Medipoint: overrides ===================== */
-:root { --mr: #DA2F24; --mr-2: #B8241B; --mteal: #55B9CC; --mteal-2: #6CC8CA; --mroze: #F7D4DB; --mnavy: #3F4A63; --mgeel: #F4B43A; --mlicht: #F3F4F6; --minkt: #2E2E30;
+:root { --mr: #DA2F24; --mr-2: #B8241B; --mteal: #55B9CC; --mteal-2: #6CC8CA; --mroze: #F7D4DB; --mnavy: #3F4A63; --mgeel: #F4B43A; --mb: #2E9CB2; --mr-rgb: 218, 47, 36; --mr-zacht: #FBE3E1; --mr-hover: #FBF0EF; --mlicht: #F3F4F6; --minkt: #2E2E30;
   --display: "Fira Sans", system-ui, sans-serif; --body: "Fira Sans", system-ui, sans-serif; }
 html, body { background: var(--mlicht) !important; color: var(--minkt); font-family: "Fira Sans", system-ui, sans-serif; letter-spacing: .01em; }
 h1, h2, h3, .paginakop h1 { font-family: "Fira Sans", sans-serif !important; letter-spacing: -.01em !important; }
@@ -456,7 +456,7 @@ h1, h2, h3, .paginakop h1 { font-family: "Fira Sans", sans-serif !important; let
 .md-tabel td { padding: 13px 12px; border-bottom: 1px solid #F0F0F0; white-space: nowrap; }
 .md-tabel td a { color: var(--minkt); text-decoration: none; }
 .md-st { border-radius: 999px; padding: 4px 12px; font-size: .8rem; font-weight: 600; }
-.s-roze { background: var(--mroze); color: #9B2335; } .s-teal { background: #D8F1F1; color: #1E6E72; } .s-geel { background: #FDECC8; color: #7A4F00; } .s-rood { background: #FBE3E1; color: #B8241B; } .s-grijs { background: #EEE; color: #555; }
+.s-roze { background: var(--mroze); color: #9B2335; } .s-teal { background: #D8F1F1; color: #1E6E72; } .s-geel { background: #FDECC8; color: #7A4F00; } .s-rood { background: var(--mr-zacht); color: var(--mr-2); } .s-grijs { background: #EEE; color: #555; }
 .md-cijfers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
 .md-cijfer { background: #fff; border-radius: 2px; padding: 20px 22px; border-top: 6px solid; }
 .md-cijfer small { color: #5F6368; font-weight: 600; font-size: .85rem; } .md-cijfer b { display: block; font: 800 1.9rem "Fira Sans", sans-serif; margin-top: 4px; color: var(--minkt); }
@@ -498,13 +498,13 @@ h1, h2, h3, .paginakop h1 { font-family: "Fira Sans", sans-serif !important; let
 .toegang-tip { background: var(--mlicht) !important; border: 0 !important; border-radius: 2px !important; }
 .toegang-tip svg { color: #2BA84A !important; }
 .lg-merk .logo-svg { box-shadow: none !important; }
-.md-teal { background: #2E9CB2; }
+.md-teal { background: var(--mb); }
 .md-teal { grid-template-columns: 1.4fr 1fr; }
 .md-sticker { left: auto; right: 22px; bottom: 18px; }
 .inhoud { border-radius: 0 !important; margin-top: 0 !important; padding-top: 0 !important; }
 .frame, .inhoud { background: var(--mlicht) !important; }
-.detail-kop { background: #2E9CB2 !important; }
-.toegang-band { background: #2E9CB2 !important; }
+.detail-kop { background: var(--mb) !important; }
+.toegang-band { background: var(--mb) !important; }
 .md-usp { flex-wrap: wrap; text-align: center; }
 @media (max-width: 1023px) { .md-teal, .md-banner { grid-template-columns: minmax(0, 1fr) !important; } .md-tekst strong { font-size: 2rem; } .md-tekst h2 b { font-size: 2.1rem; } }
 .toegang .knop-rood { border-radius: 999px !important; }
@@ -554,10 +554,10 @@ h1, h2, h3, .paginakop h1 { font-family: "Fira Sans", sans-serif !important; let
 /* ---------- 7 · search with results right underneath ---------- */
 .sz { position: relative; flex: 1; max-width: 560px; display: flex; align-items: center; gap: 10px; border: 2px solid var(--minkt); background: #fff; border-radius: 999px; padding: 0 18px; color: #555; }
 .sz input { flex: 1; min-width: 0; border: 0 !important; background: transparent !important; padding: 11px 0 !important; font: 400 .95rem "Fira Sans", sans-serif; color: var(--minkt) !important; outline: none; box-shadow: none !important; }
-.sz:focus-within { box-shadow: 0 0 0 3px rgba(218, 47, 36, .18); }
+.sz:focus-within { box-shadow: 0 0 0 3px rgba(var(--mr-rgb), .18); }
 .sz-lijst { position: absolute; left: 0; right: 0; top: calc(100% + 8px); z-index: 60; background: #fff; border-radius: 6px; box-shadow: 0 18px 40px -14px rgba(0, 0, 0, .35); overflow: hidden; border-top: 5px solid var(--mr); }
 .sz-rij { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #F0F0F0; color: var(--minkt); text-decoration: none; }
-.sz-rij:hover, .sz-rij:focus { background: #FBF0EF; }
+.sz-rij:hover, .sz-rij:focus { background: var(--mr-hover); }
 .sz-rij b { display: block; font-size: .95rem; } .sz-rij small { color: #666 !important; font-size: .8rem; }
 .sz-rij mark { background: var(--mroze); color: #8A1F2D; padding: 0 3px; border-radius: 3px; font-weight: 600; }
 .sz-rij em { font-style: normal; font-weight: 700; font-size: .88rem; white-space: nowrap; }
@@ -583,7 +583,7 @@ h1, h2, h3, .paginakop h1 { font-family: "Fira Sans", sans-serif !important; let
 .nieuw-titel span { font-style: normal; font-weight: 400; color: #5F6368 !important; font-size: .55em; }
 .bovenschrift { font-family: "Fira Sans", sans-serif !important; letter-spacing: .04em !important; }
 /* claim header: turquoise with a curved bottom, like the banners */
-.detail-kop { background: #2E9CB2 !important; clip-path: ellipse(140% 100% at 50% 0%); }
+.detail-kop { background: var(--mb) !important; clip-path: ellipse(140% 100% at 50% 0%); }
 .detail-kop h1 { font: italic 800 2.4rem/1.05 "Fira Sans", sans-serif !important; }
 /* cards, rows and tables: white, square-ish, pastel accents */
 .kaart, .levkaart, .wb-kaart, .taak, .kpi, .tabelkader, .kaartlijst > *, .instelrij { border-radius: 4px !important; background: #fff !important; box-shadow: none !important; border: 1px solid #E8E8EA !important; }
@@ -592,13 +592,13 @@ h1, h2, h3, .paginakop h1 { font-family: "Fira Sans", sans-serif !important; let
 .levkaart h2, .levkaart h3, .lev-titel { font-family: "Fira Sans", sans-serif !important; font-weight: 700 !important; }
 .kpi-rij .kpi { border-top: 6px solid var(--mroze) !important; } .kpi-rij .kpi:nth-child(2) { border-top-color: var(--mteal-2) !important; } .kpi-rij .kpi:nth-child(3) { border-top-color: var(--mnavy) !important; } .kpi-rij .kpi:nth-child(4) { border-top-color: var(--mgeel) !important; }
 .claimtabel th, table th { font: 600 .8rem "Fira Sans", sans-serif !important; letter-spacing: 0 !important; text-transform: none !important; color: #6B6B70 !important; }
-.claimtabel tbody tr:hover td { background: #FBF0EF !important; }
+.claimtabel tbody tr:hover td { background: var(--mr-hover) !important; }
 .groepkop { font: 700 1.2rem "Fira Sans", sans-serif !important; }
 /* filters and chips as pills */
 .pil, .wb-chip, .segment button { border-radius: 999px !important; border: 2px solid var(--minkt) !important; background: #fff !important; color: var(--minkt) !important; font-weight: 600 !important; }
 .pil[aria-pressed="true"], .wb-chip.aan, .segment button[aria-pressed="true"], .segment button[aria-selected="true"], .segment .aan { background: var(--minkt) !important; color: #fff !important; }
 .chip { border-radius: 999px !important; font-weight: 600 !important; }
-.chip-rood { background: #FBE3E1 !important; color: #B8241B !important; } .chip-oker { background: #FDECC8 !important; color: #7A4F00 !important; } .chip-turk { background: #D8F1F1 !important; color: #1E6E72 !important; } .chip-grijs { background: #EEE !important; color: #555 !important; }
+.chip-rood { background: var(--mr-zacht) !important; color: var(--mr-2) !important; } .chip-oker { background: #FDECC8 !important; color: #7A4F00 !important; } .chip-turk { background: #D8F1F1 !important; color: #1E6E72 !important; } .chip-grijs { background: #EEE !important; color: #555 !important; }
 /* form fields: outlined like the search pill */
 .veld input:not([type="checkbox"]):not([type="radio"]), .veld select { border: 2px solid #CFCFD3 !important; border-radius: 999px !important; padding-left: 18px !important; background: #fff !important; }
 .veld textarea { border: 2px solid #CFCFD3 !important; border-radius: 14px !important; }
@@ -621,7 +621,7 @@ h1, h2, h3, .paginakop h1 { font-family: "Fira Sans", sans-serif !important; let
 .lg-balk-merk b { color: var(--mr); font: 700 1.6rem "Fira Sans", sans-serif; letter-spacing: -.01em; }
 .lg-balk-streep { display: flex; height: 8px; } .lg-balk-streep b { flex: 1; } .lg-balk-streep b:nth-child(1) { background: var(--mroze); } .lg-balk-streep b:nth-child(2) { background: var(--mteal-2); } .lg-balk-streep b:nth-child(3) { background: var(--mnavy); } .lg-balk-streep b:nth-child(4) { background: var(--mgeel); } .lg-balk-streep b:nth-child(5) { flex: 6; background: var(--mr); }
 .toegang-band { grid-area: band; position: relative; overflow: hidden; margin: 34px 0 0 max(var(--gutter), calc((100vw - 1180px) / 2)) !important; min-height: 440px; border-radius: 2px;
-  background: #2E9CB2 !important; padding: 44px 40px !important; text-align: left !important; display: flex !important; align-items: center; }
+  background: var(--mb) !important; padding: 44px 40px !important; text-align: left !important; display: flex !important; align-items: center; }
 .toegang-band::before { content: "" !important; position: absolute !important; inset: 0 0 0 auto !important; left: auto !important; top: 0 !important; width: 46% !important; height: 100% !important; margin: 0 !important; border: 0 !important; border-radius: 0 !important;
   clip-path: ellipse(100% 120% at 100% 50%); background: no-repeat center / 56% url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 110' fill='none' stroke='%23fff' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 20V95M8 75H142V88H8'/%3E%3Cpath d='M20 62L40 50L70 62H135'/%3E%3Ccircle cx='20' cy='98' r='6'/%3E%3Ccircle cx='130' cy='98' r='6'/%3E%3C/svg%3E"), radial-gradient(circle at 60% 40%, #F4E6CF, #E7D3B5 55%, #D8BF9A) !important; opacity: 1 !important; }
 .toegang-band::after { display: none !important; }
@@ -667,3 +667,16 @@ h1, h2, h3, .paginakop h1 { font-family: "Fira Sans", sans-serif !important; let
   .md-snel a { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 4px; background: var(--mr); color: #fff !important; border-radius: 4px; text-decoration: none; font-weight: 700; font-size: .72rem; text-align: center; }
   .md-snel a span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 }
+
+
+/* ---------- Colour schemes, chosen per device in Profiel (html[data-kleur]) ---------- */
+html[data-kleur="blauw"] { --mr: #2563EB; --mr-2: #1D4ED8; --mr-rgb: 37, 99, 235; --mr-zacht: #DBE7FE; --mr-hover: #EEF3FE; --mb: #0E7490; --mteal: #22A5C3; --mteal-2: #9BD3E0; --mroze: #DCE7FB; --mgeel: #F4B43A; }
+html[data-kleur="groen"] { --mr: #15803D; --mr-2: #166534; --mr-rgb: 21, 128, 61; --mr-zacht: #DCF2E3; --mr-hover: #EEF8F1; --mb: #3F7D58; --mteal: #5FA77A; --mteal-2: #A7DCB5; --mroze: #E4F2D9; --mgeel: #E8B94A; }
+html[data-kleur="paars"] { --mr: #7C3AED; --mr-2: #6D28D9; --mr-rgb: 124, 58, 237; --mr-zacht: #EDE4FD; --mr-hover: #F5F0FE; --mb: #5B4BB7; --mteal: #8A7BE0; --mteal-2: #C9BEF7; --mroze: #F3D9EE; --mgeel: #F2B84B; }
+html[data-kleur="oranje"] { --mr: #C2410C; --mr-2: #9A3412; --mr-rgb: 194, 65, 12; --mr-zacht: #FDE6D8; --mr-hover: #FEF2EA; --mb: #0F766E; --mteal: #2A9D8F; --mteal-2: #9ED8CF; --mroze: #FDE3D0; --mgeel: #F4B43A; }
+html[data-kleur="grafiet"] { --mr: #E11D48; --mr-2: #BE123C; --mr-rgb: 225, 29, 72; --mr-zacht: #FCE4EA; --mr-hover: #FEF1F4; --mb: #334155; --mteal: #64748B; --mteal-2: #CBD5E1; --mroze: #F1D5DD; --mgeel: #EAB308; }
+/* the palette picker in Profiel */
+.kleur-keus { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.kleur-keus button { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; padding: 12px; background: #fff; border: 2px solid #E3E3E6; border-radius: 6px; cursor: pointer; font: 600 .9rem "Fira Sans", sans-serif; color: var(--minkt); }
+.kleur-keus button[aria-pressed="true"] { border-color: var(--minkt); box-shadow: 0 0 0 3px rgba(0, 0, 0, .06); }
+.kleur-keus i { display: flex; height: 26px; width: 100%; border-radius: 4px; overflow: hidden; } .kleur-keus i b { flex: 1; }
