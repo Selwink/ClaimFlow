@@ -660,3 +660,10 @@ h1, h2, h3, .paginakop h1 { font-family: "Fira Sans", sans-serif !important; let
 .toegang-band { width: auto !important; min-width: 0; }
 .toegang .lg-veld input:not([type="checkbox"]):not([type="radio"]) { border: 0 !important; border-radius: 0 !important; background: transparent !important; padding-left: 4px !important; box-shadow: none !important; }
 @media (min-width: 1024px) { .toegang-band::before { background-position: 62% center, center !important; background-size: 52%, auto !important; } }
+/* Direct naar: phone only, at the top of Home (the computer has the top menu) */
+.md-snel { display: none; }
+@media (max-width: 1023px) {
+  .md-snel { order: -1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+  .md-snel a { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 4px; background: var(--mr); color: #fff !important; border-radius: 4px; text-decoration: none; font-weight: 700; font-size: .72rem; text-align: center; }
+  .md-snel a span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
