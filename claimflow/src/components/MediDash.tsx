@@ -22,13 +22,18 @@ export function MediDash() {
     const jaar = dezeMaand().slice(0, 4);
     const jaarVan = (c: Claim) => (afgehandeldOp(c) || c.periode || c.datum || "").slice(0, 4);
     const geh = actief.filter((c) => statusVan(c) === "gehonoreerd");
-    const eigen = geh.filter((c) => !c.uitbesteed && jaarVan(c) === jaar);
-    const uit = actief.filter((c) => c.uitbesteed && (c.periode || c.datum || afgehandeldOp(c) || "").slice(0, 4) === jaar);
+    // the claim's own year: its month (periode), otherwise its date
+    const claimJaar = (c: Claim) => (c.periode || c.datum || afgehandeldOp(c) || "").slice(0, 4);
+    // "Totaal geclaimd": every claim of this year counts, whatever its status
+    const eigen = actief.filter((c) => !c.uitbesteed && claimJaar(c) === jaar);
+    const uit = actief.filter((c) => c.uitbesteed && claimJaar(c) === jaar);
+    // "Teruggehaald": only what was honoured
+    const terug = geh.filter((c) => !c.uitbesteed && jaarVan(c) === jaar);
     const afg = actief.filter((c) => ["gehonoreerd", "afgewezen"].includes(statusVan(c)));
     const taken = werkbak(actief, inst.dagen);
     const laatste = [...actief].sort((a, b) => (b.bijgewerkt || b.datum || "").localeCompare(a.bijgewerkt || a.datum || "")).slice(0, 5);
     const pm = teruggehaaldPerMaand(actief).get(dezeMaand());
-    return { jaar, geh, eigen, uit, afg, taken, laatste, pm, ingediend: actief.filter((c) => statusVan(c) === "ingediend").length, laat: actief.filter((c) => overTermijn(c, inst.dagen)).length };
+    return { jaar, geh, eigen, uit, terug, afg, taken, laatste, pm, ingediend: actief.filter((c) => statusVan(c) === "ingediend").length, laat: actief.filter((c) => overTermijn(c, inst.dagen)).length };
   }, [actief, inst.dagen]);
   const totaal = som(d.eigen) + som(d.uit);
   const binnen = som(d.eigen.filter((c) => c.locatie !== "buiten")), buiten = som(d.eigen.filter((c) => c.locatie === "buiten"));
@@ -86,7 +91,7 @@ export function MediDash() {
       </div>
 
       <div className="md-cijfers">
-        <div className="md-cijfer c-roze"><small>Teruggehaald {d.jaar}</small><b>€ {heel(som(d.eigen))}</b></div>
+        <div className="md-cijfer c-roze"><small>Teruggehaald {d.jaar}</small><b>€ {heel(som(d.terug))}</b></div>
         <div className="md-cijfer c-teal"><small>Ingediend</small><b>{d.ingediend} {d.ingediend === 1 ? "claim" : "claims"}</b></div>
         <div className="md-cijfer c-navy"><small>Honoreringsgraad</small><b>{graad}%</b></div>
         <div className="md-cijfer c-geel"><small>Over termijn</small><b>{d.laat} {d.laat === 1 ? "claim" : "claims"}</b></div>
