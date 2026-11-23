@@ -43,6 +43,13 @@ export function MediDash() {
       {d.pm ? <p className="md-usp"><Icon naam="vink" maat={16} /> {d.pm.aantal} {d.pm.aantal === 1 ? "claim" : "claims"} gehonoreerd deze maand · {euro(d.pm.bedrag)} teruggehaald</p>
         : <p className="md-usp"><Icon naam="vink" maat={16} /> Makkelijk claimen: scan de LGAR-bon en de velden vullen zichzelf in</p>}
 
+      <nav className="md-snel" aria-label="Direct naar">
+        <Link to="/leveranciers"><Icon naam="fabriek" maat={22} /><span>Leveranciers</span></Link>
+        <Link to="/notities"><Icon naam="notitie" maat={22} /><span>Notities</span></Link>
+        <Link to="/rapportage"><Icon naam="grafiek" maat={22} /><span>Rapportage</span></Link>
+        <Link to="/assistent"><Icon naam="robot" maat={22} /><span>Assistent</span></Link>
+      </nav>
+
       <div className="md-banners">
         <div className="md-banner md-teal">
           <div className="md-tekst">
