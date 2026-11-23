@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../state/Store";
-import { titelVan } from "../lib/claims";
+import { afgehandeldOp, som, titelVan } from "../lib/claims";
+import { dezeMaand, euro } from "../lib/format";
+import { geclaimdDezeMaand } from "../lib/team";
 import { GROEP, werkbak, type Reden } from "../lib/werkbak";
 import { Icon, type IconNaam } from "./Icon";
 
@@ -30,13 +32,16 @@ export function TakenPopup() {
   }, [taken]);
 
   const getoond = useRef(false);
-  const heeftTaken = taken.length > 0;
+  // right after logging in: a welcome card, even when there is nothing to do
+  const [welkom] = useState(() => { try { return sessionStorage.getItem("claimflow-welkom"); } catch { return null; } });
+  const heeftTaken = taken.length > 0 || !!welkom;
   useEffect(() => {
     if (!rol || !geladen || getoond.current || !heeftTaken) return;
     const t = setInterval(() => {
       if (document.documentElement.dataset.splash || document.querySelector(".splash")) return;
       clearInterval(t);
       getoond.current = true;
+      try { sessionStorage.removeItem("claimflow-welkom"); } catch { /* geen opslag */ }
       setTimeout(() => setOpen(true), 250);
     }, 150);
     return () => clearInterval(t);
@@ -47,6 +52,11 @@ export function TakenPopup() {
   const sluit = (naar?: string) => { setOpen(false); if (naar) nav(naar); };
   const voornaam = (naam || "").split(" ")[0];
   const laat = taken.filter((t) => t.reden === "termijn").length;
+  const uur = new Date().getHours();
+  const groet = uur < 6 ? "Goedenacht" : uur < 12 ? "Goedemorgen" : uur < 18 ? "Goedemiddag" : "Goedenavond";
+  const jaar = dezeMaand().slice(0, 4);
+  const ditJaar = actief.filter((c) => (c.periode || c.datum || afgehandeldOp(c) || "").startsWith(jaar));
+  const doel = inst.maanddoel || 0, pct = doel ? Math.round((geclaimdDezeMaand(actief).bedrag / doel) * 100) : 0;
 
   return (
     <div className="welkom-achter" onClick={(e) => { if (e.target === e.currentTarget) sluit(); }} onKeyDown={(e) => { if (e.key === "Escape") sluit(); }}>
@@ -55,11 +65,20 @@ export function TakenPopup() {
         <div className="taken-kop">
           <span className={`taken-hoofd ${laat ? "wic-rood" : "wic-aub"}`} aria-hidden="true"><Icon naam={laat ? "waarschuwing" : "lijst"} maat={26} /></span>
           <div>
-            <p className="taken-hoi">{voornaam ? `Hoi ${voornaam}` : "Vandaag"}</p>
-            <h2 id="taken-titel">Dit moet er gebeuren</h2>
+            <p className="taken-hoi">{welkom ? groet : voornaam ? `Hoi ${voornaam}` : "Vandaag"}</p>
+            <h2 id="taken-titel">{welkom ? (welkom === "nieuw" ? `Welkom bij ClaimFlow${voornaam ? `, ${voornaam}` : ""}!` : `Welkom terug${voornaam ? `, ${voornaam}` : ""}!`) : "Dit moet er gebeuren"}</h2>
           </div>
         </div>
-        <p className="taken-samenvatting"><b>{taken.length}</b> {taken.length === 1 ? "taak staat" : "taken staan"} klaar op Home</p>
+        {welkom && <p className="welkom-slogan">Wat kapot gaat, komt terug. Fijn dat je er bent.</p>}
+        {welkom && (
+          <div className="welkom-cijfers">
+            <span><small>Totaal geclaimd {jaar}</small><b>{euro(som(ditJaar))}</b></span>
+            <span><small>Taken voor nu</small><b>{taken.length}</b></span>
+            {doel > 0 ? <span><small>Maanddoel</small><b>{pct}%</b></span> : <span><small>Over termijn</small><b>{laat}</b></span>}
+          </div>
+        )}
+        {taken.length > 0 ? <p className="taken-samenvatting"><b>{taken.length}</b> {taken.length === 1 ? "taak staat" : "taken staan"} klaar op Home</p>
+          : <p className="taken-samenvatting">Alles is bijgewerkt — er staat niets klaar. 🎉</p>}
         <ul className="taken-groepen">
           {groepen.map(([reden, titels], i) => {
             const s = SOORT[reden] || { icoon: "lijst" as IconNaam, toon: "wic-aub" };
@@ -77,7 +96,7 @@ export function TakenPopup() {
           })}
         </ul>
         <div className="taken-acties">
-          <button ref={knop} type="button" className="knop knop-rood knop-groot-vol" onClick={() => sluit("/")}>Naar Home <Icon naam="pijl" maat={18} /></button>
+          <button ref={knop} type="button" className="knop knop-rood knop-groot-vol" onClick={() => sluit("/")}>{welkom ? "Aan de slag" : "Naar Home"} <Icon naam="pijl" maat={18} /></button>
           <button type="button" className="taken-later" onClick={() => sluit()}>Later</button>
         </div>
       </div>

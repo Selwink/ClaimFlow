@@ -66,6 +66,7 @@ function LoginFormulier() {
       const r = stand === "inloggen" ? await login(naam.trim(), code) : stand === "aanmelden" ? await aanmelden(naam.trim(), pw, code) : await herstelWachtwoord(naam.trim(), code, pw);
       if ("wacht" in r) { setBezig(false); setWachtOp(r.naam); setPw(""); setCode(""); return; }
 
+      try { sessionStorage.setItem("claimflow-welkom", stand === "aanmelden" ? "nieuw" : "terug"); } catch { /* geen opslag */ }
       naInloggen(r);
     } catch (err) {
       setBezig(false);

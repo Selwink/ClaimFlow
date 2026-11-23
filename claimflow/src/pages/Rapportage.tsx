@@ -60,6 +60,7 @@ export function Rapportage() {
           <option value="">Alle jaren</option>
           {jaren.map((j) => <option key={j} value={j}>{j}</option>)}
         </select>
+        <Link to="/rapport" className="knop knop-rood"><Icon naam="document" maat={18} /> Maandrapport</Link>
         <button type="button" className="knop knop-zacht" aria-label="Exporteren als CSV" onClick={() => download(`garantieclaims-${jaar || "alles"}-${dezeMaand()}.csv`, naarCsv(lijst), "text/csv;charset=utf-8")}>
           <Icon naam="download" maat={18} /> <span className="alleen-desktop">CSV</span>
         </button>
