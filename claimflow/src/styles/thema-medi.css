@@ -611,3 +611,52 @@ h1, h2, h3, .paginakop h1 { font-family: "Fira Sans", sans-serif !important; let
 .pf-band { position: relative !important; z-index: 50 !important; overflow: visible !important; }
 .sz { z-index: 80; } .pf-streep, .pf-nav { position: relative; z-index: 1; }
 .dc { display: none !important; }
+
+/* ---------- Login v2: same build-up as the app (top bar + stripe, turquoise banner, white card, pastel blocks) ---------- */
+.toegang { display: grid !important; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) !important; grid-template-areas: "balk balk" "band plek" "blok blok"; align-content: start; gap: 0 !important;
+  background: var(--mlicht) !important; min-height: 100dvh; padding: 0 !important; overflow: hidden; }
+.toegang::before, .toegang::after { display: none !important; }
+.lg-balk { grid-area: balk; display: block; background: #fff; }
+.lg-balk-merk { display: flex; align-items: center; gap: 10px; padding: calc(env(safe-area-inset-top) + 16px) var(--gutter) 14px; }
+.lg-balk-merk b { color: var(--mr); font: 700 1.6rem "Fira Sans", sans-serif; letter-spacing: -.01em; }
+.lg-balk-streep { display: flex; height: 8px; } .lg-balk-streep b { flex: 1; } .lg-balk-streep b:nth-child(1) { background: var(--mroze); } .lg-balk-streep b:nth-child(2) { background: var(--mteal-2); } .lg-balk-streep b:nth-child(3) { background: var(--mnavy); } .lg-balk-streep b:nth-child(4) { background: var(--mgeel); } .lg-balk-streep b:nth-child(5) { flex: 6; background: var(--mr); }
+.toegang-band { grid-area: band; position: relative; overflow: hidden; margin: 34px 0 0 max(var(--gutter), calc((100vw - 1180px) / 2)) !important; min-height: 440px; border-radius: 2px;
+  background: #2E9CB2 !important; padding: 44px 40px !important; text-align: left !important; display: flex !important; align-items: center; }
+.toegang-band::before { content: "" !important; position: absolute !important; inset: 0 0 0 auto !important; left: auto !important; top: 0 !important; width: 46% !important; height: 100% !important; margin: 0 !important; border: 0 !important; border-radius: 0 !important;
+  clip-path: ellipse(100% 120% at 100% 50%); background: no-repeat center / 56% url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 110' fill='none' stroke='%23fff' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 20V95M8 75H142V88H8'/%3E%3Cpath d='M20 62L40 50L70 62H135'/%3E%3Ccircle cx='20' cy='98' r='6'/%3E%3Ccircle cx='130' cy='98' r='6'/%3E%3C/svg%3E"), radial-gradient(circle at 60% 40%, #F4E6CF, #E7D3B5 55%, #D8BF9A) !important; opacity: 1 !important; }
+.toegang-band::after { display: none !important; }
+.toegang-band-binnen { position: relative; z-index: 1; max-width: 52% !important; margin: 0 !important; align-items: flex-start !important; text-align: left !important; }
+.toegang-slogan { text-align: left !important; }
+.toegang-slogan h1 { font: italic 700 clamp(2rem, 3.6vw, 3.1rem)/1.05 "Fira Sans", sans-serif !important; color: #fff !important; }
+.toegang-slogan .sl-terug { font-weight: 800; font-size: 1.12em; }
+.toegang-slogan p { margin: 14px 0 0 !important; color: rgba(255, 255, 255, .95) !important; font-size: 1.02rem; }
+.toegang-plek { grid-area: plek; margin: 34px max(var(--gutter), calc((100vw - 1180px) / 2)) 0 0 !important; padding: 0 !important; display: block !important; }
+.toegang-kaart { max-width: none !important; height: 100%; min-height: 440px; border-radius: 2px !important; box-shadow: none !important; padding: 34px 38px !important; display: flex; flex-direction: column; justify-content: center; }
+.lg-kop { align-items: flex-start !important; text-align: left !important; }
+.lg-kop .lg-merk, .lg-kop > b { display: none !important; }
+.lg-kop h2 { font: 700 2.4rem "Fira Sans", sans-serif !important; margin: 0 0 4px !important; }
+.lg-kop small { font-size: .95rem; }
+.toegang .knop-rood { background: var(--minkt) !important; border-color: var(--minkt) !important; border-radius: 999px !important; box-shadow: none !important; }
+.toegang-tip { align-self: flex-start; }
+.lg-blokken { grid-area: blok; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin: 22px max(var(--gutter), calc((100vw - 1180px) / 2)) 40px; }
+.lg-blok { padding: 22px 24px; border-radius: 2px; color: var(--minkt); } .lg-blok b { display: block; font: 700 1.3rem "Fira Sans", sans-serif; } .lg-blok span { font-size: .95rem; line-height: 1.6; }
+.lg-blok-teal { background: var(--mteal-2); } .lg-blok-roze { background: var(--mroze); } .lg-blok-geel { background: #FDECC8; }
+@media (max-width: 1023px) {
+  .toegang { grid-template-columns: minmax(0, 1fr) !important; grid-template-areas: "balk" "band" "plek" "blok"; }
+  .lg-balk-merk b { font-size: 1.35rem; }
+  .toegang-band { margin: 16px var(--gutter) 0 !important; min-height: 0; padding: 150px 22px 24px !important; flex-direction: column; }
+  .toegang-band::before { inset: 0 0 auto 0 !important; width: 100% !important; height: 130px !important; clip-path: ellipse(85% 100% at 50% 0%); background-size: 34%, auto !important; }
+  .toegang-band-binnen { max-width: none !important; }
+  .toegang-slogan h1 { font-size: 2rem !important; }
+  .toegang-plek { margin: 12px var(--gutter) 0 !important; }
+  .toegang-kaart { min-height: 0; padding: 24px 20px !important; }
+  .lg-kop h2 { font-size: 1.9rem !important; }
+  .lg-blokken { grid-template-columns: 1fr; gap: 10px; margin: 12px var(--gutter) 30px; }
+  .lg-blok { padding: 16px 18px; } .lg-blok b { font-size: 1.1rem; }
+}
+.toegang .lg-veld input { border: 0 !important; border-radius: 0 !important; background: transparent !important; padding-left: 4px !important; box-shadow: none !important; }
+@media (min-width: 1024px) { .toegang-band::before { background-position: 68% center, center !important; background-size: 46%, auto !important; } }
+.toegang .veld-hint { text-align: left !important; }
+.toegang-band { width: auto !important; min-width: 0; }
+.toegang .lg-veld input:not([type="checkbox"]):not([type="radio"]) { border: 0 !important; border-radius: 0 !important; background: transparent !important; padding-left: 4px !important; box-shadow: none !important; }
+@media (min-width: 1024px) { .toegang-band::before { background-position: 62% center, center !important; background-size: 52%, auto !important; } }

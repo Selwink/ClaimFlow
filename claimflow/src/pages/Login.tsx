@@ -78,6 +78,7 @@ function LoginFormulier() {
 
   return (
     <main className="toegang">
+      <header className="lg-balk" aria-hidden="true"><span className="lg-balk-merk"><LogoMerk maat={32} /><b>ClaimFlow</b></span><i className="lg-balk-streep"><b /><b /><b /><b /><b /></i></header>
       <div className="toegang-band">
         <div className="toegang-gloed" aria-hidden="true"><i /><i /><i /></div>
         <div className="toegang-ringen" aria-hidden="true"><i /><i /><i /></div>
@@ -159,6 +160,11 @@ function LoginFormulier() {
           <p className="lg-voet">Nog geen account? <b>Vul je naam en de code in</b>, dan maken we er een.</p>
         </form>
         )}
+      </div>
+      <div className="lg-blokken" aria-hidden="true">
+        <div className="lg-blok lg-blok-teal"><b>LGAR-bon inlezen</b><span>Scan de bon, de velden vullen zichzelf in.</span></div>
+        <div className="lg-blok lg-blok-roze"><b>Altijd op tijd</b><span>Termijnen en VAM in beeld, met herinneringen.</span></div>
+        <div className="lg-blok lg-blok-geel"><b>Alles terug</b><span>Geclaimd, uitbesteed en per monteur.</span></div>
       </div>
     </main>
   );

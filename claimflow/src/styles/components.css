@@ -370,3 +370,4 @@ button.taak:active { transform: scale(.99); }
 .tm-uitleg a { color: var(--rood-2); text-decoration: underline; }
 @media (max-width: 420px) { .team-maanden li { grid-template-columns: 82px 1fr auto 22px; } }
 .pf-streep, .pf-nav, .pf-woord { display: none; }
+.lg-balk, .lg-blokken { display: none; }
