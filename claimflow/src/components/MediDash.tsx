@@ -84,13 +84,6 @@ export function MediDash() {
         <div className="md-cijfer c-navy"><small>Honoreringsgraad</small><b>{graad}%</b></div>
         <div className="md-cijfer c-geel"><small>Over termijn</small><b>{d.laat} {d.laat === 1 ? "claim" : "claims"}</b></div>
       </div>
-
-      <h2 className="md-direct">Direct naar</h2>
-      <div className="md-tegels">
-        <Link to="/leveranciers" className="md-tegel"><Icon naam="fabriek" maat={30} /><span>Leveranciers</span><Icon naam="pijl" maat={20} /></Link>
-        <Link to="/notities" className="md-tegel"><Icon naam="notitie" maat={30} /><span>Notities</span><Icon naam="pijl" maat={20} /></Link>
-        <Link to="/rapportage" className="md-tegel"><Icon naam="grafiek" maat={30} /><span>Rapportage</span><Icon naam="pijl" maat={20} /></Link>
-      </div>
     </section>
   );
 }
