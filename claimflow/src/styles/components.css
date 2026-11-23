@@ -371,3 +371,40 @@ button.taak:active { transform: scale(.99); }
 @media (max-width: 420px) { .team-maanden li { grid-template-columns: 82px 1fr auto 22px; } }
 .pf-streep, .pf-nav, .pf-woord { display: none; }
 .lg-balk, .lg-blokken { display: none; }
+
+/* ---------- Maandrapport (print / PDF) ---------- */
+.mr-balk { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 18px 0 6px; }
+.mr-balk .terugknop { margin-right: auto; }
+.mr-tip { font-size: .8rem; color: #6B6B70; margin: 0 0 14px; }
+.mr-vel { background: #fff; color: #2E2E30; border: 1px solid #E6E6E9; border-radius: 4px; padding: 34px 38px; max-width: 900px; margin: 0 auto 40px; font-family: "Fira Sans", Inter, system-ui, sans-serif; }
+.mr-kop { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+.mr-merk { display: flex; align-items: center; gap: 10px; } .mr-merk b { display: block; font-size: 1.3rem; color: var(--mr, #DA2F24); } .mr-merk small { color: #6B6B70; }
+.mr-titel { text-align: right; } .mr-titel h1 { margin: 0; font: 700 1.7rem "Fira Sans", sans-serif; color: #2E2E30; } .mr-titel small { color: #6B6B70; }
+.mr-streep { display: flex; height: 6px; margin: 16px 0 22px; } .mr-streep b { flex: 1; } .mr-streep b:nth-child(1) { background: #F7D4DB; } .mr-streep b:nth-child(2) { background: #6CC8CA; } .mr-streep b:nth-child(3) { background: #3F4A63; } .mr-streep b:nth-child(4) { background: #F4B43A; } .mr-streep b:nth-child(5) { flex: 6; background: var(--mr, #DA2F24); }
+.mr-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 22px; }
+.mr-kpi { border: 1px solid #E6E6E9; border-top: 5px solid #6CC8CA; padding: 12px 14px; border-radius: 3px; } .mr-kpi small { display: block; color: #6B6B70; font-size: .78rem; font-weight: 600; } .mr-kpi b { display: block; font-size: 1.25rem; margin: 2px 0; } .mr-kpi em { font-style: normal; font-size: .76rem; color: #6B6B70; }
+.mr-hl { border-top-color: var(--mr, #DA2F24); background: #FFF7F6; }
+.mr-twee { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+.mr-vel h2 { font: 700 1.05rem "Fira Sans", sans-serif; margin: 18px 0 8px; color: #2E2E30; }
+.mr-tabel { width: 100%; border-collapse: collapse; font-size: .86rem; } .mr-tabel th { text-align: left; font-size: .74rem; color: #6B6B70; font-weight: 600; border-bottom: 2px solid #E6E6E9; padding: 6px 6px; }
+.mr-tabel td { padding: 7px 6px; border-bottom: 1px solid #F0F0F2; } .mr-tabel .r { text-align: right; font-variant-numeric: tabular-nums; } .mr-tabel .som td { font-weight: 700; border-top: 2px solid #2E2E30; border-bottom: 0; }
+.mr-klein { font-size: .78rem; }
+.mr-doel { margin: 12px 0 0; font-size: .86rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; } .mr-doel span { flex: 1; min-width: 80px; height: 6px; background: #EEE; border-radius: 6px; overflow: hidden; } .mr-doel u { display: block; height: 100%; background: #F4B43A; }
+.mr-voet { margin-top: 26px; padding-top: 10px; border-top: 1px solid #E6E6E9; font-size: .74rem; color: #8A8A90; text-align: center; }
+@media (max-width: 700px) { .mr-vel { padding: 20px 16px; } .mr-kpis { grid-template-columns: 1fr 1fr; } .mr-twee { grid-template-columns: 1fr; gap: 0; } .mr-titel { text-align: left; } .mr-breed { display: block; overflow-x: auto; white-space: nowrap; } }
+@media print {
+  @page { size: A4; margin: 12mm; }
+  html, body { background: #fff !important; }
+  body::before, .zijbalk, .topbalk, .tabbalk, .pf-band, .lade, .geen-print, .toast-plek, .offline-band, .welkom-achter { display: none !important; }
+  .frame { display: block !important; } .inhoud { padding: 0 !important; margin: 0 !important; }
+  .mr-vel { border: 0; padding: 0; max-width: none; margin: 0; }
+  .mr-tabel tr { break-inside: avoid; } .mr-vel section { break-inside: auto; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* ---------- Welcome after login ---------- */
+.welkom-slogan { margin: 4px 0 12px; color: #6B6B70; font-style: italic; }
+.welkom-cijfers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0 0 14px; }
+.welkom-cijfers span { background: var(--mlicht, #F3F4F6); border-radius: 6px; padding: 10px 12px; } .welkom-cijfers small { display: block; font-size: .7rem; color: #6B6B70; font-weight: 600; } .welkom-cijfers b { font-size: 1.1rem; color: #2E2E30; }
+.mr-klein td:first-child { white-space: nowrap; }
+@media print { html, body, .frame, .inhoud, .pagina, main { background: #fff !important; box-shadow: none !important; } }
