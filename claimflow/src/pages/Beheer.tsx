@@ -16,6 +16,7 @@ import { ProfielKop } from "../components/Showcase";
 import { Gebruikers, WachtwoordWijzigen } from "../components/Gebruikers";
 import { toonWelkom } from "../components/Welkom";
 import { PushMeldingen } from "../components/PushMeldingen";
+import { KLEUREN, leesKleur, zetKleur, type Kleur } from "../lib/kleur";
 import { datumOntbreekt } from "../lib/claims";
 
 function Blok({ titel, uitleg, children }: { titel: string; uitleg?: string; children: ReactNode }) {
@@ -84,6 +85,9 @@ export function Beheer() {
         <Rij icoon="uitloggen" titel="Uitloggen" tekst="Wist ook de opgeslagen gegevens op dit apparaat." onClick={s.uitloggen} />
       </Blok>
 
+      <Blok titel="Kleuren" uitleg="Kies de kleuren van de app. Geldt alleen voor dit apparaat; collega's kiezen hun eigen.">
+        <KleurKeus />
+      </Blok>
       <Blok titel="Meldingen op je telefoon" uitleg="Krijg een melding als een claim over de termijn gaat. Stel het per apparaat in.">
         <PushMeldingen />
       </Blok>
@@ -175,6 +179,21 @@ export function Beheer() {
         </Blok>
       </form>
       <p className="hint mono">ClaimFlow Medipoint · {s.inst.vestiging}</p>
+    </div>
+  );
+}
+
+/** Colour scheme picker: applies straight away and is remembered on this device. */
+function KleurKeus() {
+  const [k, setK] = useState<Kleur>(leesKleur());
+  return (
+    <div className="kleur-keus" role="group" aria-label="Kleurenschema">
+      {KLEUREN.map((x) => (
+        <button key={x.id} type="button" aria-pressed={k === x.id} onClick={() => { zetKleur(x.id); setK(x.id); }}>
+          <i aria-hidden="true">{x.staal.map((c) => <b key={c} style={{ background: c }} />)}</i>
+          {x.naam}
+        </button>
+      ))}
     </div>
   );
 }
