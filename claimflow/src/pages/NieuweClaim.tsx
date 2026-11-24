@@ -4,7 +4,7 @@ import type { Claim } from "../lib/types";
 import { CONFIG } from "../lib/config";
 import { useStore } from "../state/Store";
 import { metRegel } from "../lib/claims";
-import { dezeMaand, nieuwId, vandaag } from "../lib/format";
+import { datum, dezeMaand, nieuwId, vandaag } from "../lib/format";
 import { leesBestand, leesVelden } from "../lib/lgar";
 import { mailNieuweClaim } from "../lib/mail";
 import { neemBestand } from "../lib/overdracht";
@@ -18,6 +18,8 @@ import { toonClaimPop } from "../components/ClaimPop";
 import { Typ } from "../components/Typ";
 
 type Stap = "kies" | "formulier-uit" | "inlezen" | "controle" | "zelf";
+/** The fields shown on the scan card, in the order of the LGAR form. */
+const SCAN_VELDEN: Array<keyof Claim> = ["leverancier", "inkoopnummer", "frame", "type", "storing", "aankoop", "voorziening", "nummer"];
 const VELD_LABEL: Partial<Record<keyof Claim, string>> = {
   type: "Type", onderdeel: "Onderdeel", leverancier: "Leverancier", inkoopnummer: "Inkoopnummer", voorziening: "Voorzieningnummer",
   frame: "Framenummer", aankoop: "Aankoopdatum", storing: "Storing", nummer: "Claimnummer",
@@ -154,15 +156,25 @@ export function NieuweClaim() {
       {stap === "controle" && bron && (
         <>
           <h1 className="nieuw-titel">Klopt dit?<br /><span>Dan ben je klaar.</span></h1>
-          <div className="bestandkaart">
-            <b>{bron.naam}</b>
-            <span>{bron.ocr ? "Gescand" : "Gelezen"} in {bron.tijd.toFixed(1).replace(".", ",")} sec · {bron.herkend.size} {bron.herkend.size === 1 ? "veld" : "velden"} herkend</span>
-          </div>
-          <dl className="herkend">
-            {[...bron.herkend].filter((k) => VELD_LABEL[k]).map((k, i) => (
-              <div key={k} className="herkend-rij" style={{ animationDelay: `${i * 140}ms` }}><dt>{VELD_LABEL[k]}</dt><dd className="mono"><Typ tekst={String(start[k] ?? "")} na={150 + i * 140} /><Icon naam="vink" maat={14} /></dd></div>
-            ))}
-          </dl>
+          <section className="scan-kaart" aria-label="Herkende velden">
+            <div className="scan-kaart-kop">
+              <b>Nieuwe claim</b>
+              <span>{bron.herkend.size} {bron.herkend.size === 1 ? "veld" : "velden"} herkend in {bron.tijd.toFixed(1).replace(".", ",")} s</span>
+            </div>
+            <div className="scan-velden">
+              {SCAN_VELDEN.map((k, i) => {
+                const ok = bron.herkend.has(k) && !!start[k];
+                const waarde = k === "aankoop" ? datum(String(start[k] ?? "")) || String(start[k] ?? "") : String(start[k] ?? "");
+                return (
+                  <div key={k} className={`scan-veld${ok ? " ok" : ""}`} style={{ animationDelay: `${i * 110}ms` }}>
+                    <small>{VELD_LABEL[k]}{ok ? <em> · herkend</em> : <em className="mis"> · niet gevonden</em>}</small>
+                    <span>{ok ? <Typ tekst={waarde} na={200 + i * 110} /> : "Vul hieronder in"}</span>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="scan-bron"><Icon naam="document" maat={15} /> {bron.naam} · {bron.ocr ? "gescand" : "gelezen"}</div>
+          </section>
           <p className="hint">{bron.ocr ? "Herkende tekst uit een foto kan kleine fouten bevatten — controleer vooral de nummers." : "Controleer en vul aan wat ontbreekt."} Herkende velden zijn groen gemarkeerd.</p>
           <div className="bon-kies">
             <input ref={bonKies} type="file" accept=".pdf,application/pdf,image/*" hidden onChange={(e) => { setBon(e.target.files?.[0] || null); e.target.value = ""; }} />

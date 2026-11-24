@@ -127,3 +127,23 @@ span.optel, span.optel > span { font: inherit; color: inherit; opacity: 1; lette
 }
 .claim-pop, html[data-weergave] .claim-pop .claim-pop-tekst b, .claim-pop .claim-pop-tekst b{color:#11131C !important}
 .claim-pop .claim-pop-tekst small{color:#5B6072 !important}
+
+/* ---------- scan card on "Klopt dit?" (same look as the website demo) ---------- */
+.scan-kaart{border-radius:26px;padding:20px;margin:0 0 14px;display:grid;gap:12px;
+  background:rgba(12,14,24,.62);border:1px solid rgba(255,255,255,.12);color:#F4F6FB;
+  -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 30px 60px -34px rgba(0,0,0,.8)}
+.scan-kaart-kop{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+html .scan-kaart-kop b{font-size:1.15rem;font-weight:700;color:#F4F6FB !important}
+.scan-kaart-kop span{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.78rem;color:rgba(244,246,251,.7)}
+.scan-velden{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:520px){.scan-velden{grid-template-columns:minmax(0,1fr)}}
+.scan-veld{display:grid;gap:4px;padding:12px 14px;border-radius:14px;min-width:0;background:rgba(255,255,255,.05);border:1.5px dashed rgba(255,255,255,.16);
+  animation:rij-in .45s cubic-bezier(.2,.9,.3,1.2) both}
+.scan-veld.ok{border:1.5px solid rgba(91,211,138,.55);background:linear-gradient(140deg,rgba(91,211,138,.07),rgba(255,255,255,.03))}
+.scan-veld small{font-size:.78rem;color:rgba(244,246,251,.7)}
+.scan-veld small em{font-style:normal;color:#5BD38A}
+.scan-veld small em.mis{color:rgba(244,246,251,.45)}
+.scan-veld span{font-size:1.08rem;font-weight:700;color:#F4F6FB;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:1.5em}
+.scan-veld:not(.ok) span{font-weight:400;font-size:.9rem;color:rgba(244,246,251,.5)}
+.scan-bron{display:flex;align-items:center;gap:6px;font-size:.8rem;color:rgba(244,246,251,.6);overflow-wrap:anywhere}
+@media (prefers-reduced-motion: reduce){.scan-veld{animation:none}}
