@@ -4,7 +4,6 @@ import type { Claim } from "../lib/types";
 import { useStore } from "../state/Store";
 import { afgehandeldOp, isOpen, som, statusVan } from "../lib/claims";
 import { dezeMaand, euro, meervoud, periodLabel } from "../lib/format";
-import { download, naarCsv } from "../lib/export";
 import { useBreed } from "../lib/useBreed";
 import { ClaimKaarten, ClaimTabel, sorteer, type Sortering } from "../components/ClaimLijst";
 import { Icon } from "../components/Icon";
@@ -54,9 +53,6 @@ export function Uitbesteed() {
           <option value="">Alle jaren</option>
           {[...new Set([dezeMaand().slice(0, 4), ...jaren])].map((j) => <option key={j} value={j}>{j}</option>)}
         </select>
-        <button type="button" className="knop knop-zacht" onClick={() => download(`uitbesteed-${jaar || "alles"}.csv`, naarCsv(lijst), "text/csv;charset=utf-8")}>
-          <Icon naam="download" maat={18} /> <span className="alleen-desktop">CSV</span>
-        </button>
         {magBewerken && <Link to="/nieuw" className="knop knop-rood"><Icon naam="plus" maat={18} /> Nieuwe claim</Link>}
       </PaginaKop>
 
