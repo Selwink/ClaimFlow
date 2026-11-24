@@ -83,14 +83,20 @@ export function uitbesteedTotaal(claims: Claim[]): { bedrag: number; aantal: num
   return { bedrag, aantal };
 }
 
-/** Amount claimed this month: all claims whose month (periode) is the current one, whatever their status. */
-export function geclaimdDezeMaand(claims: Claim[]): { bedrag: number; aantal: number } {
-  let bedrag = 0, aantal = 0;
+/** The month a claim belongs to: its month field (periode), otherwise the month of its date. */
+export const claimMaand = (c: Claim) => (c.periode && /^\d{4}-\d{2}$/.test(c.periode) ? c.periode : (c.datum || "").slice(0, 7));
+
+/** Amount claimed this month: all claims of the current month, whatever their status, outsourced ones included. */
+export function geclaimdDezeMaand(claims: Claim[]): { bedrag: number; aantal: number; uitbesteed: number; uitAantal: number } {
+  let bedrag = 0, aantal = 0, uitbesteed = 0, uitAantal = 0;
+  const m = dezeMaand();
   for (const c of claims) {
-    if (c.verwijderd || c.periode !== dezeMaand()) continue;
-    bedrag += Number(c.bedrag) || 0; aantal++;
+    if (c.verwijderd || claimMaand(c) !== m) continue;
+    const b = Number(c.bedrag) || 0;
+    bedrag += b; aantal++;
+    if (c.uitbesteed) { uitbesteed += b; uitAantal++; }
   }
-  return { bedrag, aantal };
+  return { bedrag, aantal, uitbesteed, uitAantal };
 }
 
 /** Days in a row, ending today or yesterday, on which this person wrote something in a claim's timeline. */
