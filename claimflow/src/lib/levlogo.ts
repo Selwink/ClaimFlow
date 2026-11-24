@@ -2,6 +2,7 @@
 const LOGOS: Record<string, string> = {
   unitedcare: "leveranciers/unitedcare.png",
   eureva: "leveranciers/eureva.png",
+  umotion: "leveranciers/umotion.png",
 };
 const sleutel = (naam?: string) => (naam || "").toLowerCase().replace(/[^a-z0-9]/g, "");
 export function logoVan(naam?: string): string | null {

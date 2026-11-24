@@ -237,3 +237,4 @@ html[data-sfeer="aurora"] .toegang :is(.veld-label, .lg-kop h2) { color: #F2F4FC
 .lev-logo { position: absolute; right: 0; top: 4px; display: grid; place-items: center; padding: 10px 14px; border-radius: 16px; background: #fff; box-shadow: 0 14px 30px -16px rgba(0, 0, 0, .55), inset 0 0 0 1px rgba(0, 0, 0, .06); }
 .lev-logo img { display: block; height: 54px; width: auto; }
 @media (max-width: 1023px) { .lev-logo { top: 0; padding: 6px 9px; border-radius: 12px; } .lev-logo img { height: 30px; } }
+.lev-logo img[src*="umotion"] { height: 78px; } @media (max-width: 1023px) { .lev-logo img[src*="umotion"] { height: 48px; } }
