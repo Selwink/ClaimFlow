@@ -1,4 +1,4 @@
-import { useRef, useState, type DragEvent } from "react";
+import { useEffect, useRef, useState, type DragEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Claim } from "../lib/types";
 import { CONFIG } from "../lib/config";
@@ -7,6 +7,7 @@ import { metRegel } from "../lib/claims";
 import { dezeMaand, nieuwId, vandaag } from "../lib/format";
 import { leesBestand, leesVelden } from "../lib/lgar";
 import { mailNieuweClaim } from "../lib/mail";
+import { neemBestand } from "../lib/overdracht";
 import { ClaimForm } from "../components/ClaimForm";
 import { Icon, type IconNaam } from "../components/Icon";
 import { Bovenschrift, Leeg } from "../components/ui";
@@ -33,6 +34,9 @@ export function NieuweClaim() {
   const [bezig, setBezig] = useState(false);
   const bestand = useRef<HTMLInputElement>(null);
   const camera = useRef<HTMLInputElement>(null);
+  // a file dropped on the Home LGAR card is read in right away
+  const leesInRef = useRef<(f?: File | null) => Promise<void>>(async () => {});
+  useEffect(() => { const f = neemBestand(); if (f) void leesInRef.current(f); }, []);
 
   if (!magBewerken) return <div className="pagina"><Leeg titel="Alleen voor beheerders" tekst="Log in als beheerder om claims toe te voegen." /></div>;
 
@@ -80,6 +84,7 @@ export function NieuweClaim() {
     </button>
   );
 
+  leesInRef.current = leesIn;
   return (
     <div className="pagina pagina-smal nieuw" onDragOver={(e) => { e.preventDefault(); setSleep(true); }} onDragLeave={() => setSleep(false)} onDrop={drop}>
       <div className="stappen" role="img" aria-label={`Stap ${stapNr} van 3`}>{[1, 2, 3].map((n) => <i key={n} className={n <= stapNr ? "aan" : ""} />)}</div>
