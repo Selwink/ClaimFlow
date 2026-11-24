@@ -67,6 +67,7 @@ export const haalFotos = (claim: string) => vraag<{ fotos: Foto[] }>("fotos", { 
 export const bewaarFoto = (claim: string, data: string, wie: string, datum: string) => vraag<{ foto: Foto }>("foto", { body: { claim, data, wie, datum } }).then((r) => r.foto);
 export const haalBonnen = (claim: string) => vraag<{ fotos: Foto[] }>("fotos", { query: { claim, soort: "bon" } }).then((r) => r.fotos);
 export const bewaarBon = (claim: string, data: string, wie: string, datum: string) => vraag<{ foto: Foto }>("foto", { body: { claim, data, wie, datum, soort: "bon" } }).then((r) => r.foto);
+export const haalBonLijst = () => vraag<{ claims: string[] }>("bonlijst").then((r) => r.claims);
 export const verwijderFoto = (id: string) => vraag("fotoweg", { body: { id } }).then(() => undefined);
 
 export interface BackupInfo { id: string; datum: string; aantal: number; opslag: "netlify" | "database" }
