@@ -13,7 +13,11 @@ import { Sheet } from "./ui";
 export async function slaBonOp(claimId: string, file: File, wie: string): Promise<Foto[]> {
   const beelden = await bonNaarAfbeeldingen(file);
   const uit: Foto[] = [];
-  for (const b of beelden) uit.push(await bewaarBon(claimId, b, wie, vandaag()));
+  for (const b of beelden) {
+    // one retry for a flaky connection
+    try { uit.push(await bewaarBon(claimId, b, wie, vandaag())); }
+    catch { await new Promise((r) => setTimeout(r, 1200)); uit.push(await bewaarBon(claimId, b, wie, vandaag())); }
+  }
   return uit;
 }
 
@@ -40,7 +44,7 @@ export function Bonnen({ claim }: { claim: Claim }) {
       if (!nieuw.length) { toast("Kies een pdf of een foto van de bon"); return; }
       setBonnen((o) => [...(o || []), ...nieuw]);
       await bewaar([metRegel(claim, `Bon toegevoegd: ${f.name || "foto"}`, naam)], "Bon opgeslagen");
-    } catch { toast("De bon kon niet worden opgeslagen"); }
+    } catch (e) { toast(`De bon kon niet worden opgeslagen${e instanceof Error && e.message ? `: ${e.message}` : ""}`); }
     finally { setBezig(false); }
   };
   const weg = async (b: Foto) => {
@@ -53,6 +57,7 @@ export function Bonnen({ claim }: { claim: Claim }) {
   };
 
   const aantal = bonnen?.length ?? 0;
+  const scan = (claim.notities || []).find((n) => n.t.startsWith("Claim vastgelegd uit"))?.t.replace(/^Claim vastgelegd uit (scan van )?/, "");
   const huidig = open != null && bonnen ? bonnen[open] : null;
   return (
     <section className="kaart bonnen">
@@ -69,7 +74,9 @@ export function Bonnen({ claim }: { claim: Claim }) {
         : aantal === 0 && !bezig ? (
           <button type="button" className="fotos-leeg" onClick={() => magBewerken && kies.current?.click()} disabled={!magBewerken}>
             <Icon naam="document" maat={22} />
-            <span>{magBewerken ? "Koppel de LGAR-bon (pdf of foto), dan kan iedereen hem hier inzien." : "Er is nog geen bon gekoppeld."}</span>
+            <span>{magBewerken
+              ? (scan ? <>De bon van de scan (<b>{scan}</b>) is niet bewaard. Tik hier en kies hem opnieuw, dan kan iedereen hem hier inzien.</> : "Koppel de LGAR-bon (pdf of foto), dan kan iedereen hem hier inzien.")
+              : "Er is nog geen bon gekoppeld."}</span>
           </button>
         ) : (
           <div className="bonnen-raster">
