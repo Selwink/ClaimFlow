@@ -7,6 +7,7 @@ import { euro, parseBedrag } from "../lib/format";
 import { useStore } from "../state/Store";
 import { onderdeelUitStoring } from "../lib/lgar";
 import { Icon } from "./Icon";
+import { isOudeNaam, levNaam } from "../lib/levnamen";
 
 function Veld({ label, children, breed, hint }: { label: string; children: ReactNode; breed?: boolean; hint?: ReactNode }) {
   return (
@@ -35,7 +36,8 @@ export function ClaimForm({ start, knop, bezig, onBewaar, onAnnuleer, herkend }:
   const [bedragZelf, setBedragZelf] = useState(start.bedrag != null && start.bedrag !== 0);
   const [fout, setFout] = useState("");
 
-  const zet = <K extends keyof Claim>(k: K, v: Claim[K]) => setC((o) => {
+  const zet = <K extends keyof Claim>(k: K, waarde: Claim[K]) => setC((o) => {
+    const v = (k === "leverancier" && typeof waarde === "string" && isOudeNaam(waarde) ? levNaam(waarde) : waarde) as Claim[K];
     const n = { ...o, [k]: v };
     if (k === "leverancier" && typeof v === "string" && inst.uitbesteedLev.some((l) => l.toLowerCase() === v.trim().toLowerCase())) {
       n.uitbesteed = true;
