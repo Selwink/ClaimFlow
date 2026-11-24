@@ -30,7 +30,7 @@ export function Bonnen({ claim }: { claim: Claim }) {
     if (!REMOTE) { setBonnen([]); return; }
     try { setBonnen(await haalBonnen(claim.id)); } catch { setBonnen([]); }
   }, [claim.id]);
-  useEffect(() => { void laad(); }, [laad]);
+  useEffect(() => { void laad(); const h = () => void laad(); window.addEventListener("claimflow-bon", h); return () => window.removeEventListener("claimflow-bon", h); }, [laad]);
 
   const voegToe = async (f?: File | null) => {
     if (!f) return;

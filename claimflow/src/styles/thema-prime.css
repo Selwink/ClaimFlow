@@ -261,3 +261,4 @@ html:not([data-weergave="donker"]) .splash-onder { color: #5D5D6B; }
 .lev-logo img[src*="umotion"] { height: 92px; }
 @media (max-width: 1023px) { .lev-logo { top: 0; } .lev-logo img { height: 30px; } .lev-logo img[src*="umotion"] { height: 56px; } }
 html:not([data-weergave="donker"]) .lev-logo img[src*="-licht"] { filter: brightness(.35) drop-shadow(0 6px 14px rgba(0, 0, 0, .15)); }
+.toast { background: #15161C !important; color: #F2F4FC !important; box-shadow: 0 0 0 1px rgba(255, 255, 255, .1), 0 18px 40px -16px rgba(0, 0, 0, .7) !important; } .toast button { color: #fff !important; }
