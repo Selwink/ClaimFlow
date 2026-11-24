@@ -13,6 +13,7 @@ import { TermRing } from "../components/TermRing";
 import { Fotos } from "../components/Fotos";
 import { logoVan } from "../lib/levlogo";
 import { Bonnen } from "../components/Bonnen";
+import { slaBonOp } from "../components/Bonnen";
 
 /** The VAM e-mails what may be done with the part; these record it in one tap. */
 const VAM_SNEL = ["VAM: Onderdeel retour sturen", "VAM: Onderdeel vernietigen", "VAM: Onderdeel bewaren", "VAM: Informatie opgevraagd"];
@@ -125,6 +126,7 @@ export function ClaimDetail() {
                   setFrameBezig("Pdf wordt gelezen…");
                   try {
                     const { tekst: uitTekst, ocr } = await leesBestand(f);
+                    void slaBonOp(c.id, f, naam).then((p) => { if (p.length) window.dispatchEvent(new Event("claimflow-bon")); }).catch(() => undefined);
                     const velden = leesVelden(uitTekst, inst.leveranciers);
                     const nieuwFrame = !c.frame && velden.frame ? velden.frame : c.frame;
                     const nieuwInkoop = !c.inkoopnummer && velden.inkoopnummer ? velden.inkoopnummer : c.inkoopnummer;

@@ -505,3 +505,6 @@ button.instelrij:hover, a.instelrij:hover { background: #F6F7FB; }
 .bon span { position: absolute; left: 6px; bottom: 6px; padding: 2px 8px; border-radius: 999px; background: rgba(0, 0, 0, .6); color: #fff; font-size: .7rem; font-weight: 600; }
 .bon-laden { aspect-ratio: 1 / 1.35; }
 .bon-groot { background: #fff; border-radius: 8px; max-height: 72vh; width: 100%; object-fit: contain; }
+.bon-kies { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 4px 0 14px; padding: 12px 14px; border-radius: 16px; border: 1.5px dashed rgba(var(--rood-rgb), .45); }
+.bon-kies > svg { color: var(--rood); flex: none; }
+.bon-kies > span { flex: 1; min-width: 160px; } .bon-kies b { display: block; } .bon-kies small { color: var(--inkt-2); font-size: .8rem; }

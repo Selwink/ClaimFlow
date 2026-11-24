@@ -13,6 +13,7 @@ import { Icon, type IconNaam } from "../components/Icon";
 import { Bovenschrift, Leeg } from "../components/ui";
 import { levNaam } from "../lib/levnamen";
 import { slaBonOp } from "../components/Bonnen";
+import { useToast } from "../state/Toast";
 
 type Stap = "kies" | "formulier-uit" | "inlezen" | "controle" | "zelf";
 const VELD_LABEL: Partial<Record<keyof Claim, string>> = {
@@ -29,7 +30,9 @@ export function NieuweClaim() {
   const { bewaar, naam, inst, claims, magBewerken } = useStore();
   const [stap, setStap] = useState<Stap>("kies");
   const [start, setStart] = useState<Claim>(leegClaim);
-  const bonBestand = useRef<File | null>(null);
+  const [bon, setBon] = useState<File | null>(null);
+  const bonKies = useRef<HTMLInputElement>(null);
+  const toast = useToast();
   const [bron, setBron] = useState<{ naam: string; tijd: number; herkend: Set<keyof Claim>; ocr: boolean } | null>(null);
   const [voortgang, setVoortgang] = useState<{ stap: string; deel?: number }>({ stap: "" });
   const [fout, setFout] = useState("");
@@ -58,7 +61,7 @@ export function NieuweClaim() {
       if (velden.type && !velden.onderdeel) c.onderdeel = velden.type;
       if (inst.uitbesteedLev.some((l) => l.toLowerCase() === (c.leverancier || "").toLowerCase())) { c.uitbesteed = true; c.status = "gehonoreerd"; }
       setStart(c);
-      bonBestand.current = f;
+      setBon(f);
       setBron({ naam: f.name || "Foto", tijd: (performance.now() - t0) / 1000, herkend, ocr });
       setStap("controle");
     } catch {
@@ -72,10 +75,13 @@ export function NieuweClaim() {
     const bronTekst = bron ? (bron.ocr ? "LGAR gescand" : "LGAR-pdf") : "zelf ingevuld";
     const nieuw = metRegel(c, bron ? `Claim vastgelegd uit ${bron.ocr ? "scan van " : ""}${bron.naam}` : "Claim aangemaakt", naam);
     const ok = await bewaar([nieuw], "Claim vastgelegd", { verwijder: c.id });
+    if (!ok) { setBezig(false); return; }
+    // the receipt is stored with the claim before the claim opens, so it is there straight away
+    if (bon) {
+      try { const pag = await slaBonOp(c.id, bon, naam); if (!pag.length) toast("De bon kon niet als afbeelding worden opgeslagen"); }
+      catch { toast("Claim opgeslagen, maar de bon niet — koppel hem op de claim opnieuw"); }
+    }
     setBezig(false);
-    if (!ok) return;
-    // keep the receipt with the claim so everyone can view it later
-    if (bron && bonBestand.current) { const f = bonBestand.current; bonBestand.current = null; void slaBonOp(c.id, f, naam).catch(() => undefined); }
     void mailNieuweClaim(nieuw, bronTekst, naam);
     nav(`/claims/${c.id}`, { replace: true });
   };
@@ -147,6 +153,13 @@ export function NieuweClaim() {
             ))}
           </dl>
           <p className="hint">{bron.ocr ? "Herkende tekst uit een foto kan kleine fouten bevatten — controleer vooral de nummers." : "Controleer en vul aan wat ontbreekt."} Herkende velden zijn groen gemarkeerd.</p>
+          <div className="bon-kies">
+            <input ref={bonKies} type="file" accept=".pdf,application/pdf,image/*" hidden onChange={(e) => { setBon(e.target.files?.[0] || null); e.target.value = ""; }} />
+            <Icon naam="document" maat={18} />
+            {bon ? <span><b>Bon wordt opgeslagen bij deze claim</b><small>{bon.name || "Foto van de bon"}</small></span> : <span><b>Bon toevoegen</b><small>Pdf of foto — iedereen kan hem daarna bij de claim inzien</small></span>}
+            <button type="button" className="knop knop-zacht knop-klein" onClick={() => bonKies.current?.click()}>{bon ? "Andere bon" : "Kiezen"}</button>
+            {bon && <button type="button" className="knop-link" onClick={() => setBon(null)}>Weghalen</button>}
+          </div>
           <ClaimForm key={start.id} start={start} herkend={bron.herkend} knop="Claim vastleggen" bezig={bezig} onBewaar={opslaan} onAnnuleer={() => setStap("kies")} />
         </>
       )}
@@ -154,6 +167,13 @@ export function NieuweClaim() {
       {stap === "zelf" && (
         <>
           <h1 className="nieuw-titel">Zelf invullen.<br /><span>Alleen type en maand zijn verplicht.</span></h1>
+          <div className="bon-kies">
+            <input ref={bonKies} type="file" accept=".pdf,application/pdf,image/*" hidden onChange={(e) => { setBon(e.target.files?.[0] || null); e.target.value = ""; }} />
+            <Icon naam="document" maat={18} />
+            {bon ? <span><b>Bon wordt opgeslagen bij deze claim</b><small>{bon.name || "Foto van de bon"}</small></span> : <span><b>Bon toevoegen</b><small>Pdf of foto — iedereen kan hem daarna bij de claim inzien</small></span>}
+            <button type="button" className="knop knop-zacht knop-klein" onClick={() => bonKies.current?.click()}>{bon ? "Andere bon" : "Kiezen"}</button>
+            {bon && <button type="button" className="knop-link" onClick={() => setBon(null)}>Weghalen</button>}
+          </div>
           <ClaimForm key={start.id} start={start} knop="Claim vastleggen" bezig={bezig} onBewaar={opslaan} onAnnuleer={() => setStap("kies")} />
         </>
       )}
