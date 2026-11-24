@@ -18,3 +18,26 @@ export function zetKleur(k: Kleur) {
   if (k === "rood") delete document.documentElement.dataset.kleur; else document.documentElement.dataset.kleur = k;
   try { localStorage.setItem(SLEUTEL, k); } catch { /* no storage: the choice lasts until the page closes */ }
 }
+
+/** Light or dark appearance (Prime), per device; "auto" follows the phone or computer setting. */
+export type Weergave = "licht" | "donker" | "auto";
+const W_SLEUTEL = "claimflow-weergave";
+export function leesWeergave(): Weergave {
+  try { const w = localStorage.getItem(W_SLEUTEL) as Weergave | null; return w === "donker" || w === "auto" ? w : "licht"; } catch { return "licht"; }
+}
+const mq = () => (typeof matchMedia === "function" ? matchMedia("(prefers-color-scheme: dark)") : null);
+function pasToe(w: Weergave) {
+  const donker = w === "donker" || (w === "auto" && !!mq()?.matches);
+  if (donker) document.documentElement.dataset.weergave = "donker"; else delete document.documentElement.dataset.weergave;
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute("content", donker ? "#0B0C10" : "#FFFFFF");
+}
+export function zetWeergave(w: Weergave) {
+  pasToe(w);
+  try { localStorage.setItem(W_SLEUTEL, w); } catch { /* no storage */ }
+}
+/** Apply at start and keep following the system setting when on "auto". */
+export function startWeergave() {
+  pasToe(leesWeergave());
+  mq()?.addEventListener?.("change", () => { if (leesWeergave() === "auto") pasToe("auto"); });
+}

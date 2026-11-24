@@ -408,3 +408,4 @@ button.taak:active { transform: scale(.99); }
 .welkom-cijfers span { background: var(--mlicht, #F3F4F6); border-radius: 6px; padding: 10px 12px; } .welkom-cijfers small { display: block; font-size: .7rem; color: #6B6B70; font-weight: 600; } .welkom-cijfers b { font-size: 1.1rem; color: #2E2E30; }
 .mr-klein td:first-child { white-space: nowrap; }
 @media print { html, body, .frame, .inhoud, .pagina, main { background: #fff !important; box-shadow: none !important; } }
+.pr { display: none; }

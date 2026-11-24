@@ -16,7 +16,7 @@ import { ProfielKop } from "../components/Showcase";
 import { Gebruikers, WachtwoordWijzigen } from "../components/Gebruikers";
 import { toonWelkom } from "../components/Welkom";
 import { PushMeldingen } from "../components/PushMeldingen";
-import { KLEUREN, leesKleur, zetKleur, type Kleur } from "../lib/kleur";
+import { KLEUREN, leesKleur, leesWeergave, zetKleur, zetWeergave, type Kleur, type Weergave } from "../lib/kleur";
 import { datumOntbreekt } from "../lib/claims";
 
 function Blok({ titel, uitleg, children }: { titel: string; uitleg?: string; children: ReactNode }) {
@@ -85,7 +85,7 @@ export function Beheer() {
         <Rij icoon="uitloggen" titel="Uitloggen" tekst="Wist ook de opgeslagen gegevens op dit apparaat." onClick={s.uitloggen} />
       </Blok>
 
-      <Blok titel="Kleuren" uitleg="Kies de kleuren van de app. Geldt alleen voor dit apparaat; collega's kiezen hun eigen.">
+      <Blok titel="Weergave en kleuren" uitleg="Licht of donker, en de kleuren van de app. Geldt alleen voor dit apparaat; collega's kiezen hun eigen.">
         <KleurKeus />
       </Blok>
       <Blok titel="Meldingen op je telefoon" uitleg="Krijg een melding als een claim over de termijn gaat. Stel het per apparaat in.">
@@ -186,7 +186,14 @@ export function Beheer() {
 /** Colour scheme picker: applies straight away and is remembered on this device. */
 function KleurKeus() {
   const [k, setK] = useState<Kleur>(leesKleur());
+  const [w, setW] = useState<Weergave>(leesWeergave());
   return (
+    <>
+    <div className="segment weergave-keus" role="radiogroup" aria-label="Weergave">
+      {([["licht", "☀ Licht"], ["donker", "☾ Donker"], ["auto", "◐ Automatisch"]] as const).map(([id, l]) => (
+        <button key={id} type="button" role="radio" aria-checked={w === id} onClick={() => { zetWeergave(id); setW(id); }}>{l}</button>
+      ))}
+    </div>
     <div className="kleur-keus" role="group" aria-label="Kleurenschema">
       {KLEUREN.map((x) => (
         <button key={x.id} type="button" aria-pressed={k === x.id} onClick={() => { zetKleur(x.id); setK(x.id); }}>
@@ -195,5 +202,6 @@ function KleurKeus() {
         </button>
       ))}
     </div>
+    </>
   );
 }
