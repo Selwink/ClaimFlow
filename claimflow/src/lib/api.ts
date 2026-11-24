@@ -64,9 +64,24 @@ export const bewaarInstellingen = (inst: Instellingen) => vraag("instellingen", 
 
 export interface Foto { id: string; claim: string; data: string; datum: string; wie: string }
 export const haalFotos = (claim: string) => vraag<{ fotos: Foto[] }>("fotos", { query: { claim } }).then((r) => r.fotos);
-export const bewaarFoto = (claim: string, data: string, wie: string, datum: string) => vraag<{ foto: Foto }>("foto", { body: { claim, data, wie, datum } }).then((r) => r.foto);
+/** Pieces of at most this many characters per request, so a large image never hits a size limit on the way. */
+const DEEL = 120_000;
+/** Stores an image in pieces: the first request creates the row, the rest add to it. A half-stored image is removed again. */
+async function bewaarBijlage(claim: string, data: string, wie: string, datum: string, soort?: "bon"): Promise<Foto> {
+  const delen: string[] = [];
+  for (let i = 0; i < data.length; i += DEEL) delen.push(data.slice(i, i + DEEL));
+  const { foto } = await vraag<{ foto: Foto }>("foto", { body: { claim, data: delen[0], wie, datum, soort, delen: delen.length } });
+  try {
+    for (let n = 1; n < delen.length; n++) await vraag("fotodeel", { body: { id: foto.id, n, data: delen[n] } });
+  } catch (e) {
+    await vraag("fotoweg", { body: { id: foto.id } }).catch(() => undefined);
+    throw e;
+  }
+  return { ...foto, data };
+}
+export const bewaarFoto = (claim: string, data: string, wie: string, datum: string) => bewaarBijlage(claim, data, wie, datum);
 export const haalBonnen = (claim: string) => vraag<{ fotos: Foto[] }>("fotos", { query: { claim, soort: "bon" } }).then((r) => r.fotos);
-export const bewaarBon = (claim: string, data: string, wie: string, datum: string) => vraag<{ foto: Foto }>("foto", { body: { claim, data, wie, datum, soort: "bon" } }).then((r) => r.foto);
+export const bewaarBon = (claim: string, data: string, wie: string, datum: string) => bewaarBijlage(claim, data, wie, datum, "bon");
 export const haalBonLijst = () => vraag<{ claims: string[] }>("bonlijst").then((r) => r.claims);
 export const verwijderFoto = (id: string) => vraag("fotoweg", { body: { id } }).then(() => undefined);
 

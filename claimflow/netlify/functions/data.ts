@@ -221,13 +221,23 @@ export const handler = async (e: Verzoek) => {
       case "foto": {
         if (!beheer()) return alleenBeheer();
         const { claim, data, wie, datum, soort } = body as Record<string, string>;
-        if (!isId(claim) || claim.startsWith("_") || !/^data:image\/(jpeg|png|webp);base64,/.test(data || "") || data.length > 3_000_000) return fout(400, "Ongeldige foto");
-        return json(200, { foto: await db.bewaarFoto(claim, data, String(wie || "").slice(0, 80), String(datum || "").slice(0, 10), soort === "bon" ? db.BON : db.FOTO) });
+        const delen = Number((body as Record<string, unknown>).delen) || 1;
+        if (!isId(claim) || claim.startsWith("_") || !/^data:image\/(jpeg|png|webp);base64,/.test(data || "") || data.length > 3_000_000
+          || !Number.isInteger(delen) || delen < 1 || delen > 60) return fout(400, "Ongeldige foto");
+        return json(200, { foto: await db.bewaarFoto(claim, data, String(wie || "").slice(0, 80), String(datum || "").slice(0, 10), soort === "bon" ? db.BON : db.FOTO, delen) });
+      }
+      case "fotodeel": {
+        if (!beheer()) return alleenBeheer();
+        const { id, n, data } = body as { id?: string; n?: number; data?: string };
+        if (!isId(id) || id.includes("~") || !(id.startsWith(db.FOTO) || id.startsWith(db.BON)) || !Number.isInteger(n) || (n as number) < 1 || (n as number) >= 60
+          || typeof data !== "string" || !data || data.length > 3_000_000 || !/^[A-Za-z0-9+/=]+$/.test(data)) return fout(400, "Ongeldig deel");
+        await db.bewaarFotoDeel(id, n as number, data);
+        return json(200, { ok: true });
       }
       case "fotoweg": {
         if (!beheer()) return alleenBeheer();
         if (!isId(body.id) || !(body.id.startsWith(db.FOTO) || body.id.startsWith(db.BON))) return fout(400, "Ongeldige foto");
-        await db.verwijder(body.id);
+        await db.verwijderBijlage(body.id);
         return json(200, { ok: true });
       }
       case "backups": return json(200, { backups: await lijst() });
@@ -269,6 +279,7 @@ export const handler = async (e: Verzoek) => {
   } catch (err) {
     console.error(actie, err);
     if (err instanceof Error && err.message.includes("TOKEN_GEHEIM")) return fout(503, "De server is nog niet ingesteld: zet TOKEN_GEHEIM in Netlify.");
+    if (err instanceof Error && err.message.startsWith("Database ")) return fout(502, `De database weigerde dit (${err.message.slice(9, 160)})`);
     return fout(502, "De database is niet bereikbaar");
   }
 };

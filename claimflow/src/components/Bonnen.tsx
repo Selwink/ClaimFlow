@@ -10,6 +10,11 @@ import { useToast } from "../state/Toast";
 import { Icon } from "./Icon";
 import { Sheet } from "./ui";
 
+/** Receipts that could not be stored right after a scan: kept for this session so the claim page retries them itself. */
+const wachtend = new Map<string, { file: File; fout: string }>();
+export function bonWacht(claimId: string, file: File, fout: string) { wachtend.set(claimId, { file, fout }); }
+const foutTekst = (e: unknown) => (e instanceof Error && e.message ? e.message : "onbekende fout");
+
 /** Stores a receipt (LGAR pdf or photo) with a claim. Used by the claim page and right after a scan. */
 export async function slaBonOp(claimId: string, file: File, wie: string): Promise<Foto[]> {
   const beelden = await bonNaarAfbeeldingen(file);
@@ -30,7 +35,9 @@ export function Bonnen({ claim }: { claim: Claim }) {
   const [bonnen, setBonnen] = useState<Foto[] | null>(null);
   const [bezig, setBezig] = useState(false);
   const [open, setOpen] = useState<number | null>(null);
+  const [fout, setFout] = useState("");
   const kies = useRef<HTMLInputElement>(null);
+  const geprobeerd = useRef(false);
 
   const laad = useCallback(async () => {
     if (!REMOTE) { setBonnen([]); return; }
@@ -40,15 +47,27 @@ export function Bonnen({ claim }: { claim: Claim }) {
 
   const voegToe = async (f?: File | null) => {
     if (!f) return;
-    setBezig(true);
+    setBezig(true); setFout("");
     try {
       const nieuw = await slaBonOp(claim.id, f, naam);
       if (!nieuw.length) { toast("Kies een pdf of een foto van de bon"); return; }
+      wachtend.delete(claim.id);
       setBonnen((o) => [...(o || []), ...nieuw]);
       await bewaar([metRegel(claim, `Bon toegevoegd: ${f.name || "foto"}`, naam)], "Bon opgeslagen");
-    } catch (e) { toast(`De bon kon niet worden opgeslagen${e instanceof Error && e.message ? `: ${e.message}` : ""}`); }
-    finally { setBezig(false); }
+    } catch (e) {
+      wachtend.set(claim.id, { file: f, fout: foutTekst(e) });
+      setFout(foutTekst(e));
+      toast(`De bon kon niet worden opgeslagen: ${foutTekst(e)}`);
+    } finally { setBezig(false); }
   };
+  // a receipt that failed right after the scan is tried again here, once, without choosing it again
+  useEffect(() => {
+    const w = wachtend.get(claim.id);
+    if (!w || geprobeerd.current || !magBewerken || bonnen === null || bonnen.length) return;
+    geprobeerd.current = true;
+    void voegToe(w.file);
+  });
+  const opnieuw = wachtend.get(claim.id);
   const weg = async (b: Foto) => {
     try {
       await verwijderFoto(b.id);
@@ -72,6 +91,12 @@ export function Bonnen({ claim }: { claim: Claim }) {
         )}
       </div>
       <input ref={kies} type="file" accept=".pdf,application/pdf,image/*" hidden onChange={(e) => { void voegToe(e.target.files?.[0]); e.target.value = ""; }} />
+      {fout && !bezig && (
+        <div className="bon-fout" role="alert">
+          <span>De bon is nog niet opgeslagen: {fout}</span>
+          {opnieuw && <button type="button" className="knop knop-rood knop-klein" onClick={() => void voegToe(opnieuw.file)}>Opnieuw proberen</button>}
+        </div>
+      )}
       {bonnen === null ? <div className="bonnen-raster"><span className="foto-laden bon-laden" /></div>
         : aantal === 0 && !bezig ? (
           <button type="button" className="fotos-leeg" onClick={() => magBewerken && kies.current?.click()} disabled={!magBewerken}>

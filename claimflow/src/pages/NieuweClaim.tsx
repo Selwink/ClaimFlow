@@ -12,7 +12,7 @@ import { ClaimForm } from "../components/ClaimForm";
 import { Icon, type IconNaam } from "../components/Icon";
 import { Bovenschrift, Leeg } from "../components/ui";
 import { levNaam } from "../lib/levnamen";
-import { slaBonOp } from "../components/Bonnen";
+import { bonWacht, slaBonOp } from "../components/Bonnen";
 import { useToast } from "../state/Toast";
 
 type Stap = "kies" | "formulier-uit" | "inlezen" | "controle" | "zelf";
@@ -79,7 +79,7 @@ export function NieuweClaim() {
     // the receipt is stored with the claim before the claim opens, so it is there straight away
     if (bon) {
       try { const pag = await slaBonOp(c.id, bon, naam); if (!pag.length) toast("De bon kon niet als afbeelding worden opgeslagen"); }
-      catch (e) { toast(`Claim opgeslagen, maar de bon niet${e instanceof Error && e.message ? ` (${e.message})` : ""} — koppel hem op de claim opnieuw`); }
+      catch (e) { bonWacht(c.id, bon, e instanceof Error && e.message ? e.message : "onbekende fout"); }
     }
     setBezig(false);
     void mailNieuweClaim(nieuw, bronTekst, naam).then((r) => { if (r && !r.ok) toast(`Mail niet verstuurd: ${r.bericht}. Kijk in Profiel → E-mailmeldingen.`); else if (r?.activatie) toast("Mail wacht op activatie: klik in je inbox op Activate Form"); });
