@@ -76,7 +76,7 @@ export function MediDash() {
           <div className="md-tekst">
             <h2><i>Uitbesteed</i></h2>
             <strong>€ {heel(som(d.uit))}</strong>
-            <p>{d.uit.length} {d.uit.length === 1 ? "claim" : "claims"} uitbesteed in {d.jaar}.</p>
+            <p>Leverancier pakt dit verder zelf op.<br />{d.uit.length} {d.uit.length === 1 ? "claim" : "claims"} uitbesteed in {d.jaar}.</p>
             <Link to="/uitbesteed" className="md-link">Bekijk uitbesteed <Icon naam="pijl" maat={16} /></Link>
           </div>
           <div className="md-beeld md-beeld-rood"><Krukken /></div>

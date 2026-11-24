@@ -146,6 +146,7 @@ export function PrimeDash() {
             <svg viewBox="0 0 150 150" className="pr-ln" aria-hidden="true"><path d="M50 10L70 140M100 10L80 140M40 10H62M90 10H112M56 48H68M86 48H98M64 98H86" /></svg>
             <h2>Uitbesteed</h2>
             <div className="pr-num">€ {heel(som(d.uit))}</div>
+            <p className="pr-uit-zelf">Leverancier pakt dit verder zelf op</p>
             <p>{d.uit.length} {d.uit.length === 1 ? "claim" : "claims"}{d.partners.length ? ` · ${d.partners.join(" & ")}` : ""}</p>
             <div className="pr-rg">
               <svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true"><circle cx="23" cy="23" r="18" className="pr-uring-bg" /><circle cx="23" cy="23" r="18" className="pr-uring" strokeDasharray="113" strokeDashoffset={113 - (deel / 100) * 113} transform="rotate(-90 23 23)" /></svg>
