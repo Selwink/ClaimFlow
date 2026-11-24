@@ -207,8 +207,9 @@ html[data-weergave="donker"] :is(.sh-profiel b, .sh-stats b, .sh-menu a, .rappor
 html[data-sfeer="aurora"] { --pr-bg: #07081A; --pr-ink: #EEF0FA; --pr-ink2: #A6ACC6; --pr-ink3: #7E84A4; --pr-kaart: rgba(14, 16, 34, .5); --pr-rand: rgba(255, 255, 255, .1); --pr-glas: rgba(14, 16, 34, .55); --pr-veld: rgba(255, 255, 255, .06); --mlicht: #07081A; }
 html[data-sfeer="aurora"] { background: #07081A !important; } html[data-sfeer="aurora"] body { background: transparent !important; }
 html[data-sfeer="aurora"] body::before { content: ""; position: fixed; inset: -20%; z-index: -2; pointer-events: none; filter: blur(90px); opacity: .85;
-  background: conic-gradient(from 200deg at 30% 30%, color-mix(in srgb, var(--mb) 60%, #000), var(--mb), #1B2A6B, #5A1E6E, var(--mr), color-mix(in srgb, var(--mb) 60%, #000)); }
-html[data-sfeer="aurora"] body::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(1200px 700px at 50% 125%, #07081A 30%, transparent 70%); }
+  background: conic-gradient(from 200deg at 30% 30%, #0E5E73, #2E9CB2, #1B2A6B, #5A1E6E, #DA2F24, #0E5E73); }
+html[data-sfeer="aurora"] body::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px) 0 0 / 3px 3px, radial-gradient(1200px 700px at 50% 120%, #07081A 30%, transparent 70%); }
 html[data-sfeer="aurora"] :is(.pr-kaart, .pr-c, .pr-doel, .pr-flow, .pr-lgar, .pr-snel a) { background: rgba(14, 16, 34, .5) !important; backdrop-filter: blur(30px) saturate(1.5); -webkit-backdrop-filter: blur(30px) saturate(1.5); border-color: rgba(255, 255, 255, .1) !important; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 30px 60px -30px rgba(0, 0, 0, .8) !important; }
 html[data-sfeer="aurora"] .pr-lgar { border: 1.5px dashed color-mix(in srgb, var(--mr) 50%, transparent) !important; }
 html[data-sfeer="aurora"] .pr-held { background: linear-gradient(150deg, color-mix(in srgb, var(--mb) 55%, transparent), rgba(14, 60, 80, .55)) !important; backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
