@@ -13,6 +13,7 @@ import { NieuweClaim } from "./pages/NieuweClaim";
 import { LeverancierDetail, Leveranciers } from "./pages/Leveranciers";
 import { Rapportage } from "./pages/Rapportage";
 import { Maandrapport } from "./pages/Maandrapport";
+import { Uitbesteed } from "./pages/Uitbesteed";
 import { Beheer } from "./pages/Beheer";
 import { Prullenbak } from "./pages/Prullenbak";
 import { Datums } from "./pages/Datums";
@@ -39,6 +40,7 @@ function AppRoutes() {
             <Route path="leveranciers/:naam" element={<LeverancierDetail />} />
             <Route path="rapportage" element={<Rapportage />} />
             <Route path="rapport" element={<Maandrapport />} />
+            <Route path="uitbesteed" element={<Uitbesteed />} />
             <Route path="beheer" element={<Beheer />} />
             <Route path="prullenbak" element={<Prullenbak />} />
             <Route path="datums" element={<Datums />} />
