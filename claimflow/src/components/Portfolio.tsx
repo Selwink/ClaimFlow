@@ -9,7 +9,7 @@ import { Icon } from "./Icon";
 import { LogoMerk } from "./LogoMerk";
 import { SnelZoek } from "./SnelZoek";
 
-const PF_NAV: Array<[string, string]> = [["/", "Home"], ["/claims", "Claims"], ["/notities", "Notities"], ["/leveranciers", "Leveranciers"], ["/rapportage", "Rapportage"], ["/assistent", "Assistent"], ["/beheer", "Profiel"]];
+const PF_NAV: Array<[string, string]> = [["/", "Home"], ["/claims", "Claims"], ["/notities", "Notities"], ["/leveranciers", "Leveranciers"], ["/uitbesteed", "Uitbesteed"], ["/rapportage", "Rapportage"], ["/assistent", "Assistent"], ["/beheer", "Profiel"]];
 
 /** Top band (design "Portfolio"): date, search, + new claim, avatar — on every page, phone and computer. */
 export function PfBand() {

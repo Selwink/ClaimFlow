@@ -50,6 +50,7 @@ export function MediDash() {
 
       <nav className="md-snel" aria-label="Direct naar">
         <Link to="/leveranciers"><Icon naam="fabriek" maat={22} /><span>Leveranciers</span></Link>
+        <Link to="/uitbesteed"><Icon naam="extern" maat={22} /><span>Uitbesteed</span></Link>
         <Link to="/notities"><Icon naam="notitie" maat={22} /><span>Notities</span></Link>
         <Link to="/rapportage"><Icon naam="grafiek" maat={22} /><span>Rapportage</span></Link>
         <Link to="/assistent"><Icon naam="robot" maat={22} /><span>Assistent</span></Link>
@@ -75,7 +76,7 @@ export function MediDash() {
             <h2><i>Uitbesteed</i></h2>
             <strong>€ {heel(som(d.uit))}</strong>
             <p>{d.uit.length} {d.uit.length === 1 ? "claim" : "claims"} uitbesteed in {d.jaar}.</p>
-            <Link to="/claims" className="md-link">Bekijk uitbesteed <Icon naam="pijl" maat={16} /></Link>
+            <Link to="/uitbesteed" className="md-link">Bekijk uitbesteed <Icon naam="pijl" maat={16} /></Link>
           </div>
           <div className="md-beeld md-beeld-rood"><Krukken /></div>
         </div>

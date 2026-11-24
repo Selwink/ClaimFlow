@@ -680,3 +680,21 @@ html[data-kleur="grafiet"] { --mr: #E11D48; --mr-2: #BE123C; --mr-rgb: 225, 29, 
 .kleur-keus button { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; padding: 12px; background: #fff; border: 2px solid #E3E3E6; border-radius: 6px; cursor: pointer; font: 600 .9rem "Fira Sans", sans-serif; color: var(--minkt); }
 .kleur-keus button[aria-pressed="true"] { border-color: var(--minkt); box-shadow: 0 0 0 3px rgba(0, 0, 0, .06); }
 .kleur-keus i { display: flex; height: 26px; width: 100%; border-radius: 4px; overflow: hidden; } .kleur-keus i b { flex: 1; }
+@media (max-width: 1023px) { .md-snel { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; gap: 6px !important; } .md-snel a { font-size: .62rem !important; padding: 11px 2px !important; } }
+
+/* ---------- Uitbesteed page ---------- */
+.uitb-twee { display: grid; grid-template-columns: 1fr 1.2fr; gap: 16px; margin: 16px 0; }
+.uitb-kop { margin: 0 0 12px; font: 700 1.15rem "Fira Sans", sans-serif !important; }
+.uitb-partners { display: grid; gap: 6px; }
+.uitb-p { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; align-items: center; text-align: left; padding: 10px 12px; border: 2px solid #ECECEE; border-radius: 6px; background: #fff; cursor: pointer; font: inherit; color: var(--minkt); }
+.uitb-p[aria-pressed="true"] { border-color: var(--mr); background: var(--mr-hover); }
+.uitb-p b { font-size: .92rem; } .uitb-p span { font-size: .78rem; color: #5F6368; text-align: right; }
+.uitb-p i { grid-column: 1 / -1; height: 5px; background: #F0F0F2; border-radius: 5px; overflow: hidden; } .uitb-p u { display: block; height: 100%; background: var(--mr); }
+.uitb-staven { display: flex; align-items: flex-end; gap: 10px; height: 180px; padding-top: 10px; overflow-x: auto; }
+.uitb-staven span { flex: 1; min-width: 38px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.uitb-staven i { width: 100%; max-width: 40px; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, var(--mr), var(--mr-2)); }
+.uitb-staven em { font-style: normal; font-size: .66rem; color: #5F6368; white-space: nowrap; } .uitb-staven small { font-size: .72rem; color: #5F6368; text-transform: capitalize; }
+.uitb-zoek { display: flex; align-items: center; gap: 10px; padding: 0 16px; margin: 6px 0 12px; background: #fff; }
+.uitb-zoek input { flex: 1; border: 0 !important; background: transparent !important; padding: 12px 0 !important; outline: none; box-shadow: none !important; font-size: .95rem; }
+.uitb-filter { margin: 0 0 10px; font-size: .88rem; color: #5F6368; }
+@media (max-width: 1023px) { .uitb-twee { grid-template-columns: 1fr; } }
