@@ -3,6 +3,8 @@ const LOGOS: Record<string, string> = {
   unitedcare: "leveranciers/unitedcare.png",
   eureva: "leveranciers/eureva-licht.png",
   umotion: "leveranciers/umotion-licht.png",
+  aleidisfitform: "leveranciers/fitform-licht.png",
+  fitform: "leveranciers/fitform-licht.png",
 };
 const sleutel = (naam?: string) => (naam || "").toLowerCase().replace(/[^a-z0-9]/g, "");
 export function logoVan(naam?: string): string | null {
