@@ -232,3 +232,8 @@ html[data-sfeer="aurora"] .lg-veld input, html[data-sfeer="aurora"] .toegang .me
 html[data-sfeer="aurora"] .toegang input::placeholder { color: #9EA4C2 !important; }
 html[data-sfeer="aurora"] .lg-veld svg { color: #FF8A7E !important; }
 html[data-sfeer="aurora"] .toegang :is(.veld-label, .lg-kop h2) { color: #F2F4FC !important; } html[data-sfeer="aurora"] .toegang :is(.veld-hint, .toegang-tip, .lg-voet, .lg-kop small) { color: #C3C8DE !important; }
+/* supplier logo at the top of a claim */
+.detail-kop-binnen { position: relative; }
+.lev-logo { position: absolute; right: 0; top: 4px; display: grid; place-items: center; padding: 10px 14px; border-radius: 16px; background: #fff; box-shadow: 0 14px 30px -16px rgba(0, 0, 0, .55), inset 0 0 0 1px rgba(0, 0, 0, .06); }
+.lev-logo img { display: block; height: 54px; width: auto; }
+@media (max-width: 1023px) { .lev-logo { top: 0; padding: 6px 9px; border-radius: 12px; } .lev-logo img { height: 30px; } }
