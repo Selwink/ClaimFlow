@@ -11,7 +11,6 @@ import { Icon } from "../components/Icon";
 import { Bovenschrift, Leeg, Sheet, StatusPil } from "../components/ui";
 import { TermRing } from "../components/TermRing";
 import { Fotos } from "../components/Fotos";
-import { logoVan } from "../lib/levlogo";
 
 /** The VAM e-mails what may be done with the part; these record it in one tap. */
 const VAM_SNEL = ["VAM: Onderdeel retour sturen", "VAM: Onderdeel vernietigen", "VAM: Onderdeel bewaren", "VAM: Informatie opgevraagd"];
@@ -64,7 +63,6 @@ export function ClaimDetail() {
     <div className="detail">
       <header className="detail-kop">
         <div className="detail-kop-binnen">
-          {logoVan(c.leverancier) && <span className="lev-logo"><img src={logoVan(c.leverancier)!} alt={`Logo ${c.leverancier}`} /></span>}
           <button type="button" className="terugknop" onClick={() => (loc.key !== "default" ? nav(-1) : nav("/claims"))}><Icon naam="terug" maat={18} /> Claims</button>
           <Bovenschrift>{[c.inkoopnummer ? `INK ${c.inkoopnummer}` : "Geen inkoopnummer", c.leverancier].filter(Boolean).join(" · ")}</Bovenschrift>
           <h1>{titelVan(c)}</h1>
