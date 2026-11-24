@@ -7,6 +7,7 @@ import { Icon, type IconNaam } from "./Icon";
 import { Logo } from "./ui";
 import { Mogelijkheden } from "./Mogelijkheden";
 import { BonKijker } from "./Bonnen";
+import { ClaimPop } from "./ClaimPop";
 import { DoelGehaald } from "./Team";
 import { PfBand } from "./Portfolio";
 
@@ -119,6 +120,7 @@ export function Layout() {
 
       <Mogelijkheden />
       <BonKijker />
+      <ClaimPop />
       <DoelGehaald />
       <main className="inhoud" id="inhoud">
         <PfBand />
