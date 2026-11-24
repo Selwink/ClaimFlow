@@ -122,11 +122,10 @@ export function Beheer() {
       <Blok titel="E-mailmeldingen" uitleg={s.inst.mail ? `Bij elke nieuwe claim, statuswijziging, notitie en nieuw account gaat er een mail naar ${CONFIG.MELDING_EMAIL || "niemand"}.` : `Nieuwe claims worden altijd gemaild naar ${CONFIG.MELDING_EMAIL || "niemand"}. Zet aan voor ook statuswijzigingen, notities en herinneringen.`}>
         <label className="instelrij schakelrij">
           <span className="rij-ic"><Icon naam="mail" maat={18} /></span>
-          <span className="rij-t"><b>Ook mailen</b><span>Uit: alleen de pop-up in de app. Aan: ook een mail bij een nieuwe claim en op maandag.</span></span>
+          <span className="rij-t"><b>Ook mailen bij wijzigingen</b><span>Nieuwe claims worden altijd gemaild. Aan: ook statuswijzigingen, notities, herinneringen en het weekoverzicht.</span></span>
           <input type="checkbox" role="switch" className="schakelaar" checked={s.inst.mail} disabled={uit}
             onChange={(e) => void s.bewaarInst({ ...s.inst, mail: e.target.checked })} />
         </label>
-        {s.inst.mail && <>
         <div className={`mailstatus ${dienst === "resend" ? "ms-ok" : dienst === "formsubmit" ? "ms-reserve" : "ms-onbekend"}`}>
           <i />
           {dienst === "resend" ? <span><b>Verstuurd via Resend</b> — betrouwbare maildienst actief.</span>
@@ -134,6 +133,7 @@ export function Beheer() {
             : dienst === null ? <span>Maildienst niet bereikbaar vanaf hier.</span> : <span>Maildienst controleren…</span>}
         </div>
         <Rij icoon="mail" titel="Testmail sturen" tekst={mailStatus || "Controleer of de meldingen aankomen"} onClick={testMail} />
+        {s.inst.mail && <>
         <label className="instelrij schakelrij">
           <span className="rij-ic"><Icon naam="agenda" maat={18} /></span>
           <span className="rij-t"><b>Weekoverzicht op maandag</b><span>Elke maandagochtend: wat open staat, wat over termijn is en waarvoor je informatie bij de VAM opvraagt.</span></span>

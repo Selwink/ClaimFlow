@@ -55,8 +55,8 @@ export async function maildienst(): Promise<Dienst | null> {
   } catch { return null; }
 }
 
-export async function mailNieuweClaim(c: Claim, bron: string, wie: string) {
-  if (location.protocol !== "https:") return;
+export async function mailNieuweClaim(c: Claim, bron: string, wie: string): Promise<Resultaat | null> {
+  if (location.protocol !== "https:") return null;
   const velden: Velden = {
     _subject: `Nieuwe garantieclaim: ${titelVan(c)}${c.leverancier ? ` (${c.leverancier})` : ""}`,
     "Type / onderdeel": [c.type, c.onderdeel !== c.type ? c.onderdeel : ""].filter(Boolean).join(" / "),
@@ -72,6 +72,7 @@ export async function mailNieuweClaim(c: Claim, bron: string, wie: string) {
   };
   const r = await stuur(velden);
   if (!r.ok) ls.set(SLEUTEL, JSON.stringify([...(ls.json<Velden[]>(SLEUTEL) || []), velden].slice(-50)));
+  return r;
 }
 
 export async function verstuurWachtrij(): Promise<number> {
