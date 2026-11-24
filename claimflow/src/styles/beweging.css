@@ -82,3 +82,48 @@ span.optel, span.optel > span { font: inherit; color: inherit; opacity: 1; lette
 .werkbak-lijsten { display: grid; gap: 6px; }
 .werkbak-doel .teamkaart { animation: lijstIn .45s cubic-bezier(.2, .8, .3, 1) both; }
 :root[data-splash="aan"] .werktaak, :root[data-splash="aan"] .totaalkaart, :root[data-splash="aan"] .werkbak-doel .teamkaart { animation-play-state: paused; }
+
+/* ---------- scan, typed fields and the "claimed" card ---------- */
+.scan-bon{position:relative;width:150px;height:196px;margin-bottom:14px;border-radius:12px;overflow:hidden;rotate:-6deg;
+  background:#F7F5EE;box-shadow:0 30px 50px -22px rgba(0,0,0,.65);animation:bon-zweef 3s ease-in-out infinite}
+.scan-bon img{width:100%;height:100%;object-fit:cover;display:block}
+.scan-papier{padding:14px;display:grid;gap:7px;text-align:left}
+.scan-papier b{font-size:.68rem;color:#DA2F24;font-family:inherit}
+.scan-papier i{display:block;height:6px;border-radius:4px;background:#D9D6CC}
+.scan-papier i:nth-child(odd){width:72%}
+.scan-lijn{position:absolute;left:6px;right:6px;top:8%;height:3px;border-radius:3px;background:#8FE3F0;box-shadow:0 0 18px #8FE3F0,0 0 4px #fff;animation:scan-lijn 1.4s ease-in-out infinite}
+@keyframes scan-lijn{50%{top:90%}}
+@keyframes bon-zweef{50%{transform:translateY(-6px) rotate(2deg)}}
+.herkend-rij{animation:rij-in .45s cubic-bezier(.2,.9,.3,1.2) both}
+@keyframes rij-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.herkend-rij dd svg{animation:vink-in .4s cubic-bezier(.3,1.8,.5,1) both;animation-delay:inherit}
+@keyframes vink-in{from{transform:scale(0)}to{transform:scale(1)}}
+.typ-cursor{display:inline-block;width:2px;height:1em;margin-left:1px;vertical-align:-2px;background:currentColor;animation:knipper .7s steps(1) infinite}
+@keyframes knipper{50%{opacity:0}}
+
+.claim-pop{position:fixed;z-index:200;right:max(20px,env(safe-area-inset-right,0px));bottom:calc(24px + env(safe-area-inset-bottom,0px));
+  display:flex;align-items:center;gap:12px;max-width:min(380px,calc(100vw - 32px));padding:13px 18px 13px 13px;border-radius:18px;overflow:hidden;cursor:pointer;
+  background:#fff;color:#11131C;box-shadow:0 26px 50px -18px rgba(0,0,0,.7),0 0 0 1px rgba(0,0,0,.04);
+  animation:pop-in .55s cubic-bezier(.2,.9,.3,1.35) both}
+.claim-pop.weg{animation:pop-uit .4s ease-in both}
+@keyframes pop-in{from{opacity:0;transform:translateY(24px) scale(.92)}to{opacity:1;transform:none}}
+@keyframes pop-uit{to{opacity:0;transform:translateY(16px) scale(.96)}}
+.claim-pop-vink{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;background:#2FB866;
+  box-shadow:0 0 0 0 rgba(47,184,102,.55);animation:pop-puls 1.2s ease-out .3s 2}
+.claim-pop-ingediend .claim-pop-vink{background:#2E9CB2;box-shadow:0 0 0 0 rgba(46,156,178,.55)}
+.claim-pop-vink svg path{stroke-dasharray:24;stroke-dashoffset:24;animation:vink-teken .45s ease-out .25s forwards}
+@keyframes vink-teken{to{stroke-dashoffset:0}}
+@keyframes pop-puls{70%{box-shadow:0 0 0 12px rgba(47,184,102,0)}100%{box-shadow:0 0 0 0 rgba(47,184,102,0)}}
+.claim-pop-tekst{display:grid;min-width:0}
+.claim-pop-tekst b{font-weight:700;font-size:.95rem;line-height:1.25}
+.claim-pop-tekst small{font-size:.8rem;color:#5B6072;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.claim-pop-glans{position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 35%,rgba(143,227,240,.35) 50%,transparent 65%);
+  transform:translateX(-100%);animation:pop-glans 1.1s ease-out .35s forwards}
+@keyframes pop-glans{to{transform:translateX(100%)}}
+@media (max-width:760px){.claim-pop{left:16px;right:16px;max-width:none;bottom:calc(96px + env(safe-area-inset-bottom,0px))}}
+@media (prefers-reduced-motion: reduce){
+  .scan-bon,.scan-lijn,.herkend-rij,.herkend-rij dd svg,.typ-cursor,.claim-pop,.claim-pop.weg,.claim-pop-vink,.claim-pop-glans{animation:none}
+  .claim-pop-vink svg path{stroke-dashoffset:0;animation:none}
+}
+.claim-pop, html[data-weergave] .claim-pop .claim-pop-tekst b, .claim-pop .claim-pop-tekst b{color:#11131C !important}
+.claim-pop .claim-pop-tekst small{color:#5B6072 !important}

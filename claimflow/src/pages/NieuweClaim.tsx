@@ -14,6 +14,8 @@ import { Bovenschrift, Leeg } from "../components/ui";
 import { levNaam } from "../lib/levnamen";
 import { bonWacht, slaBonOp } from "../components/Bonnen";
 import { useToast } from "../state/Toast";
+import { toonClaimPop } from "../components/ClaimPop";
+import { Typ } from "../components/Typ";
 
 type Stap = "kies" | "formulier-uit" | "inlezen" | "controle" | "zelf";
 const VELD_LABEL: Partial<Record<keyof Claim, string>> = {
@@ -35,6 +37,8 @@ export function NieuweClaim() {
   const toast = useToast();
   const [bron, setBron] = useState<{ naam: string; tijd: number; herkend: Set<keyof Claim>; ocr: boolean } | null>(null);
   const [voortgang, setVoortgang] = useState<{ stap: string; deel?: number }>({ stap: "" });
+  const [voorbeeld, setVoorbeeld] = useState<{ url: string; naam: string } | null>(null);
+  useEffect(() => () => { if (voorbeeld) URL.revokeObjectURL(voorbeeld.url); }, [voorbeeld]);
   const [fout, setFout] = useState("");
   const [sleep, setSleep] = useState(false);
   const [bezig, setBezig] = useState(false);
@@ -49,6 +53,7 @@ export function NieuweClaim() {
   const leesIn = async (f?: File | null) => {
     if (!f) return;
     setFout(""); setStap("inlezen"); setVoortgang({ stap: "Bestand openen" });
+    setVoorbeeld(f.type.startsWith("image/") ? { url: URL.createObjectURL(f), naam: f.name || "Foto" } : { url: "", naam: f.name || "Bestand" });
     const t0 = performance.now();
     try {
       const { tekst, ocr } = await leesBestand(f, (stap, deel) => setVoortgang({ stap, deel }));
@@ -82,6 +87,7 @@ export function NieuweClaim() {
       catch (e) { bonWacht(c.id, bon, e instanceof Error && e.message ? e.message : "onbekende fout"); }
     }
     setBezig(false);
+    toonClaimPop("Claim vastgelegd", [nieuw.leverancier, nieuw.type || nieuw.onderdeel].filter(Boolean).join(" · ") || undefined, "nieuw");
     void mailNieuweClaim(nieuw, bronTekst, naam).then((r) => { if (r && !r.ok) toast(`Mail niet verstuurd: ${r.bericht}. Kijk in Profiel → E-mailmeldingen.`); else if (r?.activatie) toast("Mail wacht op activatie: klik in je inbox op Activate Form"); });
     nav(`/claims/${c.id}`, { replace: true });
   };
@@ -132,7 +138,12 @@ export function NieuweClaim() {
 
       {stap === "inlezen" && (
         <div className="inlezen" role="status" aria-live="polite">
-          <div className="spinner" />
+          <div className="scan-bon" aria-hidden="true">
+            {voorbeeld?.url ? <img src={voorbeeld.url} alt="" /> : (
+              <div className="scan-papier"><b>LGAR · Garantiebon</b><i /><i /><i /><i /><i /><i /></div>
+            )}
+            <span className="scan-lijn" />
+          </div>
           <b>LGAR wordt gelezen…</b>
           <span>{voortgang.stap}{voortgang.deel != null && voortgang.deel > 0 ? ` · ${Math.round(voortgang.deel * 100)}%` : ""}</span>
           {voortgang.deel != null && <div className="inlezen-balk"><i style={{ width: `${Math.round(voortgang.deel * 100)}%` }} /></div>}
@@ -148,8 +159,8 @@ export function NieuweClaim() {
             <span>{bron.ocr ? "Gescand" : "Gelezen"} in {bron.tijd.toFixed(1).replace(".", ",")} sec · {bron.herkend.size} {bron.herkend.size === 1 ? "veld" : "velden"} herkend</span>
           </div>
           <dl className="herkend">
-            {[...bron.herkend].filter((k) => VELD_LABEL[k]).map((k) => (
-              <div key={k}><dt>{VELD_LABEL[k]}</dt><dd className="mono">{String(start[k] ?? "")}<Icon naam="vink" maat={14} /></dd></div>
+            {[...bron.herkend].filter((k) => VELD_LABEL[k]).map((k, i) => (
+              <div key={k} className="herkend-rij" style={{ animationDelay: `${i * 140}ms` }}><dt>{VELD_LABEL[k]}</dt><dd className="mono"><Typ tekst={String(start[k] ?? "")} na={150 + i * 140} /><Icon naam="vink" maat={14} /></dd></div>
             ))}
           </dl>
           <p className="hint">{bron.ocr ? "Herkende tekst uit een foto kan kleine fouten bevatten — controleer vooral de nummers." : "Controleer en vul aan wat ontbreekt."} Herkende velden zijn groen gemarkeerd.</p>

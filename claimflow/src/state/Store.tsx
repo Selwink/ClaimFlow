@@ -8,6 +8,15 @@ import { ls, meervoud, vandaag } from "../lib/format";
 import { mailNotitie, mailStatus, verstuurWachtrij } from "../lib/mail";
 import { isOudeNaam, levNaam } from "../lib/levnamen";
 import { useToast } from "./Toast";
+import { toonClaimPop } from "../components/ClaimPop";
+
+/** The animated card after a claim is submitted or approved. */
+function popStatus(lijst: Claim[], naar: "ingediend" | "gehonoreerd") {
+  const c = lijst[0];
+  const titel = lijst.length > 1 ? `${lijst.length} claims ${naar}` : naar === "ingediend" ? `Claim ingediend${c.leverancier ? ` bij ${c.leverancier}` : ""}` : "Claim gehonoreerd";
+  const sub = lijst.length > 1 ? undefined : [c.type || c.onderdeel, c.bedrag ? `€ ${Number(c.bedrag).toLocaleString("nl-NL")}` : ""].filter(Boolean).join(" · ") || undefined;
+  toonClaimPop(titel, sub, naar);
+}
 
 /** Pre-2026-11 sessions stored a password hash here; it is no longer accepted and is cleaned up. */
 const OUDE_SLEUTEL = "garanties-meppel-toegang";
@@ -166,6 +175,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     if (!voor.length) return;
     const ok = await bewaar(voor.map((c) => metStatus(kopie(c), naar, naam)),
       `${voor.length === 1 ? "Claim" : `${voor.length} claims`} op ${STATUS_LABEL[naar].toLowerCase()} gezet`, voor.map(kopie));
+    if (ok && (naar === "ingediend" || naar === "gehonoreerd")) popStatus(voor, naar);
     if (ok && instRef.current.mail) void mailStatus(voor, STATUS_LABEL[naar], naam);
   }, [bewaar, naam]);
 
@@ -176,6 +186,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     if (tekst) n = metRegel(n, tekst, naam);
     if (naar) n = metStatus(n, naar, naam);
     const ok = await bewaar([n], "Notitie toegevoegd", [kopie(c)]);
+    if (ok && naar && statusVan(c) !== naar && (naar === "ingediend" || naar === "gehonoreerd")) popStatus([n], naar);
     if (ok && instRef.current.mail) {
       if (tekst) void mailNotitie(n, tekst, naam);
       if (naar && statusVan(c) !== naar) void mailStatus([n], STATUS_LABEL[naar], naam);
