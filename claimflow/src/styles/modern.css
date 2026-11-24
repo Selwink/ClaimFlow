@@ -310,3 +310,11 @@ h1, h2, h3 { letter-spacing: -.035em; font-weight: 800; }
 .team-week > div { padding: 10px 12px; }
 .team-ik { min-width: 0; overflow-wrap: anywhere; }
 .werkbak-knoppen { display: inline-flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+/* "Wat kun je hier?" pop-up */
+.mg-lijst li { padding: 0 !important; }
+.mg-lijst button { display: flex; align-items: center; gap: 12px; width: 100%; padding: 11px 12px; border: 0; background: none; text-align: left; font: inherit; color: inherit; cursor: pointer; border-radius: 18px; }
+.mg-lijst button > svg:last-child { color: var(--inkt-2); flex: none; }
+.mg-lijst .taken-t span { font-size: .82rem; color: var(--inkt-2); }
+.mg-taken { display: flex; align-items: center; gap: 8px; margin: 14px 0 4px; padding: 10px 14px; border-radius: 14px; border: 0; background: rgba(var(--rood-rgb), .1); color: var(--rood); font: 600 .9rem var(--body); cursor: pointer; text-align: left; }
+.mg-pop { max-height: 92dvh; overflow-y: auto; }
+.mg-pop .taken-groepen { margin-top: 10px; }

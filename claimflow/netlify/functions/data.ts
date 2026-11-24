@@ -215,17 +215,17 @@ export const handler = async (e: Verzoek) => {
       case "fotos": {
         const claim = e.queryStringParameters?.claim;
         if (!isId(claim)) return fout(400, "Geen claim");
-        return json(200, { fotos: await db.fotos(claim) });
+        return json(200, { fotos: await db.fotos(claim, e.queryStringParameters?.soort === "bon" ? db.BON : db.FOTO) });
       }
       case "foto": {
         if (!beheer()) return alleenBeheer();
-        const { claim, data, wie, datum } = body as Record<string, string>;
+        const { claim, data, wie, datum, soort } = body as Record<string, string>;
         if (!isId(claim) || claim.startsWith("_") || !/^data:image\/(jpeg|png|webp);base64,/.test(data || "") || data.length > 3_000_000) return fout(400, "Ongeldige foto");
-        return json(200, { foto: await db.bewaarFoto(claim, data, String(wie || "").slice(0, 80), String(datum || "").slice(0, 10)) });
+        return json(200, { foto: await db.bewaarFoto(claim, data, String(wie || "").slice(0, 80), String(datum || "").slice(0, 10), soort === "bon" ? db.BON : db.FOTO) });
       }
       case "fotoweg": {
         if (!beheer()) return alleenBeheer();
-        if (!isId(body.id) || !body.id.startsWith(db.FOTO)) return fout(400, "Ongeldige foto");
+        if (!isId(body.id) || !(body.id.startsWith(db.FOTO) || body.id.startsWith(db.BON))) return fout(400, "Ongeldige foto");
         await db.verwijder(body.id);
         return json(200, { ok: true });
       }

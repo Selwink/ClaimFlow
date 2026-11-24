@@ -498,3 +498,10 @@ button.instelrij:hover, a.instelrij:hover { background: #F6F7FB; }
 .knopje-z { background: var(--zand-2); color: var(--inkt); }
 .knopje-turk { background: var(--turk-2); }
 .knopje:disabled { opacity: .5; }
+/* receipt (bon) on the claim page */
+.bonnen-raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; }
+.bon { position: relative; aspect-ratio: 1 / 1.35; border: 1px solid var(--lijn); padding: 0; border-radius: 12px; overflow: hidden; background: #fff; cursor: zoom-in; }
+.bon img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.bon span { position: absolute; left: 6px; bottom: 6px; padding: 2px 8px; border-radius: 999px; background: rgba(0, 0, 0, .6); color: #fff; font-size: .7rem; font-weight: 600; }
+.bon-laden { aspect-ratio: 1 / 1.35; }
+.bon-groot { background: #fff; border-radius: 8px; max-height: 72vh; width: 100%; object-fit: contain; }

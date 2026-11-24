@@ -5,8 +5,7 @@ import { overTermijn } from "../lib/claims";
 import { geleden } from "../lib/format";
 import { Icon, type IconNaam } from "./Icon";
 import { Logo } from "./ui";
-import { Welkom } from "./Welkom";
-import { TakenPopup } from "./Taken";
+import { Mogelijkheden } from "./Mogelijkheden";
 import { DoelGehaald } from "./Team";
 import { PfBand } from "./Portfolio";
 
@@ -117,8 +116,7 @@ export function Layout() {
         </nav>
       </div>
 
-      <Welkom />
-      <TakenPopup />
+      <Mogelijkheden />
       <DoelGehaald />
       <main className="inhoud" id="inhoud">
         <PfBand />

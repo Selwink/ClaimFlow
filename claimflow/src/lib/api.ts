@@ -65,6 +65,8 @@ export const bewaarInstellingen = (inst: Instellingen) => vraag("instellingen", 
 export interface Foto { id: string; claim: string; data: string; datum: string; wie: string }
 export const haalFotos = (claim: string) => vraag<{ fotos: Foto[] }>("fotos", { query: { claim } }).then((r) => r.fotos);
 export const bewaarFoto = (claim: string, data: string, wie: string, datum: string) => vraag<{ foto: Foto }>("foto", { body: { claim, data, wie, datum } }).then((r) => r.foto);
+export const haalBonnen = (claim: string) => vraag<{ fotos: Foto[] }>("fotos", { query: { claim, soort: "bon" } }).then((r) => r.fotos);
+export const bewaarBon = (claim: string, data: string, wie: string, datum: string) => vraag<{ foto: Foto }>("foto", { body: { claim, data, wie, datum, soort: "bon" } }).then((r) => r.foto);
 export const verwijderFoto = (id: string) => vraag("fotoweg", { body: { id } }).then(() => undefined);
 
 export interface BackupInfo { id: string; datum: string; aantal: number; opslag: "netlify" | "database" }
