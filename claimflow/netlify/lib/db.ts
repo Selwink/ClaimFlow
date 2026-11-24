@@ -127,6 +127,12 @@ export async function bewaarFoto(claimId: string, data: string, wie: string, dat
   return { id, claim: claimId, data, datum, wie };
 }
 
+/** Ids of the claims that have a receipt (no image data, so it stays light). */
+export async function bonClaims(): Promise<string[]> {
+  const rows = await haal(`select=id&id=like.${q(`${BON}*`)}`);
+  return [...new Set(rows.map((x) => String(x.id)).filter((id) => id.startsWith(BON)).map((id) => id.slice(BON.length, id.lastIndexOf(":"))))];
+}
+
 // ---- moving the register to another database: every row (claims, settings, accounts, photos, devices), no backups
 /** One page of rows, in a fixed order. Pages stay small because photo rows carry whole images. */
 export async function exportRijen(vanaf: number, aantal: number): Promise<Array<Record<string, unknown>>> {

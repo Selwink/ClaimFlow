@@ -4,6 +4,7 @@ import { dagenOpen, geenBedrag, isOpen, labelVan, overTermijn, som, statusVan, t
 import { euro, euroKort, periodLabel } from "../lib/format";
 import { Icon } from "./Icon";
 import { StatusPil } from "./ui";
+import { BonKnop, useBonLijst } from "./Bonnen";
 
 export type SorteerVeld = "titel" | "leverancier" | "inkoopnummer" | "bedrag" | "status" | "dagen";
 export interface Sortering { veld: SorteerVeld; omhoog: boolean }
@@ -60,6 +61,7 @@ interface LijstProps {
 /** Desktop table, matching the "werkplek coördinator" screen in the concept. */
 export function ClaimTabel({ claims, termijn, geselecteerd, wissel, alles, sortering, setSortering }: LijstProps) {
   const nav = useNavigate();
+  const metBon = useBonLijst();
   const kolom = (veld: SorteerVeld, label: string, cls?: string) => {
     const actief = sortering?.veld === veld;
     return (
@@ -95,7 +97,7 @@ export function ClaimTabel({ claims, termijn, geselecteerd, wissel, alles, sorte
                   <input type="checkbox" aria-label={`Selecteer ${titelVan(c)}`} checked={!!geselecteerd?.has(c.id)} onChange={() => wissel(c.id)} />
                 </td>
               )}
-              <td><a href={`/claims/${c.id}`} onClick={(e) => { e.preventDefault(); nav(`/claims/${c.id}`); }} className="rij-titel">{titelVan(c)}</a>
+              <td><a href={`/claims/${c.id}`} onClick={(e) => { e.preventDefault(); nav(`/claims/${c.id}`); }} className="rij-titel">{titelVan(c)}</a>{metBon.has(c.id) && <BonKnop claim={c} klein />}
                 <span className="rij-sub">{periodLabel(c.periode)}{c.uitbesteed ? " · uitbesteed" : ""}</span></td>
               <td>{c.leverancier || <span className="t-zacht">—</span>}</td>
               <td className="mono kol-tablet">{c.inkoopnummer || <span className="t-oker">ontbreekt</span>}
@@ -123,6 +125,7 @@ export function ClaimTabel({ claims, termijn, geselecteerd, wissel, alles, sorte
 /** Phone card list, matching the "Vandaag" task items in the concept. */
 export function ClaimKaarten({ claims, termijn, geselecteerd, wissel, kiesModus }: LijstProps) {
   const nav = useNavigate();
+  const metBon = useBonLijst();
   return (
     <ul className="kaartlijst">
       {claims.map((c) => {
@@ -130,7 +133,7 @@ export function ClaimKaarten({ claims, termijn, geselecteerd, wissel, kiesModus 
         const d = dagenOpen(c);
         const kies = !!wissel && (kiesModus || !!geselecteerd?.size);
         return (
-          <li key={c.id}>
+          <li key={c.id} className={metBon.has(c.id) ? "met-bon" : undefined}>
             <button type="button" className={`taak${overTermijn(c, termijn) ? " taak-laat" : ""}${geselecteerd?.has(c.id) ? " taak-gekozen" : ""}`}
               aria-pressed={kies ? !!geselecteerd?.has(c.id) : undefined}
               onClick={() => (kies && wissel ? wissel(c.id) : nav(`/claims/${c.id}`))}
@@ -142,6 +145,7 @@ export function ClaimKaarten({ claims, termijn, geselecteerd, wissel, kiesModus 
               </span>
               <span className={`chip chip-${l.toon}`}>{l.tekst.replace(/ \d+ d$/, "")}</span>
             </button>
+            {metBon.has(c.id) && <BonKnop claim={c} />}
           </li>
         );
       })}

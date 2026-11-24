@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import type { Claim } from "../lib/types";
-import { REMOTE, bewaarBon, haalBonnen, verwijderFoto, type Foto } from "../lib/api";
+import { REMOTE, bewaarBon, haalBonLijst, haalBonnen, verwijderFoto, type Foto } from "../lib/api";
 import { bonNaarAfbeeldingen } from "../lib/lgar";
 import { metRegel, titelVan } from "../lib/claims";
 import { datum, vandaag } from "../lib/format";
@@ -18,6 +19,7 @@ export async function slaBonOp(claimId: string, file: File, wie: string): Promis
     try { uit.push(await bewaarBon(claimId, b, wie, vandaag())); }
     catch { await new Promise((r) => setTimeout(r, 1200)); uit.push(await bewaarBon(claimId, b, wie, vandaag())); }
   }
+  if (uit.length) window.dispatchEvent(new Event("claimflow-bon"));
   return uit;
 }
 
@@ -102,5 +104,70 @@ export function Bonnen({ claim }: { claim: Claim }) {
         </>}
       </Sheet>
     </section>
+  );
+}
+
+// ---------- receipts from the claim list ----------
+let bonLijst: Promise<Set<string>> | null = null;
+const OPEN_BON = "claimflow-bon-open";
+const NIEUW = "claimflow-bon";
+/** Which claims have a receipt; fetched once and refreshed when a receipt is added. */
+export function useBonLijst(): Set<string> {
+  const [ids, setIds] = useState<Set<string>>(new Set());
+  useEffect(() => {
+    let weg = false;
+    const laad = (vers = false) => {
+      if (!REMOTE) return;
+      if (!bonLijst || vers) bonLijst = haalBonLijst().then((l) => new Set(l)).catch(() => new Set<string>());
+      void bonLijst.then((s) => { if (!weg) setIds(s); });
+    };
+    laad();
+    const h = () => laad(true);
+    window.addEventListener(NIEUW, h);
+    return () => { weg = true; window.removeEventListener(NIEUW, h); };
+  }, []);
+  return ids;
+}
+export const openBon = (claim: Claim) => window.dispatchEvent(new CustomEvent(OPEN_BON, { detail: claim }));
+
+/** Small receipt button for a row or card in the claim list. */
+export function BonKnop({ claim, klein }: { claim: Claim; klein?: boolean }) {
+  return (
+    <button type="button" className={`bon-knop${klein ? " bon-knop-klein" : ""}`} aria-label={`Bon van ${titelVan(claim)} bekijken`} title="Bon bekijken"
+      onClick={(e) => { e.stopPropagation(); e.preventDefault(); openBon(claim); }}>
+      <Icon naam="document" maat={15} /><span>Bon</span>
+    </button>
+  );
+}
+
+/** Viewer for a claim's receipt, opened from the claim list. Mounted once in the layout. */
+export function BonKijker() {
+  const nav = useNavigate();
+  const [claim, setClaim] = useState<Claim | null>(null);
+  const [bonnen, setBonnen] = useState<Foto[] | null>(null);
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const h = (e: Event) => {
+      const c = (e as CustomEvent<Claim>).detail;
+      setClaim(c); setBonnen(null); setI(0);
+      haalBonnen(c.id).then(setBonnen).catch(() => setBonnen([]));
+    };
+    window.addEventListener(OPEN_BON, h);
+    return () => window.removeEventListener(OPEN_BON, h);
+  }, []);
+  const b = bonnen?.[i];
+  const n = bonnen?.length ?? 0;
+  return (
+    <Sheet titel={claim ? `Bon · ${titelVan(claim)}${n > 1 ? ` · ${i + 1}/${n}` : ""}` : "Bon"} open={!!claim} sluit={() => setClaim(null)}
+      voet={claim && <>
+        {n > 1 && <button type="button" className="knop knop-zacht" disabled={i === 0} onClick={() => setI((x) => Math.max(0, x - 1))}>Vorige</button>}
+        {n > 1 && <button type="button" className="knop knop-zacht" disabled={i === n - 1} onClick={() => setI((x) => Math.min(n - 1, x + 1))}>Volgende</button>}
+        <button type="button" className="knop knop-zacht" onClick={() => { const id = claim.id; setClaim(null); nav(`/claims/${id}`); }}>Naar de claim</button>
+        {b && <a className="knop knop-rood" href={b.data} download={`bon-${titelVan(claim).replace(/[^\w-]+/g, "-")}-${i + 1}.jpg`}><Icon naam="download" maat={16} /> Downloaden</a>}
+      </>}>
+      {bonnen === null ? <div className="foto-laden bon-laden" style={{ maxWidth: 320, margin: "0 auto" }} />
+        : b ? <img className="foto-groot bon-groot" src={b.data} alt={claim ? `Bon bij ${titelVan(claim)}` : "Bon"} />
+          : <p className="t-zacht">Bij deze claim is geen bon gevonden.</p>}
+    </Sheet>
   );
 }

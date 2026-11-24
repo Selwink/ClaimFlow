@@ -508,3 +508,11 @@ button.instelrij:hover, a.instelrij:hover { background: #F6F7FB; }
 .bon-kies { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 4px 0 14px; padding: 12px 14px; border-radius: 16px; border: 1.5px dashed rgba(var(--rood-rgb), .45); }
 .bon-kies > svg { color: var(--rood); flex: none; }
 .bon-kies > span { flex: 1; min-width: 160px; } .bon-kies b { display: block; } .bon-kies small { color: var(--inkt-2); font-size: .8rem; }
+/* receipt button in the claim list */
+.bon-knop { display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(var(--rood-rgb), .45); background: rgba(var(--rood-rgb), .1); color: var(--rood); font: 700 .74rem var(--body); cursor: pointer; vertical-align: middle; }
+.bon-knop:hover { background: rgba(var(--rood-rgb), .2); }
+.bon-knop-klein { margin-left: 8px; padding: 3px 8px; font-size: .7rem; }
+.kaartlijst > li.met-bon { position: relative; }
+.kaartlijst > li.met-bon > .bon-knop { position: absolute; right: 12px; bottom: 10px; z-index: 2; padding: 4px 9px; }
+.kaartlijst > li.met-bon > .taak { padding-bottom: 40px !important; }
+.claimtabel .bon-knop-klein { margin: 0 8px 0 0; }

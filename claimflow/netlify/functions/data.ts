@@ -212,6 +212,7 @@ export const handler = async (e: Verzoek) => {
         await db.bewaarInstellingen(body.inst as Instellingen);
         return json(200, { ok: true });
       }
+      case "bonlijst": return json(200, { claims: await db.bonClaims() });
       case "fotos": {
         const claim = e.queryStringParameters?.claim;
         if (!isId(claim)) return fout(400, "Geen claim");

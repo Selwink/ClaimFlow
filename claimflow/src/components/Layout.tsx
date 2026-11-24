@@ -6,6 +6,7 @@ import { geleden } from "../lib/format";
 import { Icon, type IconNaam } from "./Icon";
 import { Logo } from "./ui";
 import { Mogelijkheden } from "./Mogelijkheden";
+import { BonKijker } from "./Bonnen";
 import { DoelGehaald } from "./Team";
 import { PfBand } from "./Portfolio";
 
@@ -117,6 +118,7 @@ export function Layout() {
       </div>
 
       <Mogelijkheden />
+      <BonKijker />
       <DoelGehaald />
       <main className="inhoud" id="inhoud">
         <PfBand />
