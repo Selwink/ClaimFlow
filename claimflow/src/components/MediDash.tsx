@@ -37,13 +37,14 @@ export function MediDash() {
   }, [actief, inst.dagen]);
   const totaal = som(d.eigen) + som(d.uit);
   const binnen = som(d.eigen.filter((c) => c.locatie !== "buiten")), buiten = som(d.eigen.filter((c) => c.locatie === "buiten"));
-  const doel = inst.maanddoel || 0, geclaimd = geclaimdDezeMaand(actief).bedrag, pct = doel ? Math.round((geclaimd / doel) * 100) : 0;
+  const gm = geclaimdDezeMaand(actief);
+  const doel = inst.maanddoel || 0, geclaimd = gm.bedrag, pct = doel ? Math.round((geclaimd / doel) * 100) : 0;
   const graad = d.afg.length ? Math.round((d.geh.length / d.afg.length) * 100) : 0;
   const toon = (c: Claim) => (overTermijn(c, inst.dagen) ? ["s-rood", "VAM vragen"] : statusVan(c) === "gehonoreerd" ? ["s-teal", "Gehonoreerd"] : statusVan(c) === "afgewezen" ? ["s-grijs", "Afgewezen"] : statusVan(c) === "nieuw" ? ["s-roze", "Nieuw"] : ["s-geel", STATUS_LABEL[statusVan(c)]]);
 
   return (
     <section className="md" aria-label="Overzicht">
-      {doel > 0 && <p className="md-doel-tel"><span>Maanddoel <b>{euro(geclaimd)}</b> van {euro(doel)}</span><i><u style={{ width: `${Math.min(100, pct)}%` }} /></i><b>{pct}%</b></p>}
+      {doel > 0 && <p className="md-doel-tel"><span>Maanddoel <b>{euro(geclaimd)}</b> van {euro(doel)}{gm.uitbesteed ? <em className="md-doel-uit"> · incl. {euro(gm.uitbesteed)} uitbesteed</em> : null}</span><i><u style={{ width: `${Math.min(100, pct)}%` }} /></i><b>{pct}%</b></p>}
       {magBewerken && <Link to="/nieuw?bron=camera" className="md-lgar"><span className="md-lgar-ic"><Icon naam="document" maat={26} /></span><span><b>LGAR-bon inlezen</b><small>Scan of kies de bon, de velden vullen zichzelf in</small></span><Icon naam="pijl" maat={22} /></Link>}
       {d.pm ? <p className="md-usp"><Icon naam="vink" maat={16} /> {d.pm.aantal} {d.pm.aantal === 1 ? "claim" : "claims"} gehonoreerd deze maand · {euro(d.pm.bedrag)} teruggehaald</p>
         : <p className="md-usp"><Icon naam="vink" maat={16} /> Makkelijk claimen: scan de LGAR-bon en de velden vullen zichzelf in</p>}

@@ -698,3 +698,4 @@ html[data-kleur="grafiet"] { --mr: #E11D48; --mr-2: #BE123C; --mr-rgb: 225, 29, 
 .uitb-zoek input { flex: 1; border: 0 !important; background: transparent !important; padding: 12px 0 !important; outline: none; box-shadow: none !important; font-size: .95rem; }
 .uitb-filter { margin: 0 0 10px; font-size: .88rem; color: #5F6368; }
 @media (max-width: 1023px) { .uitb-twee { grid-template-columns: 1fr; } }
+.md-doel-uit { font-style: normal; color: #6B6B70; } @media (max-width: 1023px) { .md-doel-tel { flex-wrap: wrap; } .md-doel-tel span { white-space: normal !important; } }

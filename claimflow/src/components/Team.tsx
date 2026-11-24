@@ -60,6 +60,7 @@ export function TeamKaart() {
         </div>
       </div>
       <div className="balk balk-licht team-balk" role="progressbar" aria-label="Maanddoel" aria-valuenow={Math.round(deel * 100)} aria-valuemin={0} aria-valuemax={100}><i style={{ width: `${Math.round(deel * 100)}%` }} /></div>
+      <p className="team-regel team-uit">{geclaimd.aantal} {geclaimd.aantal === 1 ? "claim" : "claims"} deze maand{geclaimd.uitAantal ? <>, waarvan <b>{euroKort(geclaimd.uitbesteed)}</b> uitbesteed ({geclaimd.uitAantal})</> : ", nog niets uitbesteed"}.</p>
       <p className="team-regel">{gehaald ? <><b>Maanddoel gehaald!</b> Mooi werk, team.</> : <>Nog <b>{euroKort(Math.max(0, doel - geclaimd.bedrag))}</b> tot het maanddoel.</>}</p>
       <div className="team-week" aria-label="Deze week samen">
         <div><b><Optel waarde={week.team.toegevoegd} /></b><span>toegevoegd</span></div>
