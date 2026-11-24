@@ -253,3 +253,11 @@ html[data-sfeer="aurora"] .splash-embleem::before { background: radial-gradient(
 html:not([data-weergave="donker"]) .sw-claim b { color: #141419; }
 html:not([data-weergave="donker"]) .emb-ring { stroke: #141419; }
 html:not([data-weergave="donker"]) .splash-onder { color: #5D5D6B; }
+
+/* supplier logo at the top of a claim, straight on the app background */
+.detail-kop-binnen { position: relative; }
+.lev-logo { position: absolute; right: 0; top: 4px; display: grid; place-items: center; }
+.lev-logo img { display: block; height: 54px; width: auto; filter: drop-shadow(0 8px 18px rgba(0, 0, 0, .35)); }
+.lev-logo img[src*="umotion"] { height: 92px; }
+@media (max-width: 1023px) { .lev-logo { top: 0; } .lev-logo img { height: 30px; } .lev-logo img[src*="umotion"] { height: 56px; } }
+html:not([data-weergave="donker"]) .lev-logo img[src*="-licht"] { filter: brightness(.35) drop-shadow(0 6px 14px rgba(0, 0, 0, .15)); }
