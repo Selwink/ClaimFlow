@@ -82,7 +82,7 @@ export function NieuweClaim() {
       catch { toast("Claim opgeslagen, maar de bon niet — koppel hem op de claim opnieuw"); }
     }
     setBezig(false);
-    void mailNieuweClaim(nieuw, bronTekst, naam);
+    void mailNieuweClaim(nieuw, bronTekst, naam).then((r) => { if (r && !r.ok) toast(`Mail niet verstuurd: ${r.bericht}. Kijk in Profiel → E-mailmeldingen.`); else if (r?.activatie) toast("Mail wacht op activatie: klik in je inbox op Activate Form"); });
     nav(`/claims/${c.id}`, { replace: true });
   };
 
