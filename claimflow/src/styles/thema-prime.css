@@ -202,3 +202,32 @@ html[data-weergave="donker"] :is(.sh-profiel b, .sh-stats b, .sh-menu a, .rappor
 .pr-uit .pr-uit-zelf { display: inline-block; margin: 0 0 8px; padding: 4px 10px; border-radius: 999px; background: rgba(255, 255, 255, .18); border: 1px solid rgba(255, 255, 255, .3); font-size: .78rem; font-weight: 600; }
 .uitb-uitleg { margin: 4px 0 14px; padding: 12px 16px; border-radius: 14px; background: var(--pr-kaart); border: 1px solid var(--pr-rand); border-left: 4px solid var(--mr); font-size: .9rem; color: var(--pr-ink2); }
 .uitb-uitleg b { color: var(--pr-ink); }
+
+/* ===================== Design 47 · Prime Aurora (default) ===================== */
+html[data-sfeer="aurora"] { --pr-bg: #07081A; --pr-ink: #EEF0FA; --pr-ink2: #A6ACC6; --pr-ink3: #7E84A4; --pr-kaart: rgba(14, 16, 34, .5); --pr-rand: rgba(255, 255, 255, .1); --pr-glas: rgba(14, 16, 34, .55); --pr-veld: rgba(255, 255, 255, .06); --mlicht: #07081A; }
+html[data-sfeer="aurora"] { background: #07081A !important; } html[data-sfeer="aurora"] body { background: transparent !important; }
+html[data-sfeer="aurora"] body::before { content: ""; position: fixed; inset: -20%; z-index: -2; pointer-events: none; filter: blur(90px); opacity: .85;
+  background: conic-gradient(from 200deg at 30% 30%, color-mix(in srgb, var(--mb) 60%, #000), var(--mb), #1B2A6B, #5A1E6E, var(--mr), color-mix(in srgb, var(--mb) 60%, #000)); }
+html[data-sfeer="aurora"] body::after { content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(1200px 700px at 50% 125%, #07081A 30%, transparent 70%); }
+html[data-sfeer="aurora"] :is(.pr-kaart, .pr-c, .pr-doel, .pr-flow, .pr-lgar, .pr-snel a) { background: rgba(14, 16, 34, .5) !important; backdrop-filter: blur(30px) saturate(1.5); -webkit-backdrop-filter: blur(30px) saturate(1.5); border-color: rgba(255, 255, 255, .1) !important; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 30px 60px -30px rgba(0, 0, 0, .8) !important; }
+html[data-sfeer="aurora"] .pr-lgar { border: 1.5px dashed color-mix(in srgb, var(--mr) 50%, transparent) !important; }
+html[data-sfeer="aurora"] .pr-held { background: linear-gradient(150deg, color-mix(in srgb, var(--mb) 55%, transparent), rgba(14, 60, 80, .55)) !important; backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+  border: 1px solid color-mix(in srgb, var(--mteal-2) 40%, transparent); box-shadow: 0 0 60px -10px color-mix(in srgb, var(--mb) 60%, transparent), inset 0 1px 0 rgba(255, 255, 255, .25) !important; }
+html[data-sfeer="aurora"] .pr-uit { background: linear-gradient(150deg, color-mix(in srgb, var(--mr) 60%, transparent), rgba(120, 20, 30, .55)) !important; backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+  border: 1px solid color-mix(in srgb, var(--mr) 40%, #fff 10%); box-shadow: 0 0 60px -10px color-mix(in srgb, var(--mr) 60%, transparent), inset 0 1px 0 rgba(255, 255, 255, .25) !important; }
+html[data-sfeer="aurora"] .pr-bl { display: none; }
+html[data-sfeer="aurora"] :is(.pr-held, .pr-uit) .pr-num { text-shadow: 0 0 30px rgba(255, 255, 255, .35); }
+html[data-sfeer="aurora"] .pr-groet h1 b { background: linear-gradient(90deg, #9FF0E0, #FFB3C6); -webkit-background-clip: text; background-clip: text; color: transparent !important; }
+html[data-sfeer="aurora"] .pr-recent a { background: rgba(255, 255, 255, .05); }
+html[data-sfeer="aurora"] .pf-streep { box-shadow: 0 0 16px var(--mr); }
+html[data-sfeer="aurora"] .pf-band { background: rgba(14, 16, 34, .55) !important; }
+html[data-sfeer="aurora"] .tabbalk { background: rgba(14, 16, 34, .7) !important; }
+html[data-sfeer="aurora"] :is(.kaart, .levkaart, .kpi:not(.kpi-donker), .instelrij, .optie, .tabelkader, .kaartlijst > *, .ringkaart, .formulier fieldset, .uitb-p, .leeg, .md-kaart, .sz-lijst, .welkom, .sheet-paneel) { background-color: rgba(14, 16, 34, .55) !important; backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); }
+html[data-sfeer="aurora"] :is(.toegang, .toegang-plek) { background: transparent !important; }
+html[data-sfeer="aurora"] .toegang-band { background: linear-gradient(150deg, color-mix(in srgb, var(--mb) 55%, transparent), rgba(14, 60, 80, .5)) !important; backdrop-filter: blur(30px); border: 1px solid rgba(255, 255, 255, .14); box-shadow: 0 0 60px -10px color-mix(in srgb, var(--mb) 60%, transparent); }
+html[data-sfeer="aurora"] .detail-kop { background: linear-gradient(150deg, color-mix(in srgb, var(--mb) 60%, transparent), rgba(14, 60, 80, .4)) !important; }
+html[data-sfeer="aurora"] .lg-veld { background: rgba(14, 16, 34, .55) !important; border: 1px solid rgba(255, 255, 255, .16) !important; backdrop-filter: blur(20px); }
+html[data-sfeer="aurora"] .lg-veld input, html[data-sfeer="aurora"] .toegang .met-na input { background: transparent !important; color: #F2F4FC !important; border: 0 !important; }
+html[data-sfeer="aurora"] .toegang input::placeholder { color: #9EA4C2 !important; }
+html[data-sfeer="aurora"] .lg-veld svg { color: #FF8A7E !important; }
+html[data-sfeer="aurora"] .toegang :is(.veld-label, .lg-kop h2) { color: #F2F4FC !important; } html[data-sfeer="aurora"] .toegang :is(.veld-hint, .toegang-tip, .lg-voet, .lg-kop small) { color: #C3C8DE !important; }
