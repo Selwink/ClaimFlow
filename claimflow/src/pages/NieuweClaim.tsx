@@ -11,6 +11,7 @@ import { neemBestand } from "../lib/overdracht";
 import { ClaimForm } from "../components/ClaimForm";
 import { Icon, type IconNaam } from "../components/Icon";
 import { Bovenschrift, Leeg } from "../components/ui";
+import { levNaam } from "../lib/levnamen";
 
 type Stap = "kies" | "formulier-uit" | "inlezen" | "controle" | "zelf";
 const VELD_LABEL: Partial<Record<keyof Claim, string>> = {
@@ -47,7 +48,8 @@ export function NieuweClaim() {
     try {
       const { tekst, ocr } = await leesBestand(f, (stap, deel) => setVoortgang({ stap, deel }));
       const lev = [...new Set([...inst.leveranciers, ...claims.map((c) => c.leverancier || "").filter(Boolean)])];
-      const velden = leesVelden(tekst, lev);
+      const velden = leesVelden(tekst, [...lev, "Wellco"]);
+      if (velden.leverancier) velden.leverancier = levNaam(velden.leverancier);
       const herkend = new Set(Object.keys(velden).filter((k) => velden[k as keyof Claim]) as Array<keyof Claim>);
       if (!herkend.size) throw new Error("leeg");
       const c = { ...leegClaim(), ...velden };

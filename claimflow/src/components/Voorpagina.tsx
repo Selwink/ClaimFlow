@@ -21,7 +21,7 @@ export function Voorpagina({ onInloggen }: { onInloggen: () => void }) {
             <p className="vp-tags">LGAR-SCAN<br />TERMIJN 42 D<br />VAM-OPVOLGING<br />RAPPORTAGE</p>
           </div>
         </div>
-        <p className="vp-logos">Eureva · Umotion · Mercado · Wellco · UnitedCare</p>
+        <p className="vp-logos">Eureva · Umotion · Mercado · Aleidis Fitform · UnitedCare</p>
       </section>
 
       <section className="vp-blok" id="vp-soorten">

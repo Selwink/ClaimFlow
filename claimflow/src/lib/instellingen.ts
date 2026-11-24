@@ -1,3 +1,4 @@
+import { levLijst } from "./levnamen";
 import type { Instellingen } from "./types";
 
 /** Settings are stored as one row with this id; its JSON lives in the `bijzonderheden` column. */
@@ -6,8 +7,8 @@ export const INST_ID = "_instellingen";
 export const INST_STANDAARD: Instellingen = {
   vestiging: "Vestiging Meppel",
   dagen: 42,
-  leveranciers: ["Direct Healthcare", "Eureva", "Mercado", "Sowecare", "UnitedCare", "Umotion", "Wellco"],
-  uitbesteedLev: ["Wellco"],
+  leveranciers: ["Direct Healthcare", "Eureva", "Mercado", "Sowecare", "UnitedCare", "Umotion", "Aleidis Fitform"],
+  uitbesteedLev: ["Aleidis Fitform"],
   levMail: {},
   autoInvoer: true,
   weekmail: true,
@@ -25,8 +26,8 @@ export function leesInstellingen(o: unknown): Instellingen {
   return {
     vestiging: x.vestiging?.trim() || INST_STANDAARD.vestiging,
     dagen: Number(x.dagen) > 0 ? Math.round(Number(x.dagen)) : INST_STANDAARD.dagen,
-    leveranciers: Array.isArray(x.leveranciers) && x.leveranciers.length ? x.leveranciers : INST_STANDAARD.leveranciers,
-    uitbesteedLev: Array.isArray(x.uitbesteedLev) ? x.uitbesteedLev : INST_STANDAARD.uitbesteedLev,
+    leveranciers: Array.isArray(x.leveranciers) && x.leveranciers.length ? levLijst(x.leveranciers) : INST_STANDAARD.leveranciers,
+    uitbesteedLev: Array.isArray(x.uitbesteedLev) ? levLijst(x.uitbesteedLev) : INST_STANDAARD.uitbesteedLev,
     levMail: x.levMail && typeof x.levMail === "object" ? x.levMail : {},
     autoInvoer: x.autoInvoer !== false,
     weekmail: x.weekmail !== false,

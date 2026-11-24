@@ -6,6 +6,7 @@ import { INST_STANDAARD, leesInstellingen } from "../lib/instellingen";
 import { metRegel, metStatus, statusVan } from "../lib/claims";
 import { ls, meervoud, vandaag } from "../lib/format";
 import { mailNotitie, mailStatus, verstuurWachtrij } from "../lib/mail";
+import { isOudeNaam, levNaam } from "../lib/levnamen";
 import { useToast } from "./Toast";
 
 /** Pre-2026-11 sessions stored a password hash here; it is no longer accepted and is cleaned up. */
@@ -70,6 +71,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [geladen, setGeladen] = useState(!!cache);
   const [online, setOnline] = useState(true);
   const [syncTijd, setSyncTijd] = useState<number | undefined>(cache?.tijd);
+  const hernoemd = useRef(false);
   const claimsRef = useRef(claims);
   claimsRef.current = claims;
 
@@ -78,13 +80,21 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const vernieuw = useCallback(async () => {
     if (!REMOTE) { setGeladen(true); return; }
     try {
-      const { claims: c, inst: i, rol: r, naam: n } = await haalAlles();
+      const alles = await haalAlles();
+      let c = alles.claims; const { inst: i, rol: r, naam: n } = alles;
       setRol(r);
       setNaam(n);
       const p = pas.get();
       if (p && (p.rol !== r || p.naam !== n)) pas.zet({ ...p, rol: r, naam: n });
+      // suppliers that changed name: show the new name right away; an administrator saves it once
+      const oud = c.filter((x) => isOudeNaam(x.leverancier));
+      if (oud.length) c = c.map((x) => (isOudeNaam(x.leverancier) ? { ...x, leverancier: levNaam(x.leverancier) } : x));
       setClaims(c);
-      const nieuweInst = i || INST_STANDAARD;
+      if (oud.length && r === "beheer" && !hernoemd.current) void bewaarClaims(oud.map((x) => metRegel({ ...x, leverancier: levNaam(x.leverancier) }, `Leverancier hernoemd: ${x.leverancier} → ${levNaam(x.leverancier)}`, n || ""))).catch(() => undefined);
+      const nieuweInst = i ? leesInstellingen(i) : INST_STANDAARD;
+      const moetInst = !!i && (i.uitbesteedLev || []).concat(i.leveranciers || []).some(isOudeNaam);
+      if (r === "beheer" && !hernoemd.current && moetInst) void bewaarInstellingen(nieuweInst).catch(() => undefined);
+      if (r === "beheer" && (oud.length || moetInst)) hernoemd.current = true;
       setInst(nieuweInst);
       setOnline(true);
       setSyncTijd(Date.now());
