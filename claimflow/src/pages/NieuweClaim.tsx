@@ -19,7 +19,7 @@ import { Typ } from "../components/Typ";
 
 type Stap = "kies" | "formulier-uit" | "inlezen" | "controle" | "zelf";
 /** The fields shown on the scan card, in the order of the LGAR form. */
-const SCAN_VELDEN: Array<keyof Claim> = ["leverancier", "inkoopnummer", "frame", "type", "storing", "aankoop", "voorziening", "nummer"];
+const SCAN_VELDEN: Array<keyof Claim> = ["leverancier", "inkoopnummer", "frame", "type", "storing", "aankoop", "voorziening"];
 const VELD_LABEL: Partial<Record<keyof Claim, string>> = {
   type: "Type", onderdeel: "Onderdeel", leverancier: "Leverancier", inkoopnummer: "Inkoopnummer", voorziening: "Voorzieningnummer",
   frame: "Framenummer", aankoop: "Aankoopdatum", storing: "Storing", nummer: "Claimnummer",
