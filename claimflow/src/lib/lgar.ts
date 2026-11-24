@@ -207,7 +207,7 @@ export async function bonNaarAfbeeldingen(file: File): Promise<string[]> {
   }
   if (isAfbeelding(file)) {
     const { verkleinFoto } = await import("./foto");
-    return [await verkleinFoto(file, 1800, 0.82)];
+    return [await verkleinFoto(file, 1600, 0.78)];
   }
   return [];
 }
