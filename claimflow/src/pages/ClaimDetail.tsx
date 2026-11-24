@@ -12,6 +12,7 @@ import { Bovenschrift, Leeg, Sheet, StatusPil } from "../components/ui";
 import { TermRing } from "../components/TermRing";
 import { Fotos } from "../components/Fotos";
 import { logoVan } from "../lib/levlogo";
+import { Bonnen } from "../components/Bonnen";
 
 /** The VAM e-mails what may be done with the part; these record it in one tap. */
 const VAM_SNEL = ["VAM: Onderdeel retour sturen", "VAM: Onderdeel vernietigen", "VAM: Onderdeel bewaren", "VAM: Informatie opgevraagd"];
@@ -85,6 +86,7 @@ export function ClaimDetail() {
 
           {c.storing && <section className="kaart"><h2 className="sectiekop">Storing</h2><p className="doorlopend">{c.storing}</p></section>}
 
+          <Bonnen claim={c} />
           <Fotos claim={c} />
 
           <section className="kaart">

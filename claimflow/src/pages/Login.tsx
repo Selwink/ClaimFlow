@@ -5,6 +5,7 @@ import { Icon, type IconNaam } from "../components/Icon";
 import { Logo } from "../components/ui";
 import { LogoMerk } from "../components/LogoMerk";
 import { Voorpagina } from "../components/Voorpagina";
+import { naInloggenUitleg } from "../components/Mogelijkheden";
 
 const KENMERKEN: Array<[IconNaam, string]> = [
   ["klok", "42 dagen bewaakt"], ["camera", "LGAR scannen"], ["afbeelding", "Foto’s als bewijs"],
@@ -66,7 +67,7 @@ function LoginFormulier() {
       const r = stand === "inloggen" ? await login(naam.trim(), code) : stand === "aanmelden" ? await aanmelden(naam.trim(), pw, code) : await herstelWachtwoord(naam.trim(), code, pw);
       if ("wacht" in r) { setBezig(false); setWachtOp(r.naam); setPw(""); setCode(""); return; }
 
-      try { sessionStorage.setItem("claimflow-welkom", stand === "aanmelden" ? "nieuw" : "terug"); } catch { /* geen opslag */ }
+      naInloggenUitleg();
       naInloggen(r);
     } catch (err) {
       setBezig(false);
@@ -114,7 +115,7 @@ function LoginFormulier() {
         ) : (
         <form className={`toegang-kaart${schud ? " schud" : ""}`} key={`${stand}-${schud}`} onSubmit={verstuur} noValidate>
           <span className="greep" aria-hidden="true" />
-          <div className="lg-kop"><span className="lg-merk" aria-hidden="true"><LogoMerk maat={64} /></span><b>ClaimFlow</b><h2>{stand === "aanmelden" ? "Account maken" : "Welkom terug!"}</h2><small>Log in om verder te gaan</small></div>
+          <div className="lg-kop"><span className="lg-merk" aria-hidden="true"><LogoMerk maat={64} /></span><b>ClaimFlow</b><h2>{stand === "aanmelden" ? "Account maken" : stand === "herstel" ? "Nieuw wachtwoord" : "Inloggen"}</h2><small>Log in om verder te gaan</small></div>
           <p className="toegang-uitleg">Vul je eigen naam in en de vestigingscode. Heb je nog geen account, dan maakt de app die nu voor je aan.</p>
           {stand === "herstel" && <p className="toegang-uitleg">Dit werkt nadat de beheerder een nieuw wachtwoord voor je heeft toegestaan in Beheer.</p>}
 

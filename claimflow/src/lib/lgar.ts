@@ -186,3 +186,28 @@ export function leesVelden(tekst: string, bekendeLeveranciers: string[]): Partia
   if (vast) uit.onderdeel = vast;
   return uit as Partial<Claim>;
 }
+
+/** Turns a receipt (LGAR pdf or photo) into JPEG images to keep with the claim: one per pdf page (max 4). */
+export async function bonNaarAfbeeldingen(file: File): Promise<string[]> {
+  if (isPdf(file)) {
+    const pdf = await laadPdf(file);
+    const uit: string[] = [];
+    for (let i = 1; i <= Math.min(pdf.numPages, 4); i++) {
+      const pagina = await pdf.getPage(i);
+      const basis = pagina.getViewport({ scale: 1 });
+      const vp = pagina.getViewport({ scale: Math.min(2.2, 1600 / Math.max(basis.width, basis.height)) });
+      const c = document.createElement("canvas");
+      c.width = Math.round(vp.width); c.height = Math.round(vp.height);
+      const ctx = c.getContext("2d")!;
+      ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height);
+      await pagina.render({ canvasContext: ctx, viewport: vp }).promise;
+      uit.push(c.toDataURL("image/jpeg", 0.82));
+    }
+    return uit;
+  }
+  if (isAfbeelding(file)) {
+    const { verkleinFoto } = await import("./foto");
+    return [await verkleinFoto(file, 1800, 0.82)];
+  }
+  return [];
+}

@@ -14,7 +14,7 @@ import { Backups } from "../components/Backups";
 import { Verhuizen } from "../components/Verhuizen";
 import { ProfielKop } from "../components/Showcase";
 import { Gebruikers, WachtwoordWijzigen } from "../components/Gebruikers";
-import { toonWelkom } from "../components/Welkom";
+import { toonMogelijkheden } from "../components/Mogelijkheden";
 import { PushMeldingen } from "../components/PushMeldingen";
 import { KLEUREN, leesKleur, leesWeergave, zetKleur, zetWeergave, type Kleur, type Weergave } from "../lib/kleur";
 import { datumOntbreekt } from "../lib/claims";
@@ -81,7 +81,7 @@ export function Beheer() {
       <Blok titel="Jij">
         <Rij icoon="persoon" titel={s.naam || "Je account"} tekst={s.rol === "beheer" ? "Je kunt claims toevoegen en wijzigen. Je naam komt in de tijdlijn." : "Je kunt alles zien maar niets wijzigen. Vraag een beheerder om meer rechten."} />
         <WachtwoordWijzigen />
-        <Rij icoon="bericht" titel="Uitleg bekijken" tekst="De rondleiding van de eerste keer, nog een keer." onClick={toonWelkom} />
+        <Rij icoon="bericht" titel="Wat kun je hier?" tekst="Het overzicht van alles wat je kunt doen en inzien." onClick={toonMogelijkheden} />
         <Rij icoon="uitloggen" titel="Uitloggen" tekst="Wist ook de opgeslagen gegevens op dit apparaat." onClick={s.uitloggen} />
       </Blok>
 
@@ -119,7 +119,7 @@ export function Beheer() {
         <Link to="/leveranciers" className="instelrij alleen-mobiel"><span className="rij-ic"><Icon naam="fabriek" maat={18} /></span><span className="rij-t"><b>Leveranciers</b><span>Cijfers per leverancier</span></span><Icon naam="verder" maat={16} /></Link>
       </Blok>
 
-      <Blok titel="E-mailmeldingen" uitleg={s.inst.mail ? `Bij elke nieuwe claim, statuswijziging, notitie en nieuw account gaat er een mail naar ${CONFIG.MELDING_EMAIL || "niemand"}.` : "Staat uit: wat er moet gebeuren zie je in een pop-up zodra je de app opent."}>
+      <Blok titel="E-mailmeldingen" uitleg={s.inst.mail ? `Bij elke nieuwe claim, statuswijziging, notitie en nieuw account gaat er een mail naar ${CONFIG.MELDING_EMAIL || "niemand"}.` : `Nieuwe claims worden altijd gemaild naar ${CONFIG.MELDING_EMAIL || "niemand"}. Zet aan voor ook statuswijzigingen, notities en herinneringen.`}>
         <label className="instelrij schakelrij">
           <span className="rij-ic"><Icon naam="mail" maat={18} /></span>
           <span className="rij-t"><b>Ook mailen</b><span>Uit: alleen de pop-up in de app. Aan: ook een mail bij een nieuwe claim en op maandag.</span></span>

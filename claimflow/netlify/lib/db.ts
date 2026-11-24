@@ -39,7 +39,8 @@ export const FOTO = "_foto:";
 export const BACKUP = "_backup:";
 export const GEBRUIKER = "_gebruiker:";
 export const PUSH = "_push:";
-const GEEN_BIJLAGEN = `id=not.like.${q(`${FOTO}*`)}&id=not.like.${q(`${BACKUP}*`)}&id=not.like.${q(`${GEBRUIKER}*`)}&id=not.like.${q(`${PUSH}*`)}`;
+export const BON = "_bon:";
+const GEEN_BIJLAGEN = `id=not.like.${q(`${FOTO}*`)}&id=not.like.${q(`${BON}*`)}&id=not.like.${q(`${BACKUP}*`)}&id=not.like.${q(`${GEBRUIKER}*`)}&id=not.like.${q(`${PUSH}*`)}`;
 
 const KOLOMMEN = ["id", "nummer", "onderdeel", "voorziening", "type", "frame", "storing", "inkoopnummer", "leverancier", "aankoop",
   "bouwjaar", "bedrag", "datum", "periode", "status", "locatie", "uitbesteed", "bijzonderheden", "notities", "bijgewerkt", "verwijderd"] as const;
@@ -102,7 +103,7 @@ export async function bewaar(claims: Claim[]): Promise<void> {
 export async function verwijder(id: string): Promise<void> {
   const r = await fetch(`${API}?id=eq.${q(id)}`, { method: "DELETE", headers: kop() });
   if (!r.ok) throw new Error(`Database ${r.status}`);
-  if (!id.startsWith("_")) await fetch(`${API}?id=like.${q(`${FOTO}${id}:*`)}`, { method: "DELETE", headers: kop() }).catch(() => undefined);
+  if (!id.startsWith("_")) for (const p of [FOTO, BON]) await fetch(`${API}?id=like.${q(`${p}${id}:*`)}`, { method: "DELETE", headers: kop() }).catch(() => undefined);
 }
 
 export async function bewaarInstellingen(inst: Instellingen): Promise<void> {
@@ -112,17 +113,17 @@ export async function bewaarInstellingen(inst: Instellingen): Promise<void> {
 // ---- photos: rows `_foto:<claimId>:<n>` with the JPEG data URL in `bijzonderheden`
 export interface Foto { id: string; claim: string; data: string; datum: string; wie: string }
 
-export async function fotos(claimId: string): Promise<Foto[]> {
-  const rows = await haal(`select=id,nummer,bijzonderheden,bijgewerkt,type&id=like.${q(`${FOTO}${claimId}:*`)}`);
+export async function fotos(claimId: string, pre = FOTO): Promise<Foto[]> {
+  const rows = await haal(`select=id,nummer,bijzonderheden,bijgewerkt,type&id=like.${q(`${pre}${claimId}:*`)}`);
   return rows
-    .filter((x) => String(x.id).startsWith(`${FOTO}${claimId}:`) && /^data:image\//.test(String(x.bijzonderheden || "")))
+    .filter((x) => String(x.id).startsWith(`${pre}${claimId}:`) && /^data:image\//.test(String(x.bijzonderheden || "")))
     .map((x) => ({ id: String(x.id), claim: String(x.nummer), data: String(x.bijzonderheden), datum: String(x.bijgewerkt || ""), wie: String(x.type || "") }))
     .sort((a, b) => a.datum.localeCompare(b.datum) || a.id.localeCompare(b.id));
 }
 
-export async function bewaarFoto(claimId: string, data: string, wie: string, datum: string): Promise<Foto> {
-  const id = `${FOTO}${claimId}:${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
-  await bewaar([{ id, nummer: claimId, type: wie, onderdeel: "foto", bijzonderheden: data, bijgewerkt: datum, status: "nieuw", locatie: "binnen", periode: "" } as Claim]);
+export async function bewaarFoto(claimId: string, data: string, wie: string, datum: string, pre = FOTO): Promise<Foto> {
+  const id = `${pre}${claimId}:${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
+  await bewaar([{ id, nummer: claimId, type: wie, onderdeel: pre === BON ? "bon" : "foto", bijzonderheden: data, bijgewerkt: datum, status: "nieuw", locatie: "binnen", periode: "" } as Claim]);
   return { id, claim: claimId, data, datum, wie };
 }
 

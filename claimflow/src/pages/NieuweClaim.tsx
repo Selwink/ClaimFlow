@@ -12,6 +12,7 @@ import { ClaimForm } from "../components/ClaimForm";
 import { Icon, type IconNaam } from "../components/Icon";
 import { Bovenschrift, Leeg } from "../components/ui";
 import { levNaam } from "../lib/levnamen";
+import { slaBonOp } from "../components/Bonnen";
 
 type Stap = "kies" | "formulier-uit" | "inlezen" | "controle" | "zelf";
 const VELD_LABEL: Partial<Record<keyof Claim, string>> = {
@@ -28,6 +29,7 @@ export function NieuweClaim() {
   const { bewaar, naam, inst, claims, magBewerken } = useStore();
   const [stap, setStap] = useState<Stap>("kies");
   const [start, setStart] = useState<Claim>(leegClaim);
+  const bonBestand = useRef<File | null>(null);
   const [bron, setBron] = useState<{ naam: string; tijd: number; herkend: Set<keyof Claim>; ocr: boolean } | null>(null);
   const [voortgang, setVoortgang] = useState<{ stap: string; deel?: number }>({ stap: "" });
   const [fout, setFout] = useState("");
@@ -56,6 +58,7 @@ export function NieuweClaim() {
       if (velden.type && !velden.onderdeel) c.onderdeel = velden.type;
       if (inst.uitbesteedLev.some((l) => l.toLowerCase() === (c.leverancier || "").toLowerCase())) { c.uitbesteed = true; c.status = "gehonoreerd"; }
       setStart(c);
+      bonBestand.current = f;
       setBron({ naam: f.name || "Foto", tijd: (performance.now() - t0) / 1000, herkend, ocr });
       setStap("controle");
     } catch {
@@ -71,7 +74,9 @@ export function NieuweClaim() {
     const ok = await bewaar([nieuw], "Claim vastgelegd", { verwijder: c.id });
     setBezig(false);
     if (!ok) return;
-    if (inst.mail) void mailNieuweClaim(nieuw, bronTekst, naam);
+    // keep the receipt with the claim so everyone can view it later
+    if (bron && bonBestand.current) { const f = bonBestand.current; bonBestand.current = null; void slaBonOp(c.id, f, naam).catch(() => undefined); }
+    void mailNieuweClaim(nieuw, bronTekst, naam);
     nav(`/claims/${c.id}`, { replace: true });
   };
 
