@@ -277,41 +277,12 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;
 
 <div class="pagina">
   <div class="nav"><div class="wrap"><div class="balk">
-    <a class="logo" href="#top"><i></i>ClaimFlow</a>
+    <a class="logo" href="#"><i></i>ClaimFlow</a>
     <nav class="links" aria-label="Pagina"><a href="#hoe">Hoe het werkt</a><a href="#functies">Functies</a><a href="#reken">Wat het oplevert</a><a href="#vragen">Vragen</a></nav>
     <div class="acties"><a class="knop glas klein" href="../">Inloggen</a><a class="knop glas klein verberg-smal" href="#hoe">Probeer met een bon</a><a class="knop rood klein magneet" href="#start">Laat zien wat er openstaat</a></div>
   </div></div></div>
 
-  <header class="held" id="top"><div class="wrap held-raster">
-    <div>
-      <span class="signaal">Voor winkels in hulpmiddelen</span>
-      <h1>Elke vergeten claim <span class="glans">betaal je zelf.</span></h1>
-      <p class="lead">ClaimFlow bewaakt elke garantietermijn en leest je LGAR-bon in seconden in. <b>Jij dient in, de app onthoudt de rest.</b></p>
-      <div class="acties"><a class="knop rood groot magneet" href="#start">Laat zien wat er openstaat <span class="pijl-rond">→</span></a>
-        <div class="micro"><span>Demo van 15 minuten</span><span>Niets installeren</span></div></div>
-      <div class="bewijs">
-        <div><b>42 d</b><small>termijn per claim bewaakt</small></div>
-        <div><b>6 velden</b><small>vullen zichzelf in vanaf de bon</small></div>
-        <div><b>07:15</b><small>elke ochtend je lijstje</small></div>
-      </div>
-    </div>
-    <div class="toneel" aria-hidden="true">
-      <div class="h-bon" id="hBon"><span class="lijn"></span><b>LGAR · Garantiebon</b>Eureva<i></i>INK 2486854<i></i>Vela Tango 700E<i></i>Wiel blokkeert<i></i></div>
-      <div class="h-claim">
-        <div class="kop"><b>Vela Tango 700E</b><span class="chip n" id="hChip">Bon lezen</span></div>
-        <div class="h-velden">
-          <div class="h-veld" data-v="Eureva"><small>Leverancier</small><span></span></div>
-          <div class="h-veld" data-v="2486854"><small>Inkoopnummer</small><span></span></div>
-          <div class="h-veld" data-v="VT700E-55871"><small>Framenummer</small><span></span></div>
-          <div class="h-veld" data-v="Wiel blokkeert"><small>Storing</small><span></span></div>
-        </div>
-        <div class="klok"><div class="r"><span>Termijn leverancier</span><span id="hDagen">0 / 42 d</span></div><i id="hBalk"></i></div>
-      </div>
-      <div class="h-melding" id="hMelding"><i>✓</i>Claim ingediend bij Eureva</div>
-    </div>
-  </div></header>
-
-  <div class="band" aria-hidden="true"><div class="loop" id="loop"></div></div>
+  <div class="band" aria-hidden="true" style="margin-top:28px"><div class="loop" id="loop"></div></div>
 
   <section><div class="wrap probleem">
     <div><span class="eyebrow">Het probleem</span><h2>Garantie is geld. Alleen ligt het in een <em>map</em>.</h2><p class="lead">Elke vergeten termijn is een reparatie die je zelf betaalt. Niet omdat je het niet weet, maar omdat niemand het bijhoudt.</p></div>
@@ -441,22 +412,6 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;
     k.addEventListener('pointermove', e => { const r = k.getBoundingClientRect(); k.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .22}px,${(e.clientY - r.top - r.height / 2) * .3}px)`; });
     k.addEventListener('pointerleave', () => { k.style.transform = ''; });
   });
-
-  // hero: the claim handles itself, on a loop
-  const hBon = document.getElementById('hBon'), hChip = document.getElementById('hChip'), hVelden = [...document.querySelectorAll('.h-veld')];
-  const hBalk = document.getElementById('hBalk'), hDagen = document.getElementById('hDagen'), hMeld = document.getElementById('hMelding');
-  const wacht = ms => new Promise(r => setTimeout(r, stil ? Math.min(ms, 50) : ms));
-  const zetChip = (k, t) => { hChip.className = 'chip ' + k; hChip.textContent = t; };
-  const ronde = async () => {
-    hBon.classList.remove('weg'); hVelden.forEach(v => { v.classList.remove('ok'); v.querySelector('span').textContent = ''; });
-    hBalk.style.setProperty('--w', '0%'); hDagen.textContent = '0 / 42 d'; hMeld.classList.remove('aan'); zetChip('n', 'Bon lezen');
-    await wacht(500); hBon.classList.add('scan'); await wacht(1800); hBon.classList.remove('scan'); hBon.classList.add('weg');
-    for (const v of hVelden) { const t = v.dataset.v, sp = v.querySelector('span'); if (stil) sp.textContent = t; else for (let i = 1; i <= t.length; i++) { sp.textContent = t.slice(0, i); await wacht(24); } v.classList.add('ok'); }
-    zetChip('l', 'Termijn loopt'); hBalk.style.setProperty('--w', '14%'); hDagen.textContent = '6 / 42 d';
-    await wacht(1300); zetChip('i', 'Ingediend'); hMeld.classList.add('aan');
-    await wacht(2600); if (!stil) ronde();
-  };
-  ronde();
 
   // status band
   const st = [['Nieuw', '#FF7A6E'], ['Ingediend', '#F2C14E'], ['Gehonoreerd', '#5BD38A'], ['Uitbesteed', '#D9C3FF'], ['Termijn bewaakt', '#8FE3F0'], ['Bon gekoppeld', '#8FE3F0'], ['Leverancier gebeld', '#F2C14E']];
