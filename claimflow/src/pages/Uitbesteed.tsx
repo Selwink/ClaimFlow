@@ -56,6 +56,8 @@ export function Uitbesteed() {
         {magBewerken && <Link to="/nieuw" className="knop knop-rood"><Icon naam="plus" maat={18} /> Nieuwe claim</Link>}
       </PaginaKop>
 
+      <p className="uitb-uitleg"><b>Leverancier pakt dit verder zelf op.</b> Uitbestede claims hoef je niet zelf op te volgen; ze tellen wel mee in Totaal geclaimd en het maanddoel.</p>
+
       <section className="kpi-rij kpi-rij-4">
         <Kpi donker label="Totaal uitbesteed" waarde={euro(som(inJaar))} sub={meervoud(inJaar.length, "claim", "claims")} />
         <Kpi label="Deze maand" waarde={euro(som(dezeMnd))} sub={`${meervoud(dezeMnd.length, "claim", "claims")} · ${periodLabel(dezeMaand()).toLowerCase()}`} />

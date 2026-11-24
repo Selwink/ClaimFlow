@@ -199,3 +199,6 @@ html[data-weergave="donker"] :is(.sh-profiel b, .sh-stats b, .sh-menu a, .rappor
   .toegang-band::before { background-position: 50% 26px, center !important; background-size: 44%, auto !important; }
   .toegang-slogan h1 { font-size: 2.1rem !important; }
 }
+.pr-uit .pr-uit-zelf { display: inline-block; margin: 0 0 8px; padding: 4px 10px; border-radius: 999px; background: rgba(255, 255, 255, .18); border: 1px solid rgba(255, 255, 255, .3); font-size: .78rem; font-weight: 600; }
+.uitb-uitleg { margin: 4px 0 14px; padding: 12px 16px; border-radius: 14px; background: var(--pr-kaart); border: 1px solid var(--pr-rand); border-left: 4px solid var(--mr); font-size: .9rem; color: var(--pr-ink2); }
+.uitb-uitleg b { color: var(--pr-ink); }
