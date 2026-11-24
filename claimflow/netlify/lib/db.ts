@@ -96,13 +96,13 @@ export async function bewaar(claims: Claim[]): Promise<void> {
     const t = await r.text().catch(() => "");
     const m = t.match(/'([a-z_]+)' column/i) || t.match(/column "?([a-z_]+)"? (?:of|does)/i);
     if (m && m[1] !== "id" && !onbekend.has(m[1])) { onbekend.add(m[1]); continue; }
-    throw new Error(`Database ${r.status}`);
+    throw new Error(`Database ${r.status}: ${t.slice(0, 200)}`);
   }
 }
 
 export async function verwijder(id: string): Promise<void> {
   const r = await fetch(`${API}?id=eq.${q(id)}`, { method: "DELETE", headers: kop() });
-  if (!r.ok) throw new Error(`Database ${r.status}`);
+  if (!r.ok) throw new Error(`Database ${r.status}: ${(await r.text().catch(() => "")).slice(0, 200)}`);
   if (!id.startsWith("_")) for (const p of [FOTO, BON]) await fetch(`${API}?id=like.${q(`${p}${id}:*`)}`, { method: "DELETE", headers: kop() }).catch(() => undefined);
 }
 
@@ -114,17 +114,41 @@ export async function bewaarInstellingen(inst: Instellingen): Promise<void> {
 export interface Foto { id: string; claim: string; data: string; datum: string; wie: string }
 
 export async function fotos(claimId: string, pre = FOTO): Promise<Foto[]> {
-  const rows = await haal(`select=id,nummer,bijzonderheden,bijgewerkt,type&id=like.${q(`${pre}${claimId}:*`)}`);
-  return rows
-    .filter((x) => String(x.id).startsWith(`${pre}${claimId}:`) && /^data:image\//.test(String(x.bijzonderheden || "")))
-    .map((x) => ({ id: String(x.id), claim: String(x.nummer), data: String(x.bijzonderheden), datum: String(x.bijgewerkt || ""), wie: String(x.type || "") }))
-    .sort((a, b) => a.datum.localeCompare(b.datum) || a.id.localeCompare(b.id));
+  const rows = (await haal(`select=id,nummer,bijzonderheden,bijgewerkt,type,periode&id=like.${q(`${pre}${claimId}:*`)}`))
+    .filter((x) => String(x.id).startsWith(`${pre}${claimId}:`));
+  // large images are stored in pieces: `<id>` holds the start and the number of pieces, `<id>~1`, `<id>~2`… the rest
+  const delen = new Map<string, string>();
+  for (const x of rows) if (String(x.id).includes("~")) delen.set(String(x.id), String(x.bijzonderheden || ""));
+  const uit: Foto[] = [];
+  for (const x of rows) {
+    const id = String(x.id);
+    if (id.includes("~") || !/^data:image\//.test(String(x.bijzonderheden || ""))) continue;
+    let data = String(x.bijzonderheden);
+    const aantal = Math.max(1, Number(x.periode) || 1);
+    let compleet = true;
+    for (let n = 1; n < aantal; n++) { const d = delen.get(`${id}~${n}`); if (d === undefined) { compleet = false; break; } data += d; }
+    if (compleet) uit.push({ id, claim: String(x.nummer), data, datum: String(x.bijgewerkt || ""), wie: String(x.type || "") });
+  }
+  return uit.sort((a, b) => a.datum.localeCompare(b.datum) || a.id.localeCompare(b.id));
 }
 
-export async function bewaarFoto(claimId: string, data: string, wie: string, datum: string, pre = FOTO): Promise<Foto> {
+export async function bewaarFoto(claimId: string, data: string, wie: string, datum: string, pre = FOTO, delen = 1): Promise<Foto> {
   const id = `${pre}${claimId}:${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`;
-  await bewaar([{ id, nummer: claimId, type: wie, onderdeel: pre === BON ? "bon" : "foto", bijzonderheden: data, bijgewerkt: datum, status: "nieuw", locatie: "binnen", periode: "" } as Claim]);
+  await bewaar([{ id, nummer: claimId, type: wie, onderdeel: pre === BON ? "bon" : "foto", bijzonderheden: data, bijgewerkt: datum, status: "nieuw", locatie: "binnen", periode: String(delen) } as Claim]);
   return { id, claim: claimId, data, datum, wie };
+}
+
+/** One further piece of a large image (see `fotos`). */
+export async function bewaarFotoDeel(id: string, n: number, data: string): Promise<void> {
+  const claimId = id.slice(id.indexOf(":") + 1, id.lastIndexOf(":"));
+  await bewaar([{ id: `${id}~${n}`, nummer: claimId, type: "", onderdeel: "deel", bijzonderheden: data, bijgewerkt: "", status: "nieuw", locatie: "binnen", periode: "" } as Claim]);
+}
+
+/** Removes a photo or receipt together with its pieces. */
+export async function verwijderBijlage(id: string): Promise<void> {
+  await verwijder(id);
+  const r = await fetch(`${API}?id=like.${q(`${id}~*`)}`, { method: "DELETE", headers: kop() });
+  if (!r.ok) throw new Error(`Database ${r.status}: ${(await r.text().catch(() => "")).slice(0, 200)}`);
 }
 
 /** Ids of the claims that have a receipt (no image data, so it stays light). */
