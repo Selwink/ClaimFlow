@@ -262,3 +262,7 @@ html:not([data-weergave="donker"]) .splash-onder { color: #5D5D6B; }
 @media (max-width: 1023px) { .lev-logo { top: 0; } .lev-logo img { height: 30px; } .lev-logo img[src*="umotion"] { height: 56px; } }
 html:not([data-weergave="donker"]) .lev-logo img[src*="-licht"] { filter: brightness(.35) drop-shadow(0 6px 14px rgba(0, 0, 0, .15)); }
 .toast { background: #15161C !important; color: #F2F4FC !important; box-shadow: 0 0 0 1px rgba(255, 255, 255, .1), 0 18px 40px -16px rgba(0, 0, 0, .7) !important; } .toast button { color: #fff !important; }
+html[data-weergave="donker"] .bestandkaart { background: rgba(255, 255, 255, .06) !important; border-color: rgba(255, 255, 255, .16) !important; }
+html[data-weergave="donker"] .bestandkaart b { color: #F2F4FC !important; } html[data-weergave="donker"] .bestandkaart span { color: #A9A9BA !important; }
+html[data-weergave="donker"] .met-voor { background: rgba(255, 255, 255, .05) !important; border-color: rgba(255, 255, 255, .16) !important; color: #C9C9D6 !important; }
+html[data-weergave="donker"] .met-voor input { background: transparent !important; color: #F2F4FC !important; border: 0 !important; }
