@@ -184,3 +184,14 @@ html[data-aurora="groen"] :is(.tabbalk,.pf-band){background:rgba(8,26,20,.7) !im
 html[data-aurora="groen"] .detail-kop,html[data-aurora="groen"] .toegang-band{background:linear-gradient(150deg,rgba(63,211,154,.4),rgba(15,92,69,.5)) !important}
 html[data-aurora="groen"] .feest-kaart.feest-aurora{background:linear-gradient(150deg,rgba(126,232,176,.5),rgba(15,92,69,.75) 55%,rgba(30,122,95,.7)) !important}
 html[data-aurora="groen"] .pr-groet small{color:rgba(240,255,248,.85) !important;text-shadow:0 1px 8px rgba(0,40,25,.5)}
+
+/* ---------- automatic save after a scan ---------- */
+.auto-opslaan{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px;margin:0 0 12px;border-radius:18px;color:#F4F6FB;
+  background:linear-gradient(140deg,rgba(91,211,138,.2),rgba(46,156,178,.16));border:1px solid rgba(91,211,138,.5);animation:rij-in .4s ease both}
+.auto-ring{--p:100%;flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;
+  background:conic-gradient(#5BD38A var(--p),rgba(255,255,255,.15) 0);transition:--p .9s linear}
+.auto-ring b{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#0C1A16;color:#fff !important;font-size:.95rem}
+.auto-t{flex:1 1 180px;display:grid;min-width:0}
+html .auto-t b{color:#F4F6FB !important;font-size:.95rem}
+.auto-t small{color:rgba(244,246,251,.75);font-size:.8rem}
+.auto-niet{background:rgba(242,193,78,.14) !important;border-color:rgba(242,193,78,.5) !important}
