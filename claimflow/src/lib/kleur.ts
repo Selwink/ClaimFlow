@@ -20,19 +20,20 @@ export function zetKleur(k: Kleur) {
 }
 
 /** Light or dark appearance (Prime), per device; "auto" follows the phone or computer setting. */
-export type Weergave = "aurora" | "licht" | "donker" | "auto";
+export type Weergave = "aurora" | "groen" | "licht" | "donker" | "auto";
 const W_SLEUTEL = "claimflow-weergave";
 export function leesWeergave(): Weergave {
-  try { const w = localStorage.getItem(W_SLEUTEL) as Weergave | null; return w === "licht" || w === "donker" || w === "auto" ? w : "aurora"; } catch { return "aurora"; }
+  try { const w = localStorage.getItem(W_SLEUTEL) as Weergave | null; return w === "groen" || w === "licht" || w === "donker" || w === "auto" ? w : "aurora"; } catch { return "aurora"; }
 }
 const mq = () => (typeof matchMedia === "function" ? matchMedia("(prefers-color-scheme: dark)") : null);
 function pasToe(w: Weergave) {
-  const aurora = w === "aurora";
+  const aurora = w === "aurora" || w === "groen";
+  if (w === "groen") document.documentElement.dataset.aurora = "groen"; else delete document.documentElement.dataset.aurora;
   const donker = aurora || w === "donker" || (w === "auto" && !!mq()?.matches);
   if (aurora) document.documentElement.dataset.sfeer = "aurora"; else delete document.documentElement.dataset.sfeer;
   if (donker) document.documentElement.dataset.weergave = "donker"; else delete document.documentElement.dataset.weergave;
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute("content", aurora ? "#07081A" : donker ? "#0B0C10" : "#FFFFFF");
+  if (meta) meta.setAttribute("content", w === "groen" ? "#06140F" : aurora ? "#07081A" : donker ? "#0B0C10" : "#FFFFFF");
 }
 export function zetWeergave(w: Weergave) {
   pasToe(w);
