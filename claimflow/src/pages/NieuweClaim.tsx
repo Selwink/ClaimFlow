@@ -5,6 +5,7 @@ import { CONFIG } from "../lib/config";
 import { useStore } from "../state/Store";
 import { metRegel } from "../lib/claims";
 import { datum, dezeMaand, nieuwId, vandaag } from "../lib/format";
+import { zoekDubbel } from "../lib/claims";
 import { leesBestand, leesVelden } from "../lib/lgar";
 import { mailNieuweClaim } from "../lib/mail";
 import { neemBestand } from "../lib/overdracht";
@@ -39,6 +40,16 @@ export function NieuweClaim() {
   const toast = useToast();
   const [bron, setBron] = useState<{ naam: string; tijd: number; herkend: Set<keyof Claim>; ocr: boolean } | null>(null);
   const [voortgang, setVoortgang] = useState<{ stap: string; deel?: number }>({ stap: "" });
+  // after a scan the claim and the LGAR are saved by themselves after a short countdown, unless someone wants to check first
+  const [auto, setAuto] = useState<number | null>(null);
+  const [geenAuto, setGeenAuto] = useState("");
+  const formRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (auto == null) return;
+    if (auto <= 0) { setAuto(null); formRef.current?.querySelector("form")?.requestSubmit(); return; }
+    const t = window.setTimeout(() => setAuto((a) => (a == null ? null : a - 1)), 1000);
+    return () => window.clearTimeout(t);
+  }, [auto]);
   const [voorbeeld, setVoorbeeld] = useState<{ url: string; naam: string } | null>(null);
   useEffect(() => () => { if (voorbeeld) URL.revokeObjectURL(voorbeeld.url); }, [voorbeeld]);
   const [fout, setFout] = useState("");
@@ -71,6 +82,10 @@ export function NieuweClaim() {
       setBon(f);
       setBron({ naam: f.name || "Foto", tijd: (performance.now() - t0) / 1000, herkend, ocr });
       setStap("controle");
+      const dubbel = zoekDubbel(c as Claim, claims).length > 0;
+      const kanAuto = !!(c.type || c.onderdeel) && !!c.leverancier && !dubbel;
+      setAuto(kanAuto ? 4 : null);
+      setGeenAuto(kanAuto ? "" : dubbel ? "Niet automatisch toegevoegd: deze bon lijkt op een claim die al bestaat. Controleer hieronder." : "Niet automatisch toegevoegd: leverancier of type ontbreekt. Vul het hieronder aan.");
     } catch {
       setFout("Er kon niets uit dit bestand gelezen worden. Maak de foto recht van boven, met goed licht en het hele formulier in beeld — of vul de claim zelf in.");
       setStap("kies");
@@ -78,18 +93,22 @@ export function NieuweClaim() {
   };
 
   const opslaan = async (c: Claim) => {
+    setAuto(null);
     setBezig(true);
     const bronTekst = bron ? (bron.ocr ? "LGAR gescand" : "LGAR-pdf") : "zelf ingevuld";
     const nieuw = metRegel(c, bron ? `Claim vastgelegd uit ${bron.ocr ? "scan van " : ""}${bron.naam}` : "Claim aangemaakt", naam);
     const ok = await bewaar([nieuw], "Claim vastgelegd", { verwijder: c.id });
     if (!ok) { setBezig(false); return; }
     // the receipt is stored with the claim before the claim opens, so it is there straight away
+    let bonOk = false;
     if (bon) {
-      try { const pag = await slaBonOp(c.id, bon, naam); if (!pag.length) toast("De bon kon niet als afbeelding worden opgeslagen"); }
+      try { const pag = await slaBonOp(c.id, bon, naam); bonOk = pag.length > 0; if (!bonOk) toast("De bon kon niet als afbeelding worden opgeslagen"); }
       catch (e) { bonWacht(c.id, bon, e instanceof Error && e.message ? e.message : "onbekende fout"); }
     }
     setBezig(false);
-    toonClaimPop("Claim vastgelegd", [nieuw.leverancier, nieuw.type || nieuw.onderdeel].filter(Boolean).join(" · ") || undefined, "nieuw");
+    const wat = [nieuw.leverancier, nieuw.type || nieuw.onderdeel].filter(Boolean).join(" · ");
+    if (bron) toonClaimPop("LGAR succesvol toegevoegd", [wat, bonOk ? "bon bewaard" : ""].filter(Boolean).join(" · ") || undefined, "nieuw");
+    else toonClaimPop("Claim vastgelegd", wat || undefined, "nieuw");
     void mailNieuweClaim(nieuw, bronTekst, naam).then((r) => { if (r && !r.ok) toast(`Mail niet verstuurd: ${r.bericht}. Kijk in Profiel → E-mailmeldingen.`); else if (r?.activatie) toast("Mail wacht op activatie: klik in je inbox op Activate Form"); });
     nav(`/claims/${c.id}`, { replace: true });
   };
@@ -156,6 +175,14 @@ export function NieuweClaim() {
       {stap === "controle" && bron && (
         <>
           <h1 className="nieuw-titel">Klopt dit?<br /><span>Dan ben je klaar.</span></h1>
+          {auto == null && geenAuto && <div className="auto-opslaan auto-niet" role="status"><Icon naam="waarschuwing" maat={20} /><span className="auto-t"><small>{geenAuto}</small></span></div>}
+          {auto != null && (
+            <div className="auto-opslaan" role="status">
+              <span className="auto-ring" style={{ ["--p" as string]: `${(auto / 4) * 100}%` }}><b>{auto}</b></span>
+              <span className="auto-t"><b>LGAR wordt automatisch toegevoegd</b><small>Over {auto} {auto === 1 ? "seconde" : "seconden"} staat de claim met de bon in het register.</small></span>
+              <button type="button" className="knop knop-zacht knop-klein" onClick={() => setAuto(null)}>Eerst controleren</button>
+            </div>
+          )}
           <section className="scan-kaart" aria-label="Herkende velden">
             <div className="scan-kaart-kop">
               <b>Nieuwe claim</b>
@@ -183,7 +210,7 @@ export function NieuweClaim() {
             <button type="button" className="knop knop-zacht knop-klein" onClick={() => bonKies.current?.click()}>{bon ? "Andere bon" : "Kiezen"}</button>
             {bon && <button type="button" className="knop-link" onClick={() => setBon(null)}>Weghalen</button>}
           </div>
-          <ClaimForm key={start.id} start={start} herkend={bron.herkend} knop="Claim vastleggen" bezig={bezig} onBewaar={opslaan} onAnnuleer={() => setStap("kies")} />
+          <div ref={formRef} onFocusCapture={() => setAuto(null)}><ClaimForm key={start.id} start={start} herkend={bron.herkend} knop="Claim vastleggen" bezig={bezig} onBewaar={opslaan} onAnnuleer={() => { setAuto(null); setStap("kies"); }} /></div>
         </>
       )}
 
