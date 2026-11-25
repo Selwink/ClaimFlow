@@ -15,6 +15,8 @@ import { Verhuizen } from "../components/Verhuizen";
 import { ProfielKop } from "../components/Showcase";
 import { Gebruikers, WachtwoordWijzigen } from "../components/Gebruikers";
 import { toonMogelijkheden } from "../components/Mogelijkheden";
+import { BonTest } from "../components/BonTest";
+import { toonDoelFeest } from "../components/Team";
 import { PushMeldingen } from "../components/PushMeldingen";
 import { KLEUREN, leesKleur, leesWeergave, zetKleur, zetWeergave, type Kleur, type Weergave } from "../lib/kleur";
 import { datumOntbreekt } from "../lib/claims";
@@ -82,6 +84,8 @@ export function Beheer() {
         <Rij icoon="persoon" titel={s.naam || "Je account"} tekst={s.rol === "beheer" ? "Je kunt claims toevoegen en wijzigen. Je naam komt in de tijdlijn." : "Je kunt alles zien maar niets wijzigen. Vraag een beheerder om meer rechten."} />
         <WachtwoordWijzigen />
         <Rij icoon="bericht" titel="Wat kun je hier?" tekst="Het overzicht van alles wat je kunt doen en inzien." onClick={toonMogelijkheden} />
+        <Rij icoon="vink" titel="Doel-viering bekijken" tekst="Zo ziet het eruit als het team het maanddoel haalt." onClick={toonDoelFeest} />
+        {s.magBewerken && <BonTest />}
         <Rij icoon="uitloggen" titel="Uitloggen" tekst="Wist ook de opgeslagen gegevens op dit apparaat." onClick={s.uitloggen} />
       </Blok>
 
@@ -190,7 +194,7 @@ function KleurKeus() {
   return (
     <>
     <div className="segment weergave-keus" role="radiogroup" aria-label="Weergave">
-      {([["aurora", "✦ Aurora"], ["licht", "☀ Licht"], ["donker", "☾ Donker"], ["auto", "◐ Automatisch"]] as const).map(([id, l]) => (
+      {([["aurora", "✦ Aurora"], ["groen", "✦ Aurora groen"], ["licht", "☀ Licht"], ["donker", "☾ Donker"], ["auto", "◐ Automatisch"]] as const).map(([id, l]) => (
         <button key={id} type="button" role="radio" aria-checked={w === id} onClick={() => { zetWeergave(id); setW(id); }}>{l}</button>
       ))}
     </div>

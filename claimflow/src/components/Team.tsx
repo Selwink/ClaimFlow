@@ -5,6 +5,10 @@ import { dezeMaand, euroKort, ls, periodLabel } from "../lib/format";
 import { dezeWeek, teruggehaaldPerMaand, totaalTerug, uitbesteedTotaal, geclaimdDezeMaand } from "../lib/team";
 import { Icon } from "./Icon";
 import { Optel } from "./Optel";
+import { Confetti } from "./Confetti";
+
+/** Shows the goal celebration straight away (preview from Profiel). */
+export const toonDoelFeest = () => window.dispatchEvent(new Event("claimflow-feest"));
 
 /** Start page: the total the claims have brought in so far. */
 export function TotaalKaart() {
@@ -77,6 +81,7 @@ export function DoelGehaald() {
   const { actief, inst, geladen, rol } = useStore();
   const maand = useMemo(() => geclaimdDezeMaand(actief), [actief]);
   const [feest, setFeest] = useState(false);
+  useEffect(() => { const h = () => setFeest(true); window.addEventListener("claimflow-feest", h); return () => window.removeEventListener("claimflow-feest", h); }, []);
   useEffect(() => {
     if (!geladen || !rol || maand.bedrag < inst.maanddoel) return;
     const k = `claimflow-doel-${dezeMaand()}`;
@@ -95,12 +100,18 @@ export function DoelGehaald() {
   if (!feest) return null;
   return (
     <div className="feest" role="dialog" aria-modal="true" aria-labelledby="doel-titel" onClick={() => setFeest(false)}>
-      <div className="confetti" aria-hidden="true">{Array.from({ length: 30 }, (_, i) => <i key={i} style={{ ["--i" as string]: i }} />)}</div>
-      <div className="feest-kaart" onClick={(e) => e.stopPropagation()}>
-        <span className="team-ic team-ic-groot" aria-hidden="true"><Icon naam="vink" maat={36} /></span>
-        <small className="bovenschrift rood">Maanddoel gehaald!</small>
-        <h2 id="doel-titel">{euroKort(maand.bedrag)} geclaimd</h2>
-        <p className="t-zacht">Het team heeft het doel van {euroKort(inst.maanddoel)} voor {periodLabel(dezeMaand()).toLowerCase()} gehaald. Mooi werk, iedereen!</p>
+      <Confetti />
+      <div className="feest-kaart feest-aurora" onClick={(e) => e.stopPropagation()}>
+        <span className="feest-ring" aria-hidden="true">
+          <svg viewBox="0 0 120 120"><defs><linearGradient id="feest-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#8FE3F0" /><stop offset=".5" stopColor="#D9C3FF" /><stop offset="1" stopColor="#FF7A6E" /></linearGradient></defs>
+            <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,.14)" strokeWidth="9" />
+            <circle className="feest-boog" cx="60" cy="60" r="50" fill="none" stroke="url(#feest-g)" strokeWidth="9" strokeLinecap="round" transform="rotate(-90 60 60)" />
+          </svg>
+          <b>{inst.maanddoel ? Math.round((maand.bedrag / inst.maanddoel) * 100) : 100}%</b>
+        </span>
+        <small className="feest-boven">Maanddoel gehaald</small>
+        <h2 id="doel-titel"><Optel waarde={maand.bedrag} opmaak={euroKort} ms={1400} /></h2>
+        <p>Het doel van {euroKort(inst.maanddoel)} voor {periodLabel(dezeMaand()).toLowerCase()} is binnen. Mooi werk, team!</p>
         <button type="button" className="knop knop-rood knop-vol" onClick={() => setFeest(false)} autoFocus>Top!</button>
       </div>
     </div>

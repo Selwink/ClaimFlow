@@ -147,3 +147,40 @@ html .scan-kaart-kop b{font-size:1.15rem;font-weight:700;color:#F4F6FB !importan
 .scan-veld:not(.ok) span{font-weight:400;font-size:.9rem;color:rgba(244,246,251,.5)}
 .scan-bron{display:flex;align-items:center;gap:6px;font-size:.8rem;color:rgba(244,246,251,.6);overflow-wrap:anywhere}
 @media (prefers-reduced-motion: reduce){.scan-veld{animation:none}}
+
+/* ---------- goal celebration: confetti and an Aurora glass card ---------- */
+.confetti-doek{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:1}
+.feest{background:rgba(5,6,13,.55) !important;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+html .feest-kaart.feest-aurora{z-index:2;max-width:380px;gap:6px;padding:30px 26px 22px;border-radius:32px;color:#F4F6FB !important;overflow:hidden;
+  background:linear-gradient(150deg,rgba(46,156,178,.55),rgba(27,42,107,.7) 45%,rgba(90,30,110,.7) 75%,rgba(218,47,36,.6)) !important;
+  border:1px solid rgba(255,255,255,.25) !important;box-shadow:inset 0 1px 1px rgba(255,255,255,.4),0 40px 90px -30px rgba(0,0,0,.9),0 0 80px -20px rgba(143,227,240,.45) !important;
+  backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%)}
+.feest-aurora::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.28) 48%,transparent 66%);transform:translateX(-120%);animation:feest-glans 1.4s ease-out .6s forwards}
+@keyframes feest-glans{to{transform:translateX(120%)}}
+.feest-ring{position:relative;width:120px;height:120px;display:grid;place-items:center;margin-bottom:6px}
+.feest-ring svg{position:absolute;inset:0;width:100%;height:100%}
+.feest-boog{stroke-dasharray:314;stroke-dashoffset:314;animation:feest-boog 1.3s cubic-bezier(.2,.9,.3,1) .25s forwards;filter:drop-shadow(0 0 8px rgba(143,227,240,.7))}
+@keyframes feest-boog{to{stroke-dashoffset:0}}
+html .feest-ring b{font-size:1.6rem;font-weight:800;font-style:italic;letter-spacing:-.03em;color:#fff !important}
+.feest-boven{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:#9FF0E0}
+html .feest-aurora h2{font-size:2.6rem;font-weight:800;font-style:italic;letter-spacing:-.04em;line-height:1;color:#fff !important;text-shadow:0 0 30px rgba(255,255,255,.35)}
+.feest-aurora p{margin:4px 0 0;color:rgba(244,246,251,.82)}
+@media (prefers-reduced-motion: reduce){.feest-aurora::before,.feest-boog{animation:none}.feest-boog{stroke-dashoffset:0}}
+
+/* ---------- bon test result ---------- */
+.bontest-uitslag{margin:4px 0 8px;padding:12px 14px;border-radius:14px;font-size:.88rem;line-height:1.45;background:rgba(127,127,127,.12);border:1px solid rgba(127,127,127,.25)}
+.bontest-uitslag.ok{background:rgba(47,184,102,.14);border-color:rgba(47,184,102,.5)}
+.bontest-uitslag.fout{background:rgba(218,47,36,.14);border-color:rgba(218,47,36,.5)}
+
+/* ---------- Aurora groen: the same Aurora in light green ---------- */
+html[data-aurora="groen"]{--pr-bg:#06140F;background:#06140F !important}
+html[data-aurora="groen"] body::before{background:conic-gradient(from 200deg at 30% 30%,#0F5C45,#3FD39A,#B8F5D2,#1E7A5F,#7EE8B0,#2A9D78,#0F5C45) !important;opacity:.8 !important}
+html[data-aurora="groen"] body::after{background:radial-gradient(rgba(255,255,255,.035) 1px,transparent 1px) 0 0/3px 3px,radial-gradient(1200px 700px at 50% 120%,#06140F 30%,transparent 70%) !important}
+html[data-aurora="groen"] :is(.pr-kaart,.pr-c,.pr-doel,.pr-flow,.pr-lgar,.pr-snel a,.kaart,.levkaart,.kpi:not(.kpi-donker),.instelrij,.optie,.tabelkader,.kaartlijst > *,.ringkaart,.formulier fieldset,.uitb-p,.leeg,.md-kaart,.sz-lijst,.sheet-paneel,.scan-kaart){background-color:rgba(8,26,20,.5) !important}
+html[data-aurora="groen"] .pr-held{background:linear-gradient(150deg,rgba(63,211,154,.42),rgba(15,92,69,.55)) !important}
+html[data-aurora="groen"] .pr-uit{background:linear-gradient(150deg,rgba(218,47,36,.55),rgba(120,20,30,.5)) !important}
+html[data-aurora="groen"] .pr-groet h1 b{background:linear-gradient(90deg,#B8F5D2,#7EE8B0) !important;-webkit-background-clip:text !important;background-clip:text !important}
+html[data-aurora="groen"] :is(.tabbalk,.pf-band){background:rgba(8,26,20,.7) !important}
+html[data-aurora="groen"] .detail-kop,html[data-aurora="groen"] .toegang-band{background:linear-gradient(150deg,rgba(63,211,154,.4),rgba(15,92,69,.5)) !important}
+html[data-aurora="groen"] .feest-kaart.feest-aurora{background:linear-gradient(150deg,rgba(126,232,176,.5),rgba(15,92,69,.75) 55%,rgba(30,122,95,.7)) !important}
+html[data-aurora="groen"] .pr-groet small{color:rgba(240,255,248,.85) !important;text-shadow:0 1px 8px rgba(0,40,25,.5)}
