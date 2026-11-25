@@ -44,9 +44,10 @@ export function NieuweClaim() {
   const [auto, setAuto] = useState<number | null>(null);
   const [geenAuto, setGeenAuto] = useState("");
   const formRef = useRef<HTMLDivElement>(null);
+  const vanzelf = useRef(false);
   useEffect(() => {
     if (auto == null) return;
-    if (auto <= 0) { setAuto(null); formRef.current?.querySelector("form")?.requestSubmit(); return; }
+    if (auto <= 0) { setAuto(null); vanzelf.current = true; formRef.current?.querySelector("form")?.requestSubmit(); return; }
     const t = window.setTimeout(() => setAuto((a) => (a == null ? null : a - 1)), 1000);
     return () => window.clearTimeout(t);
   }, [auto]);
@@ -93,6 +94,7 @@ export function NieuweClaim() {
   };
 
   const opslaan = async (c: Claim) => {
+    const automatisch = vanzelf.current; vanzelf.current = false;
     setAuto(null);
     setBezig(true);
     const bronTekst = bron ? (bron.ocr ? "LGAR gescand" : "LGAR-pdf") : "zelf ingevuld";
@@ -110,7 +112,8 @@ export function NieuweClaim() {
     if (bron) toonClaimPop("LGAR succesvol toegevoegd", [wat, bonOk ? "bon bewaard" : ""].filter(Boolean).join(" · ") || undefined, "nieuw");
     else toonClaimPop("Claim vastgelegd", wat || undefined, "nieuw");
     void mailNieuweClaim(nieuw, bronTekst, naam).then((r) => { if (r && !r.ok) toast(`Mail niet verstuurd: ${r.bericht}. Kijk in Profiel → E-mailmeldingen.`); else if (r?.activatie) toast("Mail wacht op activatie: klik in je inbox op Activate Form"); });
-    nav(`/claims/${c.id}`, { replace: true });
+    // saved by itself after a scan: the page closes and you are back on Home; saved by hand: the claim opens
+    nav(automatisch ? "/" : `/claims/${c.id}`, { replace: true });
   };
 
   const drop = (e: DragEvent) => { e.preventDefault(); setSleep(false); void leesIn(e.dataTransfer.files[0]); };
