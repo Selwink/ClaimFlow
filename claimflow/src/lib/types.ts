@@ -47,6 +47,8 @@ export interface Instellingen {
   uitbesteedLev: string[];
   levMail: Record<string, string>;
   autoInvoer: boolean;
+  /** E-mail on every new claim (off unless switched on). */
+  nieuwmail: boolean;
   /** Send the Monday summary e-mail. */
   weekmail: boolean;
   /** Daily reminder e-mail (term almost up / over, supplier silent) on mornings when there is something to report. */

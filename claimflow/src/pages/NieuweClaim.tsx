@@ -111,7 +111,7 @@ export function NieuweClaim() {
     const wat = [nieuw.leverancier, nieuw.type || nieuw.onderdeel].filter(Boolean).join(" · ");
     if (bron) toonClaimPop("LGAR succesvol toegevoegd", [wat, bonOk ? "bon bewaard" : ""].filter(Boolean).join(" · ") || undefined, "nieuw");
     else toonClaimPop("Claim vastgelegd", wat || undefined, "nieuw");
-    void mailNieuweClaim(nieuw, bronTekst, naam).then((r) => { if (r && !r.ok) toast(`Mail niet verstuurd: ${r.bericht}. Kijk in Profiel → E-mailmeldingen.`); else if (r?.activatie) toast("Mail wacht op activatie: klik in je inbox op Activate Form"); });
+    if (inst.nieuwmail) void mailNieuweClaim(nieuw, bronTekst, naam).then((r) => { if (r && !r.ok) toast(`Mail niet verstuurd: ${r.bericht}. Kijk in Profiel → E-mailmeldingen.`); else if (r?.activatie) toast("Mail wacht op activatie: klik in je inbox op Activate Form"); });
     // saved by itself after a scan: the page closes and you are back on Home; saved by hand: the claim opens
     nav(automatisch ? "/" : `/claims/${c.id}`, { replace: true });
   };
