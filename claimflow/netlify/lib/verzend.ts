@@ -1,6 +1,6 @@
 // Server-side e-mail delivery. Resend when RESEND_API_KEY is set in Netlify, FormSubmit as fallback.
 import { CONFIG } from "../../src/lib/config";
-import { mailInhoud, type Velden } from "../../src/lib/mailHtml";
+import { mailInhoud, voorFormSubmit, type Velden } from "../../src/lib/mailHtml";
 
 export type Dienst = "resend" | "formsubmit";
 export const dienst = (): Dienst => (process.env.RESEND_API_KEY ? "resend" : "formsubmit");
@@ -30,7 +30,7 @@ export async function verzend(velden: Velden, site: string): Promise<{ ok: boole
     const r = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(aan())}`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Accept: "application/json", Origin: site, Referer: `${site}/` },
-      body: JSON.stringify({ _template: "table", _captcha: "false", ...velden }),
+      body: JSON.stringify(voorFormSubmit(velden)),
     });
     const j = (await r.json().catch(() => ({}))) as { success?: string | boolean; message?: string };
     if (j.success === true || j.success === "true") return { ok: true, dienst: "formsubmit", bericht: "Verstuurd via FormSubmit" };

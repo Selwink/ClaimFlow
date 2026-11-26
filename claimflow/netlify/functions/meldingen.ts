@@ -55,11 +55,15 @@ export const handler = async (e: unknown) => {
   const i = inst || INST_STANDAARD;
   let mail = "mail staat uit";
   if (i.mail && i.herinnermail !== false) {
-    const regel = (c: Claim) => `• ${titelVan(c)}${c.leverancier ? ` — ${c.leverancier}` : ""}${c.inkoopnummer ? ` (ink ${c.inkoopnummer})` : ""}`;
+    const regel = (c: Claim) => `• ${titelVan(c)}${c.leverancier ? ` · ${c.leverancier}` : ""}${c.inkoopnummer ? ` · ink ${c.inkoopnummer}` : ""}`;
     const velden: Record<string, string> = { _subject: `ClaimFlow herinnering: ${[over.length && `${over.length} over termijn`, bijna.length && `${bijna.length} bijna`, stil.length && `${stil.length} leverancier stil`].filter(Boolean).join(", ")}` };
-    if (over.length) velden["Vandaag over de termijn"] = over.map(regel).join("\n") + "\nVraag informatie op bij de VAM.";
+    velden._soort = "Dagelijkse herinnering";
+    velden._intro = "Goedemorgen. Dit vraagt vandaag je aandacht in ClaimFlow.";
+    velden._knop = "Open ClaimFlow";
+    if (over.length) velden["Vandaag over de termijn"] = over.map(regel).join("\n");
     if (bijna.length) velden[`Nog ${VOORAF} dagen tot de termijn`] = bijna.map(regel).join("\n");
-    if (stil.length) velden[`Leverancier ${STIL_DAGEN}+ dagen stil`] = stil.map(regel).join("\n") + "\nEven nabellen of mailen.";
+    if (stil.length) velden[`Leverancier ${STIL_DAGEN}+ dagen stil`] = stil.map(regel).join("\n");
+    velden["Wat te doen"] = [over.length && "Vraag bij de VAM informatie op over de claims die over de termijn zijn.", stil.length && "Bel of mail de leveranciers die al lang stil zijn."].filter(Boolean).join("\n") || "Houd de termijnen in de gaten.";
     velden.Openen = `${SITE}/`;
     const r = await verzend(velden, SITE);
     mail = `${r.dienst}: ${r.bericht}`;

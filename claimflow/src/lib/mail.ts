@@ -4,6 +4,8 @@ import { STATUS_LABEL } from "./types";
 import { geenBedrag, statusVan, titelVan } from "./claims";
 import { euro, ls, periodLabel } from "./format";
 import { pas } from "./api";
+import { voorFormSubmit } from "./mailHtml";
+import { datum } from "./format";
 
 /** E-mail notifications. Sent through our Netlify function (Resend), falling back to FormSubmit; failed mails are queued and retried. */
 
@@ -20,7 +22,7 @@ async function viaFormSubmit(velden: Velden): Promise<Resultaat> {
     const t = setTimeout(() => ctrl.abort(), 25000);
     const r = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(CONFIG.MELDING_EMAIL)}`, {
       method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify({ _template: "table", _captcha: "false", ...velden }), signal: ctrl.signal,
+      body: JSON.stringify(voorFormSubmit(velden)), signal: ctrl.signal,
     });
     clearTimeout(t);
     const j = (await r.json().catch(() => ({}))) as { success?: string | boolean; message?: string };
@@ -57,16 +59,26 @@ export async function maildienst(): Promise<Dienst | null> {
 
 export async function mailNieuweClaim(c: Claim, bron: string, wie: string): Promise<Resultaat | null> {
   if (location.protocol !== "https:") return null;
+  const lgar = /LGAR/i.test(bron);
+  const wat = titelVan(c);
   const velden: Velden = {
-    _subject: `Nieuwe garantieclaim: ${titelVan(c)}${c.leverancier ? ` (${c.leverancier})` : ""}`,
-    "Type / onderdeel": [c.type, c.onderdeel !== c.type ? c.onderdeel : ""].filter(Boolean).join(" / "),
-    Leverancier: c.leverancier || "",
-    Inkoopnummer: c.inkoopnummer || "nog niet bekend",
-    Bedrag: geenBedrag(c) ? "volgt later" : euro(c.bedrag),
+    _subject: `${lgar ? "Nieuwe LGAR-claim" : "Nieuwe garantieclaim"}: ${wat}${c.leverancier ? ` · ${c.leverancier}` : ""}`,
+    _soort: lgar ? "LGAR geclaimd" : "Nieuwe claim",
+    _intro: `${wie || "Een collega"} heeft een nieuwe garantieclaim vastgelegd${lgar ? " door de LGAR-bon in te lezen. De bon is bij de claim bewaard en voor iedereen in te zien" : ""}. De termijn bij de leverancier loopt vanaf vandaag.`,
+    _bedrag: geenBedrag(c) ? "Volgt later" : euro(c.bedrag),
+    _bedraglabel: "Bedrag van de claim",
+    _knop: "Claim openen",
+    Leverancier: c.leverancier || "-",
+    Hulpmiddel: c.type || "-",
+    ...(c.onderdeel && c.onderdeel !== c.type ? { Onderdeel: c.onderdeel } : {}),
+    Storing: c.storing || "-",
+    Inkoopnummer: c.inkoopnummer || "Nog niet bekend",
+    ...(c.frame ? { Framenummer: c.frame } : {}),
+    ...(c.voorziening ? { Voorzieningnummer: c.voorziening } : {}),
+    ...(c.aankoop ? { Aankoopdatum: datum(c.aankoop) || c.aankoop } : {}),
     Status: STATUS_LABEL[statusVan(c)],
     Maand: periodLabel(c.periode),
-    Storing: c.storing || "-",
-    "Toegevoegd door": wie || "onbekend",
+    "Vastgelegd door": wie || "onbekend",
     Bron: bron,
     Register: appUrl(`claims/${c.id}`),
   };
@@ -88,12 +100,18 @@ export const wachtrijLengte = () => (ls.json<Velden[]>(SLEUTEL) || []).length;
 /** Mail when claims change status (one mail for a whole batch). */
 export async function mailStatus(claims: Claim[], naar: string, wie: string) {
   if (location.protocol !== "https:" || !claims.length) return;
+  const totaal = claims.reduce((t, c) => t + (geenBedrag(c) ? 0 : Number(c.bedrag) || 0), 0);
+  const een = claims.length === 1 ? claims[0] : null;
   const velden: Velden = {
-    _subject: claims.length === 1 ? `Claim ${naar.toLowerCase()}: ${titelVan(claims[0])}${claims[0].leverancier ? ` (${claims[0].leverancier})` : ""}` : `${claims.length} claims ${naar.toLowerCase()}`,
+    _subject: een ? `Claim ${naar.toLowerCase()}: ${titelVan(een)}${een.leverancier ? ` · ${een.leverancier}` : ""}` : `${claims.length} claims ${naar.toLowerCase()}`,
+    _soort: `Status: ${naar}`,
+    _intro: een ? `${wie || "Een collega"} heeft de claim op ${naar.toLowerCase()} gezet.` : `${wie || "Een collega"} heeft ${claims.length} claims tegelijk op ${naar.toLowerCase()} gezet.`,
+    ...(totaal ? { _bedrag: euro(totaal), _bedraglabel: een ? "Bedrag" : "Samen" } : {}),
+    _knop: een ? "Claim openen" : "Claims openen",
     "Nieuwe status": naar,
-    Claims: claims.slice(0, 20).map((c) => `• ${titelVan(c)}${c.leverancier ? ` — ${c.leverancier}` : ""}${c.inkoopnummer ? ` (ink ${c.inkoopnummer})` : ""}${geenBedrag(c) ? "" : ` · ${euro(c.bedrag)}`}`).join("\n") + (claims.length > 20 ? `\nen nog ${claims.length - 20}` : ""),
+    [een ? "Claim" : "Claims"]: (een ? [een] : claims.slice(0, 20)).map((c) => `${een ? "" : "• "}${titelVan(c)}${c.leverancier ? ` · ${c.leverancier}` : ""}${c.inkoopnummer ? ` · ink ${c.inkoopnummer}` : ""}${geenBedrag(c) ? "" : ` · ${euro(c.bedrag)}`}`).join("\n") + (claims.length > 20 ? `\n• en nog ${claims.length - 20}` : ""),
     "Gewijzigd door": wie || "onbekend",
-    Register: appUrl(claims.length === 1 ? `claims/${claims[0].id}` : "claims"),
+    Register: appUrl(een ? `claims/${een.id}` : "claims"),
   };
   const r = await stuur(velden);
   if (!r.ok) ls.set(SLEUTEL, JSON.stringify([...(ls.json<Velden[]>(SLEUTEL) || []), velden].slice(-50)));
@@ -103,7 +121,10 @@ export async function mailStatus(claims: Claim[], naar: string, wie: string) {
 export async function mailNotitie(c: Claim, tekst: string, wie: string) {
   if (location.protocol !== "https:" || !tekst.trim()) return;
   const velden: Velden = {
-    _subject: `Nieuwe notitie: ${titelVan(c)}${c.leverancier ? ` (${c.leverancier})` : ""}`,
+    _subject: `Nieuwe notitie: ${titelVan(c)}${c.leverancier ? ` · ${c.leverancier}` : ""}`,
+    _soort: "Notitie",
+    _intro: `${wie || "Een collega"} schreef een notitie bij deze claim.`,
+    _knop: "Claim openen",
     Notitie: tekst,
     Claim: `${titelVan(c)}${c.inkoopnummer ? ` · ink ${c.inkoopnummer}` : ""}`,
     Status: STATUS_LABEL[statusVan(c)],
