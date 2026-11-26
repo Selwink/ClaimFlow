@@ -210,3 +210,37 @@ html .auto-t b{color:#F4F6FB !important;font-size:.95rem}
 .agenda-keuzes input{margin-top:3px;width:18px;height:18px;accent-color:#DA2F24;flex:none}
 .agenda-keuzes span{display:grid}
 .agenda-keuzes small{font-size:.8rem;opacity:.75}
+
+/* ---------- Monday check on Home ---------- */
+.mc{position:relative;display:grid;gap:12px;padding:18px;border-radius:24px;margin:0 0 16px;color:#F4F6FB;
+  background:linear-gradient(150deg,rgba(46,156,178,.28),rgba(27,42,107,.45) 55%,rgba(90,30,110,.4));border:1px solid rgba(255,255,255,.16);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 24px 50px -30px rgba(0,0,0,.7)}
+.mc.mc-af{background:linear-gradient(150deg,rgba(91,211,138,.3),rgba(14,94,115,.45))}
+.mc-kop{display:flex;align-items:center;gap:14px}
+.mc-dag{flex:none;width:48px;height:52px;border-radius:14px;background:#fff;color:#151826;display:grid;place-items:center;align-content:center;line-height:1;box-shadow:0 8px 20px -10px rgba(0,0,0,.6)}
+html .mc-dag small{color:#DA2F24 !important;}
+.mc-dag small{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#DA2F24}
+html[data-weergave] .mc .mc-dag b, html .mc .mc-dag b{font-size:1.25rem;font-weight:800;color:#151826 !important}
+.mc-t{flex:1;min-width:0;display:grid}
+html .mc-t h2{margin:0;font-size:1.2rem;font-weight:800;font-style:italic;letter-spacing:-.02em;color:#fff !important}
+.mc-t span{font-size:.82rem;color:rgba(244,246,251,.75)}
+.mc-ring{--p:0%;flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#5BD38A var(--p),rgba(255,255,255,.15) 0);transition:background .5s}
+html .mc-ring b{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:rgba(10,12,26,.85);font-size:.78rem;color:#fff !important}
+.mc-lijst{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.mc-lijst li{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:14px;background:rgba(10,12,26,.35);border:1px solid rgba(255,255,255,.08);transition:opacity .3s,background .3s}
+.mc-lijst li.af{opacity:.6;background:rgba(91,211,138,.12)}
+.mc-lijst li.af .mc-claim b{text-decoration:line-through;text-decoration-color:rgba(255,255,255,.5)}
+.mc-vink{flex:none;width:28px;height:28px;border-radius:9px;border:2px solid rgba(255,255,255,.45);background:transparent;color:transparent;display:grid;place-items:center;cursor:pointer;transition:all .25s cubic-bezier(.3,1.6,.5,1)}
+.mc-vink[aria-checked="true"]{background:#2FB866;border-color:#2FB866;color:#fff;transform:scale(1.08)}
+.mc-vink:disabled{cursor:default;opacity:.6}
+.mc-vink:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.mc-claim{flex:1;min-width:0;display:grid;text-decoration:none;color:inherit}
+html .mc-claim b{font-size:.95rem;font-weight:600;color:#F4F6FB !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mc-claim small{font-size:.78rem;color:rgba(244,246,251,.65);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mc-dagen{flex:none;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.74rem;padding:4px 9px;border-radius:999px;background:rgba(242,193,78,.18);color:#F7D88A}
+.mc-dagen.laat{background:rgba(255,122,110,.2);color:#FFB0A8}
+.mc-meer{justify-self:start;color:#fff !important}
+.mc-uitleg{margin:0;font-size:.8rem;color:rgba(244,246,251,.65)}
+.mc-klaar{display:flex !important;align-items:center;gap:10px;padding:12px 16px;font-size:.9rem;background:linear-gradient(140deg,rgba(91,211,138,.25),rgba(14,94,115,.35))}
+html .mc-klaar b{color:#fff !important}
+@media (max-width:520px){.mc-dagen{font-size:.68rem;padding:3px 7px}.mc-dag{width:42px;height:46px}}

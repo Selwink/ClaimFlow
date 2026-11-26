@@ -9,6 +9,7 @@ import { claimMaand, geclaimdDezeMaand } from "../lib/team";
 import { werkbak } from "../lib/werkbak";
 import { geefBestand } from "../lib/overdracht";
 import { Icon } from "./Icon";
+import { MaandagCheck } from "./MaandagCheck";
 
 const heel = (n: number) => new Intl.NumberFormat("nl-NL", { maximumFractionDigits: 0 }).format(Math.round(n));
 const LEVKLEUR = ["#E05BC0", "#2E9CB2", "#F4B43A", "#3F4A63", "#7C6CF2", "#1F9D6B"];
@@ -111,6 +112,8 @@ export function PrimeDash() {
         {magBewerken && d.indienen.length > 0 && <button type="button" className={laat ? "pr-k2" : "pr-k"} onClick={() => void zetStatus(d.indienen.map((c) => c.id), "ingediend")}>Dien {d.indienen.length} in</button>}
         {!laat && !d.indienen.length && <Link to="/rapport" className="pr-k2">Maandrapport</Link>}
       </div>
+
+      <MaandagCheck />
 
       <nav className="pr-snel" aria-label="Direct naar">
         <Link to="/leveranciers"><Icon naam="fabriek" maat={20} /><span>Leveranciers</span></Link>
