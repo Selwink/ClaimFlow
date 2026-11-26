@@ -4,7 +4,8 @@ import type { Instellingen, VastBedrag } from "../lib/types";
 import { appUrl, CONFIG } from "../lib/config";
 import { useStore } from "../state/Store";
 import { useToast } from "../state/Toast";
-import { agendaBestand, download, naarCsv } from "../lib/export";
+import { download, naarCsv } from "../lib/export";
+import { AgendaKoppelen } from "../components/AgendaKoppelen";
 import { maildienst, stuur, verstuurWachtrij, wachtrijLengte, type Dienst } from "../lib/mail";
 import { weekOverzicht } from "../lib/overzicht";
 import { dezeMaand, euro, geleden, meervoud, parseBedrag, vandaag } from "../lib/format";
@@ -80,7 +81,6 @@ export function Beheer() {
     setWeekStatus(r.ok ? `${r.bericht} — kijk in je inbox.` : `Niet gelukt: ${r.bericht}`);
   };
   const backup = () => download(`claimflow-backup-${vandaag()}.json`, JSON.stringify({ gemaakt: new Date().toISOString(), instellingen: s.inst, claims: s.claims }, null, 2), "application/json");
-  const agenda = () => { const n = agendaBestand(s.actief, s.inst); toast(n ? `${meervoud(n, "herinnering", "herinneringen")} gedownload` : "Geen open claims met een termijn"); };
   const uit = !s.magBewerken;
 
   return (
@@ -123,7 +123,7 @@ export function Beheer() {
 
       <Blok titel="Gegevens" uitleg={`${meervoud(s.actief.length, "claim", "claims")} · ${s.online ? `bijgewerkt ${geleden(s.syncTijd)}` : "offline"}`}>
         <Rij icoon="download" titel="Exporteren naar Excel" tekst="CSV met alle claims en tijdlijnen" onClick={() => download(`garantieclaims-${dezeMaand()}.csv`, naarCsv(s.actief), "text/csv;charset=utf-8")} />
-        <Rij icoon="agenda" titel="Herinneringen in je agenda" tekst="Eén afspraak per open claim op de termijndatum" onClick={agenda} />
+        <AgendaKoppelen />
         {!uit && <Link to="/datums" className="instelrij"><span className="rij-ic"><Icon naam="agenda" maat={18} /></span><span className="rij-t"><b>Datums aanvullen</b><span>{meervoud(s.actief.filter((c) => datumOntbreekt(c)).length, "claim mist", "claims missen")} een datum</span></span><Icon naam="verder" maat={16} /></Link>}
         <Rij icoon="kopie" titel="Alles downloaden" tekst="De huidige stand als JSON-bestand" onClick={backup} />
         <Rij icoon="vernieuw" titel="Nu verversen" tekst="Haal de laatste stand op" onClick={() => void s.vernieuw().then(() => toast("Bijgewerkt"))} />

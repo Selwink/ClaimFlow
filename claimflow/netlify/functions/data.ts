@@ -11,7 +11,7 @@ import { verzend } from "../lib/verzend";
 import * as push from "../lib/push";
 
 const SITE = (process.env.APP_URL || process.env.URL || "https://selwink.github.io/ClaimFlow").replace(/\/$/, "");
-import { geheim, klopt, leesPas, maakPas, MIN_LENGTE, rolVoorCode, sleutelVoor, versleutel } from "../lib/toegang";
+import { agendaSleutel, geheim, klopt, leesPas, maakPas, MIN_LENGTE, rolVoorCode, sleutelVoor, versleutel } from "../lib/toegang";
 
 interface Verzoek { httpMethod: string; headers: Record<string, string | undefined>; body: string | null; isBase64Encoded?: boolean; queryStringParameters?: Record<string, string | undefined> | null; blobs?: string }
 const json = (statusCode: number, body: unknown) => ({ statusCode, headers: { "Content-Type": "application/json", "Cache-Control": "no-store" }, body: JSON.stringify(body) });
@@ -213,6 +213,7 @@ export const handler = async (e: Verzoek) => {
         return json(200, { ok: true });
       }
       case "bonlijst": return json(200, { claims: await db.bonClaims() });
+      case "agendalink": return json(200, { sleutel: await agendaSleutel() });
       case "fotos": {
         const claim = e.queryStringParameters?.claim;
         if (!isId(claim)) return fout(400, "Geen claim");
