@@ -1,6 +1,6 @@
 import type { Claim, Instellingen } from "./types";
 import { STATUS_LABEL } from "./types";
-import { aankoopVan, afgehandeldOp, doorlooptijd, geenBedrag, isOpen, overTermijn, startDatum, statusVan, titelVan } from "./claims";
+import { aankoopVan, afgehandeldOp, dagenOpen, doorlooptijd, geenBedrag, isOpen, overTermijn, startDatum, statusVan, titelVan } from "./claims";
 import { datum, euro, periodLabel } from "./format";
 import { appUrl } from "./config";
 
@@ -46,14 +46,32 @@ export function agendaEvents(claims: Claim[], inst: Instellingen, adres: (pad: s
   });
 }
 
+/** Claims that have been open this long show up on the Monday check. */
+export const LANG_OPEN_DAGEN = 21;
+
+/** A recurring Monday 09:00 appointment "Claims nakijken" listing the claims that have been open a long time. Pure. */
+export function maandagEvent(claims: Claim[], inst: Instellingen, adres: (pad: string) => string): string {
+  const lang = claims.filter((c) => !c.verwijderd && isOpen(c) && !c.uitbesteed && (dagenOpen(c)?.dagen ?? 0) >= LANG_OPEN_DAGEN)
+    .sort((a, b) => (dagenOpen(b)?.dagen ?? 0) - (dagenOpen(a)?.dagen ?? 0));
+  const ma = new Date(); ma.setHours(0, 0, 0, 0); ma.setDate(ma.getDate() + ((8 - ma.getDay()) % 7 || 7));
+  const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
+  const regels = lang.slice(0, 25).map((c) => `• ${titelVan(c)}${c.leverancier ? ` · ${c.leverancier}` : ""} · ${dagenOpen(c)?.dagen} dagen open${overTermijn(c, inst.dagen) ? " (over termijn)" : ""}${geenBedrag(c) ? "" : ` · ${euro(c.bedrag)}`}`);
+  const tekst = [lang.length ? `${lang.length} ${lang.length === 1 ? "claim staat" : "claims staan"} ${LANG_OPEN_DAGEN} dagen of langer open:` : `Geen claims die ${LANG_OPEN_DAGEN} dagen of langer open staan. Mooi zo!`,
+    ...regels, lang.length > 25 ? `• en nog ${lang.length - 25}` : "", "", "Bel of mail de leverancier, of vraag informatie op bij de VAM.", `Openen: ${adres("claims")}`].filter((r, i, a) => r !== "" || a[i - 1] !== "").join("\n");
+  const titel = lang.length ? `Claims nakijken: ${lang.length} lang open` : "Claims nakijken";
+  return ["BEGIN:VEVENT", "UID:maandag-nakijken@claimflow", `DTSTAMP:${stamp}`, `DTSTART:${icsDatum(ma)}T090000`, "DURATION:PT30M", "RRULE:FREQ=WEEKLY;BYDAY=MO",
+    `SUMMARY:${icsTekst(titel)}`, `DESCRIPTION:${icsTekst(tekst)}`, `URL:${adres("claims")}`, "CATEGORIES:ClaimFlow",
+    "BEGIN:VALARM", "ACTION:DISPLAY", `DESCRIPTION:${icsTekst(titel)}`, "TRIGGER:-PT15M", "END:VALARM", "END:VEVENT"].join("\r\n");
+}
+
 export function agendaIcs(events: string[], naam = "ClaimFlow termijnen"): string {
   return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//ClaimFlow//Medipoint//NL", "CALSCALE:GREGORIAN", "METHOD:PUBLISH",
     `X-WR-CALNAME:${icsTekst(naam)}`, "X-WR-TIMEZONE:Europe/Amsterdam", "REFRESH-INTERVAL;VALUE=DURATION:PT1H", "X-PUBLISHED-TTL:PT1H", ...events, "END:VCALENDAR"].join("\r\n");
 }
 
 /** Calendar file with an alarm on each open claim's deadline. Returns the number of events. */
-export function agendaBestand(claims: Claim[], inst: Instellingen): number {
-  const events = agendaEvents(claims, inst, appUrl);
+export function agendaBestand(claims: Claim[], inst: Instellingen, { termijnen = true, maandag = false } = {}): number {
+  const events = [...(termijnen ? agendaEvents(claims, inst, appUrl) : []), ...(maandag ? [maandagEvent(claims, inst, appUrl)] : [])];
   if (!events.length) return 0;
   download(events.length === 1 ? "herinnering-garantieclaim.ics" : "herinneringen-garantieclaims.ics",
     agendaIcs(events), "text/calendar;charset=utf-8");

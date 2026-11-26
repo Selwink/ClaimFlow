@@ -4,7 +4,7 @@ import { connectLambda } from "@netlify/blobs";
 import { timingSafeEqual } from "node:crypto";
 import { agendaSleutel } from "../lib/toegang";
 import { claimsEnInstellingen } from "../lib/db";
-import { agendaEvents, agendaIcs } from "../../src/lib/export";
+import { agendaEvents, agendaIcs, maandagEvent } from "../../src/lib/export";
 import { INST_STANDAARD } from "../../src/lib/instellingen";
 
 const SITE = (process.env.APP_URL || process.env.URL || "https://selwink.github.io/ClaimFlow").replace(/\/$/, "");
@@ -16,6 +16,9 @@ export const handler = async (e: Verzoek) => {
   const goed = await agendaSleutel();
   if (k.length !== goed.length || !timingSafeEqual(Buffer.from(k), Buffer.from(goed))) return { statusCode: 403, headers: { "Content-Type": "text/plain" }, body: "Geen toegang" };
   const { claims, inst } = await claimsEnInstellingen();
-  const ics = agendaIcs(agendaEvents(claims, inst || INST_STANDAARD, (pad) => `${SITE}/${pad}`), `ClaimFlow · ${(inst || INST_STANDAARD).vestiging}`);
+  const i = inst || INST_STANDAARD, adres = (pad: string) => `${SITE}/${pad}`;
+  const q = e.queryStringParameters || {};
+  const events = [...(q.termijnen === "0" ? [] : agendaEvents(claims, i, adres)), ...(q.maandag === "1" ? [maandagEvent(claims, i, adres)] : [])];
+  const ics = agendaIcs(events, `ClaimFlow · ${i.vestiging}`);
   return { statusCode: 200, headers: { "Content-Type": "text/calendar; charset=utf-8", "Cache-Control": "public, max-age=900", "Content-Disposition": 'inline; filename="claimflow.ics"' }, body: ics };
 };
