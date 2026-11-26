@@ -7,6 +7,20 @@ import { useStore } from "../state/Store";
 import { useToast } from "../state/Toast";
 import { Icon } from "./Icon";
 
+let sleutelCache = "";
+/** The subscription link for the calendar feed, with the chosen contents. */
+export async function agendaLink(opties: { termijnen?: boolean; maandag?: boolean } = {}): Promise<string> {
+  if (!sleutelCache) sleutelCache = await haalAgendaSleutel();
+  const basis = functie("agenda");
+  const l = `${basis.startsWith("http") ? basis : location.origin + basis}?k=${encodeURIComponent(sleutelCache)}`;
+  return `${l}${opties.termijnen === false ? "&termijnen=0" : ""}${opties.maandag ? "&maandag=1" : ""}`;
+}
+/** Opens Outlook on the web to subscribe to the feed. */
+export function openOutlook(link: string, naam: string, soort: "werk" | "prive" = "werk") {
+  const host = soort === "werk" ? "https://outlook.office.com" : "https://outlook.live.com";
+  window.open(`${host}/calendar/0/addfromweb?url=${encodeURIComponent(link)}&name=${encodeURIComponent(naam)}`, "_blank", "noopener");
+}
+
 /** Profiel → "In je Outlook-agenda": subscribe to a live calendar of all claim deadlines, or download them once. */
 export function AgendaKoppelen() {
   const { actief, inst } = useStore();
