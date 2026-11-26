@@ -1,4 +1,5 @@
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { usePaginaOvergang } from "../lib/overgang";
 import { useEffect, useState } from "react";
 import { useStore } from "../state/Store";
 import { overTermijn } from "../lib/claims";
@@ -28,6 +29,7 @@ export function Layout() {
   const { actief, inst, online, syncTijd, naam, magBewerken, rol, vernieuw, uitloggen } = useStore();
   const nav = useNavigate();
   const loc = useLocation();
+  usePaginaOvergang();
   const aandacht = actief.filter((c) => overTermijn(c, inst.dagen)).length;
   useEffect(() => { window.scrollTo(0, 0); }, [loc.pathname]);
   // the phone menu: opens from the left, closes on a choice, outside tap or Escape

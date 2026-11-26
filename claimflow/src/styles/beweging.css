@@ -248,3 +248,73 @@ html .mc-klaar b{color:#fff !important}
 .mc-outlook{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;font:600 .85rem inherit;cursor:pointer}
 .mc-outlook:hover{background:rgba(255,255,255,.18)}
 .mc-outlook:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+/* ---------- page transitions (View Transitions API) ---------- */
+.topbalk,.pf-top,.tabbalk{view-transition-name:none}
+.tabbalk{view-transition-name:tabbalk}
+@keyframes vt-uit{to{opacity:0;transform:translateY(-10px) scale(.985);filter:blur(6px)}}
+@keyframes vt-in{from{opacity:0;transform:translateY(18px) scale(.99);filter:blur(8px)}}
+::view-transition-old(root){animation:vt-uit .28s cubic-bezier(.4,0,1,1) both}
+::view-transition-new(root){animation:vt-in .48s cubic-bezier(.2,.8,.25,1) both}
+::view-transition-group(tabbalk){animation:none}
+@media (prefers-reduced-motion: reduce){::view-transition-old(root),::view-transition-new(root){animation:none}}
+
+/* ---------- claim page ---------- */
+.detail-kop .lev-logo{right:0;top:2px;padding:12px 16px;border-radius:20px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 16px 34px -18px rgba(0,0,0,.7);animation:logo-in .7s cubic-bezier(.2,1.2,.4,1) .15s both}
+.lev-letters{position:absolute;right:0;top:4px;width:62px;height:62px;border-radius:20px;display:grid;place-items:center;font-weight:800;font-size:1.3rem;letter-spacing:.02em;color:#fff;
+  background:linear-gradient(140deg,rgba(143,227,240,.35),rgba(90,30,110,.5));border:1px solid rgba(255,255,255,.25);box-shadow:0 16px 34px -18px rgba(0,0,0,.7);animation:logo-in .7s cubic-bezier(.2,1.2,.4,1) .15s both}
+@keyframes logo-in{from{opacity:0;transform:translateY(-8px) scale(.85) rotate(-4deg)}}
+@media (max-width:1023px){.detail-kop .lev-logo{padding:8px 10px;border-radius:14px}.lev-letters{width:46px;height:46px;border-radius:14px;font-size:1rem}}
+.detail-kop h1{animation:titel-in .6s cubic-bezier(.2,.8,.25,1) .05s both}
+@keyframes titel-in{from{opacity:0;transform:translateY(10px)}}
+
+/* term ring fills up on open */
+.ringkaart .termring .ring-boog{animation:ring-vul 1.2s cubic-bezier(.2,.8,.25,1) .25s both}
+@keyframes ring-vul{from{stroke-dashoffset:188.5}}
+.ringkaart{flex-wrap:wrap}
+.cd-stappen{list-style:none;margin:6px 0 0;padding:0;flex:1 1 100%;display:grid;grid-template-columns:repeat(3,1fr);position:relative}
+.cd-stappen::before{content:"";position:absolute;left:16.6%;right:16.6%;top:15px;height:3px;border-radius:3px;background:rgba(127,127,127,.25)}
+.cd-stappen li{position:relative;display:grid;justify-items:center;gap:6px;text-align:center;font-size:.78rem;font-weight:600;opacity:.6}
+.cd-stappen li i{position:relative;z-index:1;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:.85rem;font-weight:800;
+  background:rgba(127,127,127,.25);color:#fff;border:2px solid rgba(255,255,255,.18);transition:all .4s}
+.cd-stappen li.gedaan{opacity:1}
+.cd-stappen li.gedaan i{background:linear-gradient(140deg,#2E9CB2,#1B2A6B);border-color:rgba(143,227,240,.6)}
+.cd-stappen li.nu i{box-shadow:0 0 0 6px rgba(143,227,240,.18),0 0 20px rgba(143,227,240,.5);animation:stap-puls 2s ease-in-out infinite}
+.cd-stappen li.gedaan:nth-child(3) i{background:linear-gradient(140deg,#5BD38A,#1E7A5F);border-color:rgba(155,235,184,.7)}
+.cd-stappen li.afgewezen i{background:linear-gradient(140deg,#FF7A6E,#B5231A);border-color:rgba(255,176,168,.7)}
+.cd-stappen li:nth-child(2).gedaan ~ li::before,.cd-stappen li.gedaan + li.gedaan::after{content:none}
+@keyframes stap-puls{50%{box-shadow:0 0 0 10px rgba(143,227,240,.08),0 0 26px rgba(143,227,240,.6)}}
+
+/* timeline with icons */
+.tijdlijn li.tl-rij{padding-left:40px;min-height:34px;animation:rij-in .45s cubic-bezier(.2,.9,.3,1.2) both}
+.tijdlijn li.tl-rij::before{display:none}
+.tijdlijn li.tl-rij::after{left:13px;top:30px}
+.tl-ic{position:absolute;left:0;top:0;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;color:#fff;background:#6B7088;box-shadow:0 6px 14px -8px rgba(0,0,0,.6)}
+.tl-rood .tl-ic{background:linear-gradient(140deg,#FF7A6E,#DA2F24)}
+.tl-groen .tl-ic{background:linear-gradient(140deg,#5BD38A,#1E9E5A)}
+.tl-blauw .tl-ic{background:linear-gradient(140deg,#8FE3F0,#2E9CB2)}
+.tl-paars .tl-ic{background:linear-gradient(140deg,#D9C3FF,#5A1E6E)}
+.tl-geel .tl-ic{background:linear-gradient(140deg,#F7D88A,#C9952B)}
+.tl-grijs .tl-ic{background:linear-gradient(140deg,#A3AECB,#545A70)}
+
+/* ---------- opening screen in Aurora colours ---------- */
+html[data-sfeer="aurora"] .emb-ring{stroke:url(#splash-aurora) !important;filter:drop-shadow(0 0 10px rgba(143,227,240,.55))}
+html[data-sfeer="aurora"] .emb-vink{stroke:#fff !important;filter:drop-shadow(0 0 8px rgba(255,255,255,.6))}
+html[data-sfeer="aurora"] .emb-punt{fill:#FF6B5E !important;filter:drop-shadow(0 0 8px #FF6B5E)}
+.emb-gloed{fill:none;stroke:url(#splash-aurora);stroke-width:2;opacity:0;stroke-dasharray:12 10;transform-origin:60px 60px;animation:gloed-draai 6s linear infinite,gloed-in .8s ease .9s forwards}
+html:not([data-sfeer="aurora"]) .emb-gloed{display:none}
+@keyframes gloed-draai{to{transform:rotate(360deg)}}
+@keyframes gloed-in{to{opacity:.55}}
+html[data-sfeer="aurora"] .sw-flow b{color:transparent !important;background:linear-gradient(100deg,#8FE3F0,#D9C3FF 50%,#FF7A6E) !important;-webkit-background-clip:text !important;background-clip:text !important}
+html[data-sfeer="aurora"] .sw-claim b{color:#fff !important}
+html[data-sfeer="aurora"] .splash-balk i{background:linear-gradient(90deg,#2E9CB2,#D9C3FF,#DA2F24) !important}
+html[data-sfeer="aurora"] .splash-weg{transition:opacity .7s ease,visibility 0s .7s,filter .7s ease !important;filter:blur(10px)}
+html[data-sfeer="aurora"] .splash-weg .splash-inhoud{transform:scale(1.18) !important;opacity:0}
+html[data-sfeer="aurora"] .inhoud{animation:home-in .9s cubic-bezier(.2,.8,.25,1) both}
+:root[data-splash="aan"] .inhoud{animation-play-state:paused}
+@keyframes home-in{from{opacity:0;transform:scale(.97);filter:blur(6px)}}
+@media (prefers-reduced-motion: reduce){.emb-gloed,.cd-stappen li.nu i,.ringkaart .termring .ring-boog,.tijdlijn li.tl-rij,.detail-kop .lev-logo,.lev-letters,.detail-kop h1,html[data-sfeer="aurora"] .inhoud{animation:none}}
+.cd-stappen::after{content:"";position:absolute;left:16.6%;top:15px;height:3px;border-radius:3px;width:var(--v,0%);background:linear-gradient(90deg,#2E9CB2,#5BD38A);animation:stap-lijn 1s cubic-bezier(.2,.8,.25,1) .3s both}
+.cd-af::after{background:linear-gradient(90deg,#2E9CB2,#FF7A6E)}
+@keyframes stap-lijn{from{width:0}}
