@@ -28,7 +28,20 @@ export function Leeg({ titel, tekst, children, kop, icoon }: { titel: string; te
   const Kop = kop || "b";
   return (
     <div className="leeg">
-      {icoon && <span className="leeg-orb" aria-hidden="true">{icoon}</span>}
+      <span className="leeg-beeld" aria-hidden="true">
+        <svg viewBox="0 0 160 120" width="160" height="120">
+          <defs>
+            <linearGradient id="leeg-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#8FE3F0" /><stop offset=".5" stopColor="#D9C3FF" /><stop offset="1" stopColor="#FF7A6E" /></linearGradient>
+            <radialGradient id="leeg-r" cx=".5" cy=".5" r=".5"><stop offset="0" stopColor="#2E9CB2" stopOpacity=".55" /><stop offset="1" stopColor="#5A1E6E" stopOpacity="0" /></radialGradient>
+          </defs>
+          <circle cx="80" cy="62" r="58" fill="url(#leeg-r)" className="lb-gloed" />
+          <ellipse cx="80" cy="62" rx="62" ry="20" fill="none" stroke="url(#leeg-g)" strokeWidth="1.5" strokeDasharray="4 6" className="lb-baan" />
+          <g className="lb-blad"><rect x="56" y="26" width="48" height="62" rx="8" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.55)" strokeWidth="2" />
+            <path d="M66 44h28M66 54h28M66 64h18" stroke="rgba(255,255,255,.7)" strokeWidth="3" strokeLinecap="round" /></g>
+          <circle cx="112" cy="30" r="5" fill="#FF7A6E" className="lb-ster" /><circle cx="44" cy="84" r="3.5" fill="#8FE3F0" className="lb-ster b" /><circle cx="122" cy="80" r="2.5" fill="#D9C3FF" className="lb-ster c" />
+        </svg>
+        {icoon && <span className="leeg-orb">{icoon}</span>}
+      </span>
       <Kop className="leeg-titel">{titel}</Kop>
       {tekst && <span>{tekst}</span>}
       {children}

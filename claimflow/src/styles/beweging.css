@@ -318,3 +318,117 @@ html[data-sfeer="aurora"] .inhoud{animation:home-in .9s cubic-bezier(.2,.8,.25,1
 .cd-stappen::after{content:"";position:absolute;left:16.6%;top:15px;height:3px;border-radius:3px;width:var(--v,0%);background:linear-gradient(90deg,#2E9CB2,#5BD38A);animation:stap-lijn 1s cubic-bezier(.2,.8,.25,1) .3s both}
 .cd-af::after{background:linear-gradient(90deg,#2E9CB2,#FF7A6E)}
 @keyframes stap-lijn{from{width:0}}
+
+/* ================= mooier: claimlijst, grafiek, tabbalk, iconen, leeg, inloggen, leveranciers ================= */
+
+/* 1. claim cards: status edge, mini term ring, supplier logo, slide in while scrolling */
+.kaartlijst .taak{position:relative;overflow:hidden}
+.kaartlijst .taak::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:4px;border-radius:0 4px 4px 0;background:#8A90A6}
+.kaartlijst .taak-st-nieuw::before{background:#FF7A6E}
+.kaartlijst .taak-st-ingediend::before{background:#F2C14E}
+.kaartlijst .taak-st-gehonoreerd::before{background:#5BD38A}
+.kaartlijst .taak-st-afgewezen::before{background:#8A90A6}
+.kaartlijst .taak-uit::before{background:#D9C3FF}
+.kaartlijst .taak-laat::before{background:#DA2F24;box-shadow:0 0 10px #DA2F24}
+.kaartlijst .taak-ic[style*="--deel"]{border-radius:50% !important;
+  background:radial-gradient(closest-side,#15172c 76%,transparent 78% 100%),conic-gradient(currentColor var(--deel),rgba(127,127,127,.25) 0) !important}
+.kaartlijst .taak-ic[style*="--deel"] .taak-dagen{font-size:.64rem;font-weight:800;color:#fff;letter-spacing:-.02em}
+.taak-logo{flex:none;display:grid;place-items:center;width:48px;height:30px}
+.taak-logo img{max-width:48px;max-height:26px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.35))}
+@media (max-width:420px){.taak-logo{display:none}}
+@supports (animation-timeline: view()){
+  .kaartlijst > li{animation:kaart-scroll linear both !important;animation-timeline:view() !important;animation-range:entry 0% entry 40% !important}
+  @keyframes kaart-scroll{from{opacity:0;transform:translateY(24px) scale(.97)}}
+}
+
+/* 2. hero: the year line draws itself, tap a month */
+.pr-held{position:relative}
+.pr-lijn{stroke-dasharray:1;stroke-dashoffset:1;animation:lijn-teken 1.8s cubic-bezier(.4,0,.2,1) .4s forwards}
+@keyframes lijn-teken{to{stroke-dashoffset:0}}
+.pr-eind{opacity:0;animation:eind-in .4s ease 2.1s forwards}
+@keyframes eind-in{to{opacity:1}}
+.pr-maanden{position:absolute;left:0;right:0;bottom:0;height:120px;display:grid;grid-template-columns:repeat(12,1fr);z-index:3}
+.pr-maanden button{background:none;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.pr-maanden button:focus-visible{outline:2px solid #fff;outline-offset:-2px;border-radius:8px}
+.pr-mk-tip{position:absolute;bottom:calc(100% - 4px);left:clamp(48px,var(--x),calc(100% - 48px));translate:-50% 0;display:grid;justify-items:center;padding:7px 12px;border-radius:12px;white-space:nowrap;
+  background:#fff;color:#151826;box-shadow:0 14px 30px -12px rgba(0,0,0,.7);animation:pop-in .3s cubic-bezier(.2,.9,.3,1.35) both;pointer-events:none}
+.pr-mk-tip small{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:#6B7088}
+html .pr-mk-tip b{font-size:.95rem;color:#151826 !important}
+.pr-mk-lijn{stroke:rgba(255,255,255,.55);stroke-width:1;stroke-dasharray:3 4;vector-effect:non-scaling-stroke}
+.pr-mk-punt{fill:#fff;stroke:rgba(255,255,255,.35);stroke-width:8}
+@media (max-width:1023px){.pr-maanden{height:80px}}
+
+/* 3. the glowing drop in the bottom bar */
+
+.tab-druppel{position:absolute;top:6px;bottom:6px;left:0;width:var(--w,56px);transform:translateX(calc(var(--x,0px) - 50%));border-radius:18px;pointer-events:none;z-index:0;
+  background:radial-gradient(120% 90% at 50% 0%,rgba(255,255,255,.22),rgba(255,255,255,.06));border:1px solid rgba(255,255,255,.18);box-shadow:0 0 22px -4px rgba(218,47,36,.55),inset 0 1px 0 rgba(255,255,255,.25);
+  transition:transform .55s cubic-bezier(.3,1.45,.5,1),width .35s,opacity .3s}
+.tab-druppel::after{content:"";position:absolute;left:50%;bottom:-3px;width:16px;height:4px;translate:-50% 0;border-radius:4px;background:#DA2F24;box-shadow:0 0 12px #DA2F24}
+.tab-druppel.weg{opacity:0}
+.tabbalk .tab,.tabbalk .tab-plus{position:relative;z-index:1}
+@media (min-width:1024px){.tab-druppel{display:none}}
+
+/* 4. icons that move when tapped */
+:is(button,a,label):active .ic-prullenbak,:is(button,a):hover .ic-prullenbak{animation:ic-wiebel .5s ease}
+@keyframes ic-wiebel{20%{transform:rotate(-14deg)}45%{transform:rotate(10deg)}70%{transform:rotate(-6deg)}}
+:is(button,a,label):active .ic-document,:is(button,a,label):hover .ic-document{animation:ic-schud .45s ease}
+@keyframes ic-schud{25%{transform:translateX(-2px) rotate(-4deg)}50%{transform:translateX(2px) rotate(4deg)}75%{transform:translateX(-1px)}}
+:is(button,a):active .ic-vink path,:is(button,a):hover .ic-vink path{stroke-dasharray:1;animation:ic-teken .45s ease both}
+@keyframes ic-teken{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+:is(button,a):active .ic-mail,:is(button,a):hover .ic-mail,:is(button,a):hover .ic-bericht{animation:ic-hup .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes ic-hup{40%{transform:translateY(-3px) scale(1.08)}}
+:is(button,a):active .ic-plus,:is(button,a):hover .ic-plus{animation:ic-draai .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes ic-draai{to{transform:rotate(90deg)}}
+:is(button,a):hover .ic-agenda,:is(button,a):active .ic-agenda{animation:ic-hup .5s cubic-bezier(.3,1.6,.5,1)}
+:is(button,a):hover .ic-telefoon,:is(button,a):active .ic-telefoon{animation:ic-wiebel .5s ease}
+:is(button,a):hover .ic-pijl,:is(button,a):hover .ic-verder{animation:ic-pijl .5s ease}
+@keyframes ic-pijl{50%{transform:translateX(3px)}}
+.ic{transform-origin:50% 50%}
+
+/* 5. empty screens with an Aurora illustration */
+.leeg{gap:8px}
+.leeg-beeld{position:relative;display:grid;place-items:center;margin:0 auto 4px}
+.leeg-beeld svg{display:block;max-width:100%}
+.leeg-beeld .leeg-orb{position:absolute;width:44px;height:44px;border-radius:14px;margin:0;bottom:4px;right:10px}
+.lb-blad{animation:lb-zweef 4s ease-in-out infinite;transform-origin:80px 57px}
+@keyframes lb-zweef{50%{transform:translateY(-5px) rotate(-2deg)}}
+.lb-baan{animation:lb-baan 2.4s linear infinite}
+@keyframes lb-baan{to{stroke-dashoffset:-20}}
+.lb-ster{animation:lb-flits 2.4s ease-in-out infinite}.lb-ster.b{animation-delay:-.8s}.lb-ster.c{animation-delay:-1.6s}
+@keyframes lb-flits{50%{opacity:.25;transform:scale(.7)}}
+.lb-ster{transform-box:fill-box;transform-origin:center}
+html[data-sfeer="aurora"] .leeg{border-color:rgba(255,255,255,.18) !important}
+
+/* 6. login like the opening screen */
+html[data-sfeer="aurora"]:has(.toegang) body::before{animation:aurora-draai 40s linear infinite}
+@keyframes aurora-draai{to{transform:rotate(1turn) scale(1.15)}}
+.lg-merk{position:relative;display:inline-grid;place-items:center}
+html[data-sfeer="aurora"] .lg-merk::before{content:"";position:absolute;inset:-12px;border-radius:50%;padding:2px;
+  background:conic-gradient(from 0deg,#8FE3F0,#2E9CB2,#D9C3FF,#FF6B5E,#8FE3F0);animation:hoek-draai 5s linear infinite;
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2px));filter:drop-shadow(0 0 10px rgba(143,227,240,.7))}
+html[data-sfeer="aurora"] .lg-merk::after{content:"";position:absolute;inset:-26px;border-radius:50%;background:radial-gradient(circle,rgba(218,47,36,.35),transparent 65%);z-index:-1;animation:gloed-adem 3s ease-in-out infinite}
+@keyframes hoek-draai{to{transform:rotate(360deg)}}
+@keyframes gloed-adem{50%{opacity:.5;transform:scale(1.1)}}
+html[data-sfeer="aurora"] .lg-veld{transition:border-color .25s,box-shadow .25s,background .25s}
+html[data-sfeer="aurora"] .lg-veld:focus-within{border-color:rgba(143,227,240,.7) !important;box-shadow:0 0 0 4px rgba(143,227,240,.15),0 0 24px -6px rgba(143,227,240,.6) !important;background:rgba(14,16,34,.7) !important}
+html[data-sfeer="aurora"] .toegang-kaart{animation:kaart-in .8s cubic-bezier(.2,.8,.25,1) .1s both}
+@keyframes kaart-in{from{opacity:0;transform:translateY(20px) scale(.98);filter:blur(6px)}}
+
+/* 7. suppliers: logo tiles and a small chart */
+.levavatar-logo{background:rgba(255,255,255,.08) !important;border:1px solid rgba(255,255,255,.16);padding:5px;box-shadow:0 6px 16px -8px rgba(0,0,0,.5)}
+.levavatar-logo img{max-width:100%;max-height:100%;object-fit:contain}
+.levkaart{transition:transform .35s cubic-bezier(.2,.9,.3,1.3),box-shadow .35s}
+.levkaart:hover{transform:translateY(-4px)}
+.levkaart-geld{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.levkaart-geld b{font-size:1.6rem;font-weight:800;letter-spacing:-.03em}
+.levkaart-geld small{font-size:.8rem;font-weight:600}
+.levgrafiek{display:block;width:100%;height:36px;margin:2px 0 4px}
+.levgrafiek rect{transform-box:fill-box;transform-origin:bottom;animation:balk-groei .7s cubic-bezier(.2,.9,.3,1.2) both}
+@keyframes balk-groei{from{transform:scaleY(0)}}
+
+@media (prefers-reduced-motion: reduce){
+  .pr-lijn{animation:none;stroke-dashoffset:0}.pr-eind{animation:none;opacity:1}
+  .kaartlijst > li,.lb-blad,.lb-baan,.lb-ster,.lg-merk::before,.lg-merk::after,.toegang-kaart,.levgrafiek rect{animation:none !important}
+  .ic{animation:none !important}.tab-druppel{transition:none}
+  html[data-sfeer="aurora"]:has(.toegang) body::before{animation:none}
+}

@@ -7,14 +7,34 @@ import { ClaimKaarten, ClaimTabel, sorteer } from "../components/ClaimLijst";
 import { Icon } from "../components/Icon";
 import { Kpi, Leeg, PaginaKop, Voortgang } from "../components/ui";
 import { useBreed } from "../lib/useBreed";
+import { logoVan } from "../lib/levlogo";
+import { claimMaand } from "../lib/team";
+import { som } from "../lib/claims";
 
 export const LevAvatar = ({ naam, groot }: { naam: string; groot?: boolean }) => (
-  <span className={`levavatar${groot ? " levavatar-groot" : ""}`} style={{ background: levKleur(naam) }} aria-hidden="true">{levLetters(naam)}</span>
+  logoVan(naam) ? <span className={`levavatar levavatar-logo${groot ? " levavatar-groot" : ""}`} aria-hidden="true"><img src={logoVan(naam)!} alt="" /></span>
+    : <span className={`levavatar${groot ? " levavatar-groot" : ""}`} style={{ background: levKleur(naam) }} aria-hidden="true">{levLetters(naam)}</span>
 );
+
+/** Six small bars: what was claimed at this supplier per month. */
+function LevGrafiek({ waarden, kleur }: { waarden: number[]; kleur: string }) {
+  const max = Math.max(1, ...waarden);
+  return (
+    <svg className="levgrafiek" viewBox="0 0 120 36" preserveAspectRatio="none" aria-hidden="true">
+      {waarden.map((v, i) => <rect key={i} x={i * 20 + 3} y={34 - (v / max) * 30} width="14" height={Math.max(2, (v / max) * 30)} rx="3" fill={kleur} opacity={i === waarden.length - 1 ? 1 : .55} style={{ animationDelay: `${i * 70}ms` }} />)}
+    </svg>
+  );
+}
 
 export function Leveranciers() {
   const { actief } = useStore();
   const stats = useMemo(() => perLeverancier(actief), [actief]);
+  const maanden = useMemo(() => {
+    const nu = new Date(); const ks = Array.from({ length: 6 }, (_, i) => { const x = new Date(nu.getFullYear(), nu.getMonth() - 5 + i, 1); return `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, "0")}`; });
+    const m = new Map<string, number[]>();
+    for (const c of actief) { const n = (c.leverancier || "").trim() || "Zonder leverancier"; const k = ks.indexOf(claimMaand(c)); if (k < 0) continue; const r = m.get(n) || [0, 0, 0, 0, 0, 0]; r[k] += som([c]); m.set(n, r); }
+    return m;
+  }, [actief]);
   return (
     <div className="pagina">
       <PaginaKop boven={meervoud(stats.length, "leverancier", "leveranciers")} titel="Leveranciers" />
@@ -25,7 +45,8 @@ export function Leveranciers() {
             return (
               <Link key={s.naam} to={`/leveranciers/${encodeURIComponent(s.naam)}`} className="levkaart">
                 <div className="levkaart-kop"><LevAvatar naam={s.naam} /><b>{s.naam}</b><Icon naam="verder" maat={18} /></div>
-                <div className="levkaart-geld"><span>Open</span><b className={s.open ? "t-rood" : undefined}>{euroKort(s.open)}</b></div>
+                <div className="levkaart-geld"><span>Totaal</span><b>{euroKort(s.totaal)}</b><small className={s.open ? "t-rood" : undefined}>{euroKort(s.open)} open</small></div>
+                <LevGrafiek waarden={maanden.get(s.naam) || [0, 0, 0, 0, 0, 0]} kleur={levKleur(s.naam)} />
                 <Voortgang deel={s.totaal ? (s.totaal - s.open) / s.totaal : 0} licht label={`${s.naam}: afgehandeld deel`} />
                 <dl className="levkaart-cijfers">
                   <div><dt>Claims</dt><dd>{s.n}</dd></div>

@@ -1,6 +1,6 @@
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { usePaginaOvergang } from "../lib/overgang";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useStore } from "../state/Store";
 import { overTermijn } from "../lib/claims";
 import { geleden } from "../lib/format";
@@ -30,6 +30,18 @@ export function Layout() {
   const nav = useNavigate();
   const loc = useLocation();
   usePaginaOvergang();
+  // the glowing drop in the bottom bar slides to the active tab
+  const tabRef = useRef<HTMLElement>(null);
+  const [druppel, setDruppel] = useState<{ x: number; w: number } | null>(null);
+  useLayoutEffect(() => {
+    const zet = () => {
+      const nav = tabRef.current; const a = nav?.querySelector<HTMLElement>(".tab.active");
+      setDruppel(nav && a ? { x: a.offsetLeft + a.offsetWidth / 2, w: Math.min(64, a.offsetWidth - 8) } : null);
+    };
+    zet(); const t = window.setTimeout(zet, 60);
+    window.addEventListener("resize", zet);
+    return () => { window.clearTimeout(t); window.removeEventListener("resize", zet); };
+  }, [loc.pathname]);
   const aandacht = actief.filter((c) => overTermijn(c, inst.dagen)).length;
   useEffect(() => { window.scrollTo(0, 0); }, [loc.pathname]);
   // the phone menu: opens from the left, closes on a choice, outside tap or Escape
@@ -130,7 +142,8 @@ export function Layout() {
         <Outlet />
       </main>
 
-      <nav className="tabbalk" aria-label="Hoofdmenu onderbalk">
+      <nav className="tabbalk" aria-label="Hoofdmenu onderbalk" ref={tabRef}>
+        <span className={`tab-druppel${druppel ? "" : " weg"}`} aria-hidden="true" style={druppel ? { ["--x" as string]: `${druppel.x}px`, ["--w" as string]: `${druppel.w}px` } : undefined} />
         {onder.slice(0, 2).map((n) => (
           <NavLink key={n.naar} to={n.naar} end={n.einde} className="tab">
             <Icon naam={n.icoon} /><span>{n.kort || n.label}</span>{badge(n)}
