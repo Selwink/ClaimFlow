@@ -32,6 +32,10 @@ export function Splash({ klaar, kort }: { klaar: boolean; kort?: boolean }) {
       <div className="splash-inhoud">
         <div className="splash-embleem" aria-hidden="true">
           <svg viewBox="0 0 120 120" width="132" height="132">
+            <defs>
+              <linearGradient id="splash-aurora" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#8FE3F0" /><stop offset=".35" stopColor="#2E9CB2" /><stop offset=".65" stopColor="#D9C3FF" /><stop offset="1" stopColor="#FF6B5E" /></linearGradient>
+            </defs>
+            <circle className="emb-gloed" cx="60" cy="60" r="56" />
             <circle className="emb-ring" cx="60" cy="60" r="50" pathLength="100" />
             <circle className="emb-punt" cx="96" cy="26" r="7" />
             <path className="emb-vink" d="M36 62 L53 79 L86 40" pathLength="100" />

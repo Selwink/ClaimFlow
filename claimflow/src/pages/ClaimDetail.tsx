@@ -14,6 +14,20 @@ import { Fotos } from "../components/Fotos";
 import { logoVan } from "../lib/levlogo";
 import { Bonnen } from "../components/Bonnen";
 import { slaBonOp } from "../components/Bonnen";
+import type { Notitie } from "../lib/types";
+import type { IconNaam } from "../components/Icon";
+
+/** The icon for a line in the timeline, from what happened. */
+function tlIcoon(n: Notitie): { ic: IconNaam; toon: string } {
+  if (n.soort === "status") return n.naar === "gehonoreerd" ? { ic: "vink", toon: "groen" } : n.naar === "afgewezen" ? { ic: "kruis", toon: "rood" } : n.naar === "ingediend" ? { ic: "pijl", toon: "blauw" } : { ic: "vernieuw", toon: "grijs" };
+  if (/^Claim (vastgelegd|aangemaakt)/.test(n.t)) return { ic: "plus", toon: "rood" };
+  if (/^Bon /.test(n.t)) return { ic: "document", toon: "paars" };
+  if (/^Foto/.test(n.t)) return { ic: "camera", toon: "paars" };
+  if (/^Nagekeken/.test(n.t)) return { ic: "oog", toon: "groen" };
+  if (/^Aangevuld|^Gewijzigd|bewerkt/i.test(n.t)) return { ic: "potlood", toon: "grijs" };
+  return { ic: "bericht", toon: "geel" };
+}
+const STAPPEN: Array<{ s: Status; l: string }> = [{ s: "nieuw", l: "Aangemaakt" }, { s: "ingediend", l: "Ingediend" }, { s: "gehonoreerd", l: "Gehonoreerd" }];
 
 /** The VAM e-mails what may be done with the part; these record it in one tap. */
 const VAM_SNEL = ["VAM: Onderdeel retour sturen", "VAM: Onderdeel vernietigen", "VAM: Onderdeel bewaren", "VAM: Informatie opgevraagd"];
@@ -66,7 +80,8 @@ export function ClaimDetail() {
     <div className="detail">
       <header className="detail-kop">
         <div className="detail-kop-binnen">
-          {logoVan(c.leverancier) && <span className="lev-logo"><img src={logoVan(c.leverancier)!} alt={`Logo ${c.leverancier}`} /></span>}
+          {logoVan(c.leverancier) ? <span className="lev-logo"><img src={logoVan(c.leverancier)!} alt={`Logo ${c.leverancier}`} /></span>
+            : c.leverancier ? <span className="lev-letters" aria-hidden="true">{c.leverancier.slice(0, 2).toUpperCase()}</span> : null}
           <button type="button" className="terugknop" onClick={() => (loc.key !== "default" ? nav(-1) : nav("/claims"))}><Icon naam="terug" maat={18} /> Claims</button>
           <Bovenschrift>{[c.inkoopnummer ? `INK ${c.inkoopnummer}` : "Geen inkoopnummer", c.leverancier].filter(Boolean).join(" · ")}</Bovenschrift>
           <h1>{titelVan(c)}</h1>
@@ -83,6 +98,13 @@ export function ClaimDetail() {
               <p>{ringTekst}</p>
               <StatusPil status={st} />
             </div>
+            <ol className={`cd-stappen${st === "afgewezen" ? " cd-af" : ""}`} aria-label="Voortgang" style={{ ["--v" as string]: `${((st === "afgewezen" ? 2 : Math.max(0, STAPPEN.findIndex((y) => y.s === st))) / 2) * 66.8}%` }}>
+              {STAPPEN.map((x, i) => {
+                const nu = st === "afgewezen" ? 2 : STAPPEN.findIndex((y) => y.s === st);
+                const af = st === "afgewezen" && i === 2;
+                return <li key={x.s} className={`${i <= nu ? "gedaan" : ""}${i === nu ? " nu" : ""}${af ? " afgewezen" : ""}`}><i aria-hidden="true">{af ? "✕" : i <= nu ? "✓" : i + 1}</i><span>{af ? "Afgewezen" : x.l}</span></li>;
+              })}
+            </ol>
           </section>
 
           {c.storing && <section className="kaart"><h2 className="sectiekop">Storing</h2><p className="doorlopend">{c.storing}</p></section>}
@@ -105,7 +127,8 @@ export function ClaimDetail() {
             {(c.notities || []).length === 0 ? <p className="t-zacht">Nog geen notities.</p> : (
               <ol className="tijdlijn">
                 {[...(c.notities || [])].reverse().map((n, i) => (
-                  <li key={i} className={n.soort === "status" ? `tl-status tl-${n.naar}` : i === 0 ? "tl-nieuw" : undefined}>
+                  <li key={i} className={`tl-rij tl-${tlIcoon(n).toon}${n.soort === "status" ? ` tl-status tl-${n.naar}` : i === 0 ? " tl-nieuw" : ""}`} style={{ animationDelay: `${Math.min(i, 8) * 60}ms` }}>
+                    <span className="tl-ic" aria-hidden="true"><Icon naam={tlIcoon(n).ic} maat={14} /></span>
                     <b>{n.t}</b><span>{datum(n.d)}{n.w ? ` · ${n.w}` : ""}</span>
                   </li>
                 ))}
