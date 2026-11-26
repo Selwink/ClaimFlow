@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { haalAgendaSleutel, REMOTE } from "../lib/api";
 import { functie } from "../lib/config";
-import { agendaBestand } from "../lib/export";
+import { agendaBestand, LANG_OPEN_DAGEN } from "../lib/export";
 import { meervoud } from "../lib/format";
 import { useStore } from "../state/Store";
 import { useToast } from "../state/Toast";
@@ -13,15 +13,18 @@ export function AgendaKoppelen() {
   const toast = useToast();
   const [link, setLink] = useState("");
   const [bezig, setBezig] = useState(false);
+  const [termijnen, setTermijnen] = useState(true);
+  const [maandag, setMaandag] = useState(true);
+  const opties = `${termijnen ? "" : "&termijnen=0"}${maandag ? "&maandag=1" : ""}`;
 
   const haal = async (): Promise<string> => {
-    if (link) return link;
+    if (link) return link + opties;
     setBezig(true);
     try {
       const k = await haalAgendaSleutel();
       const basis = functie("agenda");
       const l = `${basis.startsWith("http") ? basis : location.origin + basis}?k=${encodeURIComponent(k)}`;
-      setLink(l); return l;
+      setLink(l); return l + opties;
     } finally { setBezig(false); }
   };
   const outlook = async (soort: "werk" | "prive") => {
@@ -35,23 +38,27 @@ export function AgendaKoppelen() {
     try { const l = await haal(); await navigator.clipboard.writeText(l); toast("Agendalink gekopieerd"); }
     catch { toast("Kopiëren lukte niet. Houd de link hieronder ingedrukt om hem te kopiëren."); }
   };
-  const bestand = () => { const n = agendaBestand(actief, inst); toast(n ? `${meervoud(n, "afspraak", "afspraken")} gedownload. Open het bestand om ze in Outlook te zetten.` : "Geen open claims met een termijn"); };
+  const bestand = () => { const n = agendaBestand(actief, inst, { termijnen, maandag }); toast(n ? `${meervoud(n, "afspraak", "afspraken")} gedownload. Open het bestand om ze in Outlook te zetten.` : "Geen open claims met een termijn"); };
 
   return (
     <div className="agenda-koppel">
       <div className="agenda-kop">
         <span className="rij-ic"><Icon naam="agenda" maat={18} /></span>
-        <span className="rij-t"><b>In je Outlook-agenda</b><span>Elke open claim staat op de dag dat de termijn afloopt, met een herinnering de dag ervoor. Bij een abonnement werkt Outlook zichzelf bij.</span></span>
+        <span className="rij-t"><b>In je Outlook-agenda</b><span>Kies wat er in je agenda komt. Bij een abonnement werkt Outlook zichzelf bij.</span></span>
+      </div>
+      <div className="agenda-keuzes" role="group" aria-label="Wat in je agenda komt">
+        <label><input type="checkbox" checked={termijnen} onChange={(e) => setTermijnen(e.target.checked)} /> <span><b>Termijnen</b><small>Elke open claim op de dag dat de termijn afloopt</small></span></label>
+        <label><input type="checkbox" checked={maandag} onChange={(e) => setMaandag(e.target.checked)} /> <span><b>Elke maandag claims nakijken</b><small>Om 9:00 een afspraak met de claims die {LANG_OPEN_DAGEN} dagen of langer open staan</small></span></label>
       </div>
       {REMOTE && (
         <div className="agenda-knoppen">
-          <button type="button" className="knop knop-rood knop-klein" onClick={() => outlook("werk")} disabled={bezig}><Icon naam="extern" maat={16} /> Outlook (werk, Microsoft 365)</button>
+          <button type="button" className="knop knop-rood knop-klein" onClick={() => outlook("werk")} disabled={bezig || (!termijnen && !maandag)}><Icon naam="extern" maat={16} /> Outlook (werk, Microsoft 365)</button>
           <button type="button" className="knop knop-zacht knop-klein" onClick={() => outlook("prive")} disabled={bezig}><Icon naam="extern" maat={16} /> Outlook.com</button>
           <button type="button" className="knop knop-zacht knop-klein" onClick={kopieer} disabled={bezig}><Icon naam="kopie" maat={16} /> Link kopiëren</button>
         </div>
       )}
       <button type="button" className="knop-link agenda-bestand" onClick={bestand}>Of download alles één keer als agendabestand (.ics)</button>
-      {link && <p className="agenda-link"><small>Outlook-app op de computer: Agenda → Agenda toevoegen → Van internet, en plak deze link:</small><code>{link}</code></p>}
+      {link && <p className="agenda-link"><small>Outlook-app op de computer: Agenda → Agenda toevoegen → Van internet, en plak deze link:</small><code>{link + opties}</code></p>}
     </div>
   );
 }

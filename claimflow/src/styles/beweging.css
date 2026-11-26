@@ -205,3 +205,8 @@ html .auto-t b{color:#F4F6FB !important;font-size:.95rem}
 .agenda-bestand{justify-self:start;font-size:.85rem}
 .agenda-link{margin:0;display:grid;gap:4px}
 .agenda-link code{font-size:.72rem;word-break:break-all;padding:8px 10px;border-radius:10px;background:rgba(0,0,0,.25);user-select:all;-webkit-user-select:all}
+.agenda-keuzes{display:grid;gap:8px}
+.agenda-keuzes label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;padding:8px 10px;border-radius:12px;background:rgba(127,127,127,.08)}
+.agenda-keuzes input{margin-top:3px;width:18px;height:18px;accent-color:#DA2F24;flex:none}
+.agenda-keuzes span{display:grid}
+.agenda-keuzes small{font-size:.8rem;opacity:.75}
