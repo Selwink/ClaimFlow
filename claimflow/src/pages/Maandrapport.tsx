@@ -6,6 +6,7 @@ import { useStore } from "../state/Store";
 import { useToast } from "../state/Toast";
 import { geenBedrag, isOpen, overTermijn, perLeverancier, som, statusVan, titelVan } from "../lib/claims";
 import { datum, dezeMaand, euro, periodLabel } from "../lib/format";
+import { appUrl } from "../lib/config";
 import { teruggehaaldPerMaand } from "../lib/team";
 import { stuur } from "../lib/mail";
 import { Icon } from "../components/Icon";
@@ -40,6 +41,12 @@ export function Maandrapport() {
     setMailBezig(true);
     const res = await stuur({
       _subject: `ClaimFlow ${titel}`,
+      _soort: "Maandoverzicht",
+      _intro: `Het overzicht van ${periodLabel(maand).toLowerCase()} voor ${inst.vestiging || "Medipoint Meppel"}${doel ? `: ${pct}% van het maanddoel` : ""}.`,
+      _bedrag: euro(totaal),
+      _bedraglabel: "Totaal geclaimd",
+      _knop: "Rapport openen",
+      Rapport: appUrl("rapport"),
       "Totaal geclaimd": `${euro(totaal)} (${r.lijst.length} claims)`,
       Geclaimd: `${euro(som(r.eigen))} (${r.eigen.length})`,
       Uitbesteed: `${euro(som(r.uit))} (${r.uit.length})`,

@@ -40,6 +40,11 @@ export function weekOverzicht(claims: Claim[], inst: Instellingen, adres: string
     onderwerp,
     velden: {
       _subject: onderwerp,
+      _soort: "Weekoverzicht",
+      _intro: laat.length ? `${meervoud(laat.length, "claim staat", "claims staan")} over de termijn van ${inst.dagen} dagen. Hieronder zie je wat er openstaat en bij welke leverancier je informatie opvraagt.` : `Alle open claims lopen binnen de termijn van ${inst.dagen} dagen. Hieronder het overzicht van de week.`,
+      _bedrag: euro(som(open)),
+      _bedraglabel: "Nog terug te halen",
+      _knop: "Open het register",
       Week: `t/m ${datum(vandaag())} · ${inst.vestiging}`,
       "Nog terug te halen": `${euro(som(open))} (${meervoud(open.length, "open claim", "open claims")})`,
       [`Over termijn (> ${inst.dagen} dagen)`]: regels(laat, (c) => `${dagenOpen(c)?.dagen} dagen${geenBedrag(c) ? "" : `, ${euroKort(c.bedrag)}`}`),
