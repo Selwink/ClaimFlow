@@ -63,7 +63,15 @@ export function Beheer() {
   };
   const testMail = async () => {
     setMailStatus("Versturen…");
-    const r = await stuur({ _subject: "Testmelding ClaimFlow Medipoint", Bericht: `Testmelding vanuit ${s.inst.vestiging}`, Door: s.naam || "onbekend" });
+    const r = await stuur({
+      _subject: "Testmail ClaimFlow: zo zien je meldingen eruit",
+      _soort: "Testmail",
+      _intro: `Dit is een testmail vanuit ${s.inst.vestiging || "Medipoint Meppel"}. Zo ziet een melding eruit als er een LGAR wordt geclaimd. De gegevens hieronder zijn een voorbeeld.`,
+      _bedrag: "€ 780,00", _bedraglabel: "Voorbeeldbedrag", _knop: "Open ClaimFlow",
+      Leverancier: "Eureva", Hulpmiddel: "Vela Tango 700E", Storing: "Wiel blokkeert", Inkoopnummer: "2486854",
+      "Verstuurd door": s.naam || "onbekend",
+      Register: appUrl(),
+    });
     setMailStatus(r.ok ? (r.activatie ? "Activeer FormSubmit via de mail in je inbox." : `${r.bericht} — kijk in je inbox.`) : `Niet gelukt: ${r.bericht}`);
   };
   const stuurWeek = async () => {
