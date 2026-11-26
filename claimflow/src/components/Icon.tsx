@@ -48,9 +48,9 @@ export type IconNaam = keyof typeof PADEN;
 
 export function Icon({ naam, maat = 20, className }: { naam: IconNaam; maat?: number; className?: string }) {
   return (
-    <svg className={className} width={maat} height={maat} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    <svg className={`ic ic-${naam}${className ? ` ${className}` : ""}`} width={maat} height={maat} viewBox="0 0 24 24" fill="none" stroke="currentColor"
       strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d={PADEN[naam]} />
+      <path d={PADEN[naam]} pathLength={1} />
     </svg>
   );
 }

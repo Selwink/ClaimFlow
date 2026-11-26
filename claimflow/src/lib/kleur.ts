@@ -20,14 +20,14 @@ export function zetKleur(k: Kleur) {
 }
 
 /** Light or dark appearance (Prime), per device; "auto" follows the phone or computer setting. */
-export type Weergave = "aurora" | "groen" | "licht" | "donker" | "auto";
+export type Weergave = "aurora" | "groen" | "aurora-auto" | "licht" | "donker" | "auto";
 const W_SLEUTEL = "claimflow-weergave";
 export function leesWeergave(): Weergave {
-  try { const w = localStorage.getItem(W_SLEUTEL) as Weergave | null; return w === "groen" || w === "licht" || w === "donker" || w === "auto" ? w : "aurora"; } catch { return "aurora"; }
+  try { const w = localStorage.getItem(W_SLEUTEL) as Weergave | null; return w === "groen" || w === "aurora-auto" || w === "licht" || w === "donker" || w === "auto" ? w : "aurora"; } catch { return "aurora"; }
 }
 const mq = () => (typeof matchMedia === "function" ? matchMedia("(prefers-color-scheme: dark)") : null);
 function pasToe(w: Weergave) {
-  const aurora = w === "aurora" || w === "groen";
+  const aurora = w === "aurora" || w === "groen" || (w === "aurora-auto" && !!mq()?.matches);
   if (w === "groen") document.documentElement.dataset.aurora = "groen"; else delete document.documentElement.dataset.aurora;
   const donker = aurora || w === "donker" || (w === "auto" && !!mq()?.matches);
   if (aurora) document.documentElement.dataset.sfeer = "aurora"; else delete document.documentElement.dataset.sfeer;
@@ -42,5 +42,5 @@ export function zetWeergave(w: Weergave) {
 /** Apply at start and keep following the system setting when on "auto". */
 export function startWeergave() {
   pasToe(leesWeergave());
-  mq()?.addEventListener?.("change", () => { if (leesWeergave() === "auto") pasToe("auto"); });
+  mq()?.addEventListener?.("change", () => { const w = leesWeergave(); if (w === "auto" || w === "aurora-auto") pasToe(w); });
 }

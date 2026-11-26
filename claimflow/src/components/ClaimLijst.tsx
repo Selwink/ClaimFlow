@@ -5,6 +5,7 @@ import { euro, euroKort, periodLabel } from "../lib/format";
 import { Icon } from "./Icon";
 import { StatusPil } from "./ui";
 import { BonKnop, useBonLijst } from "./Bonnen";
+import { logoVan } from "../lib/levlogo";
 
 export type SorteerVeld = "titel" | "leverancier" | "inkoopnummer" | "bedrag" | "status" | "dagen";
 export interface Sortering { veld: SorteerVeld; omhoog: boolean }
@@ -134,15 +135,18 @@ export function ClaimKaarten({ claims, termijn, geselecteerd, wissel, kiesModus 
         const kies = !!wissel && (kiesModus || !!geselecteerd?.size);
         return (
           <li key={c.id} className={metBon.has(c.id) ? "met-bon" : undefined}>
-            <button type="button" className={`taak${overTermijn(c, termijn) ? " taak-laat" : ""}${geselecteerd?.has(c.id) ? " taak-gekozen" : ""}`}
+            <button type="button" className={`taak taak-st-${statusVan(c)}${c.uitbesteed ? " taak-uit" : ""}${overTermijn(c, termijn) ? " taak-laat" : ""}${geselecteerd?.has(c.id) ? " taak-gekozen" : ""}`}
               aria-pressed={kies ? !!geselecteerd?.has(c.id) : undefined}
               onClick={() => (kies && wissel ? wissel(c.id) : nav(`/claims/${c.id}`))}
               onContextMenu={(e) => { if (wissel) { e.preventDefault(); wissel(c.id); } }}>
-              <span className={`taak-ic ic-${l.toon}`}>{geselecteerd?.has(c.id) ? <Icon naam="vink" /> : isOpen(c) && d && !c.uitbesteed ? `${d.dagen}d` : <Icon naam={isOpen(c) ? "klok" : "vink"} maat={18} />}</span>
+              <span className={`taak-ic ic-${l.toon}`} style={isOpen(c) && d && !c.uitbesteed ? { ["--deel" as string]: `${Math.min(100, (d.dagen / termijn) * 100)}%` } : undefined}>
+                {geselecteerd?.has(c.id) ? <Icon naam="vink" /> : isOpen(c) && d && !c.uitbesteed ? <span className="taak-dagen">{d.dagen}d</span> : <Icon naam={isOpen(c) ? "klok" : "vink"} maat={18} />}
+              </span>
               <span className="taak-t">
                 <b>{titelVan(c)}</b>
                 <span>{[c.leverancier, geenBedrag(c) ? "bedrag volgt" : euroKort(c.bedrag), c.inkoopnummer ? `ink ${c.inkoopnummer}` : "geen inkoopnr", c.frame ? `frame ${c.frame}` : "geen frame"].filter(Boolean).join(" · ")}</span>
               </span>
+              {logoVan(c.leverancier) && <span className="taak-logo" aria-hidden="true"><img src={logoVan(c.leverancier)!} alt="" loading="lazy" /></span>}
               <span className={`chip chip-${l.toon}`}>{l.tekst.replace(/ \d+ d$/, "")}</span>
             </button>
             {metBon.has(c.id) && <BonKnop claim={c} />}

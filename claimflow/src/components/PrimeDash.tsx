@@ -10,6 +10,7 @@ import { werkbak } from "../lib/werkbak";
 import { geefBestand } from "../lib/overdracht";
 import { Icon } from "./Icon";
 import { MaandagCheck } from "./MaandagCheck";
+import { Optel } from "./Optel";
 
 const heel = (n: number) => new Intl.NumberFormat("nl-NL", { maximumFractionDigits: 0 }).format(Math.round(n));
 const LEVKLEUR = ["#E05BC0", "#2E9CB2", "#F4B43A", "#3F4A63", "#7C6CF2", "#1F9D6B"];
@@ -37,6 +38,7 @@ export function PrimeDash() {
   const { actief, inst, naam, magBewerken, zetStatus } = useStore();
   const nav = useNavigate();
   const [sleep, setSleep] = useState(false);
+  const [mk, setMk] = useState<number | null>(null);
   const d = useMemo(() => {
     const jaar = dezeMaand().slice(0, 4), vorig = String(Number(jaar) - 1);
     const jaarVan = (c: Claim) => (claimMaand(c) || afgehandeldOp(c) || "").slice(0, 4);
@@ -128,7 +130,7 @@ export function PrimeDash() {
           <i className="pr-bl" aria-hidden="true" />
           <svg viewBox="0 0 150 110" className="pr-ln" aria-hidden="true"><path d="M8 20V95M8 75H142V88H8" /><path d="M20 62L40 50L70 62H135" /><circle cx="20" cy="98" r="6" /><circle cx="130" cy="98" r="6" /></svg>
           <h2><i>Totaal</i> <b>geclaimd.</b></h2>
-          <div className="pr-num">€ {heel(totaal)}<small>{d.jaar}</small></div>
+          <div className="pr-num"><Optel waarde={totaal} opmaak={(n) => `€ ${heel(n)}`} ms={1400} /><small>{d.jaar}</small></div>
           <div className="pr-sub">{groei != null ? <>{groei >= 0 ? "↗" : "↘"} <b>{groei >= 0 ? "+" : ""}{groei}%</b> t.o.v. vorig jaar · </> : null}<b>{d.n}</b> {d.n === 1 ? "claim" : "claims"}</div>
           <div className="pr-split" aria-hidden="true"><b style={{ flex: som(d.binnen) || 0.001 }} /><b style={{ flex: som(d.buiten) || 0.001 }} /><b style={{ flex: som(d.uit) || 0.001 }} /></div>
           <div className="pr-vk">
@@ -139,9 +141,19 @@ export function PrimeDash() {
           </div>
           <svg viewBox={`0 0 ${W} ${H}`} className="pr-area" preserveAspectRatio="none" aria-hidden="true">
             <defs><linearGradient id="pr-ga" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#fff" stopOpacity=".28" /><stop offset="1" stopColor="#fff" stopOpacity="0" /></linearGradient></defs>
-            <path d={`${glad(lijn)} L${W},${H} L0,${H}Z`} fill="url(#pr-ga)" /><path d={glad(lijn)} className="pr-lijn" />
+            <path d={`${glad(lijn)} L${W},${H} L0,${H}Z`} fill="url(#pr-ga)" /><path d={glad(lijn)} className="pr-lijn" pathLength={1} />
             <circle cx={eind[0] - 4} cy={eind[1]} r="5" className="pr-eind" />
+            {mk != null && <><line x1={lijn[mk][0]} x2={lijn[mk][0]} y1="0" y2={H} className="pr-mk-lijn" /><circle cx={lijn[mk][0]} cy={lijn[mk][1]} r="6" className="pr-mk-punt" /></>}
           </svg>
+          <div className="pr-maanden" onMouseLeave={() => setMk(null)}>
+            {d.jaarlijn.map((v, i) => {
+              const x = new Date(vandaag.getFullYear(), vandaag.getMonth() - (d.jaarlijn.length - 1) + i, 1);
+              const label = x.toLocaleDateString("nl-NL", { month: "short", year: "2-digit" });
+              return <button key={i} type="button" aria-label={`${label}: ${euro(v)}`} aria-pressed={mk === i} onMouseEnter={() => setMk(i)} onFocus={() => setMk(i)} onClick={() => setMk((m) => (m === i ? null : i))}>
+                {mk === i && <span className="pr-mk-tip" style={{ ["--x" as string]: `${(i / (d.jaarlijn.length - 1)) * 100}%` }}><small>{label}</small><b>{euro(v)}</b></span>}
+              </button>;
+            })}
+          </div>
         </section>
 
         <div className="pr-rechts">
