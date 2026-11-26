@@ -131,10 +131,16 @@ export function Beheer() {
         <Link to="/leveranciers" className="instelrij alleen-mobiel"><span className="rij-ic"><Icon naam="fabriek" maat={18} /></span><span className="rij-t"><b>Leveranciers</b><span>Cijfers per leverancier</span></span><Icon naam="verder" maat={16} /></Link>
       </Blok>
 
-      <Blok titel="E-mailmeldingen" uitleg={s.inst.mail ? `Bij elke nieuwe claim, statuswijziging, notitie en nieuw account gaat er een mail naar ${CONFIG.MELDING_EMAIL || "niemand"}.` : `Nieuwe claims worden altijd gemaild naar ${CONFIG.MELDING_EMAIL || "niemand"}. Zet aan voor ook statuswijzigingen, notities en herinneringen.`}>
+      <Blok titel="E-mailmeldingen" uitleg={`Kies welke mails er naar ${CONFIG.MELDING_EMAIL || "niemand"} gaan.`}>
         <label className="instelrij schakelrij">
           <span className="rij-ic"><Icon naam="mail" maat={18} /></span>
-          <span className="rij-t"><b>Ook mailen bij wijzigingen</b><span>Nieuwe claims worden altijd gemaild. Aan: ook statuswijzigingen, notities, herinneringen en het weekoverzicht.</span></span>
+          <span className="rij-t"><b>Mail bij elke nieuwe claim</b><span>Ook als een LGAR wordt ingelezen. Uit: je krijgt geen mail als er een claim bij komt.</span></span>
+          <input type="checkbox" role="switch" className="schakelaar" checked={s.inst.nieuwmail} disabled={uit}
+            onChange={(e) => void s.bewaarInst({ ...s.inst, nieuwmail: e.target.checked })} />
+        </label>
+        <label className="instelrij schakelrij">
+          <span className="rij-ic"><Icon naam="mail" maat={18} /></span>
+          <span className="rij-t"><b>Mailen bij wijzigingen</b><span>Statuswijzigingen, notities, herinneringen en het weekoverzicht.</span></span>
           <input type="checkbox" role="switch" className="schakelaar" checked={s.inst.mail} disabled={uit}
             onChange={(e) => void s.bewaarInst({ ...s.inst, mail: e.target.checked })} />
         </label>
