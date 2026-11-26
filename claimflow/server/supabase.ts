@@ -6,9 +6,10 @@ import * as mail from "../netlify/functions/mail";
 import * as weekoverzicht from "../netlify/functions/weekoverzicht";
 import * as backup from "../netlify/functions/backup";
 import * as meldingen from "../netlify/functions/meldingen";
+import * as agenda from "../netlify/functions/agenda";
 
 type Handler = { handler: (e: unknown) => Promise<{ statusCode: number; headers?: Record<string, string>; body?: string }> };
-const FUNCTIES: Record<string, Handler> = { data, mail, weekoverzicht, backup, meldingen } as never;
+const FUNCTIES: Record<string, Handler> = { data, mail, weekoverzicht, backup, meldingen, agenda } as never;
 /** Scheduled jobs (run by GitHub Actions): only with the shared PLANNING_SLEUTEL, so nobody else can trigger them. */
 const GEPLAND = new Set(["weekoverzicht", "backup", "meldingen"]);
 

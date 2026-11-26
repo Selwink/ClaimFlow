@@ -95,3 +95,9 @@ export async function leesPas(kopwaarde?: string): Promise<Pas | null> {
     return null;
   }
 }
+
+/** The secret part of the calendar subscription link. Fixed for as long as the server key stays the same. */
+export async function agendaSleutel(): Promise<string> {
+  const { sleutel } = await geheim();
+  return createHmac("sha256", sleutel).update("claimflow-agenda-v1").digest("base64url").slice(0, 32);
+}

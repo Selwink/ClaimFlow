@@ -82,6 +82,7 @@ async function bewaarBijlage(claim: string, data: string, wie: string, datum: st
 export const bewaarFoto = (claim: string, data: string, wie: string, datum: string) => bewaarBijlage(claim, data, wie, datum);
 export const haalBonnen = (claim: string) => vraag<{ fotos: Foto[] }>("fotos", { query: { claim, soort: "bon" } }).then((r) => r.fotos);
 export const bewaarBon = (claim: string, data: string, wie: string, datum: string) => bewaarBijlage(claim, data, wie, datum, "bon");
+export const haalAgendaSleutel = () => vraag<{ sleutel: string }>("agendalink").then((r) => r.sleutel);
 export const haalBonLijst = () => vraag<{ claims: string[] }>("bonlijst").then((r) => r.claims);
 export const verwijderFoto = (id: string) => vraag("fotoweg", { body: { id } }).then(() => undefined);
 
