@@ -45,7 +45,7 @@ export function SnelZoek() {
           if (e.key === "Enter" && res[sel]) nav(`/claims/${res[sel].c.id}`);
           if (e.key === "Escape") setOpen(false);
         }}
-        placeholder="Frame-, inkoop- of claimnr." aria-label="Zoeken in claims" />
+        placeholder={typeof matchMedia !== "undefined" && matchMedia("(min-width: 1280px)").matches ? "Zoeken…" : "Frame-, inkoop- of claimnr."} aria-label="Zoeken in claims" />
       {open && t.length >= 2 && (
         <div className="sz-lijst">
           {res.length > 0 && <small className="sz-kop">{res.length} {res.length === 1 ? "claim" : "claims"} gevonden · ↑↓ en Enter</small>}
