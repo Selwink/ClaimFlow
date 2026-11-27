@@ -10,6 +10,7 @@ import { Icon } from "../components/Icon";
 import { Leeg, PaginaKop } from "../components/ui";
 import { useBreed } from "../lib/useBreed";
 import { Optel } from "../components/Optel";
+import { ClaimPaneel } from "../components/ClaimPaneel";
 
 const TABS = [
   { id: "alle", label: "Alle" },
@@ -37,6 +38,7 @@ export function Claims() {
   const [gekozen, setGekozen] = useState<Set<string>>(new Set());
   const [kiesModus, setKiesModus] = useState(false);
   const breed = useBreed();
+  const [paneel, setPaneel] = useState<string | null>(null);
   const stopKiezen = () => { setGekozen(new Set()); setKiesModus(false); };
 
   const zetParam = (k: string, v: string) => {
@@ -144,13 +146,14 @@ export function Claims() {
         <section key={g.kop || "alles"} className="claimgroep">
           {g.kop && <h2 className="groepkop"><span>{g.kop}</span><span className="mono">{g.claims.length} · {euroKort(som(g.claims))}</span></h2>}
           {breed ? (
-            <ClaimTabel claims={g.claims} termijn={inst.dagen} sortering={sortering} setSortering={setSortering}
+            <ClaimTabel claims={g.claims} termijn={inst.dagen} sortering={sortering} setSortering={setSortering} open={setPaneel} actiefId={paneel}
               geselecteerd={magBewerken ? gekozen : undefined} wissel={magBewerken ? wissel : undefined} alles={alles} />
           ) : (
             <ClaimKaarten claims={g.claims} termijn={inst.dagen} geselecteerd={gekozen} wissel={magBewerken ? wissel : undefined} kiesModus={kiesModus} />
           )}
         </section>
       ))}
+      {breed && <ClaimPaneel id={paneel} sluit={() => setPaneel(null)} />}
       {prullenbak.length > 0 && <Link to="/prullenbak" className="meer-link"><Icon naam="prullenbak" maat={16} /> Prullenbak ({prullenbak.length})</Link>}
 
       {gekozen.size > 0 && (
