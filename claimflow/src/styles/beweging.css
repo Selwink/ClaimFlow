@@ -633,3 +633,8 @@ html[data-sfeer="aurora"] .chip{font-weight:800 !important}
   html[data-sfeer="aurora"] .pf-band .pf-naam b{font-size:.88rem;color:#fff !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   html[data-sfeer="aurora"] .pf-band .pf-naam small{font-size:.74rem;color:rgba(245,246,251,.6) !important}
 }
+@media (min-width:1280px){
+  html[data-sfeer="aurora"] .pf-band .sz{height:36px !important;max-height:36px !important;padding:0 10px !important;gap:8px !important;border-radius:12px !important;align-items:center !important;align-self:stretch}
+  html[data-sfeer="aurora"] .pf-band .sz input{height:34px !important;min-height:0 !important;padding:0 !important;font-size:.8rem !important;line-height:34px !important}
+  html[data-sfeer="aurora"] .pf-band .sz svg{width:14px;height:14px;flex:none}
+}
