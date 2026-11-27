@@ -4,7 +4,7 @@ import type { Claim } from "../lib/types";
 import { STATUS_LABEL } from "../lib/types";
 import { useStore } from "../state/Store";
 import { afgehandeldOp, dagenOpen, doorlooptijd, isOpen, overTermijn, som, statusVan, titelVan } from "../lib/claims";
-import { datum, dezeMaand, euro, geleden } from "../lib/format";
+import { datum, dezeMaand, euro, euroKort, geleden } from "../lib/format";
 import { claimMaand, geclaimdDezeMaand } from "../lib/team";
 import { werkbak } from "../lib/werkbak";
 import { geefBestand } from "../lib/overdracht";
@@ -82,11 +82,26 @@ export function PrimeDash() {
   const lijn = d.jaarlijn.map((v, i) => [(i / (d.jaarlijn.length - 1)) * W, H - 14 - (v / max) * (H - 40)] as [number, number]);
   const eind = lijn[lijn.length - 1];
 
+  // when there is nothing to do: progress against the goal, against last month, and the next deadline
+  const rustTekst = (() => {
+    const nu = new Date(); const vk = new Date(nu.getFullYear(), nu.getMonth() - 1, 1);
+    const vorigeMaand = `${vk.getFullYear()}-${String(vk.getMonth() + 1).padStart(2, "0")}`;
+    const vorig = som(actief.filter((c) => claimMaand(c) === vorigeMaand));
+    const volgende = actief.filter((c) => isOpen(c) && !c.uitbesteed && dagenOpen(c) && (dagenOpen(c)!.dagen < inst.dagen))
+      .map((c) => ({ c, over: inst.dagen - dagenOpen(c)!.dagen })).sort((a, b) => a.over - b.over)[0];
+    const doelZin = doel > 0
+      ? (gm.bedrag >= doel ? <> Dat is <b>{pct}%</b> van je maanddoel, gehaald!</> : <> Nog <b>{euroKort(doel - gm.bedrag)}</b> tot je maanddoel van {euroKort(doel)}.</>)
+      : null;
+    const vergelijk = vorig > 0 && gm.bedrag > 0 ? <> {gm.bedrag >= vorig ? "Al" : "Nu"} <b>{gm.bedrag >= vorig ? `+${euroKort(gm.bedrag - vorig)}` : euroKort(vorig - gm.bedrag)}</b> {gm.bedrag >= vorig ? "meer" : "minder"} dan vorige maand.</> : null;
+    const termijn = volgende ? <> Eerstvolgende termijn: <b>{titelVan(volgende.c)}</b> over {volgende.over} {volgende.over === 1 ? "dag" : "dagen"}.</> : null;
+    return <>Alles staat op schema. Deze maand al <b>{euroKort(gm.bedrag)}</b> geclaimd.{doelZin}{termijn ?? vergelijk}</>;
+  })();
+
   const laat = d.laat[0];
   const flowTekst = laat
     ? <><b>{titelVan(laat)}</b> staat {(dagenOpen(laat)?.dagen ?? inst.dagen) - inst.dagen} {(dagenOpen(laat)?.dagen ?? 0) - inst.dagen === 1 ? "dag" : "dagen"} over de termijn — vraag informatie op bij de VAM{d.indienen.length ? <>, en <b>{d.indienen.length} {d.indienen.length === 1 ? "claim is" : "claims zijn"}</b> klaar om in te dienen</> : null}.</>
     : d.indienen.length ? <><b>{d.indienen.length} {d.indienen.length === 1 ? "claim is" : "claims zijn"}</b> klaar om in te dienen: {d.indienen.slice(0, 2).map(titelVan).join(", ")}{d.indienen.length > 2 ? " …" : ""}.</>
-      : <>Alles is bijgewerkt. <b>{euro(gm.bedrag)}</b> geclaimd deze maand — mooi werk.</>;
+      : rustTekst;
 
   const drop = (e: DragEvent) => {
     e.preventDefault(); setSleep(false);
