@@ -553,3 +553,83 @@ html[data-sfeer="aurora"] .sz .sz-lijst.sz-lijst{background-color:#11132A !impor
 .cp .cd-stappen li{align-content:start}
 .cp > *{flex:none}
 .topbalk{z-index:60 !important}
+
+/* ================= ClaimFlow Pro, vette uitvoering (Aurora) ================= */
+/* computer: vaste glazen zijbalk */
+@media (min-width:1280px){
+  html[data-sfeer="aurora"] .inhoud{padding-left:276px}
+  html[data-sfeer="aurora"] .pf-band{position:fixed !important;left:16px !important;top:16px !important;bottom:16px !important;width:244px !important;margin:0 !important;
+    flex-direction:column !important;align-items:stretch !important;justify-content:flex-start !important;padding:22px 14px 16px !important;gap:16px !important;border-radius:30px !important;
+    background:rgba(8,9,24,.62) !important;border:1.5px solid rgba(255,255,255,.12) !important;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 40px 80px -40px rgba(0,0,0,.95) !important}
+  html[data-sfeer="aurora"] .pf-band .pf-logo{order:1;padding:0 8px}
+  html[data-sfeer="aurora"] .pf-band .pf-woord{font-weight:800 !important;font-size:1.35rem !important;letter-spacing:-.02em}
+  html[data-sfeer="aurora"] .pf-band .sz{order:2;width:100% !important;max-width:none !important;margin:0 !important;flex:none !important;height:44px !important;min-height:0 !important}
+  html[data-sfeer="aurora"] .pf-band .sz-lijst{min-width:420px}
+  html[data-sfeer="aurora"] .pf-band .pf-nav{order:3;display:flex !important;flex-direction:column !important;gap:4px !important;padding:0 !important;background:transparent !important;overflow:visible !important}
+  html[data-sfeer="aurora"] .pf-band .pf-nav a{display:flex !important;align-items:center;gap:12px;padding:12px 14px !important;border-radius:15px;font-size:.98rem !important;font-weight:600 !important;color:rgba(245,246,251,.7) !important}
+  html[data-sfeer="aurora"] .pf-band .pf-nav a::before{content:"";width:18px;height:18px;border-radius:6px;border:2px solid currentColor;opacity:.8;flex:none}
+  html[data-sfeer="aurora"] .pf-band .pf-nav a:hover{background:rgba(255,255,255,.06)}
+  html[data-sfeer="aurora"] .pf-band .pf-nav a.active{color:#fff !important;background:linear-gradient(90deg,rgba(224,54,42,.6),rgba(224,54,42,.12)) !important;box-shadow:0 12px 28px -14px rgba(224,54,42,.95),inset 0 1px 0 rgba(255,255,255,.2) !important}
+  html[data-sfeer="aurora"] .pf-band .pf-nav a.active::before{background:#fff;border-color:#fff;opacity:1}
+  html[data-sfeer="aurora"] .pf-band .pf-nav a:last-of-type{display:flex !important;justify-content:flex-start !important;margin:0 !important}
+  html[data-sfeer="aurora"] .pf-band .pf-acties{order:4;margin-top:auto !important;display:flex;flex-wrap:wrap;align-items:center;gap:8px !important}
+  html[data-sfeer="aurora"] .pf-band .pf-ik{flex:1 1 100%;order:3;padding:10px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)}
+  html[data-sfeer="aurora"] .pf-band .pf-plus{flex:1;justify-content:center;border-radius:15px !important;height:44px !important;width:auto !important;
+    background:linear-gradient(180deg,#EE5045,#E0362A) !important;box-shadow:0 0 0 4px rgba(224,54,42,.16),0 14px 30px -10px rgba(224,54,42,1) !important}
+  html[data-sfeer="aurora"] .pf-band .pf-plus::after{content:"Nieuwe claim";font-weight:800;font-size:.9rem;margin-left:6px;color:#fff}
+  html[data-sfeer="aurora"] .pf-band .pf-streep,html[data-sfeer="aurora"] .pf-band .pf-dag{display:none !important}
+}
+
+/* vette koppen en cijfers */
+html[data-sfeer="aurora"] .pr-groet h1{font-weight:800 !important;font-style:italic;font-size:2.9rem !important;letter-spacing:-.045em !important}
+html[data-sfeer="aurora"] .pr-groet h1 b{font-weight:800;background:linear-gradient(90deg,#B8F4FF,#DCC8FF) !important;-webkit-background-clip:text !important;background-clip:text !important}
+html[data-aurora="groen"] .pr-groet h1 b{background:linear-gradient(90deg,#D6FFE8,#9BEFC2) !important;-webkit-background-clip:text !important;background-clip:text !important}
+html[data-sfeer="aurora"] .pr-held .pr-num{font-weight:800 !important;font-style:italic;letter-spacing:-.06em !important;
+  background:linear-gradient(180deg,#FFFFFF 30%,#D2ECF4 70%,#9FC8D8);-webkit-background-clip:text;background-clip:text;color:transparent !important;text-shadow:none !important;filter:drop-shadow(0 10px 28px rgba(147,230,242,.35))}
+html[data-sfeer="aurora"] .pr-held .pr-num small{-webkit-text-fill-color:rgba(255,255,255,.55);font-style:normal}
+html[data-sfeer="aurora"] .pr-held h2 i,html[data-sfeer="aurora"] .pr-held h2 b{font-weight:800 !important;font-style:italic}
+html[data-sfeer="aurora"] .pr-uit .pr-num{font-weight:800 !important;font-style:italic;letter-spacing:-.05em !important}
+html[data-sfeer="aurora"] .pr-c b{font-weight:800 !important;font-style:italic;letter-spacing:-.04em}
+html[data-sfeer="aurora"] .pr-vk b{font-weight:800 !important}
+html[data-sfeer="aurora"] .pr-kaart h3{font-weight:800 !important;font-style:italic}
+html[data-sfeer="aurora"] .pr-bd{font-weight:800 !important}
+html[data-sfeer="aurora"] .detail-kop h1{font-weight:800 !important;font-style:italic;letter-spacing:-.04em !important}
+html[data-sfeer="aurora"] .ringkaart-bedrag{font-weight:800 !important;font-style:italic;letter-spacing:-.03em}
+html[data-sfeer="aurora"] .paginakop h1{font-weight:800 !important;font-style:italic;letter-spacing:-.045em !important}
+
+/* glas met lichtranden */
+html[data-sfeer="aurora"] :is(.pr-held,.pr-flow,.pr-uit,.pr-doeltegel,.pr-lgar,.pr-kaart,.pr-c,.mc,.ringkaart,.detail-raster .kaart,.levkaart){position:relative;border-radius:32px !important}
+html[data-sfeer="aurora"] :is(.pr-held,.pr-flow,.pr-uit,.pr-doeltegel,.pr-kaart,.pr-c,.levkaart)::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;pointer-events:none;z-index:3;
+  background:linear-gradient(140deg,rgba(255,255,255,.5),rgba(255,255,255,0) 35%,rgba(255,255,255,0) 70%,rgba(147,230,242,.35));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+html[data-sfeer="aurora"] .pr-held{background:radial-gradient(120% 90% at 0% 0%,rgba(147,230,242,.5),transparent 55%),linear-gradient(150deg,rgba(46,156,178,.55),rgba(14,58,82,.6) 55%,rgba(27,42,107,.6)) !important}
+html[data-sfeer="aurora"] .pr-held::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.14) 45%,transparent 60%);background-size:250% 100%;animation:pro-glans 7s ease-in-out infinite}
+@keyframes pro-glans{0%{background-position:120% 0}60%,100%{background-position:-60% 0}}
+html[data-aurora="groen"] .pr-held{background:radial-gradient(120% 90% at 0% 0%,rgba(184,245,210,.45),transparent 55%),linear-gradient(150deg,rgba(63,211,154,.45),rgba(15,92,69,.6)) !important}
+
+/* gloeiend rood */
+html[data-sfeer="aurora"] .pr-uit{background:radial-gradient(120% 100% at 0% 0%,rgba(255,140,128,.55),transparent 55%),linear-gradient(150deg,#D8382C,#7C1018) !important;box-shadow:0 40px 80px -36px rgba(224,54,42,.95) !important}
+html[data-sfeer="aurora"] .pr-flow{background:radial-gradient(110% 100% at 100% 0%,rgba(255,127,115,.4),transparent 60%),linear-gradient(130deg,rgba(224,54,42,.45),rgba(90,30,110,.5)) !important}
+html[data-sfeer="aurora"] .pr-orb{width:42px !important;height:42px !important;box-shadow:0 0 0 7px rgba(224,54,42,.16),0 0 0 14px rgba(224,54,42,.07),0 0 30px rgba(255,90,70,.9) !important}
+html[data-sfeer="aurora"] .pr-k{font-weight:800 !important;border-radius:15px !important;padding:11px 17px !important}
+html[data-sfeer="aurora"] .pr-k2{font-weight:700 !important;border-radius:15px !important;padding:11px 17px !important;border-width:1.5px !important}
+html[data-sfeer="aurora"] .knop-rood{font-weight:800 !important;box-shadow:0 0 0 4px rgba(224,54,42,.15),0 14px 30px -10px rgba(224,54,42,1),inset 0 1px 0 rgba(255,255,255,.3) !important}
+html[data-sfeer="aurora"] .pr-lgar{border:2px dashed rgba(255,127,115,.6) !important;background:radial-gradient(100% 80% at 0% 0%,rgba(224,54,42,.25),transparent 60%),rgba(13,15,32,.45) !important}
+html[data-sfeer="aurora"] .tabbalk .tab.active svg{color:#fff !important}
+html[data-sfeer="aurora"] .tab-druppel{background:linear-gradient(180deg,rgba(224,54,42,.6),rgba(224,54,42,.2)) !important;border-color:rgba(255,140,128,.5) !important}
+
+/* volle statuslabels */
+html[data-sfeer="aurora"] .pr-st{font-weight:800 !important;border-radius:999px !important;padding:4px 11px !important}
+html[data-sfeer="aurora"] .pr-s-n{background:#FF7F73 !important;color:#3A0A06 !important}
+html[data-sfeer="aurora"] .pr-s-r{background:#E0362A !important;color:#fff !important;box-shadow:0 0 14px rgba(224,54,42,.7)}
+html[data-sfeer="aurora"] .pr-s-i{background:#F2C14E !important;color:#3A2A04 !important}
+html[data-sfeer="aurora"] .pr-s-o{background:#5FD690 !important;color:#06331A !important}
+html[data-sfeer="aurora"] .pr-s-g{background:#A3AECB !important;color:#151826 !important}
+html[data-sfeer="aurora"] .chip{font-weight:800 !important}
+@media (prefers-reduced-motion: reduce){html[data-sfeer="aurora"] .pr-held::before{animation:none}}
+@media (min-width:1280px){
+  html[data-sfeer="aurora"] .pf-band .pf-ik{display:flex !important;align-items:center;gap:10px;text-decoration:none}
+  html[data-sfeer="aurora"] .pf-band .pf-naam{display:grid !important;min-width:0}
+  html[data-sfeer="aurora"] .pf-band .pf-naam b{font-size:.88rem;color:#fff !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  html[data-sfeer="aurora"] .pf-band .pf-naam small{font-size:.74rem;color:rgba(245,246,251,.6) !important}
+}
