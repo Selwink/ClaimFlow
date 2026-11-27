@@ -5,7 +5,9 @@ import { STATUS_LABEL } from "../lib/types";
 import { useStore } from "../state/Store";
 import { aankoopVan, dagenOpen, doorlooptijd, geenBedrag, isOpen, overTermijn, statusVan, titelVan, afgehandeldOp } from "../lib/claims";
 import { datum, euro, periodLabel } from "../lib/format";
-import { agendaBestand } from "../lib/export";
+import { AgendaKnop } from "../components/AgendaKnop";
+import { startDatum } from "../lib/claims";
+import { appUrl } from "../lib/config";
 import { leesBestand, leesVelden } from "../lib/lgar";
 import { Icon } from "../components/Icon";
 import { Bovenschrift, Leeg, Sheet, StatusPil } from "../components/ui";
@@ -138,7 +140,13 @@ export function ClaimDetail() {
 
           <section className="kaart acties-kaart">
             <h2 className="sectiekop">Acties</h2>
-            {isOpen(c) && !c.uitbesteed && <button type="button" className="actie" onClick={() => agendaBestand([c], inst)}><Icon naam="agenda" maat={18} /> Herinnering in agenda</button>}
+            {isOpen(c) && !c.uitbesteed && <AgendaKnop afspraak={() => {
+              const sd = startDatum(c); const dl = sd ? new Date(`${sd}T09:00:00`) : new Date(); if (sd) dl.setDate(dl.getDate() + inst.dagen);
+              const morgen = new Date(); morgen.setDate(morgen.getDate() + 1); morgen.setHours(9, 0, 0, 0);
+              const laat = !sd || dl < morgen;
+              return { titel: `${laat ? "Garantieclaim nakijken" : "Termijn garantieclaim"}: ${titelVan(c)}${c.leverancier ? ` (${c.leverancier})` : ""}`, start: laat ? morgen : dl, minuten: 15,
+                tekst: [`Leverancier: ${c.leverancier || "-"}`, `Inkoopnummer: ${c.inkoopnummer || "nog niet bekend"}`, geenBedrag(c) ? "" : `Bedrag: ${euro(c.bedrag)}`, laat ? "De termijn is verlopen: vraag informatie op bij de VAM." : `De termijn van ${inst.dagen} dagen loopt vandaag af.`, `Openen: ${appUrl(`claims/${c.id}`)}`].filter(Boolean).join("\n") };
+            }} />}
             {magBewerken && <Link className="actie" to={`/claims/${c.id}/bewerken`}><Icon naam="potlood" maat={18} /> Bewerken</Link>}
             {magBewerken && (!c.frame || !c.inkoopnummer) && (
               <label className="actie" style={{ cursor: "pointer" }}>

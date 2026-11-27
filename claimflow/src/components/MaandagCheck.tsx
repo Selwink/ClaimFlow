@@ -7,8 +7,8 @@ import { euro, vandaag } from "../lib/format";
 import { LANG_OPEN_DAGEN } from "../lib/export";
 import { Icon } from "./Icon";
 import { Confetti } from "./Confetti";
-import { agendaLink, openOutlook } from "./AgendaKoppelen";
-import { useToast } from "../state/Toast";
+import { AgendaKnop } from "./AgendaKnop";
+import { appUrl } from "../lib/config";
 
 const NAGEKEKEN = "Nagekeken bij de maandagcheck";
 
@@ -30,11 +30,7 @@ export function MaandagCheck() {
   const { actief, inst, naam, magBewerken, bewaar } = useStore();
   const [alles, setAlles] = useState(false);
   const [feest, setFeest] = useState(false);
-  const toast = useToast();
-  const naarOutlook = async () => {
-    try { openOutlook(await agendaLink({ termijnen: false, maandag: true }), "ClaimFlow maandagcheck"); }
-    catch (e) { toast(`Outlook openen lukte niet${e instanceof Error && e.message ? `: ${e.message}` : ""}`); }
-  };
+
   const vanaf = maandag();
   const lijst = useMemo(() => actief.filter((c) => isOpen(c) && !c.uitbesteed && (dagenOpen(c)?.dagen ?? 0) >= LANG_OPEN_DAGEN)
     .sort((a, b) => (dagenOpen(b)?.dagen ?? 0) - (dagenOpen(a)?.dagen ?? 0)), [actief]);
@@ -89,7 +85,11 @@ export function MaandagCheck() {
       </ul>
       <div className="mc-voet">
         {lijst.length > 5 ? <button type="button" className="knop-link mc-meer" onClick={() => setAlles((a) => !a)}>{alles ? "Minder tonen" : `Toon alle ${lijst.length}`}</button> : <span />}
-        <button type="button" className="mc-outlook" onClick={() => void naarOutlook()}><Icon naam="agenda" maat={16} /> Elke maandag in Outlook</button>
+        <AgendaKnop className="mc-outlook" afspraak={() => {
+          const ma = new Date(); ma.setHours(9, 0, 0, 0); ma.setDate(ma.getDate() + ((8 - ma.getDay()) % 7 || 7));
+          return { titel: "Claims nakijken (ClaimFlow)", start: ma, minuten: 30, wekelijks: true,
+            tekst: `Kijk de claims na die ${LANG_OPEN_DAGEN} dagen of langer openstaan en vink ze af op Home.\nBel of mail de leverancier, of vraag informatie op bij de VAM.\nOpenen: ${appUrl()}` };
+        }}><Icon naam="agenda" maat={16} /> Elke maandag in mijn agenda</AgendaKnop>
       </div>
       {!magBewerken && <p className="mc-uitleg">Alleen een beheerder kan claims afvinken.</p>}
     </section>
