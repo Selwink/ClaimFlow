@@ -638,3 +638,35 @@ html[data-sfeer="aurora"] .chip{font-weight:800 !important}
   html[data-sfeer="aurora"] .pf-band .sz input{height:34px !important;min-height:0 !important;padding:0 !important;font-size:.8rem !important;line-height:34px !important}
   html[data-sfeer="aurora"] .pf-band .sz svg{width:14px;height:14px;flex:none}
 }
+
+/* ================= tekst die eruit springt (Aurora) ================= */
+html[data-sfeer="aurora"] body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+/* donkerder glas achter tekst = meer contrast */
+html[data-sfeer="aurora"] :is(.pr-kaart,.pr-c,.pr-doeltegel,.pr-lgar,.kaart,.levkaart,.tabelkader,.kaartlijst > *,.instelrij,.mc){background-color:rgba(9,10,26,.66) !important}
+/* koppen: helder wit met zachte gloed */
+html[data-sfeer="aurora"] :is(.pr-groet h1,.paginakop h1,.detail-kop h1,.pr-held h2,.pr-uit h2,.pr-kaart h3,.sectiekop,.mc-t h2,.cp-kop h2){color:#fff !important;text-shadow:0 2px 18px rgba(0,0,0,.45),0 0 1px rgba(255,255,255,.6)}
+html[data-sfeer="aurora"] .pr-groet h1{font-size:3.1rem !important}
+html[data-sfeer="aurora"] .pr-groet small{color:rgba(255,255,255,.82) !important;font-weight:600 !important;letter-spacing:.2em !important}
+/* grote cijfers: dieper en scherper */
+html[data-sfeer="aurora"] .pr-held .pr-num{filter:drop-shadow(0 4px 2px rgba(0,0,0,.35)) drop-shadow(0 12px 32px rgba(147,230,242,.45)) !important}
+html[data-sfeer="aurora"] :is(.pr-uit .pr-num,.pr-c b,.pr-vk b,.pr-bd,.ringkaart-bedrag,.cp-geld b,.kpi b){color:#fff !important;text-shadow:0 2px 12px rgba(0,0,0,.45)}
+/* gewone tekst: witter en steviger */
+html[data-sfeer="aurora"] :is(.pr-flow p,.pr-held .pr-sub,.pr-uit p,.pr-rt b,.taak-t b,.rij-titel,.claimtabel td,.feiten dd,.tijdlijn b,.doorlopend,.sz-t b){color:#fff !important;text-shadow:0 1px 3px rgba(0,0,0,.45)}
+html[data-sfeer="aurora"] .pr-flow p{font-size:1.02rem !important;font-weight:500 !important;line-height:1.45}
+html[data-sfeer="aurora"] .pr-flow p b,html[data-sfeer="aurora"] .pr-held .pr-sub b{font-weight:800 !important;color:#fff !important}
+html[data-sfeer="aurora"] :is(.pr-rt b,.taak-t b,.rij-titel){font-weight:700 !important}
+/* kleine tekst en labels: lichter grijs, iets dikker */
+html[data-sfeer="aurora"] :is(.pr-rt small,.pr-c small,.pr-c em,.pr-vk small,.taak-t > span,.pr-term small,.claimtabel td small,.feiten dt,.tijdlijn span,.pr-doeltegel em,.pr-doeltegel small,.sz-t small,.mc-t span,.mc-claim small,.levkaart-cijfers dt,.kpi small,.cp-feiten dt,.cp-tl small){color:rgba(255,255,255,.82) !important;font-weight:500}
+html[data-sfeer="aurora"] :is(.pr-c small,.pr-vk small,.pr-doeltegel small,.feiten dt,.levkaart-cijfers dt){font-weight:700 !important;letter-spacing:.02em}
+html[data-sfeer="aurora"] .pr-kaart h3 a{color:rgba(255,255,255,.85) !important;font-weight:600}
+/* Uitbesteed en Flow: tekst helder op de kleur */
+html[data-sfeer="aurora"] .pr-uit :is(p,span,small){color:#fff !important;text-shadow:0 1px 4px rgba(90,0,0,.5)}
+html[data-sfeer="aurora"] .pr-uit .pr-uit-zelf{background:rgba(0,0,0,.25) !important;border:1px solid rgba(255,255,255,.35) !important;font-weight:700 !important}
+/* zijbalk */
+html[data-sfeer="aurora"] .pf-band .pf-nav a{color:rgba(255,255,255,.86) !important}
+html[data-sfeer="aurora"] .pf-band .pf-nav a.active{text-shadow:0 1px 6px rgba(90,0,0,.6)}
+html[data-sfeer="aurora"] .pr-groet h1 b{text-shadow:none !important;filter:drop-shadow(0 2px 12px rgba(0,0,0,.35)) drop-shadow(0 0 18px rgba(184,244,255,.35))}
+html[data-sfeer="aurora"] :is(.pr-lgk small,.pr-lgk span small,.pr-recent small){color:rgba(255,255,255,.82) !important}
+html[data-sfeer="aurora"] .pr-lgk b{color:#fff !important;font-weight:800 !important;font-style:italic;font-size:1.15rem;text-shadow:0 2px 12px rgba(0,0,0,.4)}
+html[data-sfeer="aurora"] .pr .pr-k2{color:#fff !important;border-color:rgba(255,255,255,.35) !important;background:rgba(255,255,255,.08) !important}
+html[data-sfeer="aurora"] .pr .pr-groet > div > small{color:rgba(255,255,255,.85) !important;font-weight:600 !important}
