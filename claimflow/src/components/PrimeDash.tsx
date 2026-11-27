@@ -95,7 +95,7 @@ export function PrimeDash() {
   };
 
   return (
-    <section className="pr" aria-label="Overzicht">
+    <section className="pr pr-bento" aria-label="Overzicht">
       <div className="pr-groet">
         <div><small>{DAGEN[vandaag.getDay()]} {vandaag.toLocaleDateString("nl-NL", { day: "numeric", month: "long" })} · {inst.vestiging || "Vestiging Meppel"}</small>
           <h1>{groet}{voornaam ? <>, <b>{voornaam}.</b></> : "."}</h1></div>
@@ -168,6 +168,12 @@ export function PrimeDash() {
               <span><b>{deel}%</b> van het totaal<br />{euro(gm.uitbesteed)} deze maand</span>
             </div>
           </Link>
+          {doel > 0 && (
+            <Link to="/rapportage" className="pr-doeltegel" aria-label={`Maanddoel: ${pct}%`}>
+              <span className="pr-dt-ring" style={{ ["--p" as string]: `${Math.min(100, pct)}%` }}><b>{pct}%</b></span>
+              <small>Maanddoel</small><em>{euro(gm.bedrag)} van {euro(doel)}</em>
+            </Link>
+          )}
           {magBewerken && (
             <div className={`pr-lgar${sleep ? " sleep" : ""}`} onDragOver={(e) => { e.preventDefault(); setSleep(true); }} onDragLeave={() => setSleep(false)} onDrop={drop}>
               <Link to="/nieuw?bron=camera" className="pr-lgk"><i aria-hidden="true"><Icon naam="document" maat={22} /></i><span><b>LGAR-bon inlezen</b><small>{sleep ? "Laat los om in te lezen" : "Sleep de pdf hierheen of maak een foto"}</small></span><Icon naam="pijl" maat={18} /></Link>
