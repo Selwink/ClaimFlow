@@ -49,6 +49,9 @@ function DagenCel({ c, termijn }: { c: Claim; termijn: number }) {
 
 interface LijstProps {
   claims: Claim[];
+  /** When set (computer), a click opens the claim in the side panel instead of on its own page. */
+  open?: (id: string) => void;
+  actiefId?: string | null;
   termijn: number;
   geselecteerd?: Set<string>;
   wissel?: (id: string) => void;
@@ -60,7 +63,7 @@ interface LijstProps {
 }
 
 /** Desktop table, matching the "werkplek coördinator" screen in the concept. */
-export function ClaimTabel({ claims, termijn, geselecteerd, wissel, alles, sortering, setSortering }: LijstProps) {
+export function ClaimTabel({ claims, termijn, geselecteerd, wissel, alles, sortering, setSortering, open, actiefId }: LijstProps) {
   const nav = useNavigate();
   const metBon = useBonLijst();
   const kolom = (veld: SorteerVeld, label: string, cls?: string) => {
@@ -92,13 +95,13 @@ export function ClaimTabel({ claims, termijn, geselecteerd, wissel, alles, sorte
         </thead>
         <tbody>
           {claims.map((c) => (
-            <tr key={c.id} className={overTermijn(c, termijn) ? "rij-laat" : undefined} onClick={() => nav(`/claims/${c.id}`)}>
+            <tr key={c.id} className={`${overTermijn(c, termijn) ? "rij-laat" : ""}${actiefId === c.id ? " rij-open" : ""}`} onClick={() => (open ? open(c.id) : nav(`/claims/${c.id}`))}>
               {wissel && (
                 <td className="kol-kies" onClick={(e) => e.stopPropagation()}>
                   <input type="checkbox" aria-label={`Selecteer ${titelVan(c)}`} checked={!!geselecteerd?.has(c.id)} onChange={() => wissel(c.id)} />
                 </td>
               )}
-              <td><a href={`/claims/${c.id}`} onClick={(e) => { e.preventDefault(); nav(`/claims/${c.id}`); }} className="rij-titel">{titelVan(c)}</a>{metBon.has(c.id) && <BonKnop claim={c} klein />}
+              <td><a href={`/claims/${c.id}`} onClick={(e) => { e.preventDefault(); e.stopPropagation(); if (open) open(c.id); else nav(`/claims/${c.id}`); }} className="rij-titel">{titelVan(c)}</a>{metBon.has(c.id) && <BonKnop claim={c} klein />}
                 <span className="rij-sub">{periodLabel(c.periode)}{c.uitbesteed ? " · uitbesteed" : ""}</span></td>
               <td>{c.leverancier || <span className="t-zacht">—</span>}</td>
               <td className="mono kol-tablet">{c.inkoopnummer || <span className="t-oker">ontbreekt</span>}

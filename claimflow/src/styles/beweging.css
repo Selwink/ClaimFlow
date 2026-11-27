@@ -311,7 +311,7 @@ html[data-sfeer="aurora"] .sw-claim b{color:#fff !important}
 html[data-sfeer="aurora"] .splash-balk i{background:linear-gradient(90deg,#2E9CB2,#D9C3FF,#DA2F24) !important}
 html[data-sfeer="aurora"] .splash-weg{transition:opacity .7s ease,visibility 0s .7s,filter .7s ease !important;filter:blur(10px)}
 html[data-sfeer="aurora"] .splash-weg .splash-inhoud{transform:scale(1.18) !important;opacity:0}
-html[data-sfeer="aurora"] .inhoud{animation:home-in .9s cubic-bezier(.2,.8,.25,1) both}
+html[data-sfeer="aurora"] .inhoud{animation:home-in .9s cubic-bezier(.2,.8,.25,1) backwards}
 :root[data-splash="aan"] .inhoud{animation-play-state:paused}
 @keyframes home-in{from{opacity:0;transform:scale(.97);filter:blur(6px)}}
 @media (prefers-reduced-motion: reduce){.emb-gloed,.cd-stappen li.nu i,.ringkaart .termring .ring-boog,.tijdlijn li.tl-rij,.detail-kop .lev-logo,.lev-letters,.detail-kop h1,html[data-sfeer="aurora"] .inhoud{animation:none}}
@@ -501,3 +501,55 @@ html[data-weergave] .ak-voorbeeld .ak-dag b,html .ak-voorbeeld .ak-dag b{font-si
 .agenda-eigen{display:grid;gap:6px;justify-items:start;padding:12px;border-radius:14px;background:rgba(91,211,138,.1);border:1px solid rgba(91,211,138,.3)}
 .agenda-eigen small{font-size:.8rem;opacity:.8}
 .agenda-sub{font-size:.85rem;margin-top:4px}
+
+/* ---------- claim side panel (computer) ---------- */
+.cp-achter{position:fixed;inset:0;z-index:90;background:rgba(5,6,13,.25);animation:vervaag-in .3s ease both}
+@keyframes vervaag-in{from{opacity:0}}
+.cp{position:fixed;z-index:91;top:96px;right:20px;bottom:20px;width:min(460px,calc(100vw - 40px));overflow:auto;padding:22px;border-radius:28px;display:flex;flex-direction:column;gap:16px;color:#F4F6FB;
+  background:rgba(12,14,30,.78);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(30px) saturate(160%);-webkit-backdrop-filter:blur(30px) saturate(160%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),-30px 40px 80px -40px rgba(0,0,0,.9);animation:cp-in .45s cubic-bezier(.2,.9,.25,1.05) both}
+@keyframes cp-in{from{opacity:0;transform:translateX(40px) scale(.98)}}
+.cp-kop{position:relative;display:grid;gap:4px;padding-right:46px}
+.cp-sluit{position:absolute;right:0;top:0;width:36px;height:36px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#fff;display:grid;place-items:center;cursor:pointer}
+.cp-logo{justify-self:start;padding:8px 12px;border-radius:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);margin-bottom:6px}
+.cp-logo img{height:30px;width:auto;display:block}
+.cp-ey{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,246,251,.65)}
+html .cp-kop h2{margin:0;font-size:1.7rem;font-weight:800;font-style:italic;letter-spacing:-.02em;line-height:1.1;color:#fff !important}
+.cp-geld{display:flex;align-items:center;gap:16px;padding:14px;border-radius:20px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)}
+.cp-geld > div{display:grid;gap:6px;justify-items:start}
+html .cp-geld b{font-size:1.7rem;font-weight:700;letter-spacing:-.02em;color:#fff !important}
+.cp-laat{color:#FFB0A8;font-size:.8rem}
+.cp-feiten{margin:0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cp-feiten div{padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);min-width:0}
+.cp-feiten dt{font-size:.72rem;color:rgba(244,246,251,.6)}
+html .cp-feiten dd{margin:2px 0 0;font-weight:600;font-size:.9rem;color:#fff !important;overflow-wrap:anywhere}
+.cp-tl{display:grid;gap:10px}
+html .cp-tl > b{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,246,251,.6) !important;font-family:"JetBrains Mono",monospace}
+.cp-tl div{display:flex;gap:10px;font-size:.88rem}
+.cp-tl i{flex:none;width:10px;height:10px;margin-top:5px;border-radius:50%;background:linear-gradient(140deg,#8FE3F0,#2E9CB2);box-shadow:0 0 8px rgba(143,227,240,.6)}
+.cp-tl small{display:block;color:rgba(244,246,251,.6);font-size:.76rem}
+.cp-voet{margin-top:auto;display:flex;gap:10px;flex-wrap:wrap;position:sticky;bottom:-22px;padding:14px 0 4px;background:linear-gradient(transparent,rgba(12,14,30,.95) 40%)}
+.claimtabel tr.rij-open td{background:rgba(143,227,240,.1) !important}
+.claimtabel tr.rij-open td:first-child{box-shadow:inset 3px 0 0 #8FE3F0}
+@media (prefers-reduced-motion: reduce){.cp,.cp-achter{animation:none}}
+
+/* ---------- search with logos, status and keys ---------- */
+.sz-lijst{min-width:360px}
+html[data-sfeer="aurora"] .sz .sz-lijst.sz-lijst{background-color:#11132A !important;border:1px solid rgba(255,255,255,.14) !important;backdrop-filter:none;-webkit-backdrop-filter:none;border-radius:18px !important;box-shadow:0 30px 60px -20px rgba(0,0,0,.9) !important;animation:sz-in .25s cubic-bezier(.2,.9,.3,1.2) both}
+@keyframes sz-in{from{opacity:0;transform:translateY(-6px) scale(.98)}}
+.sz-kop{display:block;padding:10px 16px 6px;font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;opacity:.6}
+.sz-rij{display:flex !important;align-items:center;gap:12px !important;justify-content:flex-start !important}
+.sz-rij.sz-sel{background:rgba(143,227,240,.12) !important;box-shadow:inset 3px 0 0 #8FE3F0}
+.sz-logo{flex:none;width:40px;height:30px;border-radius:9px;display:grid;place-items:center;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);overflow:hidden}
+.sz-logo img{max-width:34px;max-height:22px;object-fit:contain}
+.sz-letters{color:#fff;font-weight:800;font-size:.7rem;border:0}
+.sz-t{flex:1;min-width:0;display:grid}
+.sz-t b,.sz-t small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sz-r{display:grid;justify-items:end;gap:3px;flex:none}
+.sz-st{font-style:normal;font-size:.66rem;font-weight:700;padding:2px 7px;border-radius:999px}
+.sz-nieuw{background:rgba(255,122,110,.2);color:#FFB0A8}.sz-ingediend{background:rgba(242,193,78,.2);color:#F7D88A}
+.sz-gehonoreerd{background:rgba(91,211,138,.2);color:#9BEBB8}.sz-afgewezen{background:rgba(138,144,166,.25);color:#C9CED8}
+.cp .cd-stappen{flex:none;align-items:start;margin:0}
+.cp .cd-stappen li{align-content:start}
+.cp > *{flex:none}
+.topbalk{z-index:60 !important}
