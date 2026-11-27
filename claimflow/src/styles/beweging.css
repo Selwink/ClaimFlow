@@ -489,3 +489,15 @@ html[data-sfeer="aurora"] .toegang-kaart{animation:kaart-in .8s cubic-bezier(.2,
   .pr-bento > .pr-groet .pr-doel{display:none}
 }
 @media (prefers-reduced-motion: reduce){.pr-bento > *,.pr-bento .pr-held,.pr-bento .pr-uit,.pr-bento .pr-doeltegel,.pr-bento .pr-lgar,.pr-bento .pr-kaart,.pr-bento .pr-cij,.pr-dt-ring{animation:none !important}}
+
+/* ---------- own-calendar button ---------- */
+.ak-voorbeeld{display:flex;align-items:center;gap:14px;padding:12px;border-radius:16px;background:rgba(127,127,127,.1);border:1px solid rgba(127,127,127,.2)}
+.ak-dag{flex:none;width:48px;height:52px;border-radius:14px;background:#fff;display:grid;place-items:center;align-content:center;line-height:1;box-shadow:0 8px 20px -10px rgba(0,0,0,.5)}
+html .ak-dag small{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#DA2F24 !important}
+html[data-weergave] .ak-voorbeeld .ak-dag b,html .ak-voorbeeld .ak-dag b{font-size:1.3rem;font-weight:800;color:#151826 !important}
+.ak-t{display:grid;min-width:0}.ak-t small{opacity:.75}
+.ak-keuzes{display:grid;gap:8px;margin:6px 0}
+.ak-uitleg{margin:8px 0}
+.agenda-eigen{display:grid;gap:6px;justify-items:start;padding:12px;border-radius:14px;background:rgba(91,211,138,.1);border:1px solid rgba(91,211,138,.3)}
+.agenda-eigen small{font-size:.8rem;opacity:.8}
+.agenda-sub{font-size:.85rem;margin-top:4px}

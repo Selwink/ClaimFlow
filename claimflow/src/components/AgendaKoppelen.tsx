@@ -6,6 +6,8 @@ import { meervoud } from "../lib/format";
 import { useStore } from "../state/Store";
 import { useToast } from "../state/Toast";
 import { Icon } from "./Icon";
+import { AgendaKnop } from "./AgendaKnop";
+import { appUrl } from "../lib/config";
 
 let sleutelCache = "";
 /** The subscription link for the calendar feed, with the chosen contents. */
@@ -58,8 +60,18 @@ export function AgendaKoppelen() {
     <div className="agenda-koppel">
       <div className="agenda-kop">
         <span className="rij-ic"><Icon naam="agenda" maat={18} /></span>
-        <span className="rij-t"><b>In je Outlook-agenda</b><span>Kies wat er in je agenda komt. Bij een abonnement werkt Outlook zichzelf bij.</span></span>
+        <span className="rij-t"><b>In je Outlook-agenda</b><span>Zet afspraken in je eigen agenda, of kies hieronder een aparte agenda die zichzelf bijwerkt.</span></span>
       </div>
+      <div className="agenda-eigen">
+        <b>In je eigen agenda</b>
+        <small>Een gewone afspraak in je eigen agenda. Termijnen van één claim zet je via de knop "In mijn agenda" op die claim.</small>
+        <AgendaKnop className="knop knop-rood knop-klein" afspraak={() => {
+          const ma = new Date(); ma.setHours(9, 0, 0, 0); ma.setDate(ma.getDate() + ((8 - ma.getDay()) % 7 || 7));
+          return { titel: "Claims nakijken (ClaimFlow)", start: ma, minuten: 30, wekelijks: true,
+            tekst: `Kijk de claims na die ${LANG_OPEN_DAGEN} dagen of langer openstaan en vink ze af op Home.\nBel of mail de leverancier, of vraag informatie op bij de VAM.\nOpenen: ${appUrl()}` };
+        }}><Icon naam="agenda" maat={16} /> Elke maandag claims nakijken</AgendaKnop>
+      </div>
+      <b className="agenda-sub">Of: een aparte agenda die zichzelf bijwerkt</b>
       <div className="agenda-keuzes" role="group" aria-label="Wat in je agenda komt">
         <label><input type="checkbox" checked={termijnen} onChange={(e) => setTermijnen(e.target.checked)} /> <span><b>Termijnen</b><small>Elke open claim op de dag dat de termijn afloopt</small></span></label>
         <label><input type="checkbox" checked={maandag} onChange={(e) => setMaandag(e.target.checked)} /> <span><b>Elke maandag claims nakijken</b><small>Om 9:00 een afspraak met de claims die {LANG_OPEN_DAGEN} dagen of langer open staan</small></span></label>
