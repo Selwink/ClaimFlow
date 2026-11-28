@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { Bord } from "./pages/Bord";
 import { BASIS } from "./lib/config";
 import { ToastProvider } from "./state/Toast";
 import { StoreProvider, useStore } from "./state/Store";
@@ -36,6 +37,7 @@ function AppRoutes() {
             <Route path="claims/:id" element={<ClaimDetail />} />
             <Route path="claims/:id/bewerken" element={<Bewerken />} />
             <Route path="nieuw" element={<NieuweClaim />} />
+            <Route path="bord" element={<Bord />} />
             <Route path="leveranciers" element={<Leveranciers />} />
             <Route path="leveranciers/:naam" element={<LeverancierDetail />} />
             <Route path="rapportage" element={<Rapportage />} />
