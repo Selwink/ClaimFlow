@@ -206,7 +206,7 @@ function KleurKeus() {
   return (
     <>
     <div className="segment weergave-keus" role="radiogroup" aria-label="Weergave">
-      {([["aurora", "✦ Aurora"], ["groen", "✦ Aurora groen"], ["aurora-auto", "◐ Aurora automatisch"], ["parel", "◇ Parel"], ["licht", "☀ Licht"], ["donker", "☾ Donker"], ["auto", "◐ Automatisch"]] as const).map(([id, l]) => (
+      {([["glas", "◈ Glas"], ["aurora", "✦ Aurora"], ["groen", "✦ Aurora groen"], ["aurora-auto", "◐ Aurora automatisch"], ["parel", "◇ Parel"], ["licht", "☀ Licht"], ["donker", "☾ Donker"], ["auto", "◐ Automatisch"]] as const).map(([id, l]) => (
         <button key={id} type="button" role="radio" aria-checked={w === id} onClick={() => { zetWeergave(id); setW(id); }}>{l}</button>
       ))}
     </div>

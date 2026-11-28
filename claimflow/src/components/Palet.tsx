@@ -47,6 +47,7 @@ export function Palet() {
     { sleutel: "a-flow", titel: "Vraag het Flow", sub: "De assistent", doe: ga("/assistent"), icoon: "robot" },
     { sleutel: "a-not", titel: "Notities", sub: "Alle notities", doe: ga("/notities"), icoon: "notitie" },
     { sleutel: "a-prof", titel: "Profiel en instellingen", sub: "Weergave, mail, agenda", doe: ga("/beheer"), icoon: "persoon" },
+    { sleutel: "w-glas", titel: "Weergave Glas", sub: "Liquid glass in blauw-lila licht", doe: () => zetWeergave("glas"), icoon: "oog" },
     { sleutel: "w-aurora", titel: "Weergave Aurora", sub: "Donker met kleur", doe: () => zetWeergave("aurora"), icoon: "maan" },
     { sleutel: "w-groen", titel: "Weergave Aurora groen", sub: "Donker met groen", doe: () => zetWeergave("groen"), icoon: "maan" },
     { sleutel: "w-parel", titel: "Weergave Parel", sub: "Licht en chique", doe: () => zetWeergave("parel"), icoon: "oog" },
