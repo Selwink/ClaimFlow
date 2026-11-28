@@ -99,22 +99,27 @@ export function Bonnen({ claim }: { claim: Claim }) {
       )}
       {bonnen === null ? <div className="bonnen-raster"><span className="foto-laden bon-laden" /></div>
         : aantal === 0 && !bezig ? (
-          <button type="button" className="fotos-leeg" onClick={() => magBewerken && kies.current?.click()} disabled={!magBewerken}>
-            <Icon naam="document" maat={22} />
-            <span>{magBewerken
-              ? (scan ? <>De bon van de scan (<b>{scan}</b>) is niet bewaard. Tik hier en kies hem opnieuw, dan kan iedereen hem hier inzien.</> : "Koppel de LGAR-bon (pdf of foto), dan kan iedereen hem hier inzien.")
-              : "Er is nog geen bon gekoppeld."}</span>
-          </button>
+          <DigitaleBon claim={claim} scan={scan} magBewerken={magBewerken} kies={() => kies.current?.click()} />
         ) : (
-          <div className="bonnen-raster">
-            {bonnen.map((b, i) => (
-              <button key={b.id} type="button" className="bon" onClick={() => setOpen(i)} aria-label={`Bon pagina ${i + 1} bekijken`}>
-                <img src={b.data} alt="" loading="lazy" />
-                <span>Pagina {i + 1}</span>
+          <>
+            {bonnen[0] && (
+              <button type="button" className="bon-hoofd" onClick={() => setOpen(0)} aria-label="Bon bekijken op groot formaat">
+                <img src={bonnen[0].data} alt={`Bon bij ${titelVan(claim)}`} />
+                <span className="bon-hoofd-zoom"><Icon naam="zoek" maat={16} /> Tik om te vergroten</span>
               </button>
-            ))}
-            {bezig && <span className="foto-laden bon-laden" />}
-          </div>
+            )}
+            {(aantal > 1 || bezig) && (
+              <div className="bonnen-raster">
+                {bonnen.slice(1).map((b, i) => (
+                  <button key={b.id} type="button" className="bon" onClick={() => setOpen(i + 1)} aria-label={`Bon pagina ${i + 2} bekijken`}>
+                    <img src={b.data} alt="" loading="lazy" />
+                    <span>Pagina {i + 2}</span>
+                  </button>
+                ))}
+                {bezig && <span className="foto-laden bon-laden" />}
+              </div>
+            )}
+          </>
         )}
       <Sheet titel={`Bon${aantal > 1 && open != null ? ` · pagina ${open + 1} van ${aantal}` : ""}`} open={!!huidig} sluit={() => setOpen(null)}
         voet={huidig && <>
@@ -129,6 +134,31 @@ export function Bonnen({ claim }: { claim: Claim }) {
         </>}
       </Sheet>
     </section>
+  );
+}
+
+/** No receipt stored yet: a receipt-style card built from the claim's own details, so there is always something to look at.
+ *  It says clearly that it is not the original, and administrators tap it to attach the real one. */
+function DigitaleBon({ claim, scan, magBewerken, kies }: { claim: Claim; scan?: string; magBewerken: boolean; kies: () => void }) {
+  const regels: Array<[string, string | undefined]> = [
+    ["Leverancier", claim.leverancier], ["Inkoopnummer", claim.inkoopnummer], ["Type", claim.type], ["Onderdeel", claim.onderdeel],
+    ["Storing", claim.storing], ["Framenummer", claim.frame], ["Voorziening", claim.voorziening], ["Datum", claim.datum ? datum(claim.datum) : undefined],
+  ];
+  const bedrag = claim.bedrag ? `€ ${Number(claim.bedrag).toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : "—";
+  return (
+    <div className="bon-digi-plek">
+      <button type="button" className="bon-digi" onClick={() => magBewerken && kies()} disabled={!magBewerken} aria-label={magBewerken ? "Originele bon koppelen" : "Gegevens van de bon"}>
+        <span className="bon-digi-kop"><b>LGAR · Garantiebon</b><small>Digitale weergave</small></span>
+        <dl>{regels.filter(([, w]) => w && String(w).trim()).map(([k, w]) => <div key={k}><dt>{k}</dt><dd>{w}</dd></div>)}</dl>
+        <span className="bon-digi-tot"><span>Bedrag</span><b>{bedrag}</b></span>
+        <span className="bon-digi-tand" aria-hidden="true" />
+      </button>
+      <p className="bon-digi-uitleg">
+        <Icon naam="waarschuwing" maat={15} />
+        <span>{scan ? <>Dit is een weergave van de gegevens. De originele bon (<b>{scan}</b>) is niet bewaard.</> : "Dit is een weergave van de gegevens. De originele bon is nog niet gekoppeld."}
+          {magBewerken ? " Tik op de bon of op Bon koppelen om de foto of pdf toe te voegen." : ""}</span>
+      </p>
+    </div>
   );
 }
 
