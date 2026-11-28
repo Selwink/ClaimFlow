@@ -92,12 +92,19 @@ export function Voortgang({ deel, licht, label }: { deel: number; licht?: boolea
   );
 }
 
+/** Page titles in the signature style: the last word in a gradient script letter with a full stop ("Claims" → "Claims." with the dot accented). */
+function sierTitel(t: string): ReactNode {
+  const w = t.trim().split(/\s+/);
+  if (w.length === 1) return <em className="sier sier-heel">{w[0]}.</em>;
+  return <>{w.slice(0, -1).join(" ")} <em className="sier">{w[w.length - 1]}.</em></>;
+}
+
 export function PaginaKop({ boven, titel, children }: { boven?: ReactNode; titel: ReactNode; children?: ReactNode }) {
   return (
     <header className="paginakop">
       <div>
         {boven && <Bovenschrift>{boven}</Bovenschrift>}
-        <h1>{titel}</h1>
+        <h1>{typeof titel === "string" ? sierTitel(titel) : titel}</h1>
       </div>
       {children && <div className="paginakop-acties">{children}</div>}
     </header>

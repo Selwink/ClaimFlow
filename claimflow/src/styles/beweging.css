@@ -890,3 +890,13 @@ html[data-parel] .pr .pr-dt-ring.pr-dt-ring{background:radial-gradient(closest-s
 html[data-weergave] .bonnen .bon-digi .bon-digi-kop b,html .bonnen .bon-digi .bon-digi-kop b{color:#DA2F24 !important;-webkit-text-fill-color:#DA2F24;background:none !important;filter:none !important;text-shadow:none !important;opacity:1 !important}
 html[data-weergave] .bonnen .bon-digi .bon-digi-tot b,html .bonnen .bon-digi .bon-digi-tot b{color:#2A2E3A !important;-webkit-text-fill-color:#2A2E3A;background:none !important;filter:none !important;text-shadow:none !important;opacity:1 !important}
 html[data-weergave] .bonnen .bon-digi :is(dd,dt,span,small){text-shadow:none !important}
+
+/* Paginakoppen in de signature-stijl: schuine vette kop, laatste woord in sierletter met kleurverloop */
+html[data-weergave] .paginakop h1,html .paginakop h1{font-family:'Fira Sans',system-ui,sans-serif !important;font-weight:800 !important;font-style:italic !important;letter-spacing:-.045em !important;text-transform:none !important;line-height:1 !important;font-size:clamp(2.1rem,4.4vw,3.2rem) !important}
+.paginakop h1 em.sier{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-style:italic;letter-spacing:-.01em;padding-right:.08em;
+  background:linear-gradient(95deg,#2E9CB2,#7C5AD6 60%,#DA2F24);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+html[data-weergave="donker"] .paginakop h1 em.sier,html[data-sfeer="aurora"] .paginakop h1 em.sier{background-image:linear-gradient(95deg,#96E8F4,#DDCBFF 60%,#FF8277)}
+html[data-weergave] .paginakop h1 em.sier{text-shadow:none !important;filter:drop-shadow(0 4px 18px rgba(150,232,244,.25))}
+.paginakop .bovenschrift,.paginakop > div > small:first-child{font-family:'JetBrains Mono',monospace !important;font-size:.7rem !important;letter-spacing:.18em !important;text-transform:uppercase}
+.paginakop h1 em.sier-heel{font-size:1.18em;line-height:.9}
+html .paginakop small.bovenschrift{text-transform:uppercase !important}
