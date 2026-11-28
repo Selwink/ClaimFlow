@@ -11,7 +11,7 @@
 
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,600;1,700;1,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,600;1,700;1,800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
 /* Eén lange donkere pagina op levende Aurora; secties wisselen tussen breed beeld en smalle tekstkolom, rood alleen voor acties */
 :root{
@@ -265,6 +265,73 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;
 @media (max-width:520px){.h-melding{right:4px}}
 
 @media (prefers-reduced-motion: reduce){.aurora,.loop,.m-druppel,.bon.scant .scan-lijn{animation:none}.mock,.knop,.tegel,.bon{transition:none}html{scroll-behavior:auto}}
+
+/* signature: sierletter in koppen */
+h2 em,h1 em,.m-groet em{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-style:italic;letter-spacing:-.01em;padding-right:.08em;
+  background:linear-gradient(95deg,var(--teal-l),#D9C3FF 55%,var(--rood-l));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+.nav .links a,.nav .acties .knop{white-space:nowrap}
+@media (max-width:1280px){.nav .acties .verberg-smal{display:none !important}}
+@media (max-width:1100px){.nav .links{display:none}}
+@media (max-width:560px){.nav .acties .knop.rood{padding:9px 12px;font-size:.82rem}}
+/* de app: interactieve vitrine */
+.vitrine-kop{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.tabs{display:inline-flex;gap:4px;padding:5px;border-radius:16px;background:var(--vlak);border:1px solid var(--rand)}
+.tabs button{border:0;background:none;color:var(--zacht);font:600 .92rem var(--f);padding:9px 16px;border-radius:12px;cursor:pointer;transition:background .25s,color .25s}
+.tabs button[aria-selected="true"]{background:linear-gradient(180deg,rgba(218,47,36,.75),rgba(218,47,36,.45));color:#fff;box-shadow:0 10px 24px -12px rgba(218,47,36,.9)}
+.scherm{margin-top:34px;border-radius:30px;padding:14px;background:rgba(10,12,24,.6);border:1px solid var(--rand);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 60px 120px -50px rgba(0,0,0,.95);position:relative}
+.scherm::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;background:linear-gradient(140deg,rgba(255,255,255,.45),transparent 35%,transparent 70%,rgba(143,227,240,.35));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.scherm-balk{display:flex;align-items:center;gap:7px;padding:4px 8px 12px}
+.scherm-balk i{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.18)}
+.scherm-balk span{margin:0 auto;font-family:var(--mono);font-size:.72rem;color:var(--zacht);padding:5px 14px;border-radius:9px;background:rgba(255,255,255,.05)}
+.paneel{display:none;grid-template-columns:200px minmax(0,1fr);gap:14px;min-height:440px;animation:paneel .5s cubic-bezier(.2,.9,.25,1) both}
+.paneel.aan{display:grid}
+@keyframes paneel{from{opacity:0;transform:translateY(12px)}}
+.m-zij{border-radius:20px;background:rgba(255,255,255,.04);border:1px solid var(--rand);padding:14px 10px;display:grid;align-content:start;gap:4px;font-size:.85rem}
+.m-zij b{display:flex;align-items:center;gap:8px;padding:0 6px 12px;font-size:1rem}
+.m-zij b::before{content:"";width:22px;height:22px;border-radius:7px;background:linear-gradient(145deg,#3BD16F,#139A48)}
+.m-zij span{padding:8px 10px;border-radius:11px;color:var(--zacht)}
+.m-zij span.aan{background:linear-gradient(90deg,rgba(218,47,36,.6),rgba(218,47,36,.12));color:#fff;font-weight:600}
+.m-werk{display:grid;gap:12px;align-content:start;min-width:0}
+.m-groet{font-weight:800;font-style:italic;font-size:1.9rem;letter-spacing:-.04em;line-height:1}
+.m-groet em{font-size:1.1em}
+.m-rij{display:grid;gap:12px;grid-template-columns:1.4fr 1fr}
+.m-t{border-radius:22px;padding:18px;background:rgba(255,255,255,.05);border:1px solid var(--rand);min-width:0}
+.m-held{background:radial-gradient(120% 90% at 0% 0%,rgba(143,227,240,.45),transparent 55%),linear-gradient(150deg,rgba(46,156,178,.55),rgba(27,42,107,.6))}
+.m-held small,.m-t small{font-size:.75rem;color:var(--zacht)}
+.m-geld{font-weight:900;font-style:italic;font-size:3.2rem;letter-spacing:-.06em;line-height:.95;margin:6px 0 10px;background:linear-gradient(180deg,#fff 30%,#BFE6F0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.m-lijn{width:100%;height:70px;display:block}
+.m-flow{background:linear-gradient(130deg,rgba(218,47,36,.5),rgba(90,30,110,.55));display:grid;gap:10px;align-content:start}
+.m-flow p{margin:0;font-size:.92rem;line-height:1.5}
+.m-flow .k{justify-self:start;padding:8px 14px;border-radius:11px;background:#fff;color:#141726;font-weight:700;font-size:.82rem}
+.m-claim{display:grid;grid-template-columns:34px minmax(0,1fr) auto auto;gap:12px;align-items:center;padding:10px 4px;border-top:1px solid rgba(255,255,255,.07);font-size:.88rem}
+.m-claim:first-of-type{border-top:0}
+.m-av{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-weight:800;font-size:.72rem;color:#fff}
+.m-claim small{display:block;color:var(--zacht);font-size:.75rem}
+.chip{font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.c-n{background:#FF7A6E;color:#3A0A06}.c-i{background:#F2C14E;color:#3A2A04}.c-g{background:#5BD38A;color:#06331A}.c-l{background:var(--rood);color:#fff}
+.m-bord{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.m-kol{border-radius:20px;padding:12px;background:rgba(255,255,255,.04);border:1px solid var(--rand);display:grid;gap:9px;align-content:start;min-height:330px}
+.m-kol h4{margin:0;display:flex;align-items:center;gap:8px;font-style:italic;font-weight:800;font-size:1rem}
+.m-kol h4::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--k);box-shadow:0 0 10px var(--k)}
+.m-kaart{border-radius:15px;padding:11px 12px;background:rgba(255,255,255,.06);border:1px solid var(--rand);font-size:.84rem;position:relative;cursor:grab;transition:transform .25s}
+.m-kaart::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:0 3px 3px 0;background:var(--k)}
+.m-kaart small{display:block;color:var(--zacht);font-size:.72rem}
+.m-plek{height:58px;border-radius:15px;border:1.5px dashed rgba(242,193,78,.45);display:grid;place-items:center;font-size:.75rem;color:var(--zacht)}
+.m-kaart.vlieg{position:relative;z-index:2;background:#2A2433;animation:vlieg 3.6s cubic-bezier(.5,0,.3,1) infinite}
+@keyframes vlieg{0%,25%{transform:none}45%,70%{transform:translateX(calc(100% + 24px)) rotate(2deg);box-shadow:0 20px 40px -18px rgba(0,0,0,.8)}90%,100%{transform:translateX(calc(100% + 24px))}}
+.m-detail{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:12px}
+.m-bon{justify-self:center;width:min(100%,250px);padding:16px 16px 22px;border-radius:10px 10px 3px 3px;background:#F8F6EF;color:#2A2E3A;font-family:var(--mono);font-size:.72rem;line-height:1.5;rotate:-2deg;box-shadow:0 30px 50px -22px rgba(0,0,0,.85)}
+.m-bon b{display:block;font-family:var(--f);color:var(--rood);font-size:.9rem;margin-bottom:8px;padding-bottom:8px;border-bottom:1.5px dashed #CFCBBF}
+.m-bon dl{margin:0;display:grid;gap:5px}.m-bon dl div{display:grid;grid-template-columns:90px 1fr}.m-bon dt{color:#8A8676}.m-bon dd{margin:0;font-weight:600}
+.m-stap{display:flex;justify-content:space-between;position:relative;margin:12px 0 4px;font-size:.72rem;color:var(--zacht)}
+.m-stap::before{content:"";position:absolute;left:12%;right:12%;top:12px;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--teal) 50%,rgba(255,255,255,.12) 50%)}
+.m-stap span{position:relative;display:grid;justify-items:center;gap:5px;width:33%}
+.m-stap span i{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-weight:800;background:#1B2040;border:2px solid var(--rand)}
+.m-stap span.ja i{background:linear-gradient(140deg,var(--teal),var(--navy));border-color:rgba(143,227,240,.7)}
+.ring{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:radial-gradient(closest-side,#15182c 70%,transparent 72%),conic-gradient(var(--teal-l) 45%,rgba(255,255,255,.12) 0)}
+@media (max-width:860px){.m-plek{display:none}.paneel{grid-template-columns:minmax(0,1fr);min-height:0}.m-zij{display:none}.m-rij,.m-detail{grid-template-columns:minmax(0,1fr)}.m-bord{grid-template-columns:minmax(0,1fr)}.m-kol{min-height:0}.m-kaart.vlieg{animation:none}.m-claim{grid-template-columns:34px minmax(0,1fr) auto}.m-claim .eur{display:none}}
 </style>
 <style>body{margin:0}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
@@ -278,7 +345,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;
 <div class="pagina">
   <div class="nav"><div class="wrap"><div class="balk">
     <a class="logo" href="#"><i></i>ClaimFlow</a>
-    <nav class="links" aria-label="Pagina"><a href="#hoe">Hoe het werkt</a><a href="#functies">Functies</a><a href="#reken">Wat het oplevert</a><a href="#vragen">Vragen</a></nav>
+    <nav class="links" aria-label="Pagina"><a href="#app">De app</a><a href="#hoe">Hoe het werkt</a><a href="#functies">Functies</a><a href="#reken">Wat het oplevert</a><a href="#vragen">Vragen</a></nav>
     <div class="acties"><a class="knop glas klein" href="../">Inloggen</a><a class="knop glas klein verberg-smal" href="#hoe">Probeer met een bon</a><a class="knop rood klein magneet" href="#start">Laat zien wat er openstaat</a></div>
   </div></div></div>
 
@@ -290,6 +357,61 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;
       <div class="pijn"><b>01</b><div><h3>Termijnen verlopen ongemerkt</h3><p>De leverancier geeft 42 dagen. Na dag 43 betaal jij.</p></div></div>
       <div class="pijn"><b>02</b><div><h3>Bonnen zijn zoek</h3><p>De LGAR-bon ligt op iemands bureau, of in een mailbox die niemand anders kan openen.</p></div></div>
       <div class="pijn"><b>03</b><div><h3>Leveranciers blijven stil</h3><p>Zonder herinnering wacht een claim weken. Niemand belt, niemand weet het.</p></div></div>
+    </div>
+  </div></section>
+
+  <section id="app"><div class="wrap">
+    <div class="vitrine-kop">
+      <div><span class="eyebrow">De app</span><h2>Zo ziet jouw werkdag <em>eruit</em>.</h2><p class="lead">Eén rustig scherm met wat er vandaag moet gebeuren. Kies hieronder wat je wilt zien.</p></div>
+      <div class="tabs" role="tablist" aria-label="Schermen van de app">
+        <button type="button" role="tab" aria-selected="true" aria-controls="p-home" id="t-home">Home</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="p-bord" id="t-bord">Flow-bord</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="p-claim" id="t-claim">Claim &amp; bon</button>
+      </div>
+    </div>
+    <div class="scherm">
+      <div class="scherm-balk" aria-hidden="true"><i></i><i></i><i></i><span>claimflow · Medipoint Meppel</span></div>
+      <div class="paneel aan" id="p-home" role="tabpanel" aria-labelledby="t-home">
+        <div class="m-zij" aria-hidden="true"><b>ClaimFlow</b><span class="aan">Home</span><span>Claims</span><span>Flow-bord</span><span>Leveranciers</span><span>Rapportage</span></div>
+        <div class="m-werk">
+          <div class="m-groet">Goedemorgen, <em>Meppel.</em></div>
+          <div class="m-rij">
+            <div class="m-t m-held"><small>Totaal geclaimd</small><div class="m-geld">€ 43.019</div>
+              <svg class="m-lijn" viewBox="0 0 300 70" preserveAspectRatio="none" aria-hidden="true"><path d="M0 58 L30 50 L60 54 L90 40 L120 44 L150 30 L180 36 L210 22 L240 30 L270 14 L300 10" fill="none" stroke="#fff" stroke-width="2.5" vector-effect="non-scaling-stroke"/></svg></div>
+            <div class="m-t m-flow"><small style="color:inherit;opacity:.8">Flow · nu doen</small><p><b>Vela Salsa</b> staat 8 dagen over de termijn bij Sowecare. Vraag informatie op bij de VAM.</p><span class="k">Bekijk claim</span></div>
+          </div>
+          <div class="m-t">
+            <div class="m-claim"><span class="m-av" style="background:#7262E8">EU</span><span><b>Vela Tango 700E</b><small>Spindel · Eureva</small></span><span class="chip c-n">Nieuw</span><b class="eur">€ 780</b></div>
+            <div class="m-claim"><span class="m-av" style="background:#5E4AA8">SO</span><span><b>Vela Salsa</b><small>Seat support · Sowecare</small></span><span class="chip c-l">Over termijn</span><b class="eur">€ 507</b></div>
+            <div class="m-claim"><span class="m-av" style="background:#2F7D55">DH</span><span><b>Invacare bed</b><small>Handbediening · Direct Healthcare</small></span><span class="chip c-i">Ingediend</span><b class="eur">€ 220</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="paneel" id="p-bord" role="tabpanel" aria-labelledby="t-bord" hidden>
+        <div class="m-zij" aria-hidden="true"><b>ClaimFlow</b><span>Home</span><span>Claims</span><span class="aan">Flow-bord</span><span>Leveranciers</span><span>Rapportage</span></div>
+        <div class="m-werk">
+          <div class="m-groet">Flow-<em>bord.</em></div>
+          <p style="margin:0;color:var(--zacht);font-size:.9rem">Sleep een claim naar de volgende kolom. De status, de tijdlijn en de melding regelen zichzelf.</p>
+          <div class="m-bord">
+            <div class="m-kol" style="--k:#FF7A6E"><h4>Nieuw</h4><div class="m-kaart vlieg" style="--k:#8FE3F0"><b>Vela Tango 700E</b><small>Eureva · € 780</small></div><div class="m-kaart" style="--k:#8FE3F0"><b>Mercado Medic</b><small>Mercado · € 351</small></div></div>
+            <div class="m-kol" style="--k:#F2C14E"><h4>Ingediend</h4><div class="m-plek" aria-hidden="true">Sleep hierheen</div><div class="m-kaart" style="--k:#FF7A6E"><b>Vela Salsa</b><small>Sowecare · € 507</small></div><div class="m-kaart" style="--k:#F2C14E"><b>Invacare Aviva</b><small>Invacare · € 1.180</small></div></div>
+            <div class="m-kol" style="--k:#5BD38A"><h4>Gehonoreerd</h4><div class="m-kaart" style="--k:#5BD38A"><b>Etac Molift</b><small>Eureva · € 920</small></div><div class="m-kaart" style="--k:#5BD38A"><b>Sowecare rolstoel</b><small>Sowecare · € 114</small></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="paneel" id="p-claim" role="tabpanel" aria-labelledby="t-claim" hidden>
+        <div class="m-zij" aria-hidden="true"><b>ClaimFlow</b><span>Home</span><span class="aan">Claims</span><span>Flow-bord</span><span>Leveranciers</span><span>Rapportage</span></div>
+        <div class="m-werk">
+          <div class="m-groet">Vela Tango <em>700E.</em></div>
+          <div class="m-detail">
+            <div class="m-t"><div style="display:flex;gap:14px;align-items:center"><span class="ring">19d</span><span><small>Eureva · ink 2486861</small><div class="m-geld" style="font-size:2.2rem;margin:2px 0">€ 780,00</div></span></div>
+              <div class="m-stap"><span class="ja"><i>✓</i>Aangemaakt</span><span class="ja"><i>✓</i>Ingediend</span><span><i>3</i>Gehonoreerd</span></div>
+              <p style="margin:12px 0 0;font-size:.88rem;color:var(--zacht)">Nog 23 dagen binnen de termijn van 42 dagen. Op dag 42 meldt de app zich vanzelf.</p></div>
+            <div class="m-t" style="display:grid;place-items:center;background:radial-gradient(100% 80% at 50% 0%,rgba(143,227,240,.14),transparent 60%),rgba(255,255,255,.04)">
+              <div class="m-bon"><b>LGAR · Garantiebon</b><dl><div><dt>Leverancier</dt><dd>Eureva</dd></div><div><dt>Inkoop</dt><dd>2486861</dd></div><div><dt>Type</dt><dd>Vela Tango 700E</dd></div><div><dt>Storing</dt><dd>Kolom zakt weg</dd></div><div><dt>Bedrag</dt><dd>€ 780,00</dd></div></dl></div></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div></section>
 
@@ -412,6 +534,12 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;
     k.addEventListener('pointermove', e => { const r = k.getBoundingClientRect(); k.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .22}px,${(e.clientY - r.top - r.height / 2) * .3}px)`; });
     k.addEventListener('pointerleave', () => { k.style.transform = ''; });
   });
+
+
+  // app showcase tabs
+  const tabs = [...document.querySelectorAll('.tabs [role=tab]')];
+  const kies = (t) => { tabs.forEach(x => { const aan = x === t; x.setAttribute('aria-selected', String(aan)); const p = document.getElementById(x.getAttribute('aria-controls')); p.hidden = !aan; p.classList.toggle('aan', aan); }); };
+  tabs.forEach((t, i) => { t.addEventListener('click', () => kies(t)); t.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length]; kies(n); n.focus(); } }); });
 
   // status band
   const st = [['Nieuw', '#FF7A6E'], ['Ingediend', '#F2C14E'], ['Gehonoreerd', '#5BD38A'], ['Uitbesteed', '#D9C3FF'], ['Termijn bewaakt', '#8FE3F0'], ['Bon gekoppeld', '#8FE3F0'], ['Leverancier gebeld', '#F2C14E']];
