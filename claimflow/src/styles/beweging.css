@@ -860,3 +860,33 @@ html[data-parel] .pr .pr-dt-ring.pr-dt-ring{background:radial-gradient(closest-s
 @media (max-width:560px){.lg2-kaart{padding:24px 20px}.lg2-navlink{display:none}}
 @media (prefers-reduced-motion:reduce){.lg2 *{animation:none !important}}
 @media (max-width:560px){.lg2-lead{display:none}.lg2 .lg2-held h1{font-size:2.6rem}.lg2-raster{padding-top:20px;gap:22px}}
+
+/* bon op de claimpagina: groot beeld van de bon, of een digitale bon als het origineel ontbreekt */
+.bon-hoofd{position:relative;display:block;width:100%;padding:14px;border:0;border-radius:20px;cursor:zoom-in;
+  background:radial-gradient(120% 80% at 50% 0%,rgba(150,232,244,.14),transparent 60%),rgba(127,127,140,.1);overflow:hidden}
+.bon-hoofd img{display:block;width:100%;max-height:560px;object-fit:contain;border-radius:10px;background:#fff;box-shadow:0 24px 50px -24px rgba(0,0,0,.7);transform:rotate(-1deg);transition:transform .4s cubic-bezier(.2,.9,.3,1.3)}
+.bon-hoofd:hover img{transform:rotate(0) scale(1.01)}
+.bon-hoofd-zoom{position:absolute;right:22px;bottom:22px;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:rgba(0,0,0,.65);color:#fff;font-size:.78rem;font-weight:700}
+.bonnen .bonnen-raster{margin-top:10px}
+.bon-digi-plek{display:grid;gap:12px;justify-items:center;padding:16px 8px 6px;border-radius:20px;background:radial-gradient(120% 80% at 50% 0%,rgba(150,232,244,.12),transparent 60%),rgba(127,127,140,.08)}
+.bon-digi{position:relative;width:min(100%,320px);padding:20px 20px 26px;border:0;border-radius:12px 12px 4px 4px;text-align:left;cursor:pointer;
+  background:#F8F6EF;color:#2A2E3A;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.78rem;line-height:1.45;transform:rotate(-1.5deg);
+  box-shadow:0 30px 50px -24px rgba(0,0,0,.75);transition:transform .4s cubic-bezier(.2,.9,.3,1.3)}
+.bon-digi:hover:not(:disabled){transform:rotate(0) translateY(-3px)}
+.bon-digi:disabled{cursor:default;opacity:1}
+.bon-digi-kop{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding-bottom:10px;margin-bottom:10px;border-bottom:1.5px dashed #CFCBBF}
+.bonnen .bon-digi-kop b{font-family:'Fira Sans',sans-serif;font-size:.95rem;color:#DA2F24 !important}
+.bon-digi-kop small{font-size:.65rem;color:#8A8676;letter-spacing:.08em;text-transform:uppercase}
+.bon-digi dl{margin:0;display:grid;gap:7px}
+.bon-digi dl div{display:grid;grid-template-columns:110px minmax(0,1fr);gap:8px}
+.bon-digi dt{color:#8A8676}
+.bonnen .bon-digi dd{margin:0;color:#2A2E3A !important;font-weight:600;overflow-wrap:anywhere}
+.bon-digi-tot{display:flex;justify-content:space-between;align-items:baseline;margin-top:12px;padding-top:10px;border-top:1.5px dashed #CFCBBF}
+.bon-digi-tot span{color:#8A8676}
+.bonnen .bon-digi-tot b{font-family:'Fira Sans',sans-serif;font-size:1.25rem;font-weight:800;color:#2A2E3A !important}
+.bon-digi-tand{position:absolute;left:0;right:0;bottom:-8px;height:9px;background:linear-gradient(-45deg,transparent 6px,#F8F6EF 0) 0 0/12px 9px,linear-gradient(45deg,transparent 6px,#F8F6EF 0) 0 0/12px 9px;background-repeat:repeat-x}
+.bon-digi-uitleg{display:flex;gap:8px;align-items:flex-start;margin:6px 4px 4px;font-size:.85rem;opacity:.8;max-width:520px}
+.bon-digi-uitleg svg{flex:none;margin-top:2px;color:#F2C14E}
+html[data-weergave] .bonnen .bon-digi .bon-digi-kop b,html .bonnen .bon-digi .bon-digi-kop b{color:#DA2F24 !important;-webkit-text-fill-color:#DA2F24;background:none !important;filter:none !important;text-shadow:none !important;opacity:1 !important}
+html[data-weergave] .bonnen .bon-digi .bon-digi-tot b,html .bonnen .bon-digi .bon-digi-tot b{color:#2A2E3A !important;-webkit-text-fill-color:#2A2E3A;background:none !important;filter:none !important;text-shadow:none !important;opacity:1 !important}
+html[data-weergave] .bonnen .bon-digi :is(dd,dt,span,small){text-shadow:none !important}
