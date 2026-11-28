@@ -15,7 +15,6 @@ import { Backups } from "../components/Backups";
 import { Verhuizen } from "../components/Verhuizen";
 import { ProfielKop } from "../components/Showcase";
 import { Gebruikers, WachtwoordWijzigen } from "../components/Gebruikers";
-import { toonMogelijkheden } from "../components/Mogelijkheden";
 import { BonTest } from "../components/BonTest";
 import { toonDoelFeest } from "../components/Team";
 import { PushMeldingen } from "../components/PushMeldingen";
@@ -91,7 +90,6 @@ export function Beheer() {
       <Blok titel="Jij">
         <Rij icoon="persoon" titel={s.naam || "Je account"} tekst={s.rol === "beheer" ? "Je kunt claims toevoegen en wijzigen. Je naam komt in de tijdlijn." : "Je kunt alles zien maar niets wijzigen. Vraag een beheerder om meer rechten."} />
         <WachtwoordWijzigen />
-        <Rij icoon="bericht" titel="Wat kun je hier?" tekst="Het overzicht van alles wat je kunt doen en inzien." onClick={toonMogelijkheden} />
         <Rij icoon="vink" titel="Doel-viering bekijken" tekst="Zo ziet het eruit als het team het maanddoel haalt." onClick={toonDoelFeest} />
         {s.magBewerken && <BonTest />}
         <Rij icoon="uitloggen" titel="Uitloggen" tekst="Wist ook de opgeslagen gegevens op dit apparaat." onClick={s.uitloggen} />

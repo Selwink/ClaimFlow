@@ -6,7 +6,6 @@ import { overTermijn } from "../lib/claims";
 import { geleden } from "../lib/format";
 import { Icon, type IconNaam } from "./Icon";
 import { Logo } from "./ui";
-import { Mogelijkheden } from "./Mogelijkheden";
 import { BonKijker } from "./Bonnen";
 import { ClaimPop } from "./ClaimPop";
 import { DoelGehaald } from "./Team";
@@ -139,7 +138,6 @@ export function Layout() {
         </nav>
       </div>
 
-      <Mogelijkheden />
       <BonKijker />
       <ClaimPop />
       <Palet />
