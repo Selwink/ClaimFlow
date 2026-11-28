@@ -5,7 +5,6 @@ import { Icon, type IconNaam } from "../components/Icon";
 import { Logo } from "../components/ui";
 import { LogoMerk } from "../components/LogoMerk";
 import { Voorpagina } from "../components/Voorpagina";
-import { naInloggenUitleg } from "../components/Mogelijkheden";
 
 const KENMERKEN: Array<[IconNaam, string]> = [
   ["klok", "42 dagen bewaakt"], ["camera", "LGAR scannen"], ["afbeelding", "Foto’s als bewijs"],
@@ -67,7 +66,6 @@ function LoginFormulier() {
       const r = stand === "inloggen" ? await login(naam.trim(), code) : stand === "aanmelden" ? await aanmelden(naam.trim(), pw, code) : await herstelWachtwoord(naam.trim(), code, pw);
       if ("wacht" in r) { setBezig(false); setWachtOp(r.naam); setPw(""); setCode(""); return; }
 
-      naInloggenUitleg();
       naInloggen(r);
     } catch (err) {
       setBezig(false);
