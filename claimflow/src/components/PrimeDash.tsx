@@ -103,16 +103,15 @@ export function PrimeDash() {
     : d.indienen.length ? <><b>{d.indienen.length} {d.indienen.length === 1 ? "claim is" : "claims zijn"}</b> klaar om in te dienen: {d.indienen.slice(0, 2).map(titelVan).join(", ")}{d.indienen.length > 2 ? " …" : ""}.</>
       : rustTekst;
 
-  // the big total tile leans towards the mouse, like a card held in the hand (mouse only, not on touch)
+  // a soft light follows the mouse over the big total tile (mouse only)
   const kantel = (e: RPointerEvent<HTMLElement>) => {
     if (e.pointerType !== "mouse" || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const el = e.currentTarget, r = el.getBoundingClientRect();
     const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-    el.style.setProperty("--rx", `${(-y * 5).toFixed(2)}deg`); el.style.setProperty("--ry", `${(x * 7).toFixed(2)}deg`);
     el.style.setProperty("--gx", `${((x + .5) * 100).toFixed(0)}%`); el.style.setProperty("--gy", `${((y + .5) * 100).toFixed(0)}%`);
     el.classList.add("kantelt");
   };
-  const rechtop = (e: RPointerEvent<HTMLElement>) => { const el = e.currentTarget; el.classList.remove("kantelt"); el.style.removeProperty("--rx"); el.style.removeProperty("--ry"); };
+  const rechtop = (e: RPointerEvent<HTMLElement>) => { const el = e.currentTarget; el.classList.remove("kantelt"); };
 
   const drop = (e: DragEvent) => {
     e.preventDefault(); setSleep(false);
