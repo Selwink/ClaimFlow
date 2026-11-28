@@ -1,6 +1,7 @@
 /** Line icons (24px grid, stroke = currentColor). */
 const PADEN = {
   huis: "M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z",
+  bord: "M4 4h4.5v16H4zM10 4h4.5v11H10zM16 4h4.5v7H16z",
   lijst: "M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01",
   plus: "M12 5v14M5 12h14",
   grafiek: "M4 20V10M10 20V4M16 20v-7M22 20H2",

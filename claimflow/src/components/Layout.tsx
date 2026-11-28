@@ -11,11 +11,14 @@ import { BonKijker } from "./Bonnen";
 import { ClaimPop } from "./ClaimPop";
 import { DoelGehaald } from "./Team";
 import { PfBand } from "./Portfolio";
+import { Palet, openPalet } from "./Palet";
+import { AuroraLucht } from "./AuroraLucht";
 
 interface NavItem { naar: string; label: string; kort?: string; icoon: IconNaam; einde?: boolean }
 const NAV: NavItem[] = [
   { naar: "/", label: "Home", kort: "Home", icoon: "huis", einde: true },
   { naar: "/claims", label: "Claims", icoon: "lijst" },
+  { naar: "/bord", label: "Flow-bord", icoon: "bord" },
   { naar: "/notities", label: "Notities", icoon: "notitie" },
   { naar: "/leveranciers", label: "Leveranciers", icoon: "fabriek" },
   { naar: "/uitbesteed", label: "Uitbesteed", icoon: "extern" },
@@ -56,10 +59,11 @@ export function Layout() {
 
   const badge = (n: NavItem) => (n.naar === "/claims" && aandacht ? <em className="nav-badge" aria-label={`${aandacht} over termijn`}>{aandacht}</em> : null);
   const initialen = (naam || "?").split(/\s+/).map((d) => d[0]).join("").slice(0, 2).toUpperCase();
-  const onder = NAV.filter((n) => !["/leveranciers", "/uitbesteed", "/rapportage", "/assistent"].includes(n.naar));
+  const onder = NAV.filter((n) => !["/bord", "/leveranciers", "/uitbesteed", "/rapportage", "/assistent"].includes(n.naar));
 
   return (
     <div className="frame">
+      <AuroraLucht />
       <aside className="zijbalk" aria-label="Navigatie">
         <NavLink to="/" className="zijbalk-logo" aria-label="ClaimFlow Medipoint — naar Home"><Logo /></NavLink>
         <nav aria-label="Hoofdmenu zijbalk">
@@ -69,6 +73,7 @@ export function Layout() {
             </NavLink>
           ))}
         </nav>
+        <button type="button" className="zij-palet" onClick={openPalet}><Icon naam="zoek" maat={16} /><span>Zoeken of doen…</span><kbd>Ctrl K</kbd></button>
         {magBewerken && (
           <button type="button" className="knop knop-rood zij-nieuw" onClick={() => nav("/nieuw")}>
             <Icon naam="plus" maat={18} /> Nieuwe claim
@@ -96,6 +101,7 @@ export function Layout() {
         </button>
         <NavLink to="/" aria-label="ClaimFlow Medipoint — naar Home"><Logo /></NavLink>
         <div className="topbalk-rechts">
+          <button type="button" className="top-zoek" aria-label="Zoeken of doen" onClick={openPalet}><Icon naam="zoek" maat={20} /></button>
           <i className={`stip ${online ? "aan" : "uit"}`} title={online ? "Verbonden" : "Offline"} />
           <NavLink to="/beheer" className="avatar" aria-label="Beheer en profiel">{initialen}</NavLink>
         </div>
@@ -111,6 +117,7 @@ export function Layout() {
           <div className="lade-groep">Werk</div>
           <NavLink to="/" end className="lade-link"><Icon naam="huis" maat={18} />Home{aandacht ? <em className="nav-badge">{aandacht}</em> : null}</NavLink>
           <NavLink to="/claims" className="lade-link"><Icon naam="lijst" maat={18} />Claims</NavLink>
+          <NavLink to="/bord" className="lade-link"><Icon naam="bord" maat={18} />Flow-bord</NavLink>
           {magBewerken && <NavLink to="/nieuw" className="lade-link"><Icon naam="plus" maat={18} />Nieuwe claim</NavLink>}
           <NavLink to="/leveranciers" className="lade-link"><Icon naam="fabriek" maat={18} />Leveranciers</NavLink>
           <NavLink to="/uitbesteed" className="lade-link"><Icon naam="extern" maat={18} />Uitbesteed</NavLink>
@@ -135,6 +142,7 @@ export function Layout() {
       <Mogelijkheden />
       <BonKijker />
       <ClaimPop />
+      <Palet />
       <DoelGehaald />
       <main className="inhoud" id="inhoud">
         <PfBand />

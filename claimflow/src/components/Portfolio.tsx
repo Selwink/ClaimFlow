@@ -8,8 +8,9 @@ import { geclaimdDezeMaand, teruggehaaldPerMaand } from "../lib/team";
 import { Icon } from "./Icon";
 import { LogoMerk } from "./LogoMerk";
 import { SnelZoek } from "./SnelZoek";
+import { openPalet } from "./Palet";
 
-const PF_NAV: Array<[string, string]> = [["/", "Home"], ["/claims", "Claims"], ["/notities", "Notities"], ["/leveranciers", "Leveranciers"], ["/uitbesteed", "Uitbesteed"], ["/rapportage", "Rapportage"], ["/assistent", "Assistent"], ["/beheer", "Profiel"]];
+const PF_NAV: Array<[string, string]> = [["/", "Home"], ["/claims", "Claims"], ["/bord", "Flow-bord"], ["/notities", "Notities"], ["/leveranciers", "Leveranciers"], ["/uitbesteed", "Uitbesteed"], ["/rapportage", "Rapportage"], ["/assistent", "Assistent"], ["/beheer", "Profiel"]];
 
 /** Top band (design "Portfolio"): date, search, + new claim, avatar — on every page, phone and computer. */
 export function PfBand() {
@@ -23,6 +24,7 @@ export function PfBand() {
       <SnelZoek />
       <span className="pf-acties">
         {magBewerken && <Link to="/nieuw" className="pf-plus" aria-label="Nieuwe claim"><Icon naam="plus" maat={20} /></Link>}
+        <button type="button" className="pf-ic pf-k" onClick={openPalet} aria-label="Zoeken of doen (Ctrl K)" title="Zoeken of doen · Ctrl K"><Icon naam="zoek" maat={18} /></button>
         <Link to="/notities" className="pf-ic" aria-label="Notities"><Icon naam="bericht" maat={18} /></Link>
         <Link to="/beheer" className="pf-ik"><span className="pf-av">{(naam || "?").slice(0, 1).toUpperCase()}</span><span className="pf-naam"><b>{naam || "Account"}</b><small>{rol === "beheer" ? "Beheerder" : "Alleen kijken"}</small></span></Link>
       </span>

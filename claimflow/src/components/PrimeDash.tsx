@@ -1,4 +1,4 @@
-import { useMemo, useState, type DragEvent } from "react";
+import { useMemo, useState, type DragEvent, type PointerEvent as RPointerEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import type { Claim } from "../lib/types";
 import { STATUS_LABEL } from "../lib/types";
@@ -103,6 +103,17 @@ export function PrimeDash() {
     : d.indienen.length ? <><b>{d.indienen.length} {d.indienen.length === 1 ? "claim is" : "claims zijn"}</b> klaar om in te dienen: {d.indienen.slice(0, 2).map(titelVan).join(", ")}{d.indienen.length > 2 ? " …" : ""}.</>
       : rustTekst;
 
+  // the big total tile leans towards the mouse, like a card held in the hand (mouse only, not on touch)
+  const kantel = (e: RPointerEvent<HTMLElement>) => {
+    if (e.pointerType !== "mouse" || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const el = e.currentTarget, r = el.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+    el.style.setProperty("--rx", `${(-y * 5).toFixed(2)}deg`); el.style.setProperty("--ry", `${(x * 7).toFixed(2)}deg`);
+    el.style.setProperty("--gx", `${((x + .5) * 100).toFixed(0)}%`); el.style.setProperty("--gy", `${((y + .5) * 100).toFixed(0)}%`);
+    el.classList.add("kantelt");
+  };
+  const rechtop = (e: RPointerEvent<HTMLElement>) => { const el = e.currentTarget; el.classList.remove("kantelt"); el.style.removeProperty("--rx"); el.style.removeProperty("--ry"); };
+
   const drop = (e: DragEvent) => {
     e.preventDefault(); setSleep(false);
     const f = e.dataTransfer.files?.[0];
@@ -141,7 +152,7 @@ export function PrimeDash() {
       </nav>
 
       <div className="pr-raster">
-        <section className="pr-held">
+        <section className="pr-held" onPointerMove={kantel} onPointerLeave={rechtop}>
           <i className="pr-bl" aria-hidden="true" />
           <svg viewBox="0 0 150 110" className="pr-ln" aria-hidden="true"><path d="M8 20V95M8 75H142V88H8" /><path d="M20 62L40 50L70 62H135" /><circle cx="20" cy="98" r="6" /><circle cx="130" cy="98" r="6" /></svg>
           <h2><i>Totaal</i> <b>geclaimd.</b></h2>

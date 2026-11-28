@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useMemo } from "react";
 import { useStore } from "../state/Store";
-import { levKleur, levLetters, perLeverancier } from "../lib/claims";
+import { levKleur, levLetters, overTermijn, perLeverancier } from "../lib/claims";
 import { euroKort, meervoud } from "../lib/format";
 import { ClaimKaarten, ClaimTabel, sorteer } from "../components/ClaimLijst";
 import { Icon } from "../components/Icon";
@@ -27,8 +27,18 @@ function LevGrafiek({ waarden, kleur }: { waarden: number[]; kleur: string }) {
 }
 
 export function Leveranciers() {
-  const { actief } = useStore();
+  const { actief, inst } = useStore();
   const stats = useMemo(() => perLeverancier(actief), [actief]);
+  // score 0–100: mostly how often claims are honoured, minus claims stuck past the deadline
+  const scores = useMemo(() => {
+    const m = new Map<string, number | null>();
+    for (const s of stats) {
+      const eigen = actief.filter((c) => ((c.leverancier || "").trim() || "Zonder leverancier") === s.naam);
+      const laat = eigen.filter((c) => overTermijn(c, inst.dagen)).length, beoordeeld = s.gehN + s.afgN;
+      m.set(s.naam, beoordeeld || s.openN ? Math.max(5, Math.min(99, Math.round((beoordeeld ? s.gehN / beoordeeld : .7) * 70 + (1 - laat / Math.max(1, s.openN)) * 30))) : null);
+    }
+    return m;
+  }, [stats, actief, inst.dagen]);
   const maanden = useMemo(() => {
     const nu = new Date(); const ks = Array.from({ length: 6 }, (_, i) => { const x = new Date(nu.getFullYear(), nu.getMonth() - 5 + i, 1); return `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, "0")}`; });
     const m = new Map<string, number[]>();
@@ -44,7 +54,7 @@ export function Leveranciers() {
             const beoordeeld = s.gehN + s.afgN;
             return (
               <Link key={s.naam} to={`/leveranciers/${encodeURIComponent(s.naam)}`} className="levkaart">
-                <div className="levkaart-kop"><LevAvatar naam={s.naam} /><b>{s.naam}</b><Icon naam="verder" maat={18} /></div>
+                <div className="levkaart-kop"><LevAvatar naam={s.naam} /><span className="levkaart-naam"><b>{s.naam}</b>{scores.get(s.naam) != null && <span className={`lev-score ${scores.get(s.naam)! >= 80 ? "goed" : scores.get(s.naam)! >= 60 ? "mid" : "laag"}`} title="Score: honorering en claims op tijd">● score {scores.get(s.naam)}</span>}</span><Icon naam="verder" maat={18} /></div>
                 <div className="levkaart-geld"><span>Totaal</span><b>{euroKort(s.totaal)}</b><small className={s.open ? "t-rood" : undefined}>{euroKort(s.open)} open</small></div>
                 <LevGrafiek waarden={maanden.get(s.naam) || [0, 0, 0, 0, 0, 0]} kleur={levKleur(s.naam)} />
                 <Voortgang deel={s.totaal ? (s.totaal - s.open) / s.totaal : 0} licht label={`${s.naam}: afgehandeld deel`} />
