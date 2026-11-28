@@ -11,7 +11,6 @@ import { ClaimPop } from "./ClaimPop";
 import { DoelGehaald } from "./Team";
 import { PfBand } from "./Portfolio";
 import { Palet, openPalet } from "./Palet";
-import { AuroraLucht } from "./AuroraLucht";
 
 interface NavItem { naar: string; label: string; kort?: string; icoon: IconNaam; einde?: boolean }
 const NAV: NavItem[] = [
@@ -62,7 +61,6 @@ export function Layout() {
 
   return (
     <div className="frame">
-      <AuroraLucht />
       <aside className="zijbalk" aria-label="Navigatie">
         <NavLink to="/" className="zijbalk-logo" aria-label="ClaimFlow Medipoint — naar Home"><Logo /></NavLink>
         <nav aria-label="Hoofdmenu zijbalk">

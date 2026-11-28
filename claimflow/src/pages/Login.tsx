@@ -1,26 +1,10 @@
-import { useRef, useState, type CSSProperties, type FormEvent, type KeyboardEvent } from "react";
+import { useRef, useState, type FormEvent, type KeyboardEvent } from "react";
 import { aanmelden, herstelWachtwoord, login } from "../lib/api";
 import { useStore } from "../state/Store";
-import { Icon, type IconNaam } from "../components/Icon";
-import { Logo } from "../components/ui";
+import { Icon } from "../components/Icon";
 import { LogoMerk } from "../components/LogoMerk";
+import { BASIS } from "../lib/config";
 import { Voorpagina } from "../components/Voorpagina";
-
-const KENMERKEN: Array<[IconNaam, string]> = [
-  ["klok", "42 dagen bewaakt"], ["camera", "LGAR scannen"], ["afbeelding", "Foto’s als bewijs"],
-  ["lijst", "Takenlijst bij openen"], ["vink", "Vaste bedragen"], ["grafiek", "Rapportage per leverancier"],
-];
-
-/** Looping example claim (desktop only): the term ring fills, then the status flips to honoured. No amounts. */
-function DemoClaim() {
-  return (
-    <div className="demo-claim" aria-hidden="true">
-      <svg viewBox="0 0 76 76" className="demo-ring"><circle cx="38" cy="38" r="30" className="dr-bodem" /><circle cx="38" cy="38" r="30" className="dr-boog" pathLength="100" transform="rotate(-90 38 38)" /></svg>
-      <div className="demo-t"><b>Speling kolom 700E</b><span>Eureva · ink 2455457</span></div>
-      <span className="demo-status"><span className="ds-in">Ingediend</span><span className="ds-ok">Gehonoreerd ✓</span></span>
-    </div>
-  );
-}
 
 type Stand = "inloggen" | "aanmelden" | "herstel";
 const MIN = 8;
@@ -77,94 +61,82 @@ function LoginFormulier() {
   const kijkToetsen = (e: KeyboardEvent<HTMLInputElement>) => setHoofdletters(e.getModifierState?.("CapsLock") ?? false);
 
   return (
-    <main className="toegang">
-      <header className="lg-balk" aria-hidden="true"><span className="lg-balk-merk"><LogoMerk maat={32} /><b>ClaimFlow</b></span><i className="lg-balk-streep"><b /><b /><b /><b /><b /></i></header>
-      <div className="toegang-band">
-        <div className="toegang-gloed" aria-hidden="true"><i /><i /><i /></div>
-        <div className="toegang-ringen" aria-hidden="true"><i /><i /><i /></div>
-        <div className="toegang-band-binnen">
-          <Logo />
-          <div className="toegang-slogan">
-            <h1 aria-label="Wat kapot gaat, komt terug.">
-              <span className="sl-regel" aria-hidden="true">Wat <span className="kapot">{"kapot".split("").map((l, i) => <i key={i} style={{ "--i": i } as CSSProperties}>{l}</i>)}</span> gaat,</span>
-              <span className="sl-terug" aria-hidden="true">komt terug.</span>
-            </h1>
-            <p>Garantieclaims van Medipoint Meppel.</p>
-          </div>
-          <div className="toegang-band-kenmerken" aria-label="Wat ClaimFlow doet">
-            <ul className="kenmerken-loop">
-              {[0, 1].map((rij) => KENMERKEN.map(([icoon, tekst]) => (
-                <li key={`${rij}-${tekst}`} aria-hidden={rij === 1 || undefined}><Icon naam={icoon} maat={15} /> {tekst}</li>
-              )))}
-            </ul>
-          </div>
-          <DemoClaim />
-        </div>
-      </div>
-      <div className="toegang-plek">
-        {wachtOp ? (
-          <div className="toegang-kaart toegang-wacht" role="status">
-            <span className="greep" aria-hidden="true" />
-            <span className="wacht-ic"><Icon naam="klok" maat={26} /></span>
-            <h2>Account aangemaakt</h2>
-            <p>Bedankt, {wachtOp.split(" ")[0]}. Een beheerder krijgt een melding en moet je account nog goedkeuren. Daarna log je in met je naam en wachtwoord.</p>
-            <button type="button" className="knop knop-zacht knop-vol" onClick={() => { setWachtOp(""); wissel("inloggen"); }}>Naar inloggen</button>
-          </div>
-        ) : (
-        <form className={`toegang-kaart${schud ? " schud" : ""}`} key={`${stand}-${schud}`} onSubmit={verstuur} noValidate>
-          <span className="greep" aria-hidden="true" />
-          <div className="lg-kop"><span className="lg-merk" aria-hidden="true"><LogoMerk maat={64} /></span><b>ClaimFlow</b><h2>{stand === "aanmelden" ? "Account maken" : stand === "herstel" ? "Nieuw wachtwoord" : "Inloggen"}</h2><small>Log in om verder te gaan</small></div>
-          <p className="toegang-uitleg">Vul je eigen naam in en de vestigingscode. Heb je nog geen account, dan maakt de app die nu voor je aan.</p>
-          {stand === "herstel" && <p className="toegang-uitleg">Dit werkt nadat de beheerder een nieuw wachtwoord voor je heeft toegestaan in Beheer.</p>}
+    <main className="lg2">
+      <div className="lg2-aurora" aria-hidden="true" />
+      <div className="lg2-korrel" aria-hidden="true" />
+      <div className="lg2-wrap">
+        <header className="lg2-nav">
+          <span className="lg2-logo"><LogoMerk maat={30} />ClaimFlow</span>
+          <a className="lg2-navlink" href={`${BASIS}site/`}>Over ClaimFlow</a>
+        </header>
 
-          <label className="veld">
-            <span className="veld-label">Naam</span>
-            <span className="lg-veld"><Icon naam="persoon" maat={18} /><input name="username" value={naam} onChange={(e) => { setNaam(e.target.value); setFout(""); }} autoComplete="username" autoCapitalize="words"
-              placeholder={stand === "aanmelden" ? "Voor- en achternaam" : "Je naam"} enterKeyHint="next" maxLength={40} /></span>
-          </label>
-          {stand !== "inloggen" && (
-          <label className="veld">
-            <span className="veld-label">{nieuwWachtwoord ? "Kies een wachtwoord" : "Wachtwoord"}</span>
-            <span className="met-na">
-              <input ref={pwVeld} name="password" type={zien ? "text" : "password"} value={pw} enterKeyHint={nieuwWachtwoord ? "next" : "go"}
-                onChange={(e) => { setPw(e.target.value); setFout(""); }} onKeyUp={kijkToetsen} onKeyDown={kijkToetsen}
-                autoComplete={nieuwWachtwoord ? "new-password" : "current-password"} autoCapitalize="off" autoCorrect="off" spellCheck={false}
-                aria-invalid={!!fout} aria-describedby={nieuwWachtwoord ? "pw-sterkte" : hoofdletters ? "pw-caps" : undefined} />
-              <button type="button" className="oogknop" onClick={() => setZien(!zien)} aria-label={zien ? "Wachtwoord verbergen" : "Wachtwoord tonen"} aria-pressed={zien}>
-                <Icon naam={zien ? "oogDicht" : "oog"} maat={20} />
-              </button>
-            </span>
-            {nieuwWachtwoord && (
-              <span className="sterkte" id="pw-sterkte" aria-live="polite">
-                <span className="sterkte-balk" aria-hidden="true">{[1, 2, 3, 4].map((n) => <i key={n} className={pw.length >= MIN && st.score >= n ? `aan s${st.score}` : ""} />)}</span>
-                <span>{st.tekst || `Minstens ${MIN} tekens`}</span>
-              </span>
-            )}
-          </label>
-          )}
-          {(
-            <label className="veld">
-              <span className="veld-label">Vestigingscode</span>
-              <span className="lg-veld"><Icon naam="slot" maat={18} /><input type="password" value={code} onChange={(e) => { setCode(e.target.value); setFout(""); }} autoComplete="off" autoCapitalize="off" autoCorrect="off"
-                spellCheck={false} enterKeyHint="go" aria-describedby="code-uitleg" /></span>
-              <span className="veld-hint" id="code-uitleg">De code van je vestiging. Vraag hem aan je werkvoorbereider.</span>
+        <div className="lg2-raster">
+          <section className="lg2-held" aria-label="Over ClaimFlow">
+            <span className="lg2-ey">Medipoint Meppel · Garantieclaims</span>
+            <h1>Wat kapot gaat, <span className="lg2-glans">komt terug.</span></h1>
+            <p className="lg2-lead">ClaimFlow bewaakt elke garantietermijn en leest je LGAR-bon in seconden in. Jij dient in, de app onthoudt de rest.</p>
+            <p className="lg2-print"><span>42 dagen bewaakt</span><span>LGAR scannen</span><span>Rapportage per leverancier</span></p>
+            <div className="lg2-demo" aria-hidden="true">
+              <span className="lg2-demo-ring"><svg viewBox="0 0 76 76"><circle cx="38" cy="38" r="30" className="b" /><circle cx="38" cy="38" r="30" className="v" pathLength="100" transform="rotate(-90 38 38)" /></svg></span>
+              <span className="lg2-demo-t"><b>Speling kolom 700E</b><small>Eureva · ink 2455457</small></span>
+              <span className="lg2-demo-st"><i className="in">Ingediend</i><i className="ok">Gehonoreerd ✓</i></span>
+            </div>
+          </section>
+
+          {wachtOp ? (
+            <div className="lg2-kaart" role="status">
+              <span className="lg2-wacht"><Icon naam="klok" maat={26} /></span>
+              <h2>Account aangemaakt</h2>
+              <p className="lg2-uitleg">Bedankt, {wachtOp.split(" ")[0]}. Een beheerder krijgt een melding en moet je account nog goedkeuren. Daarna log je in met je naam en wachtwoord.</p>
+              <button type="button" className="lg2-knop glas" onClick={() => { setWachtOp(""); wissel("inloggen"); }}>Naar inloggen</button>
+            </div>
+          ) : (
+          <form className={`lg2-kaart${schud ? " schud" : ""}`} key={`${stand}-${schud}`} onSubmit={verstuur} noValidate>
+            <span className="lg2-ey">{stand === "aanmelden" ? "Nieuw account" : stand === "herstel" ? "Wachtwoord" : "Welkom terug"}</span>
+            <h2>{stand === "aanmelden" ? "Account maken" : stand === "herstel" ? "Nieuw wachtwoord" : "Inloggen"}</h2>
+            <p className="lg2-uitleg">{stand === "herstel" ? "Dit werkt nadat de beheerder een nieuw wachtwoord voor je heeft toegestaan in Beheer." : "Vul je eigen naam in en de vestigingscode. Heb je nog geen account, dan maakt de app die nu voor je aan."}</p>
+
+            <label className="lg2-veld">
+              <span>Naam</span>
+              <span className="lg2-in"><Icon naam="persoon" maat={18} /><input name="username" value={naam} onChange={(e) => { setNaam(e.target.value); setFout(""); }} autoComplete="username" autoCapitalize="words"
+                placeholder={stand === "aanmelden" ? "Voor- en achternaam" : "Je naam"} enterKeyHint="next" maxLength={40} /></span>
             </label>
+            {stand !== "inloggen" && (
+            <label className="lg2-veld">
+              <span>{nieuwWachtwoord ? "Kies een wachtwoord" : "Wachtwoord"}</span>
+              <span className="lg2-in"><Icon naam="slot" maat={18} />
+                <input ref={pwVeld} name="password" type={zien ? "text" : "password"} value={pw} enterKeyHint={nieuwWachtwoord ? "next" : "go"}
+                  onChange={(e) => { setPw(e.target.value); setFout(""); }} onKeyUp={kijkToetsen} onKeyDown={kijkToetsen}
+                  autoComplete={nieuwWachtwoord ? "new-password" : "current-password"} autoCapitalize="off" autoCorrect="off" spellCheck={false}
+                  aria-invalid={!!fout} aria-describedby={nieuwWachtwoord ? "pw-sterkte" : hoofdletters ? "pw-caps" : undefined} />
+                <button type="button" className="lg2-oog" onClick={() => setZien(!zien)} aria-label={zien ? "Wachtwoord verbergen" : "Wachtwoord tonen"} aria-pressed={zien}>
+                  <Icon naam={zien ? "oogDicht" : "oog"} maat={19} />
+                </button>
+              </span>
+              {nieuwWachtwoord && (
+                <span className="lg2-sterkte" id="pw-sterkte" aria-live="polite">
+                  <span aria-hidden="true">{[1, 2, 3, 4].map((n) => <i key={n} className={pw.length >= MIN && st.score >= n ? `aan s${st.score}` : ""} />)}</span>
+                  <small>{st.tekst || `Minstens ${MIN} tekens`}</small>
+                </span>
+              )}
+            </label>
+            )}
+            <label className="lg2-veld">
+              <span>Vestigingscode</span>
+              <span className="lg2-in"><Icon naam="slot" maat={18} /><input type="password" value={code} onChange={(e) => { setCode(e.target.value); setFout(""); }} autoComplete="off" autoCapitalize="off" autoCorrect="off"
+                spellCheck={false} enterKeyHint="go" aria-describedby="code-uitleg" /></span>
+              <small className="lg2-hint" id="code-uitleg">De code van je vestiging. Vraag hem aan je werkvoorbereider.</small>
+            </label>
+            {hoofdletters && !fout && <p className="lg2-hint" id="pw-caps"><Icon naam="waarschuwing" maat={14} /> Caps Lock staat aan</p>}
+            {fout && <p className="lg2-fout" role="alert">{fout}</p>}
+            <button className="lg2-knop rood" disabled={bezig}>
+              {bezig ? <><span className="mini-spinner" aria-hidden="true" /> Even geduld…</> : <>{KNOP[stand]} <Icon naam="pijl" maat={18} /></>}
+            </button>
+            {stand === "herstel" && <button type="button" className="lg2-link" onClick={() => wissel("inloggen")}>Terug naar inloggen</button>}
+            <p className="lg2-tip"><Icon naam="slot" maat={14} /> Je blijft 30 dagen ingelogd op dit apparaat.</p>
+          </form>
           )}
-          {hoofdletters && !fout && <p className="veld-hint" id="pw-caps"><Icon naam="waarschuwing" maat={14} /> Caps Lock staat aan</p>}
-          {fout && <p className="veld-fout" role="alert">{fout}</p>}
-          <button className="knop knop-rood knop-groot knop-vol" disabled={bezig}>
-            {bezig ? <><span className="mini-spinner" aria-hidden="true" /> Even geduld…</> : <>{KNOP[stand]} <Icon naam="pijl" maat={18} /></>}
-          </button>
-          {stand === "herstel" && <button type="button" className="knop-link" onClick={() => wissel("inloggen")}>Terug naar inloggen</button>}
-          <p className="toegang-tip"><Icon naam="slot" maat={14} /> Je blijft 30 dagen ingelogd op dit apparaat.</p>
-          <p className="lg-voet">Nog geen account? <b>Vul je naam en de code in</b>, dan maken we er een.</p>
-        </form>
-        )}
-      </div>
-      <div className="lg-blokken" aria-hidden="true">
-        <div className="lg-blok lg-blok-teal"><b>LGAR-bon inlezen</b><span>Scan de bon, de velden vullen zichzelf in.</span></div>
-        <div className="lg-blok lg-blok-roze"><b>Altijd op tijd</b><span>Termijnen en VAM in beeld, met herinneringen.</span></div>
-        <div className="lg-blok lg-blok-geel"><b>Alles terug</b><span>Geclaimd, uitbesteed en per monteur.</span></div>
+        </div>
       </div>
     </main>
   );
